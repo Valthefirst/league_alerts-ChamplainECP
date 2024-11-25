@@ -1,0 +1,28 @@
+# src/main/resources/application.yml
+frontend:
+  url: http://localhost:3000/
+
+backend:
+  url: http://localhost:8080/
+
+website:
+  domain: localhost
+
+
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/computeralerts
+      database: computeralerts
+
+server:
+  port: 8080 # Default port for Spring Boot
+
+
+
+
+auth0:
+    clientId: COuKmAH95MAHPN2irCzsuOearf2gdsOH
+    clientSecret: 8dtWHqsfgE2w07EbF8TVtFA6ZO4YNJwKcK1859J9bZ__m1M25rEqLGUWWAl1L44p
+    domain: dev-im24qkb6l7t2yhha.ca.auth0.com
