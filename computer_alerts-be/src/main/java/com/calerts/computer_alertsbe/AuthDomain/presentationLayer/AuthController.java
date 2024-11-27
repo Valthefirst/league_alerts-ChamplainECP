@@ -1,15 +1,13 @@
 package com.calerts.computer_alertsbe.AuthDomain.presentationLayer;
 
-import lombok.Generated;
-import lombok.RequiredArgsConstructor;
+import com.calerts.computer_alertsbe.AuthDomain.businessLayer.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = {"http://localhost:3000"} ,allowCredentials = "true")
@@ -17,19 +15,22 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AuthController {
 
-    @GetMapping("/admin/dashboard")
-    public ResponseEntity<String> adminDashboard() {
-        return ResponseEntity.ok("Admin Dashboard Access Granted");
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createUser(@RequestBody UserRequestDTO userRequest) {
+        try {
+            Map<String, Object> response = userService.createUser(userRequest);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
 
-    @GetMapping("/author/create")
-    public ResponseEntity<String> authorCreate() {
-        return ResponseEntity.ok("Author Create Access Granted");
-    }
-
-    @GetMapping("/reader/content")
-    public ResponseEntity<String> readerContent() {
-        return ResponseEntity.ok("Reader Content Access Granted");
+    @RequestMapping(value = "/create", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflight() {
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/userInfo")
@@ -44,6 +45,7 @@ public class AuthController {
 
         return ResponseEntity.ok(userInfo);
     }
+
 
 }
 

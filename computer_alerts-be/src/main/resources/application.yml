@@ -1,9 +1,9 @@
 # src/main/resources/application.yml
 frontend:
-  url: http://localhost:3000/
+  url: http://localhost:3000
 
 backend:
-  url: http://localhost:8080/
+  url: http://localhost:8080
 
 website:
   domain: localhost
@@ -26,3 +26,4 @@ auth0:
     clientId: COuKmAH95MAHPN2irCzsuOearf2gdsOH
     clientSecret: 8dtWHqsfgE2w07EbF8TVtFA6ZO4YNJwKcK1859J9bZ__m1M25rEqLGUWWAl1L44p
     domain: dev-im24qkb6l7t2yhha.ca.auth0.com
+    audience: https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/

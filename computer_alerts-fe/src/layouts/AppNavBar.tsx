@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container } from "react-bootstrap";
 import Login from "../Login";
+import CreateUserForm from "../features/readers/components/CreateUser";
 
 export default function AppNavBar(): JSX.Element {
   return (
@@ -29,6 +30,7 @@ export default function AppNavBar(): JSX.Element {
         </Navbar.Brand>
       </Container>
       <Login />
+      <CreateUserForm/>
     </Navbar>
   );
 }
