@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.ReadersDomain.presentationLayer;
+package com.calerts.computer_alertsbe.readerservice.presentationlayer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReaderResponseModel {
+public class ReaderRequestModel {
     private String readerId;
 
     private String firstName;

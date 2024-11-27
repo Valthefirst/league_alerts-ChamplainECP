@@ -1,8 +1,8 @@
 package com.calerts.computer_alertsbe.utils;
 
 
-import com.calerts.computer_alertsbe.ReadersDomain.dataAccess.Reader;
-import com.calerts.computer_alertsbe.ReadersDomain.dataAccess.ReaderRepository;
+import com.calerts.computer_alertsbe.readerservice.dataaccess.Reader;
+import com.calerts.computer_alertsbe.readerservice.dataaccess.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;

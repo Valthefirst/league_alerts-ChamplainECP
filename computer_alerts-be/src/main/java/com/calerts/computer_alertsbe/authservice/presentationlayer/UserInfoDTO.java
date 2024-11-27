@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.AuthDomain.presentationLayer;
+package com.calerts.computer_alertsbe.authservice.presentationlayer;
 
 import lombok.Data;
 

@@ -1,10 +1,9 @@
-package com.calerts.computer_alertsbe.ReadersDomain.presentationLayer;
+package com.calerts.computer_alertsbe.readerservice.presentationlayer;
 
 
 
-import com.calerts.computer_alertsbe.ReadersDomain.businessLayer.ReaderService;
+import com.calerts.computer_alertsbe.readerservice.businesslayer.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
