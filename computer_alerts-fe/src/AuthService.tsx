@@ -1,6 +1,11 @@
 import { createAuth0Client, Auth0Client } from "@auth0/auth0-spa-js";
-
+import axios from "axios";
+import UserRequestDTO from "./features/readers/models/UserRequestDTO";
 export class AuthService {
+
+
+  URL = "http://localhost:8080/api/"; 
+
   private auth0Client: Auth0Client | null = null;
 
   constructor() {
@@ -27,7 +32,6 @@ export class AuthService {
     }
   }
 
-  // Check if the user is authenticated using the stored token
   public async isAuthenticated(): Promise<boolean> {
     await this.ensureAuth0Client();
     const authenticated = await this.auth0Client!.isAuthenticated();
@@ -35,7 +39,6 @@ export class AuthService {
     return authenticated;
   }
 
-  // Trigger Auth0's login flow
   public async login() {
     await this.ensureAuth0Client();
     await this.auth0Client!.loginWithPopup();
@@ -75,6 +78,24 @@ export class AuthService {
     console.log("User roles:", claims?.["roles"]);
     return claims?.["roles"] || [];
   }
+
+
+  async createUser(userRequest: UserRequestDTO): Promise<any> {
+    try {
+      const response = await axios.post( this.URL + 'create', userRequest, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('Full error:', error);
+      console.error('Response:', error.response);
+      console.error('Request:', error.request);
+      throw new Error(error.response?.data || "Failed to create user");
+    }
+}
 }
 
 const authTokenService = new AuthService();
