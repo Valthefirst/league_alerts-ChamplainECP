@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.AuthDomain.system;
+package com.calerts.computer_alertsbe.authservice.system;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

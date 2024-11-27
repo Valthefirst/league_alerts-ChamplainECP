@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.AuthDomain.system;
+package com.calerts.computer_alertsbe.authservice.system;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;

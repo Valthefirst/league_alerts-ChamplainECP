@@ -1,8 +1,8 @@
-package com.calerts.computer_alertsbe.ReadersDomain.businessLayer;
+package com.calerts.computer_alertsbe.readerservice.businesslayer;
 
 
-import com.calerts.computer_alertsbe.ReadersDomain.dataAccess.ReaderRepository;
-import com.calerts.computer_alertsbe.ReadersDomain.presentationLayer.ReaderResponseModel;
+import com.calerts.computer_alertsbe.readerservice.dataaccess.ReaderRepository;
+import com.calerts.computer_alertsbe.readerservice.presentationlayer.ReaderResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
