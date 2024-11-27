@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.readerservice.dataaccess;
+package com.calerts.computer_alertsbe.readerservice.dataaccesslayer;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
