@@ -1,7 +1,7 @@
 package com.calerts.computer_alertsbe.utils;
 
 
-import com.calerts.computer_alertsbe.readerservice.dataaccess.Reader;
+import com.calerts.computer_alertsbe.readerservice.dataaccesslayer.Reader;
 import com.calerts.computer_alertsbe.readerservice.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
