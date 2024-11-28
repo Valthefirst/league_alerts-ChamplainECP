@@ -6,7 +6,6 @@ const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
     email: "",
     password: "",
-    name: "",
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -55,16 +54,7 @@ const CreateUserForm: React.FC = () => {
             required
           />
         </div>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+
         <button type="submit">Create User</button>
       </form>
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}

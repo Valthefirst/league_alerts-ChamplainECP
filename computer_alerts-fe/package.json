@@ -54,5 +54,4 @@
     "@playwright/test": "^1.48.2",
     "@types/js-cookie": "^3.0.6"
   }
- 
 }

@@ -1,16 +1,20 @@
 package com.calerts.computer_alertsbe.AuthDomain.presentationLayer;
 
 import com.calerts.computer_alertsbe.AuthDomain.businessLayer.UserService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-
-@CrossOrigin(origins = {"http://localhost:3000"} ,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/api")
 public class AuthController {
@@ -21,10 +25,12 @@ public class AuthController {
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody UserRequestDTO userRequest) {
         try {
-            Map<String, Object> response = userService.createUser(userRequest);
-            return ResponseEntity.ok(response);
+            UserResponseModel userResponse = userService.createUser(userRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(e.getMessage());
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
     }
 
@@ -45,7 +51,5 @@ public class AuthController {
 
         return ResponseEntity.ok(userInfo);
     }
-
-
 }
 
