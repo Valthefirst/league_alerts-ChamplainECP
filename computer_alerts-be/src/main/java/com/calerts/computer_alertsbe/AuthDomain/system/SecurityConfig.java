@@ -22,12 +22,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/create"))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/v1/readers").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/api/create").permitAll()
+//                        .requestMatchers("/api/v1/readers").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/create")).permitAll()
-                        .anyRequest().authenticated()
+
                 )
          .cors(httpSecurityCorsConfigurer -> {
             final var cors = new CorsConfiguration();

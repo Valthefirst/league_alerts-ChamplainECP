@@ -28,12 +28,13 @@ public class UserService {
 
     // Fetch Management API token
     public String getManagementApiToken() {
-    String url = "https://dev-im24qkb6l7t2yhha.auth0.com/oauth/token";
+    String url = "https://dev-im24qkb6l7t2yhha.auth0.com/api/v2/users";
+
 
     Map<String, String> requestBody = new HashMap<>();
     requestBody.put("client_id", CLIENT_ID);
     requestBody.put("client_secret", CLIENT_SECRET);
-    requestBody.put("audience", "https://dev-im24qkb6l7t2yhha.auth0.com/api/v2/");
+    requestBody.put("audience", "https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/");
     requestBody.put("grant_type", "client_credentials");
 
     HttpHeaders headers = new HttpHeaders();

@@ -23,7 +23,7 @@ server:
 
 
 auth0:
-    clientId: COuKmAH95MAHPN2irCzsuOearf2gdsOH
-    clientSecret: 8dtWHqsfgE2w07EbF8TVtFA6ZO4YNJwKcK1859J9bZ__m1M25rEqLGUWWAl1L44p
+    clientId: dErtDK4v3hzp0FoM26aX9qGDayGobMIs
+    clientSecret: hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI
     domain: dev-im24qkb6l7t2yhha.ca.auth0.com
     audience: https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/
