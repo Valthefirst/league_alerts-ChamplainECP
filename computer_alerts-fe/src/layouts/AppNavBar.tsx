@@ -1,4 +1,4 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
@@ -30,7 +30,7 @@ export default function AppNavBar(): JSX.Element {
         </Navbar.Brand>
       </Container>
       <Login />
-      <CreateUserForm/>
+      <CreateUserForm />
     </Navbar>
   );
 }
