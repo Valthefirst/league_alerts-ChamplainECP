@@ -1,4 +1,4 @@
-# src/main/resources/application.yml
+
 frontend:
   url: http://localhost:3000
 
@@ -9,7 +9,6 @@ website:
   domain: localhost
 
 
-
 spring:
   data:
     mongodb:
@@ -18,9 +17,6 @@ spring:
 
 server:
   port: 8080 # Default port for Spring Boot
-
-
-
 
 auth0:
     clientId: dErtDK4v3hzp0FoM26aX9qGDayGobMIs

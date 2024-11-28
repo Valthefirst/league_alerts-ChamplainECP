@@ -1,8 +1,8 @@
 package com.calerts.computer_alertsbe.utils;
 
 
-import com.calerts.computer_alertsbe.ReadersDomain.dataAccess.Reader;
-import com.calerts.computer_alertsbe.ReadersDomain.presentationLayer.ReaderResponseModel;
+import com.calerts.computer_alertsbe.readerservice.dataaccesslayer.Reader;
+import com.calerts.computer_alertsbe.readerservice.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
 public class EntityModelUtil {
