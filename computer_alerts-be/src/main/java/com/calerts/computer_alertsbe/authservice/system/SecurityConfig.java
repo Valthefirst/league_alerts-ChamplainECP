@@ -38,11 +38,12 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/v1/readers").permitAll()
+                        .requestMatchers("/api/v1/articles").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/readers")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/articles/*")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/create")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS, "/api/create")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "https://dev-im24qkb6l7t2yhha.ca.auth0.com/oauth/token")).permitAll()
-                        .anyRequest().authenticated()  // Secure other routes
                 )
                 .cors(httpSecurityCorsConfigurer -> {
                     final var cors = new CorsConfiguration();
