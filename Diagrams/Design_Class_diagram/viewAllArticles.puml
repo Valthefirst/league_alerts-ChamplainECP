@@ -1,0 +1,23 @@
+@startuml
+actor User as U
+participant "navbar" as UI
+participant "ResponseDTO" as ResponseDTO
+participant "ArticleController" as Controller
+participant "ArticleService" as Service
+participant "ArticleRepository" as Repo
+participant "sportsArticles : Article" as Article 
+database "Database" as DB
+
+U -> UI : View All Articles Request
+UI -> Controller : GET api/v1/articles
+Controller -> Service : getAllArticles()
+Service -> Repo : findAll()
+Repo -> DB : SELECT * FROM articles
+DB --> Repo : articles
+Repo --> Service : List<Article>
+Service --> Controller : List<Article>
+Controller --> UI : List<Article>
+UI --> U : Display All Articles
+
+
+@enduml
