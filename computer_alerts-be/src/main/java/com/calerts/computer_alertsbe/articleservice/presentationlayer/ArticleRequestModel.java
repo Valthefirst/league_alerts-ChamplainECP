@@ -1,8 +1,6 @@
 package com.calerts.computer_alertsbe.articleservice.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

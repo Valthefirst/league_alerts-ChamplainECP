@@ -9,14 +9,26 @@ website:
   domain: localhost
 
 
+
+
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/computeralerts
-      database: computeralerts
+      uri: mongodb://mongo:27017/computeralerts
+      auto-index-creation: true
+
+
 
 server:
-  port: 8080 # Default port for Spring Boot
+  port: 8080
+
+  error:
+    include-message: always
+
+logging:
+  level:
+    root: INFO
+    com.calerts: DEBUG
 
 auth0:
     clientId: dErtDK4v3hzp0FoM26aX9qGDayGobMIs
