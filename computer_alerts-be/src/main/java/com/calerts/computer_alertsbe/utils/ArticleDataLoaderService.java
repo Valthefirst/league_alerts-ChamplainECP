@@ -7,7 +7,6 @@ import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,8 @@ import java.time.LocalDateTime;
 public class ArticleDataLoaderService implements CommandLineRunner {
 
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -36,10 +36,14 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(LocalDateTime.now())
                 .build();
 
-        Flux.just(article1)
-                .flatMap(s -> articleRepository.insert(Mono.just(s))
-                        .log(s.toString()))
+        // Check if the article already exists and insert it only if it doesn't
+        articleRepository.findArticleByArticleId(article1.getArticleId())
+                .flatMap(existingArticle -> {
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    return Mono.empty(); // Skip insertion
+                })
+                .switchIfEmpty(articleRepository.insert(article1))
+                .doOnSuccess(article -> System.out.println("Inserted Article: " + article))
                 .subscribe();
-
     }
 }

@@ -3,6 +3,7 @@ package com.calerts.computer_alertsbe.articleservice.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleservice.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
