@@ -17,6 +17,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+
         Content content1 = Content.builder()
                 .title("Article 1")
                 .body("This is the body of article 1")
@@ -24,7 +25,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article1 = Article.builder()
-                .articleId(new ArticleIdentifer())
+                .articleIdentifer(new ArticleIdentifer())
                 .title(content1.getTitle())
                 .body(content1.getBody())
                 .wordCount(content1.getWordCount())
@@ -40,7 +41,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article2 = Article.builder()
-                .articleId(new ArticleIdentifer())
+                .articleIdentifer(new ArticleIdentifer())
                 .title(content2.getTitle())
                 .body(content2.getBody())
                 .wordCount(content2.getWordCount())
@@ -50,9 +51,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleId(String.valueOf(article1.getArticleId()))
+        articleRepository.findArticleByArticleId(String.valueOf(article1.getArticleIdentifer()))
                 .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifer());
                     return Mono.empty(); // Skip insertion
                 })
                 .switchIfEmpty(articleRepository.insert(article1))
@@ -60,9 +61,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .subscribe();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleId(String.valueOf(article2.getArticleId()))
+        articleRepository.findArticleByArticleId(String.valueOf(article2.getArticleIdentifer()))
                 .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifer());
                     return Mono.empty(); // Skip insertion
                 })
                 .switchIfEmpty(articleRepository.insert(article2))

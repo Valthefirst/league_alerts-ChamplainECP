@@ -13,4 +13,5 @@ public class ArticleIdentifer {
         this.articleId = UUID.randomUUID().toString();
     }
 
+
 }

@@ -20,7 +20,8 @@ public class Article {
 
     @Id
     private String id;
-    private ArticleIdentifer articleId;
+
+    private ArticleIdentifer articleIdentifer ;
 
     private String title;
     private String body;
