@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 @Service
 public class UserService {
-    private final RestTemplate restTemplate = new RestTemplate();
+   private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${auth0.domain}")
     private String AUTH0_DOMAIN;
