@@ -1,6 +1,6 @@
-package com.calerts.computer_alertsbe.articleservice.presentationlayer;
+package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleStatus;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleResponseModel {
+public class ArticleRequestModel {
 
     private String articleId;
 

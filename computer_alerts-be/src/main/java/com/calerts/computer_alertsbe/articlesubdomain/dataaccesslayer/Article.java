@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.articleservice.dataaccesslayer;
+package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
 
 
@@ -20,7 +20,7 @@ public class Article {
 
     @Id
     private String id;
-    private String articleId;
+    private ArticleIdentifer articleId;
 
     private String title;
     private String body;
