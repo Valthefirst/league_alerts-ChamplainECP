@@ -24,10 +24,11 @@ public class ArticleController {
     }
 
     //Get all articles for specific sport
-    @GetMapping("/{tagName}")
-    public Flux<ResponseEntity<ArticleResponseModel>>getAllArticleForASpecificSport(@PathVariable String tagName) {
-        return articleService.getAllArticleForSpecificSport(tagName)
-                .map(ResponseEntity::ok);
+    @GetMapping("/tag/{tagName}")
+    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
+        return articleService.getAllArticleForSpecificSport(tagName);
+
+
     }
     //Get article by article id
     @GetMapping("/{articleId}")
