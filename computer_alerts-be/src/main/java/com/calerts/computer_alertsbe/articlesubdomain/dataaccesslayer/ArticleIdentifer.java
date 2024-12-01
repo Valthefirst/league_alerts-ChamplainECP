@@ -13,5 +13,14 @@ public class ArticleIdentifer {
         this.articleId = UUID.randomUUID().toString();
     }
 
+    public ArticleIdentifer(String articleId) {
+        this.articleId = articleId;
+    }
+
+    @Override
+    public String toString() {
+        return articleId;
+    }
+
 
 }

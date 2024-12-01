@@ -21,7 +21,8 @@ public class Article {
     @Id
     private String id;
 
-    private ArticleIdentifer articleIdentifer ;
+    @Field("article_id")
+    private ArticleIdentifer articleId ;
 
     private String title;
     private String body;
