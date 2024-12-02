@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.utils;
 
 
+
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articleservice.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.readerservice.dataaccesslayer.Reader;
@@ -18,6 +19,7 @@ public class EntityModelUtil {
     public static ArticleResponseModel toArticleResponseModel(Article article) {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
         BeanUtils.copyProperties(article, articleResponseModel);
+        articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
         return articleResponseModel;
     }
 }
