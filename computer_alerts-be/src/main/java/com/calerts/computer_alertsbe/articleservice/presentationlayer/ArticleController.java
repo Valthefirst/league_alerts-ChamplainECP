@@ -1,15 +1,16 @@
 package com.calerts.computer_alertsbe.articleservice.presentationlayer;
 
 
+
 import com.calerts.computer_alertsbe.articleservice.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -23,6 +24,13 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+    //Get all articles for specific sport
+    @GetMapping("/tag/{tagName}")
+    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
+        return articleService.getAllArticleForSpecificSport(tagName);
+
+
+    }
     //Get article by article id
     @GetMapping("/{articleId}")
     public Mono<ResponseEntity<ArticleResponseModel>> getArticleByArticleId(@PathVariable String articleId) {

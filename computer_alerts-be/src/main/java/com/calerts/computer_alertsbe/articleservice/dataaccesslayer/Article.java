@@ -2,6 +2,8 @@ package com.calerts.computer_alertsbe.articleservice.dataaccesslayer;
 
 
 
+
+import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +22,9 @@ public class Article {
 
     @Id
     private String id;
-    private String articleId;
+
+    @Embedded
+    private ArticleIdentifier articleIdentifier;
 
     private String title;
     private String body;
