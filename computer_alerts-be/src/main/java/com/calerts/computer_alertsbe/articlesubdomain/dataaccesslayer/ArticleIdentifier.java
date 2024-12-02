@@ -1,26 +1,21 @@
 package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
-public class ArticleIdentifer {
+@Embeddable
+public class ArticleIdentifier {
 
     private String articleId;
 
-    public ArticleIdentifer() {
+    public ArticleIdentifier() {
         this.articleId = UUID.randomUUID().toString();
     }
 
-    public ArticleIdentifer(String articleId) {
-        this.articleId = articleId;
-    }
-
-    @Override
-    public String toString() {
+    public String getArticleId() {
         return articleId;
     }
-
 
 }

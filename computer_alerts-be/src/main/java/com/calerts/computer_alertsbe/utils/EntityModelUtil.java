@@ -18,6 +18,7 @@ public class EntityModelUtil {
     public static ArticleResponseModel toArticleResponseModel(Article article) {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
         BeanUtils.copyProperties(article, articleResponseModel);
+        articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
         return articleResponseModel;
     }
 }

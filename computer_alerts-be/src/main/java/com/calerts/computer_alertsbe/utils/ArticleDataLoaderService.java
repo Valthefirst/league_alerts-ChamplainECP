@@ -17,6 +17,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        //var articleIdentifier = new ArticleIdentifier();
 
         Content content1 = Content.builder()
                 .title("Article 1")
@@ -26,7 +27,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
 
 
         Article article1 = Article.builder()
-                .articleId(new ArticleIdentifer())
+                .articleIdentifier(new ArticleIdentifier())
                 .title(content1.getTitle())
                 .body(content1.getBody())
                 .wordCount(content1.getWordCount())
@@ -42,7 +43,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article2 = Article.builder()
-                .articleId(new ArticleIdentifer())
+                .articleIdentifier(new ArticleIdentifier())
                 .title(content2.getTitle())
                 .body(content2.getBody())
                 .wordCount(content2.getWordCount())
@@ -58,7 +59,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article3 = Article.builder()
-                .articleId(new ArticleIdentifer())
+                .articleIdentifier(new ArticleIdentifier())
                 .title(content3.getTitle())
                 .body(content3.getBody())
                 .wordCount(content3.getWordCount())
@@ -68,9 +69,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleId(article1.getArticleId().toString())
+        articleRepository.findArticleByArticleIdentifier(article1.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
                 })
                 .switchIfEmpty(articleRepository.insert(article1))
@@ -78,9 +79,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .subscribe();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleId(article2.getArticleId().toString())
+        articleRepository.findArticleByArticleIdentifier(article2.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
                 })
                 .switchIfEmpty(articleRepository.insert(article2))
@@ -88,9 +89,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .subscribe();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleId(article1.getArticleId().toString())
+        articleRepository.findArticleByArticleIdentifier(article1.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleId());
+                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
                 })
                 .switchIfEmpty(articleRepository.insert(article3))

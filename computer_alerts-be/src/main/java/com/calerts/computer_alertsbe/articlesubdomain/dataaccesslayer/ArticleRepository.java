@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ArticleRepository extends ReactiveMongoRepository<Article, String> {
-        Mono<Article> findArticleByArticleId(String articleId);
+        Mono<Article> findArticleByArticleIdentifier(String articleId);
 
         Flux<Article> findAllArticleByTags(String tagName);
 
