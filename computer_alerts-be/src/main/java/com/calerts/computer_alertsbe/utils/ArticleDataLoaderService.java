@@ -22,7 +22,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        //var articleIdentifier = new ArticleIdentifier();
+
 
         Content content1 = Content.builder()
                 .title("Article 1")
@@ -74,7 +74,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier(article1.getArticleIdentifier().getArticleId())
+        articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
                     System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
@@ -84,7 +84,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .subscribe();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier(article2.getArticleIdentifier().getArticleId())
+        articleRepository.findArticleByArticleIdentifier_ArticleId(article2.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
                     System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
@@ -94,7 +94,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .subscribe();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier(article1.getArticleIdentifier().getArticleId())
+        articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
                 .flatMap(existingArticle -> {
                     System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
                     return Mono.empty(); // Skip insertion
