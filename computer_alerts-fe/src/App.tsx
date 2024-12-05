@@ -3,7 +3,7 @@ import { AppRoutePaths } from "./shared/models/path.routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppNavBar from "./layouts/AppNavBar";
 import HomePage from "./pages/Home/HomePage";
-
+import ArticleDetails from "features/articles/components/ArticleDetails";
 // import LogoutButton from "./Logout";
 
 function App(): JSX.Element {
@@ -13,6 +13,7 @@ function App(): JSX.Element {
         <AppNavBar />
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
+          <Route path="/articles/:id" element={<ArticleDetails />} />
         </Routes>
       </Router>
       <h1>Hello</h1>
