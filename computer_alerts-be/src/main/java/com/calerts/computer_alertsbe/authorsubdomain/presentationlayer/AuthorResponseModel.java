@@ -17,7 +17,7 @@ public class AuthorResponseModel {
     private String emailAddress;
     private String firstName;
     private String lastName;
-//    private Biography biography;
+    private String biography;
 //    private ArticleList articles;
 //    private Password password;
 }
