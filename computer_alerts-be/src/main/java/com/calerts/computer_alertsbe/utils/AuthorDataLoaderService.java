@@ -3,6 +3,7 @@ package com.calerts.computer_alertsbe.utils;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorRepository;
+import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Biography;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .emailAddress("dupont.nicky@email.com")
                 .firstName("Nicky")
                 .lastName("Dupont")
+                .biography(new Biography("Nicky Dupont is a NBA enthusiast and met Micheal Jordan when he just started out."))
                 .build();
 
         Author author2 = Author.builder()
@@ -30,6 +32,7 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .emailAddress("chan.jack@email.com")
                 .firstName("Jack")
                 .lastName("Chan")
+                .biography(new Biography())
                 .build();
 
         Flux.just(author1, author2)

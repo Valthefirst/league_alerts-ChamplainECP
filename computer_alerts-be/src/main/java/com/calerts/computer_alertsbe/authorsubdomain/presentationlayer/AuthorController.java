@@ -18,7 +18,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<AuthorResponseModel> getAllAuthors() {
         return authorService.getAllAuthors();
     }
