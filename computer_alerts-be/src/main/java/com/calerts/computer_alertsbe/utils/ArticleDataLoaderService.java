@@ -1,17 +1,15 @@
 package com.calerts.computer_alertsbe.utils;
 
 
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Article;
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleIdentifier;
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleRepository;
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleStatus;
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Content;
+import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Service
 public class ArticleDataLoaderService implements CommandLineRunner {
@@ -19,15 +17,17 @@ public class ArticleDataLoaderService implements CommandLineRunner {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private ContentRepository contentRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
 
-
         Content content1 = Content.builder()
                 .title("Article 1")
-                .body("This is the body of article 1")
-                .wordCount(7)
+                .body("\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n" +
+                        "\n")
                 .build();
 
 
@@ -35,72 +35,51 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier())
                 .title(content1.getTitle())
                 .body(content1.getBody())
-                .wordCount(content1.getWordCount())
+                .wordCount(Content.calculateWordCount(content1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
-                .timePosted(LocalDateTime.now())
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
         Content content2 = Content.builder()
                 .title("Article 2")
                 .body("This is the body of article 2")
-                .wordCount(7)
                 .build();
 
         Article article2 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title(content2.getTitle())
                 .body(content2.getBody())
-                .wordCount(content2.getWordCount())
+                .wordCount(Content.calculateWordCount(content2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
-                .timePosted(LocalDateTime.now())
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
         Content content3 = Content.builder()
                 .title("Article 3")
                 .body("This is the body of article 3")
-                .wordCount(7)
                 .build();
 
         Article article3 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title(content3.getTitle())
                 .body(content3.getBody())
-                .wordCount(content3.getWordCount())
+                .wordCount(Content.calculateWordCount(content3.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
-                .timePosted(LocalDateTime.now())
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
         // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
-                .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
-                    return Mono.empty(); // Skip insertion
-                })
-                .switchIfEmpty(articleRepository.insert(article1))
-                .doOnSuccess(article -> System.out.println("Inserted Article: " + article))
+        Flux.just(article1, article2, article3)
+                .flatMap(articleRepository::insert)
+                .log()
                 .subscribe();
 
-        // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier_ArticleId(article2.getArticleIdentifier().getArticleId())
-                .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
-                    return Mono.empty(); // Skip insertion
-                })
-                .switchIfEmpty(articleRepository.insert(article2))
-                .doOnSuccess(article -> System.out.println("Inserted Article: " + article))
-                .subscribe();
-
-        // Check if the article already exists and insert it only if it doesn't
-        articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
-                .flatMap(existingArticle -> {
-                    System.out.println("Article with ID already exists: " + existingArticle.getArticleIdentifier().getArticleId());
-                    return Mono.empty(); // Skip insertion
-                })
-                .switchIfEmpty(articleRepository.insert(article3))
-                .doOnSuccess(article -> System.out.println("Inserted Article: " + article))
+        Flux.just(content1, content2, content3)
+                .flatMap(contentRepository::insert)
+                .log()
                 .subscribe();
     }
 }

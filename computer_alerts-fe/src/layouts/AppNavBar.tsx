@@ -1,36 +1,41 @@
 import { Link } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./AppNavBar.css"; // Import updated CSS
 import { AppRoutePaths } from "../shared/models/path.routes";
-import { Navbar, Container } from "react-bootstrap";
-import Login from "../Login";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import CreateUserForm from "../features/readers/components/CreateUser";
 
 export default function AppNavBar(): JSX.Element {
   return (
-    <Navbar>
+    <Navbar expand="lg" className="navbar">
       <Container>
-        <Navbar.Brand as={Link} to={AppRoutePaths.HomePage}>
+        <Navbar.Brand as={Link} to={AppRoutePaths.HomePage} className="navbar-brand">
           Home
         </Navbar.Brand>
-        <Navbar.Brand as={Link} to={AppRoutePaths.NBA}>
-          NBA
-        </Navbar.Brand>
-        <Navbar.Brand as={Link} to={AppRoutePaths.NHL}>
-          NHL
-        </Navbar.Brand>
-        <Navbar.Brand as={Link} to={AppRoutePaths.NFL}>
-          NFL
-        </Navbar.Brand>
-        <Navbar.Brand as={Link} to={AppRoutePaths.UFC}>
-          UFC
-        </Navbar.Brand>
-        <Navbar.Brand as={Link} to={AppRoutePaths.MLB}>
-          MLB
-        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <span>☰</span>
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to={AppRoutePaths.NBA} className="nav-link">
+              NBA
+            </Nav.Link>
+            <Nav.Link as={Link} to={AppRoutePaths.NHL} className="nav-link">
+              NHL
+            </Nav.Link>
+            <Nav.Link as={Link} to={AppRoutePaths.NFL} className="nav-link">
+              NFL
+            </Nav.Link>
+            <Nav.Link as={Link} to={AppRoutePaths.UFC} className="nav-link">
+              UFC
+            </Nav.Link>
+            <Nav.Link as={Link} to={AppRoutePaths.MLB} className="nav-link">
+              MLB
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        {/* <CreateUserForm /> */}
       </Container>
-      <Login />
-      <CreateUserForm />
     </Navbar>
   );
 }
