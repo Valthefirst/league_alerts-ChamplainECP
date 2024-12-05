@@ -5,8 +5,8 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
 @Embeddable
+@Getter
 public class ArticleIdentifier {
 
     private String articleId;
