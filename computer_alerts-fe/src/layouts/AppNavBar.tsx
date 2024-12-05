@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./AppNavBar.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav } from "react-bootstrap";
-// import CreateUserForm from "../features/readers/components/CreateUser";
+import CreateUserForm from "../features/readers/components/CreateUser";
 
 export default function AppNavBar(): JSX.Element {
   return (
@@ -34,7 +34,7 @@ export default function AppNavBar(): JSX.Element {
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        {/* <CreateUserForm /> */}
+        <CreateUserForm />
       </Container>
     </Navbar>
   );

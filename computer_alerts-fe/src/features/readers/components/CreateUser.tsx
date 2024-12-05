@@ -6,6 +6,7 @@ const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
     email: "",
     password: "",
+    connection: "Username-Password-Authentication"
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
