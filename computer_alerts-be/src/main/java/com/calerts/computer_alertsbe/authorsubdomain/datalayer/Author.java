@@ -25,7 +25,7 @@ public class Author {
     private String emailAddress;
     private String firstName;
     private String lastName;
-//    private Biography biography;
+    private Biography biography;
 //    private ArticleList articles;
 //    private Password password;
 }
