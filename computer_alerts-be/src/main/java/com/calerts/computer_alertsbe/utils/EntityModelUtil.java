@@ -29,6 +29,7 @@ public class EntityModelUtil {
         AuthorResponseModel authorResponseModel = new AuthorResponseModel();
         BeanUtils.copyProperties(author, authorResponseModel);
         authorResponseModel.setAuthorId(author.getAuthorIdentifier().getAuthorId());
+        authorResponseModel.setBiography(author.getBiography().getBiography());
         return authorResponseModel;
     }
 }
