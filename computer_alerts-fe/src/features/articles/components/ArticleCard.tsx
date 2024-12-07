@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Article } from "../models/Article";
-import { fectchArticleBytag } from "../api/getAllArticleBySports";
+import { fetchArticleByTag } from "../api/getAllArticleBySports";
+import './ArticleCard.css';
 
+
+// ArticleCard component is still not working. No articles are being fetched.
 
 const ArticleCard: React.FC = () => {
 
-    const { tag } = useParams<{ tag: string }>(); // The tag passed via route
-    const [article, setArticles] = useState<Article[]>([]);
+    const { tagName } = useParams<{ tagName: string }>(); 
+    const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const loadArticles = async () => {
             try {
-                if (tag) {
-                    const data = await fectchArticleBytag(tag);
+                if (tagName) {
+                    const data = await fetchArticleByTag(tagName);
                     setArticles(data);
                 }
             } catch (err) {
@@ -26,27 +29,27 @@ const ArticleCard: React.FC = () => {
         };
 
         loadArticles();
-    }, [tag]);
+    }, [tagName]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
-    return article.length > 0 ? (
+    return articles.length > 0 ? (
         <div className="article-card">
-            {article.map((article) => (
-                <div key={article.id} className="article-card-content">
-                    <h3>{article.title}</h3>
-                    <p>
-                        <strong>
+            {articles.map((articles) => (
+                <div key={articles.id} className="article-card-content">
+                    <h3 className="title-card">{articles.title}</h3>
+                    <p className="card-body">
+                        <strong className="card-body-content">
                             Tags:
                         </strong>
-                        {article.tags}
+                        {articles.tags}
                     </p>
-                    <p>
-                        <strong>
+                    <p className="card-body">
+                        <strong className="card-body-content">
                             Date Posted:
                         </strong>
-                        {article.timePosted}
+                        {articles.timePosted}
                     </p>
                 </div>
             ))}
