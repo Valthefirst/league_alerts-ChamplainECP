@@ -16,6 +16,7 @@ function App(): JSX.Element {
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+          
         </Routes>
       </Router>
       {/* <ReaderList/> */}
