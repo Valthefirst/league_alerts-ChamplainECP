@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
 import { AuthService } from "../../../AuthService";
+import "../components/CreateUser.css";
 
 const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({

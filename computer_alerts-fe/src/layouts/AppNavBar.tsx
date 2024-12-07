@@ -32,9 +32,11 @@ export default function AppNavBar(): JSX.Element {
             <Nav.Link as={Link} to={AppRoutePaths.MLB} className="nav-link">
               MLB
             </Nav.Link>
+            <Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">
+              Create Account 
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        <CreateUserForm />
       </Container>
     </Navbar>
   );
