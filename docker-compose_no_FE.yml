@@ -12,13 +12,6 @@ services:
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
 
-  frontend:
-    build:
-      context: ./computer_alerts-fe
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-
   mongo:
     restart: always
     image: mongo:6.0
@@ -28,8 +21,6 @@ services:
     # volumes:
     #   - mongodb_data:/data/db
 
-# volumes:
-  
   mongo-express:
     image: mongo-express
     container_name: mongo_express

@@ -14,7 +14,12 @@ website:
 spring:
   data:
     mongodb:
-      uri: mongodb://mongo:27017/computeralerts
+      host: mongo
+      port: 27017
+      database: computeralerts
+      username: root
+      password: password
+      authentication-database: admin
       auto-index-creation: true
 
 
@@ -35,3 +40,27 @@ auth0:
     clientSecret: "hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI"
     domain: dev-im24qkb6l7t2yhha.ca.auth0.com
     audience: https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/
+
+---
+# for test
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  data:
+    mongodb:
+      username: root
+      password: password
+      host: localhost
+      port: 0
+      database: computeralerts
+      authentication-database: admin
+      auto-index-creation: true
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.4.0
