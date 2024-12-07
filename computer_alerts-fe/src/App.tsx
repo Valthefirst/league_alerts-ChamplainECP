@@ -17,6 +17,10 @@ function App(): JSX.Element {
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.NBA} element={<NBAArticlesPage />} />
+          {/* <Route path="/articles/tag/NFL" element={<NFLArticlesPage />} />
+          <Route path="/articles/tag/UFC" element={<UFCArticlesPage />} />
+          <Route path="/articles/tag/MLB" element={<MLBArticlesPage />} />
+          <Route path="/articles/tag/NHL" element={<NHLArticlesPage />} /> */}
         </Routes>
       </Router>
       <h1>Hello</h1>
