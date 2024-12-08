@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppNavBar from "./layouts/AppNavBar";
 import HomePage from "./pages/Home/HomePage";
 import ArticleDetails from "features/articles/components/ArticleDetails";
-import NBAArticlesPage from "./pages/ArticlePages/NBAArticlePage";
+import ArticlesPage from "./pages/ArticlePages/ArticlePage";
 
 // import LogoutButton from "./Logout";
 
@@ -16,14 +16,9 @@ function App(): JSX.Element {
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
           <Route path="/articles/:id" element={<ArticleDetails />} />
-          <Route path={AppRoutePaths.ArticlesByTag} element={<NBAArticlesPage />} />
-          {/* <Route path="/articles/tag/NFL" element={<NFLArticlesPage />} />
-          <Route path="/articles/tag/UFC" element={<UFCArticlesPage />} />
-          <Route path="/articles/tag/MLB" element={<MLBArticlesPage />} />
-          <Route path="/articles/tag/NHL" element={<NHLArticlesPage />} /> */}
+          <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
         </Routes>
       </Router>
-      <h1>Hello</h1>
       {/* <ReaderList/> */}
     </div>
   );
