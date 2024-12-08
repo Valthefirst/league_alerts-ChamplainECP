@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
 import { AuthService } from "../../../AuthService";
-import "../components/CreateUser.css";
+import styles from "../components/CreateUser.module.css";
+import Footer from "assets/Footer";
+import LeagueImage from "assets/LeagueAlertsImg.jpg";
 
 const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
@@ -13,7 +15,6 @@ const CreateUserForm: React.FC = () => {
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const authService = new AuthService();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +26,6 @@ const CreateUserForm: React.FC = () => {
     e.preventDefault();
     setSuccessMessage(null);
     setErrorMessage(null);
-
     try {
       const response = await authService.createUser(formData);
       setSuccessMessage(`User created successfully! ID: ${response.user_id}`);
@@ -35,54 +35,71 @@ const CreateUserForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Create a New User</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Sign Up</h1>
+      <div className={styles.formContainer}>
+        <div className={styles.imgContainer}>
+          <img 
+            src={LeagueImage} 
+            alt="League Alerts" 
+            className={styles.img} 
           />
         </div>
-        <div>
-          <label>FirstName:</label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>LastName:</label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <button type="submit">Create User</button>
-      </form>
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Email</label>
+            <input
+              placeholder="Enter your email"
+              className={styles.input}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>First Name</label>
+            <input
+              placeholder="Enter your first name"
+              className={styles.input}
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Last Name</label>
+            <input
+              placeholder="Enter your last name"
+              className={styles.input}
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Password</label>
+            <input
+              placeholder="Enter your password"
+              className={styles.input}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <button className={styles.button} type="submit">Create User</button>
+        </form>
+      </div>
+      {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+      <Footer/>
     </div>
   );
 };
