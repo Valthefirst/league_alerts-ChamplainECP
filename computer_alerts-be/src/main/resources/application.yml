@@ -1,4 +1,4 @@
-
+# Common Configuration
 frontend:
   url: http://localhost:3000
 
@@ -7,9 +7,6 @@ backend:
 
 website:
   domain: localhost
-
-
-
 
 spring:
   data:
@@ -21,8 +18,6 @@ spring:
       password: password
       authentication-database: admin
       auto-index-creation: true
-
-
 
 server:
   port: 8080
@@ -36,14 +31,13 @@ logging:
     com.calerts: DEBUG
 
 auth0:
-    clientId: dErtDK4v3hzp0FoM26aX9qGDayGobMIs
-    clientSecret: "hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI"
-    domain: dev-im24qkb6l7t2yhha.ca.auth0.com
-    audience: https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/
+  clientId: dErtDK4v3hzp0FoM26aX9qGDayGobMIs
+  clientSecret: "hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI"
+  domain: dev-im24qkb6l7t2yhha.ca.auth0.com
+  audience: https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/
 
 ---
-# for test
-
+# Test Configuration
 spring:
   config:
     activate:
@@ -63,4 +57,10 @@ de:
   flapdoodle:
     mongodb:
       embedded:
-        version: 4.4.0
+        version: 5.0.5
+
+auth0:
+  clientId: test-client-id
+  clientSecret: test-client-secret
+  domain: test-domain
+  audience: test-audience
