@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Article } from "../models/Article";
-import { fetchArticleByTag } from "../api/getAllArticleBySports";
+import { Article } from "../../models/Article";
+import { fetchArticleByTag } from "../../api/getAllArticleBySports";
 import './ArticleCard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 // ArticleCard component is still not working. No articles are being fetched.
 
+const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    }).format(date);
+};
 const ArticleCard: React.FC = () => {
 
     const { tagName } = useParams<{ tagName: string }>(); 
@@ -20,12 +30,12 @@ const ArticleCard: React.FC = () => {
             try {
                 if (tagName) {
                     const data = await fetchArticleByTag(tagName);
-                    console.log("Fetched articles:", data); 
+                    //console.log("Fetched articles:", data); 
                     setArticles(data);
                 }
             } catch (err) {
                 setError("Failed to fetch the articles");
-                console.log("Failed to fetch articles", err);
+                //console.log("Failed to fetch articles", err);
             } finally {
                 setLoading(false);
             }
@@ -41,20 +51,19 @@ const ArticleCard: React.FC = () => {
         <div className="article-card">
             {articles.map((articles) => (
                 <div key={articles.id} className="article-card-content">
+                <div className="article-image-placeholder"></div> {/* Empty placeholder for the image */}
+                <div className="article-card-content-footer">
                     <h3 className="title-card">{articles.title}</h3>
                     <p className="card-body">
-                        <strong className="card-body-content">
-                            Tags:
-                        </strong>
+                        <strong className="card-body-content">Tags:</strong>
                         {articles.tags}
                     </p>
                     <p className="card-body">
-                        <strong className="card-body-content">
-                            Date Posted:
-                        </strong>
-                        {articles.timePosted}
+                        <strong className="card-body-content">Date Posted:</strong>
+                        {formatDate(articles.timePosted)}
                     </p>
                 </div>
+            </div>
             ))}
         </div>
     ) : (
