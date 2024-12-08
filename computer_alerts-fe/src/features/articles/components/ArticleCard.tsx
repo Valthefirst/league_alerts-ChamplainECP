@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Article } from "../models/Article";
 import { fetchArticleByTag } from "../api/getAllArticleBySports";
 import './ArticleCard.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 // ArticleCard component is still not working. No articles are being fetched.
@@ -19,10 +20,12 @@ const ArticleCard: React.FC = () => {
             try {
                 if (tagName) {
                     const data = await fetchArticleByTag(tagName);
+                    console.log("Fetched articles:", data); 
                     setArticles(data);
                 }
             } catch (err) {
                 setError("Failed to fetch the articles");
+                console.log("Failed to fetch articles", err);
             } finally {
                 setLoading(false);
             }
@@ -55,7 +58,12 @@ const ArticleCard: React.FC = () => {
             ))}
         </div>
     ) : (
+        
+            
         <p>No articles found</p>
+         
+       
+       
     );
   
 }
