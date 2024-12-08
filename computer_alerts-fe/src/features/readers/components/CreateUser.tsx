@@ -6,6 +6,8 @@ import "../components/CreateUser.css";
 const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
     connection: "Username-Password-Authentication"
   });
@@ -42,6 +44,26 @@ const CreateUserForm: React.FC = () => {
             type="email"
             name="email"
             value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div>
+          <label>FirstName:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div>
+          <label>LastName:</label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
             onChange={handleInputChange}
             required
           />
