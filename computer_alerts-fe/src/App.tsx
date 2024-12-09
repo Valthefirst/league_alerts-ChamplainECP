@@ -6,7 +6,9 @@ import HomePage from "./pages/Home/HomePage";
 import ArticleDetails from "features/articles/components/ArticleDetails/ArticleDetails";
 import CreateUserForm from "./features/readers/components/CreateUser";
 import AuthorPage from "pages/AuthorPage";
+import AuthorsPage from 'pages/AuthorsPage';
 import ArticlesPage from "./pages/ArticlePages/ArticlePage";
+
 
 function App(): JSX.Element {
   return (
@@ -21,6 +23,9 @@ function App(): JSX.Element {
           />
 
           <Route path="/articles/:id" element={<ArticleDetails />} />
+          <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
+          <Route path="/authors/:authorId" element={<AuthorPage />} />
+          <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
           <Route
             path={AppRoutePaths.ArticlesByTag}

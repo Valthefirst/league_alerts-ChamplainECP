@@ -8,8 +8,10 @@ import lombok.Getter;
 public class Biography {
 
     private String biography;
+    private int wordCount;
 
     public Biography() {
         this.biography = "No biography available";
+        this.wordCount = 3;
     }
 }

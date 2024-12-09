@@ -32,7 +32,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nbaArticle1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("e09e8812-32fb-434d-908f-40d5e3b137ca"))
                 .title(nbaContent1.getTitle())
                 .body(nbaContent1.getBody())
                 .wordCount(Content.calculateWordCount(nbaContent1.getBody()))
@@ -48,7 +48,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nbaArticle2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("806d087b-e708-4293-925b-40b2972741e5"))
                 .title(nbaContent2.getTitle())
                 .body(nbaContent2.getBody())
                 .wordCount(Content.calculateWordCount(nbaContent2.getBody()))
@@ -81,7 +81,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nhlArticle2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("ca1d0478-6a9c-421b-b815-84965e3c7b4a"))
                 .title(nhlContent2.getTitle())
                 .body(nhlContent2.getBody())
                 .wordCount(Content.calculateWordCount(nhlContent2.getBody()))
