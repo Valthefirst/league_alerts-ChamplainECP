@@ -4,6 +4,13 @@ import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
 import { Article } from "../../models/Article";
 import "./ArticleDetails.css"; // Import the CSS file
 
+const NotFound: React.FC = () => (
+  <div className="not-found-container">
+    <h1 className="not-found-title">404</h1>
+    <p className="not-found-message">Uh oh, you lost yourself.</p>
+  </div>
+);
+
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // The articleId passed via route
   const [article, setArticle] = useState<Article | null>(null);
@@ -17,9 +24,17 @@ const ArticleDetails: React.FC = () => {
       try {
         if (id) {
           const data = await fetchArticleByArticleId(id);
-          setArticle(data);
+          if (!data || Object.keys(data).length === 0) {
+            // If no article is returned, set a 404 error
+            setError("Article not found");
+          } else {
+            setArticle(data);
+          }
+        } else {
+          setError("Invalid article ID");
         }
       } catch (err) {
+        console.error("Error fetching article:", err);
         setError("Failed to fetch the article");
       } finally {
         setLoading(false);
@@ -37,7 +52,9 @@ const ArticleDetails: React.FC = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) {
+    return <NotFound />;
+  }
 
   return article ? (
     <div className="article-container">
@@ -47,10 +64,9 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
-<h1>
-  This is the article ID: {article?.articleId || "No ID available"}
-</h1>
-
+      <h1>
+        This is the article ID: {article.articleId || "No ID available"}
+      </h1>
 
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>
@@ -84,7 +100,7 @@ const ArticleDetails: React.FC = () => {
       </div>
     </div>
   ) : (
-    <p>No article found.</p>
+    <NotFound />
   );
 };
 
