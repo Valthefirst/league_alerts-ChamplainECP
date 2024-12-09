@@ -131,7 +131,7 @@ class ArticleServiceUnitTest {
 
 
         // Mocking the behavior of the repository
-        when(articleRepository.findAll()).thenReturn(Flux.just(article1, article2));
+        when(articleRepository.findAll()).thenReturn(Flux.just(expectedArticle), expectedArticle2));
         when(articleRepository.save(any(Article.class))).thenAnswer(invocation -> {
             Article p = invocation.getArgument(0);
             return Mono.just(p);
@@ -149,11 +149,11 @@ class ArticleServiceUnitTest {
 
         // Verify that the requestCount is now reset to 0 for both articles
         verify(articleRepository).save(argThat(article ->
-                article.getProductId().equals("06a7d573-bcab-4db3-956f-773324b92a80") &&
+                article.findArticleByArticleIdentifier_ArticleId().equals(validArticleId) &&
                         article.getRequestCount() == 0
         ));
         verify(articleRepository).save(argThat(article ->
-                article.getArticleId().equals("7f2bff03-b304-4b42-9a1d-415e5e6f8ef6") &&
+                article.findArticleByArticleIdentifier_ArticleId().equals(validArticleId2) &&
                         article.getRequestCount() == 0
         ));
     }
@@ -185,7 +185,7 @@ class ArticleServiceUnitTest {
     }
 
     @Test
-    void testRequestCount_ProductNotFound() {
+    void testRequestCount_ArticleNotFound() {
         // Arrange
         String productId = "nonExistentProductId";
 

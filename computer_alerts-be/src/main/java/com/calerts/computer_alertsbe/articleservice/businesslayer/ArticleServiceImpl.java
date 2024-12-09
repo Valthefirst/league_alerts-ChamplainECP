@@ -43,7 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
-    @Scheduled(cron = "0 0 0 */30 * *")  // Runs every 30 days at midnight
+    @Scheduled(cron = "0 0 0 */30 * *")  
     public Mono<Void> resetRequestCounts() {
         return articleRepository.findAll()
                 .flatMap(article -> {
