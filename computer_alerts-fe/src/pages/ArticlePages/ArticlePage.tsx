@@ -7,7 +7,8 @@ import { fetchArticleByTag } from "features/articles/api/getAllArticleBySports";
 export default function NBAArticlesPage(): JSX.Element {
 
   const { tagName } = useParams<{ tagName: string }>(); 
-    const [articles, setArticles] = useState<Article[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
