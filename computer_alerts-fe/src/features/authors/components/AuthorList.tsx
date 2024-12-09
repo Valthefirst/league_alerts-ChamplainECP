@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getAllAuthors } from '../api/getAllAuthors';
-import { Button } from 'react-bootstrap';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './AuthorList.css';
+import { useEffect, useState } from "react";
+import { getAllAuthors } from "../api/getAllAuthors";
+import { Button } from "react-bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./AuthorList.css";
 
 interface Author {
   authorId: string;
@@ -23,7 +23,7 @@ const AuthorList: React.FC = () => {
         const data: Author[] = await getAllAuthors();
         setAuthors(data);
       } catch (err) {
-        setError('Error fetching data');
+        setError("Error fetching data");
       } finally {
         setLoading(false);
       }

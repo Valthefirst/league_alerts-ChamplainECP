@@ -1,11 +1,5 @@
-// src/types/Article.ts
-export interface ArticleIdentifier {
-  articleId: string;
-}
-
 export interface Article {
-  id: string;
-  articleIdentifier: ArticleIdentifier;
+  articleId: string; // Top-level property
   title: string;
   body: string;
   wordCount: number;

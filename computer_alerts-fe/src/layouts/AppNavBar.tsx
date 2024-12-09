@@ -5,8 +5,8 @@ import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 export default function AppNavBar(): JSX.Element {
-
-  const generateTagRoute = (tagName: string) => AppRoutePaths.ArticlesByTag.replace(":tagName", tagName);
+  const generateTagRoute = (tagName: string) =>
+    AppRoutePaths.ArticlesByTag.replace(":tagName", tagName);
 
   return (
     <Navbar expand="lg" className="navbar">
@@ -23,19 +23,39 @@ export default function AppNavBar(): JSX.Element {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to={generateTagRoute("NBA")} className="nav-link">
+            <Nav.Link
+              as={Link}
+              to={generateTagRoute("NBA")}
+              className="nav-link"
+            >
               NBA
             </Nav.Link>
-            <Nav.Link as={Link} to={generateTagRoute("NHL")} className="nav-link">
+            <Nav.Link
+              as={Link}
+              to={generateTagRoute("NHL")}
+              className="nav-link"
+            >
               NHL
             </Nav.Link>
-            <Nav.Link as={Link} to={generateTagRoute("NFL")} className="nav-link">
+            <Nav.Link
+              as={Link}
+              to={generateTagRoute("NFL")}
+              className="nav-link"
+            >
               NFL
             </Nav.Link>
-            <Nav.Link as={Link} to={generateTagRoute("UFC")} className="nav-link">
+            <Nav.Link
+              as={Link}
+              to={generateTagRoute("UFC")}
+              className="nav-link"
+            >
               UFC
             </Nav.Link>
-            <Nav.Link as={Link} to={generateTagRoute("MLB")} className="nav-link">
+            <Nav.Link
+              as={Link}
+              to={generateTagRoute("MLB")}
+              className="nav-link"
+            >
               MLB
             </Nav.Link>
             <Nav.Link
