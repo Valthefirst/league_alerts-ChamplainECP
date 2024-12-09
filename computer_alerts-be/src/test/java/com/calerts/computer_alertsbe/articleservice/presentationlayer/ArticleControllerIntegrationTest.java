@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -24,19 +25,72 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("test") // Activates the test profile
 @AutoConfigureWebTestClient
 class ArticleControllerIntegrationTest {
-
     @Autowired
     private WebTestClient webTestClient;
 
     @Autowired
     private ArticleRepository articleRepository;
 
-    private static final String BASE_URL = "/api/v1/articles";
+    private final String BASE_URL = "/api/v1/articles";
 
     @BeforeEach
-    void setup() {
-        articleRepository.deleteAll().block();
+    public void setUp() {
+        articleRepository.deleteAll();
     }
+
+
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    @Test
+    public void whenGetAllArticlesByTag_thenReturnAllArticles() {
+        // Arrange
+        var article1 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 1")
+                .body("This is the body of article 1")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NBA")
+                .timePosted(LocalDateTime.now())
+                .build();
+
+        var article2 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 2")
+                .body("This is the body of article 2")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NBA")
+                .timePosted(LocalDateTime.now())
+                .build();
+
+        var article3 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 3")
+                .body("This is the body of article 3")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(LocalDateTime.now())
+                .build();
+
+        articleRepository.saveAll(List.of(article1, article2, article3));
+
+        String url = BASE_URL + "/tag/NBA";
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ArticleResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(2, response.size());
+                });
+    }
+
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
