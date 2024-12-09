@@ -22,6 +22,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT, properties = {"spring.data.mongodb.port=0"})
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration," +
+                "org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration"
+})
 @AutoConfigureWebTestClient
 class AuthorControllerIntegrationTest {
 
@@ -36,7 +40,7 @@ class AuthorControllerIntegrationTest {
             .emailAddress("variable.x@email.com")
             .firstName("X")
             .lastName("Variable")
-            .biography(new Biography("Lorem Ipsum."))
+            .biography(new Biography("Lorem Ipsum.", 2))
             .build();
 
     private Author author2 = Author.builder()

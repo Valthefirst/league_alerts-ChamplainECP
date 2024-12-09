@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Embeddable
 @Getter
-@AllArgsConstructor
 public class ArticleIdentifier {
 
     private String articleId;
