@@ -27,7 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Mono<ArticleResponseModel> getArticleByArticleId(String articleId) {
         return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
-                .switchIfEmpty(Mono.error(new NotFoundException("No article with this id was found" + articleId)))
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .map(EntityModelUtil::toArticleResponseModel);
     }
 }
