@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
 import { AuthService } from "../../../AuthService";
 import styles from "../components/CreateUser.module.css";
-import Footer from "assets/Footer";
+// import Footer from "assets/Footer";
 import LeagueImage from "assets/LeagueAlertsImg.jpg";
 
 const CreateUserForm: React.FC = () => {
@@ -11,7 +11,7 @@ const CreateUserForm: React.FC = () => {
     firstName: "",
     lastName: "",
     password: "",
-    connection: "Username-Password-Authentication"
+    connection: "Username-Password-Authentication",
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -39,15 +39,11 @@ const CreateUserForm: React.FC = () => {
       <h1 className={styles.heading}>Sign Up</h1>
       <div className={styles.formContainer}>
         <div className={styles.imgContainer}>
-          <img 
-            src={LeagueImage} 
-            alt="League Alerts" 
-            className={styles.img} 
-          />
+          <img src={LeagueImage} alt="League Alerts" className={styles.img} />
         </div>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Email</label>
+            <label className={styles.label}></label>
             <input
               placeholder="Enter your email"
               className={styles.input}
@@ -59,7 +55,7 @@ const CreateUserForm: React.FC = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>First Name</label>
+            <label className={styles.label}></label>
             <input
               placeholder="Enter your first name"
               className={styles.input}
@@ -71,7 +67,7 @@ const CreateUserForm: React.FC = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Last Name</label>
+            <label className={styles.label}></label>
             <input
               placeholder="Enter your last name"
               className={styles.input}
@@ -83,7 +79,7 @@ const CreateUserForm: React.FC = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Password</label>
+            <label className={styles.label}></label>
             <input
               placeholder="Enter your password"
               className={styles.input}
@@ -94,12 +90,16 @@ const CreateUserForm: React.FC = () => {
               required
             />
           </div>
-          <button className={styles.button} type="submit">Create User</button>
+          <button className={styles.button} type="submit">
+            Create User
+          </button>
         </form>
       </div>
-      {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+      {successMessage && (
+        <p className={styles.successMessage}>{successMessage}</p>
+      )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };
