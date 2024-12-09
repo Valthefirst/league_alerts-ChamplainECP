@@ -7,8 +7,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -56,6 +58,43 @@ class ArticleServiceUnitTest {
         // Act and Assert using StepVerifier
         StepVerifier.create(articleService.getArticleByArticleId(validArticleId.toString()))
                 .expectNextMatches(actualArticle ->
+                        actualArticle.getTitle().equals(expectedArticle.getTitle()) &&
+                                actualArticle.getBody().equals(expectedArticle.getBody()) &&
+                                actualArticle.getWordCount() == expectedArticle.getWordCount() &&
+                                actualArticle.getArticleStatus() == expectedArticle.getArticleStatus()
+                )
+                .verifyComplete();
+    }
+
+
+
+    @Test
+    void whenValidArticleTag_thenReturnAllArticle() {
+        // Arrange
+        ArticleIdentifier validArticleId = new ArticleIdentifier();
+        Content content = Content.builder()
+                .title("Valid Title")
+                .body("This is a valid body of the article.")
+                .build();
+
+        Article expectedArticle = Article.builder()
+                .articleIdentifier(validArticleId)
+                .title(content.getTitle())
+                .body(content.getBody())
+                .wordCount(Content.calculateWordCount(content.getBody()))
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .build();
+
+        // Mock the repository to return a Flux<Article>
+        when(articleRepository.findAllArticleByTags(expectedArticle.getTags()))
+                .thenReturn(Flux.just(expectedArticle)); // Return Flux<Article>
+
+        // Act and Assert using StepVerifier
+        StepVerifier.create(articleService.getAllArticleForSpecificSport("NFL"))
+                .expectNextMatches(actualArticle ->
+                        // Assuming EntityModelUtil::toArticleResponseModel is used to map the Article to ArticleResponseModel
                         actualArticle.getTitle().equals(expectedArticle.getTitle()) &&
                                 actualArticle.getBody().equals(expectedArticle.getBody()) &&
                                 actualArticle.getWordCount() == expectedArticle.getWordCount() &&
