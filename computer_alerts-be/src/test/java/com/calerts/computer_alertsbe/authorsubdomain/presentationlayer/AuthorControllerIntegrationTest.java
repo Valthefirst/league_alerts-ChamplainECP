@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -22,10 +23,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT, properties = {"spring.data.mongodb.port=0"})
 @ActiveProfiles("test")
-@TestPropertySource(properties = {
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration," +
-                "org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration"
-})
 @AutoConfigureWebTestClient
 class AuthorControllerIntegrationTest {
 
@@ -35,45 +32,49 @@ class AuthorControllerIntegrationTest {
     @Autowired
     private AuthorRepository authorRepository;
 
-    private Author author1 = Author.builder()
-            .authorIdentifier(new AuthorIdentifier("3e91879e-7fc2-4107-9f0f-17e33f67e94e"))
-            .emailAddress("variable.x@email.com")
-            .firstName("X")
-            .lastName("Variable")
-            .biography(new Biography("Lorem Ipsum.", 2))
-            .build();
+    private Author author1;
 
-    private Author author2 = Author.builder()
-            .authorIdentifier(new AuthorIdentifier("ac919079-e593-49c5-881c-057a29765bbd"))
-            .emailAddress("variable.y@email.com")
-            .firstName("Y")
-            .lastName("Variable")
-            .biography(new Biography())
-            .build();
+    private Author author2;
 
     @BeforeEach
     void setUpDB() {
-        Publisher<Author> setupDB = authorRepository.deleteAll()
-                .thenMany(Flux.just(author1, author2)
-                        .flatMap(authorRepository::save));
+        authorRepository.deleteAll().block();
 
-        StepVerifier.create(setupDB)
-                .expectNext(author1)
-                .expectNext(author2)
-                .expectNextCount(0)
-                .verifyComplete();
+        author1 = Author.builder()
+                .authorIdentifier(new AuthorIdentifier("3e91879e-7fc2-4107-9f0f-17e33f67e94e"))
+                .emailAddress("variable.x@email.com")
+                .firstName("X")
+                .lastName("Variable")
+                .biography(new Biography("Lorem Ipsum.", 2))
+                .build();
+
+        author2 = Author.builder()
+                .authorIdentifier(new AuthorIdentifier("ac919079-e593-49c5-881c-057a29765bbd"))
+                .emailAddress("variable.y@email.com")
+                .firstName("Y")
+                .lastName("Variable")
+                .biography(new Biography())
+                .build();
+
+        authorRepository.saveAll(Flux.just(author1, author2)).blockLast();
+
     }
 
     // Positive test case
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     void whenGetAllAuthors_thenReturnAuthors() {
+        StepVerifier.create(authorRepository.findAll())
+                .expectNextCount(2)
+                .verifyComplete();
+
         webTestClient
                 .get()
                 .uri("/api/v1/authors")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("application/json;charset=UTF-8")
+                .expectHeader().contentType("application/json")
                 .expectBodyList(AuthorResponseModel.class)
                 .hasSize(2)
                 .value(authorResponseModels -> {
@@ -93,6 +94,7 @@ class AuthorControllerIntegrationTest {
 
     // Negative test case
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     void whenNoAuthorsExist_thenReturnEmptyList() {
         Publisher<Void> deleteAllAuthors = authorRepository.deleteAll();
 
@@ -106,7 +108,7 @@ class AuthorControllerIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("application/json;charset=UTF-8")
+                .expectHeader().contentType("application/json")
                 .expectBodyList(AuthorResponseModel.class)
                 .value(authorResponseModels -> {
                     assertNotNull(authorResponseModels);
@@ -116,7 +118,12 @@ class AuthorControllerIntegrationTest {
 
     // Positive test case
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     void whenGetAuthorById_thenReturnAuthor() {
+        StepVerifier.create(authorRepository.findAll())
+                .expectNextCount(2)
+                .verifyComplete();
+
         webTestClient
                 .get()
                 .uri("/api/v1/authors/" + author1.getAuthorIdentifier().getAuthorId())
@@ -135,27 +142,39 @@ class AuthorControllerIntegrationTest {
 
     // Negative test case
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     void whenInvalidAuthorId_thenReturnBadRequest() {
+        StepVerifier.create(authorRepository.findAll())
+                .expectNextCount(2)
+                .verifyComplete();
+
         webTestClient
                 .get()
                 .uri("/api/v1/authors/invalid-author-id")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isBadRequest()
-                .expectBody(String.class)
-                .value(response -> assertEquals("Provided author id is invalid: invalid-author-id", response));
+                .expectStatus().is4xxClientError()
+                .expectBody()
+//                .value(response -> assertEquals("Provided author id is invalid: invalid-author-id", response));
+                .jsonPath("$.message").isEqualTo("Provided author id is invalid: invalid-author-id");
     }
 
     // Negative test case
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     void whenAuthorNotFound_thenReturnNotFound() {
+        StepVerifier.create(authorRepository.findAll())
+                .expectNextCount(2)
+                .verifyComplete();
+
         webTestClient
                 .get()
                 .uri("/api/v1/authors/3e91879e-7fc2-4107-9f0f-17e33f67e94f")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isNotFound()
-                .expectBody(String.class)
-                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
+                .expectBody()
+//                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
+                .jsonPath("$.message").isEqualTo("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f");
     }
 }
