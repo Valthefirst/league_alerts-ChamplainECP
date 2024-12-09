@@ -32,7 +32,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
 
 
         Article article1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("e09e8812-32fb-434d-908f-40d5e3b137ca"))
                 .title(content1.getTitle())
                 .body(content1.getBody())
                 .wordCount(Content.calculateWordCount(content1.getBody()))
@@ -47,7 +47,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("806d087b-e708-4293-925b-40b2972741e5"))
                 .title(content2.getTitle())
                 .body(content2.getBody())
                 .wordCount(Content.calculateWordCount(content2.getBody()))
@@ -62,7 +62,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article article3 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("ca1d0478-6a9c-421b-b815-84965e3c7b4a"))
                 .title(content3.getTitle())
                 .body(content3.getBody())
                 .wordCount(Content.calculateWordCount(content3.getBody()))

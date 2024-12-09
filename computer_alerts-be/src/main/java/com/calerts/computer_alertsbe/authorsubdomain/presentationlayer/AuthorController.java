@@ -2,7 +2,6 @@ package com.calerts.computer_alertsbe.authorsubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.authorsubdomain.businesslayer.AuthorService;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

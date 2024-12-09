@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT, properties = {"spring.data.mongodb.port=0"})
-@TestPropertySource(properties = {
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration," +
-                "org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration"
-})
+//@TestPropertySource(properties = {
+//        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration," +
+//                "org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration"
+//})
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 class AuthorControllerIntegrationTest {
@@ -70,10 +70,10 @@ class AuthorControllerIntegrationTest {
         webTestClient
                 .get()
                 .uri("/api/v1/authors")
-                .accept(MediaType.TEXT_EVENT_STREAM)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("text/event-stream;charset=UTF-8")
+                .expectHeader().contentType("application/json;charset=UTF-8")
                 .expectBodyList(AuthorResponseModel.class)
                 .hasSize(2)
                 .value(authorResponseModels -> {
@@ -103,10 +103,10 @@ class AuthorControllerIntegrationTest {
         webTestClient
                 .get()
                 .uri("/api/v1/authors")
-                .accept(MediaType.TEXT_EVENT_STREAM)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("text/event-stream;charset=UTF-8")
+                .expectHeader().contentType("application/json;charset=UTF-8")
                 .expectBodyList(AuthorResponseModel.class)
                 .value(authorResponseModels -> {
                     assertNotNull(authorResponseModels);

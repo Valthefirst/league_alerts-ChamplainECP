@@ -1,14 +1,14 @@
 package com.calerts.computer_alertsbe.utils;
 
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorRepository;
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Biography;
+import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.authorsubdomain.datalayer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class AuthorDataLoaderService implements CommandLineRunner {
@@ -25,7 +25,9 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Nicky")
                 .lastName("Dupont")
                 .biography(new Biography("Nicky Dupont is a NBA enthusiast and met Micheal Jordan when he just " +
-                        "started out."))
+                        "started out.", 15))
+                .articles(new ArticleList(List.of(new ArticleIdentifier("e09e8812-32fb-434d-908f-40d5e3b137ca"),
+                        new ArticleIdentifier("806d087b-e708-4293-925b-40b2972741e5"))))
                 .build();
 
         Author author2 = Author.builder()
@@ -34,6 +36,7 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Jack")
                 .lastName("Chan")
                 .biography(new Biography())
+                .articles(new ArticleList())
                 .build();
 
         Author author3 = Author.builder()
@@ -42,7 +45,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Michael")
                 .lastName("Jones")
                 .biography(new Biography("Former professional basketball player, now coaching youth teams and " +
-                        "mentoring athletes."))
+                        "mentoring athletes.", 11))
+                .articles(new ArticleList())
                 .build();
 
         Author author4 = Author.builder()
@@ -51,7 +55,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Lily")
                 .lastName("Williams")
                 .biography(new Biography("Professional tennis player turned coach, specializing in women's singles " +
-                        "and doubles."))
+                        "and doubles.", 11))
+                .articles(new ArticleList())
                 .build();
 
         Author author5 = Author.builder()
@@ -60,7 +65,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("George")
                 .lastName("Smith")
                 .biography(new Biography("Football coach with over 20 years of experience, now working with " +
-                        "under-18 teams to develop future stars."))
+                        "under-18 teams to develop future stars.", 17))
+                .articles(new ArticleList(List.of(new ArticleIdentifier("ca1d0478-6a9c-421b-b815-84965e3c7b4a"))))
                 .build();
 
         Author author6 = Author.builder()
@@ -69,7 +75,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Nancy")
                 .lastName("Davis")
                 .biography(new Biography("Former Olympic gymnast, now a motivational speaker and advocate for " +
-                        "mental health in sports."))
+                        "mental health in sports.", 14))
+                .articles(new ArticleList())
                 .build();
 
         Author author7 = Author.builder()
@@ -78,7 +85,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Kevin")
                 .lastName("Lee")
                 .biography(new Biography("Ex-professional boxer and trainer, now working on youth programs to " +
-                        "promote fitness and discipline."))
+                        "promote fitness and discipline.", 14))
+                .articles(new ArticleList())
                 .build();
 
         Author author8 = Author.builder()
@@ -87,7 +95,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Elizabeth")
                 .lastName("Brown")
                 .biography(new Biography("Baseball analyst and commentator, known for breaking down game strategies" +
-                        " and player performance."))
+                        " and player performance.", 13))
+                .articles(new ArticleList())
                 .build();
 
         Author author9 = Author.builder()
@@ -96,7 +105,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Thomas")
                 .lastName("Clark")
                 .biography(new Biography("Retired soccer player turned coach, focusing on player development and " +
-                        "sports leadership."))
+                        "sports leadership.", 12))
+                .articles(new ArticleList())
                 .build();
 
         Author author10 = Author.builder()
@@ -105,7 +115,8 @@ public class AuthorDataLoaderService implements CommandLineRunner {
                 .firstName("Rebecca")
                 .lastName("Martin")
                 .biography(new Biography("Professional swimmer, now mentoring young swimmers and advocating for " +
-                        "water safety."))
+                        "water safety.", 11))
+                .articles(new ArticleList())
                 .build();
 
 
