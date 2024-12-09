@@ -52,7 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.49.0",
     "@types/js-cookie": "^3.0.6",
     "eslint-config-react-app": "^7.0.1"
   }
