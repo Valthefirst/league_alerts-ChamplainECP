@@ -39,10 +39,12 @@ class ArticleControllerIntegrationTest {
     }
 
 
-    @WithMockUser(username = "testuser", roles = {"USER"})
     @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetAllArticlesByTag_thenReturnAllArticles() {
-        // Arrange
+
+        articleRepository.deleteAll().block();
+
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title("Article 1")
@@ -73,7 +75,7 @@ class ArticleControllerIntegrationTest {
                 .timePosted(LocalDateTime.now())
                 .build();
 
-        articleRepository.saveAll(List.of(article1, article2, article3));
+        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
 
         String url = BASE_URL + "/tag/NBA";
 
@@ -88,9 +90,9 @@ class ArticleControllerIntegrationTest {
                 .value((response) -> {
                     assertNotNull(response);
                     assertEquals(2, response.size());
+                    response.forEach(article -> assertTrue(article.getTags().contains("NBA")));
                 });
     }
-
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
@@ -161,6 +163,6 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-   
+
 
 }
