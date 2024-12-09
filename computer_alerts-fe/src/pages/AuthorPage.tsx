@@ -65,7 +65,7 @@ const AuthorPage: React.FC = () => {
           {articles.length > 0 ? (
             <div>
               {articles.map((article, index) => (
-                <div key={article.id}>
+                <div key={article.articleId}>
                   <div className="article-header">
                     <h3>{article.title}</h3>
                     <i className="bi bi-arrow-90deg-right"></i>

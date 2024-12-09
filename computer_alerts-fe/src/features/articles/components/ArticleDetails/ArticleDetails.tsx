@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
 import { Article } from "../../models/Article";
 import "./ArticleDetails.css"; // Import the CSS file
+import { Author } from "features/authors/model/Author";
+import { getAllAuthors } from "features/authors/api/getAllAuthors";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -14,34 +16,40 @@ const NotFound: React.FC = () => (
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // The articleId passed via route
   const [article, setArticle] = useState<Article | null>(null);
+  const [author, setAuthor] = useState<Author | null>(null);
   const [comments, setComments] = useState<string[]>([]); // Comment section state
   const [newComment, setNewComment] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadArticle = async () => {
+    const loadArticleAndAuthor = async () => {
       try {
         if (id) {
-          const data = await fetchArticleByArticleId(id);
-          if (!data || Object.keys(data).length === 0) {
-            // If no article is returned, set a 404 error
+          const articleData = await fetchArticleByArticleId(id);
+          if (!articleData || Object.keys(articleData).length === 0) {
             setError("Article not found");
           } else {
-            setArticle(data);
+            setArticle(articleData);
+
+            const authorsData: Author[] = await getAllAuthors();
+            const foundAuthor = authorsData.find((author) =>
+              author.articles.articleList?.some((a) => a.articleId === id)
+            );
+            setAuthor(foundAuthor || null);
           }
         } else {
           setError("Invalid article ID");
         }
       } catch (err) {
-        console.error("Error fetching article:", err);
+        console.error("Error fetching article or author:", err);
         setError("Failed to fetch the article");
       } finally {
         setLoading(false);
       }
     };
 
-    loadArticle();
+    loadArticleAndAuthor();
   }, [id]);
 
   const addComment = () => {
@@ -70,6 +78,18 @@ const ArticleDetails: React.FC = () => {
 
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>
+
+      {author && (
+        // <p className="article-author">
+        //   <strong>Author:</strong> {author.firstName} {author.lastName}
+        // </p>
+        <p className="article-author">
+        <strong>Author:</strong>{' '}
+        <Link to={`/authors/${author.authorId}`}>
+          {author.firstName} {author.lastName}
+        </Link>
+      </p>
+      )}
 
       <hr className="divider" />
 
