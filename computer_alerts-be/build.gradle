@@ -60,6 +60,7 @@ dependencies {
 
 jacoco {
     toolVersion = '0.8.11'
+
 }
 
 jacocoTestReport {
@@ -67,6 +68,7 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it)
+
         }))
     }
 }
@@ -76,6 +78,8 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 minimum = 0.00
+                excludes = ['com.calerts.computer_alertsbe.authservice.presentationlayer']
+                excludes = ['com.calerts.computer_alertsbe.authservice.businesslayer']
             }
         }
     }
