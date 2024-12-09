@@ -1,6 +1,8 @@
 export enum AppRoutePaths {
-  Default = "/",
-  HomePage = "/home",
+  Default = '/',
+  HomePage = '/home',
+  Authors = '/authors',
+  ArticlesByTag = "/articles/tag/:tagName",
   NBA = "/nba",
   NHL = "/nhl",
   NFL = "/nfl",
@@ -8,3 +10,4 @@ export enum AppRoutePaths {
   MLB = "/mlb",
   CREATE_ACCOUNT = "/create-account",
 }
+

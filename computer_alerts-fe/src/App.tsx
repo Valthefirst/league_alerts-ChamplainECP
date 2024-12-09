@@ -5,7 +5,9 @@ import AppNavBar from "./layouts/AppNavBar";
 import HomePage from "./pages/Home/HomePage";
 import ArticleDetails from "features/articles/components/ArticleDetails";
 import CreateUserForm from "./features/readers/components/CreateUser";
-// import LogoutButton from "./Logout";
+import AuthorPage from 'pages/AuthorPage';
+import ArticlesPage from "./pages/ArticlePages/ArticlePage";
+
 
 function App(): JSX.Element {
   return (
@@ -20,8 +22,11 @@ function App(): JSX.Element {
           />
 
           <Route path="/articles/:id" element={<ArticleDetails />} />
+          <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+          <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
         </Routes>
       </Router>
+      <h1>Hello</h1>
       {/* <ReaderList/> */}
     </div>
   );
