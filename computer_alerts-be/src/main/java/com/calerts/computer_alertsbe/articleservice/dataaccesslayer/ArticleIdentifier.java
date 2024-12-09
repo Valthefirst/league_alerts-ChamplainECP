@@ -17,4 +17,8 @@ public class ArticleIdentifier {
         this.articleId = UUID.randomUUID().toString();
     }
 
+    public ArticleIdentifier(String articleId) {
+        this.articleId = articleId;
+    }
+
 }
