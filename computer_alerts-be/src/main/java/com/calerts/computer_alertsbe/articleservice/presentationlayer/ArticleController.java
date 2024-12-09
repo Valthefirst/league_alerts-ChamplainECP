@@ -4,6 +4,7 @@ package com.calerts.computer_alertsbe.articleservice.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleservice.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,7 @@ public class ArticleController {
                 .flatMap(articleService::getArticleByArticleId)
                 .map(ResponseEntity::ok);
     }
+    @PermitAll
     @PatchMapping(value = "/{articleId}")
     public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
         return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));

@@ -4,6 +4,7 @@ export interface Article {
   body: string;
   wordCount: number;
   articleStatus: string;
+  requestCount: number;
   tags: string;
   timePosted: string;
 }

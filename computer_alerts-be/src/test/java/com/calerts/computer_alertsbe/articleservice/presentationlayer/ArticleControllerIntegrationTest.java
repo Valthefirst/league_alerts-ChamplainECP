@@ -1,25 +1,31 @@
 package com.calerts.computer_alertsbe.articleservice.presentationlayer;
 
+import com.calerts.computer_alertsbe.articleservice.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleRepository;
 import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleStatus;
+import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static reactor.core.publisher.Mono.when;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test") // Activates the test profile
@@ -30,6 +36,10 @@ class ArticleControllerIntegrationTest {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+
+    @MockBean
+    private ArticleService articleService;
 
     private final String BASE_URL = "/api/v1/articles";
 
@@ -52,6 +62,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .requestCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -60,6 +71,7 @@ class ArticleControllerIntegrationTest {
                 .title("Article 2")
                 .body("This is the body of article 2")
                 .wordCount(7)
+                .requestCount(0)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
                 .timePosted(LocalDateTime.now())
@@ -72,6 +84,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .requestCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -162,6 +175,47 @@ class ArticleControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void testIncrementRequestCount_ArticleFound() {
+//        // Arrange
+//        String articleId = "ca1d0478-6a9c-421b-b815-84965e3c7b4a";
+//
+//        // Mock the service to simulate successful request count increment
+//        when(articleService.requestCount(articleId)).thenReturn(Mono.empty());
+//
+//        // Act & Assert
+//        webTestClient.patch()
+//                .uri("/articles/{articleId}", articleId) // Call the endpoint
+//                .exchange()
+//                .expectStatus().isNoContent(); // Assert 204 No Content status
+//
+//        // Verify the service method was called
+//        verify(articleService).requestCount(articleId);
+//    }
+//
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void testIncrementRequestCount_ArticleNotFound() {
+//        // Arrange
+//        String articleId = "nonExistentArticleId";
+//
+//        // Mock the service to simulate a NotFoundException
+//        when(articleService.requestCount(articleId))
+//                .thenReturn(Mono.error(new NotFoundException("Article id was not found: " + articleId)));
+//
+//        // Act & Assert
+//        webTestClient.patch()
+//                .uri("/articles/{articleId}", articleId) // Call the endpoint
+//                .exchange()
+//                .expectStatus().isNotFound() // Assert 404 Not Found status
+//                .expectBody()
+//                .jsonPath("$.message").isEqualTo("Article id was not found: " + articleId); // Verify error message
+//
+//        // Verify the service method was called
+//        verify(articleService).requestCount(articleId);
+//    }
 
 
 

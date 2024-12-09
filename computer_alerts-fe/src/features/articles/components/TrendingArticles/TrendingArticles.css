@@ -1,0 +1,88 @@
+.article-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.article-card-content {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    width: 300px;
+    height: 400px; /* Adjust height to accommodate both sections */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.article-card-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.article-image-placeholder {
+    background-color: #f0f0f0; /* Light gray placeholder for image */
+    height: 50%; /* Reserve top half for image */
+    width: 100%;
+    position: relative;
+}
+
+.article-card-content-footer {
+    background-color: #CD5C5C; /* Indian Red color for footer */
+    padding: 8px;
+    border-radius: 0 0 8px 8px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+.title-card {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0 4px;
+    color: #495057; /* Light dark color for title */
+}
+
+.card-body {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #495057; /* Light dark color for body text */
+}
+
+.card-body-content {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+  
+  .not-found-title {
+    font-size: 8rem;
+    font-weight: bold;
+    color: #dc3545; /* Red */
+    margin: 0;
+  }
+  
+  .not-found-message {
+    font-size: 1.5rem;
+    color: #6c757d; /* Gray */
+    margin-top: 1rem;
+  }
+  
