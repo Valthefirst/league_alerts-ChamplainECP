@@ -6,5 +6,5 @@ export enum AppRoutePaths {
   NFL = "/nfl",
   UFC = "/ufc",
   MLB = "/mlb",
-  CREATE_ACCOUNT = "/create-account"
+  CREATE_ACCOUNT = "/create-account",
 }
