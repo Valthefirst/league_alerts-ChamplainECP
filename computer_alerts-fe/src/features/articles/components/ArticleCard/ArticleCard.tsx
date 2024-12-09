@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Article } from "../../models/Article";
 import { fetchArticleByTag } from "../../api/getAllArticleBySports";
-import './ArticleCard.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "./ArticleCard.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-
-// ArticleCard component is still not working. No articles are being fetched.
-
+// Helper function to format date
 const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", {
@@ -18,9 +16,10 @@ const formatDate = (dateString: string) => {
         minute: "2-digit",
     }).format(date);
 };
-const ArticleCard: React.FC = () => {
 
-    const { tagName } = useParams<{ tagName: string }>(); 
+const ArticleCard: React.FC = () => {
+    const { tagName } = useParams<{ tagName: string }>();
+    const navigate = useNavigate();
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -30,12 +29,12 @@ const ArticleCard: React.FC = () => {
             try {
                 if (tagName) {
                     const data = await fetchArticleByTag(tagName);
-                    //console.log("Fetched articles:", data); 
+                    console.log("Fetched Articles:", data); // Debugging output
                     setArticles(data);
                 }
             } catch (err) {
-                setError("Failed to fetch the articles");
-                //console.log("Failed to fetch articles", err);
+                console.error("Error fetching articles:", err);
+                setError("Failed to fetch articles.");
             } finally {
                 setLoading(false);
             }
@@ -44,42 +43,44 @@ const ArticleCard: React.FC = () => {
         loadArticles();
     }, [tagName]);
 
+    const handleArticleClick = (articleId: string | undefined) => {
+        if (articleId) {
+            navigate(`/articles/${articleId}`);
+        } else {
+            console.error("Invalid articleId. Cannot navigate.");
+        }
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
-    return articles.length > 0 ? (
+    return (
         <div className="article-card">
-            {articles.map((articles) => (
-                <div key={articles.id} className="article-card-content">
-                <div className="article-image-placeholder"></div> {/* Empty placeholder for the image */}
-                <div className="article-card-content-footer">
-                    <h3 className="title-card">{articles.title}</h3>
-                    <p className="card-body">
-                        <strong className="card-body-content">Tags:</strong>
-                        {articles.tags}
-                    </p>
-                    <p className="card-body">
-                        <strong className="card-body-content">Date Posted:</strong>
-                        {formatDate(articles.timePosted)}
-                    </p>
-                </div>
-            </div>
-            ))}
+            {articles.length > 0 ? (
+                articles.map((article) => (
+                    <div
+                        key={article.articleId}
+                        className="article-card-content"
+                        onClick={() => handleArticleClick(article.articleId)}
+                        style={{ cursor: article.articleId ? "pointer" : "not-allowed" }}
+                    >
+                        <div className="article-image-placeholder"></div>
+                        <div className="article-card-content-footer">
+                            <h3 className="title-card">{article.title}</h3>
+                            <p className="card-body">
+                                <strong>Tags:</strong> {article.tags}
+                            </p>
+                            <p className="card-body">
+                                <strong>Posted:</strong> {formatDate(article.timePosted)}
+                            </p>
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <p>No articles found.</p>
+            )}
         </div>
-    ) : (
-        
-            
-        <p>No articles found</p>
-         
-       
-       
     );
-  
-}
+};
 
 export default ArticleCard;
-
-   
-
-
-   
