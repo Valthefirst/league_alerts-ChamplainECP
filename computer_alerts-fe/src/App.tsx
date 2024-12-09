@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AppNavBar from './layouts/AppNavBar';
 import HomePage from './pages/Home/HomePage';
 import ArticleDetails from 'features/articles/components/ArticleDetails/ArticleDetails';
+import AuthorsPage from 'pages/AuthorsPage';
 import AuthorPage from 'pages/AuthorPage';
 import ArticlesPage from "./pages/ArticlePages/ArticlePage";
 
@@ -16,7 +17,8 @@ function App(): JSX.Element {
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
           <Route path="/articles/:id" element={<ArticleDetails />} />
-          <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+          <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
+          <Route path="/authors/:authorId" element={<AuthorPage />} />
           <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
         </Routes>
       </Router>
