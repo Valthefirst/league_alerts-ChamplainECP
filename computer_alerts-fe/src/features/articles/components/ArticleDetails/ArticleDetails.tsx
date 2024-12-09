@@ -72,8 +72,6 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
-      <h1>This is the article ID: {article.articleId || "No ID available"}</h1>
-
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>
 
