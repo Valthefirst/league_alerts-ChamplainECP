@@ -25,4 +25,5 @@ public class ArticleResponseModel {
 
     private String tags;
     private LocalDateTime timePosted;
+    private Integer requestCount;
 }

@@ -35,6 +35,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier("e09e8812-32fb-434d-908f-40d5e3b137ca"))
                 .title(nbaContent1.getTitle())
                 .body(nbaContent1.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(nbaContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
@@ -54,6 +55,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nbaContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -71,6 +73,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nhlContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -87,6 +90,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nhlContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -104,6 +108,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -120,6 +125,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -136,6 +142,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(ufcContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -149,6 +156,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier())
                 .title(ufcContent2.getTitle())
                 .body(ufcContent2.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(ufcContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
@@ -167,6 +175,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .body(mlbContent1.getBody())
                 .wordCount(Content.calculateWordCount(mlbContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
+                .requestCount(0)
                 .tags("MLB")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
@@ -181,6 +190,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier())
                 .title(mlbContent2.getTitle())
                 .body(mlbContent2.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(mlbContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("MLB")

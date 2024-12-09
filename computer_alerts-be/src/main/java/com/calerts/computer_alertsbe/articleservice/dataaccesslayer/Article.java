@@ -36,4 +36,6 @@ public class Article {
     private String tags;
     private LocalDateTime timePosted;
 
+    private Integer requestCount;
+
 }
