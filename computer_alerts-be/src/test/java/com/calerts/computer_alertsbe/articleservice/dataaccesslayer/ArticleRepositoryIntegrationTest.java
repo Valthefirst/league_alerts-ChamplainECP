@@ -76,20 +76,20 @@ class ArticleRepositoryIntegrationTest {
         assertEquals(articleId, actualArticle.getArticleIdentifier().getArticleId(), "Article ID should match");
     }
 
-//    @Test
-//    public void whenArticleTagIsValid_thenReturnAllArticles() {
-//        // Arrange
-//        var savedArticles = articleRepository.findAll().collectList().block();
-//        assertNotNull(savedArticles, "Saved articles should not be null");
-//
-//        var tag = savedArticles.get(0).getTags();
-//
-//        // Act
-//        var actualArticles = articleRepository.findAllArticleByTags(tag).collectList().block();
-//
-//        // Assert
-//        assertNotNull(actualArticles, "Retrieved articles should not be null");
-//        assertTrue(actualArticles.size() > 0, "Retrieved articles should not be empty");
-//        actualArticles.forEach(article -> assertEquals(tag, article.getTags(), "Article tag should match"));
-//     }
+    @Test
+    public void whenArticleTagIsValid_thenReturnAllArticles() {
+        // Arrange
+        var savedArticles = articleRepository.findAll().collectList().block();
+        assertNotNull(savedArticles, "Saved articles should not be null");
+
+        var tag = savedArticles.get(0).getTags();
+
+        // Act
+        var actualArticles = articleRepository.findAllArticleByTags(tag).collectList().block();
+
+        // Assert
+        assertNotNull(actualArticles, "Retrieved articles should not be null");
+        assertTrue(actualArticles.size() > 0, "Retrieved articles should not be empty");
+        actualArticles.forEach(article -> assertEquals(tag, article.getTags(), "Article tag should match"));
+     }
 }
