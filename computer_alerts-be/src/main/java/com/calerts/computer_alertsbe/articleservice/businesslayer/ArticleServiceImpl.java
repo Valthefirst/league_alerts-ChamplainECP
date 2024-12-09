@@ -7,6 +7,7 @@ import com.calerts.computer_alertsbe.articleservice.presentationlayer.ArticleRes
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,5 +30,26 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .map(EntityModelUtil::toArticleResponseModel);
+    }
+    @Override
+    public Mono<Void> requestCount(String articleId) {
+        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("article id was not found: " + articleId))))
+                .flatMap(article -> {
+                    Integer currentCount = article.getRequestCount() != null ? article.getRequestCount() : 0;
+                    article.setRequestCount(currentCount + 1);
+                    return articleRepository.save(article).then(); // Save and complete
+                });
+    }
+
+
+    @Scheduled(cron = "0 0 0 */30 * *")  // Runs every 30 days at midnight
+    public Mono<Void> resetRequestCounts() {
+        return articleRepository.findAll()
+                .flatMap(article -> {
+                    article.setRequestCount(0);
+                    return articleRepository.save(article);
+                })
+                .then();
     }
 }

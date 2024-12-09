@@ -9,6 +9,8 @@ public interface ArticleService {
 
     Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName);
     Mono<ArticleResponseModel> getArticleByArticleId(String articleId);
+    Mono<Void> requestCount(String articleId);
+    Mono<Void> resetRequestCounts();
 
 
 
