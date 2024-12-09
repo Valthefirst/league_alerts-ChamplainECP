@@ -1,11 +1,12 @@
-import './App.css';
-import { AppRoutePaths } from './shared/models/path.routes';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AppNavBar from './layouts/AppNavBar';
-import HomePage from './pages/Home/HomePage';
-import ArticleDetails from 'features/articles/components/ArticleDetails/ArticleDetails';
+import "./App.css";
+import { AppRoutePaths } from "./shared/models/path.routes";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppNavBar from "./layouts/AppNavBar";
+import HomePage from "./pages/Home/HomePage";
+import ArticleDetails from "features/articles/components/ArticleDetails/ArticleDetails";
+import CreateUserForm from "./features/readers/components/CreateUser";
+import AuthorPage from "pages/AuthorPage";
 import AuthorsPage from 'pages/AuthorsPage';
-import AuthorPage from 'pages/AuthorPage';
 import ArticlesPage from "./pages/ArticlePages/ArticlePage";
 
 
@@ -16,10 +17,20 @@ function App(): JSX.Element {
         <AppNavBar />
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
+          <Route
+            path={AppRoutePaths.CREATE_ACCOUNT}
+            element={<CreateUserForm />}
+          />
+
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
           <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
+          <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+          <Route
+            path={AppRoutePaths.ArticlesByTag}
+            element={<ArticlesPage />}
+          />
         </Routes>
       </Router>
       {/* <ReaderList/> */}
