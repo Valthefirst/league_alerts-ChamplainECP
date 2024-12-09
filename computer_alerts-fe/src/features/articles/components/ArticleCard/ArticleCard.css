@@ -62,3 +62,27 @@
     font-weight: bold;
     margin-right: 4px;
 }
+
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+  
+  .not-found-title {
+    font-size: 8rem;
+    font-weight: bold;
+    color: #dc3545; /* Red */
+    margin: 0;
+  }
+  
+  .not-found-message {
+    font-size: 1.5rem;
+    color: #6c757d; /* Gray */
+    margin-top: 1rem;
+  }
+  
