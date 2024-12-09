@@ -43,17 +43,17 @@
 }
 
 .separator {
-    border: none; /* Remove default border */
-    border-top: 1px solid #aaa; /* Add a solid line */
-    margin: 20px 0; /* Add spacing above and below the line */
-    width: 100%; /* Make it span the full width */
-    opacity: 0.6; /* Make it slightly transparent */
+    border: none;
+    border-top: 1px solid #aaa;
+    margin: 20px 0;
+    width: 100%;
+    opacity: 0.6;
 }
       
 .author-header {
-    display: flex; /* Arrange name and icon horizontally */
-    align-items: center; /* Vertically align the name and icon */
-    justify-content: space-between; /* Push items apart */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
       
 .author-header i {

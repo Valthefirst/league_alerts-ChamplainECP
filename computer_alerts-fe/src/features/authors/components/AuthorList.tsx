@@ -23,7 +23,7 @@ const AuthorList: React.FC = () => {
         const data: Author[] = await getAllAuthors();
         setAuthors(data);
       } catch (err) {
-        setError('Error fetching data');
+        setError('Error fetching authors');
       } finally {
         setLoading(false);
       }
