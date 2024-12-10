@@ -1,0 +1,47 @@
+@startuml UsecaseReader
+
+left to right direction
+
+actor Reader
+actor Author
+
+package "League Alerts (Readers)" {
+    usecase "READ-1: View all articles by tag (sport)" as UC1
+    usecase "READ-1.1.4: Search" as UC1.5
+    usecase "READ-1.1.1: Save Article" as UC1.4
+    usecase "READ-1.1.3: Comment on Article" as UC1.3
+    usecase "READ-1.1.4: Share on Article" as UC1.6
+
+    usecase "READ-1.1.2: Like Article" as UC1.2
+    usecase "READ-1.1: Read Article" as UC1.1
+    usecase "READ-2: Create Reader account" as UC2
+    usecase "READ-4: View Team" as UC4
+    usecase "READ-4.1: View Team Analytics" as UC4.1
+    usecase "READ-2.1: Modify Reader Account" as UC5
+    usecase "READ-3.2: Receive Notifications" as UC3.2
+    usecase "READ-3.1: Unsubscribe to Notifications" as UC3.1
+    usecase "READ-3: Subscribe to Notifications" as UC3
+}
+Reader <|-l- Author
+Reader -u- UC1
+Reader -- UC2
+Reader -- UC4
+Reader -- UC3
+
+UC1 <.. UC1.1 : <<includes>>
+
+UC1.1 <.. UC1.5 : <<extends>>
+UC1.1 <.. UC1.2 : <<extends>>
+UC1.1 <.. UC1.3 : <<extends>>
+UC1.1 <.. UC1.4 : <<extends>>
+UC1.1 <.. UC1.6 : <<extends>>
+
+UC1.5 ..> UC4 : <<extends>>
+UC2 <.. UC5 : <<extends>>
+UC4 .> UC1 : <<extends>>
+UC4 ..> UC4.1 : <<includes>>
+UC3 <.. UC3.1 : <<extends>>
+UC3 <.. UC3.2 : <<extends>>
+
+
+@enduml
