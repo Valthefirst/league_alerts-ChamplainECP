@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
-import { AuthService } from "../../../AuthService";
+import { AuthService } from "features/auth/Service/AuthService";
 import styles from "../components/CreateUser.module.css";
 // import Footer from "assets/Footer";
 import LeagueImage from "assets/LeagueAlertsImg.jpg";

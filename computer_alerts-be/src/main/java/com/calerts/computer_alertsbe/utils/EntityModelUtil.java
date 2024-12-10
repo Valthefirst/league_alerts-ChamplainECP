@@ -2,12 +2,12 @@ package com.calerts.computer_alertsbe.utils;
 
 
 
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.Article;
-import com.calerts.computer_alertsbe.articleservice.presentationlayer.ArticleResponseModel;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
-import com.calerts.computer_alertsbe.readerservice.dataaccesslayer.Reader;
-import com.calerts.computer_alertsbe.readerservice.presentationlayer.ReaderResponseModel;
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
+import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
 public class EntityModelUtil {

@@ -5,8 +5,8 @@ import AppNavBar from "./layouts/AppNavBar";
 import HomePage from "./pages/Home/HomePage";
 import ArticleDetails from "features/articles/components/ArticleDetails/ArticleDetails";
 import CreateUserForm from "./features/readers/components/CreateUser";
-import AuthorPage from "pages/AuthorPage";
-import AuthorsPage from 'pages/AuthorsPage';
+import AuthorPage from "pages/AuthorPages/AuthorPage";
+import AuthorsPage from 'pages/AuthorPages/AuthorsPage';
 import ArticlesPage from "./pages/ArticlePages/ArticlePage";
 
 
