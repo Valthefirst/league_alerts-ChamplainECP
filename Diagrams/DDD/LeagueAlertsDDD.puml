@@ -1,11 +1,191 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+hide circle
+top to bottom direction
+!define ENTITY(entityName) class entityName << Entity >>
+!define AGGREGATE(aggregateName) class aggregateName << Aggregate >>
+!define AGGREGATE_ROOT(aggregateRootName) class aggregateRootName << Aggregate Root >>
+!define AGGREGATE_ROOT_ENTITY(aggregateRootEntityName) class aggregateRootEntityName << Aggregate Root >> << Entity >>
+!define VALUE_OBJECT(valueObjectName) class valueObjectName << Value Object >>
 
-autonumber
+!pragma useVerticalIf on
+skinparam dpi 350
+skinparam packageStyle rectangle
+skinparam rectangle {
+    BackgroundColor #f7f4eb
+    BorderColor Black
+}
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+Package "Reader Management Subdomain" <<Rectangle>> #aliceblue {
+    
+    ENTITY(Reader) #bisque {
+        + username: Username
+        + emailAddress: string
+        + firstName: string
+        + lastName: string
+        + phoneNumber: PhoneNumber
+        + address: Address
+        + likedArticles: List<ArticleIdentifier>
+        + savedArticles: List<ArticleIdentifier>
+    }
+
+    VALUE_OBJECT(Password) #bisque {
+        - value: string
+        + bool: isValid
+        + hashPassword(): string
+    }
+
+    VALUE_OBJECT(ReaderIdentifier) #bisque {
+        + readerId: UUID
+    }
+
+    VALUE_OBJECT(Username) #bisque {
+        + userName: string
+        + bool: isValid
+    }
+
+    VALUE_OBJECT(ReaderAddress) #bisque {
+        + street: String
+        + city: String
+        + province: String
+        + country: String
+    }
+
+    VALUE_OBJECT(ReaderPhoneNumber) #bisque {
+        + type: String
+        + number: String
+    }
+
+    Reader "1" o--> "1" ReaderAddress
+    Reader "1" o--> "1" ReaderPhoneNumber
+    Reader "1" o--> "1" ReaderIdentifier
+    Reader "1" o--> "1" Username
+}
+
+Package "Authentication Management Subdomain" <<Rectangle>> #aliceblue {
+    ENTITY(ReaderCredentials) #bisque {
+        + username: Username
+        + password: Password
+    }
+
+    ENTITY(AuthorCredentials) #bisque {
+        + username: Username
+        + password: Password
+    }
+
+    Reader "1" o--> "1" ReaderCredentials
+
+}
+
+Package "Author Management Subdomain" <<Rectangle>> #aliceblue {
+
+    ENTITY(Author) #bisque {
+        + username: Username
+        + emailAddress: string
+        + firstName: string
+        + lastName: string
+        + biography: Biography
+        + articles: ArticleList
+    }
+
+    VALUE_OBJECT(Biography) #bisque {
+        + content: string
+        + wordCount: int
+    }
+
+    VALUE_OBJECT(ArticleList) #bisque {
+        + articles: List<ArticleIdentifier>
+    }
+
+    VALUE_OBJECT(AuthorIdentifier) #bisque {
+        + authorId: UUID
+    }
+
+    Author "1" o--> "1" AuthorIdentifier
+    Author "1" o--> "1" Biography
+    Author "1" o--> "1" ArticleList
+}
+
+Package "Article Management Subdomain" <<Rectangle>> #aliceblue {
+
+    note "Invariant: Articles marked as 'ARCHIVED' are hidden from public view." as articleInvariant
+
+    AGGREGATE_ROOT_ENTITY(Article) #bisque {
+        + title: string
+        - status: ArticleStatus
+        + content: Content
+        + tags: string
+        + comments: List<Comment>
+        + likes: int
+        + timePosted: DateTime
+    }
+
+    VALUE_OBJECT(ArticleIdentifier) #bisque {
+        + articleId: UUID
+    }
+
+    VALUE_OBJECT(ArticleStatus) #bisque {
+        + <<enum>>
+        PUBLISHED
+        ARCHIVED
+    }
+
+    VALUE_OBJECT(Comment) #bisque {
+        + content: string
+        + timeStamp: DateTime
+        + author: Reader
+    }
+
+    VALUE_OBJECT(Content) #bisque {
+        + content: string
+        + wordCount: int
+    }
+
+    VALUE_OBJECT(CommentIdentifier) #bisque {
+        + commentId: UUID
+    }
+
+    Reader *-- "0..*" CommentIdentifier
+    Article *-- "0..*" Comment
+    Article "1" o--> "1" ArticleIdentifier
+    Article "1" o--> "1" ArticleStatus
+    Article "1" o--> "1" Content
+    Comment "1" o--> "1" CommentIdentifier
+    Reader "0..*" -- "0..*" ArticleIdentifier : likes
+    Reader "0..*" -- "0..*" ArticleIdentifier : saves
+    Author "1" o--> "1" AuthorCredentials
+}
+
+Package "Sponsor Management Subdomain" <<Rectangle>> #aliceblue {
+
+    ENTITY(Sponsor) #bisque {
+        + sponsorName: string
+        + contactInfo: SponsorContact
+        + websiteURL: string
+        + sponsorshipType: SponsorshipType
+        + sponsorImage: SponsorImage
+    }
+
+    VALUE_OBJECT(SponsorContact) #bisque {
+        + phoneNumber: string
+        + emailAddress: string
+    }
+
+    VALUE_OBJECT(SponsorIdentifier) #bisque {
+        + sponsorId: UUID
+    }
+
+    VALUE_OBJECT(SponsorImage) #bisque {
+        + imageURL: string
+        + description: string
+    }
+
+
+
+    Sponsor "1" o--> "1" SponsorIdentifier
+    Sponsor "0..*" o--> "1" SponsorImage
+    Sponsor "1" o--> "1" SponsorContact
+}
+}
 @enduml
