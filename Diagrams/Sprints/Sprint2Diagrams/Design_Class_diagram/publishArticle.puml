@@ -24,15 +24,20 @@ interface ArticleService {
     + createArticle(articleRequestDTO : ArticleRequestDTO) : ResponseEntity<ArticleResponseDTO>
 }
 
+class Author {
+    - authorId : AuthorIdentifier
+    - firstName : String
+    - lastName : String
+    - email : String
+    - bio : String
+    + getFullName() : String
+}
 
 class ArticleRequestDTO {
     - title : String
     - body : String
     - tags : Tags
     - authorId : AuthorIdentifier
-}
-
-class ArticleDataLoaderService{
 }
 
 class ArticleResponseDTO {
@@ -52,11 +57,16 @@ class ArticleIdentifier {
     - id : String
 }
 
+class AuthorIdentifier {
+    - id : String
+}
+
 ArticleController --> ArticleService : Uses
 ArticleServiceImpl --> ArticleRepository : Uses
 ArticleService --> ArticleRequestDTO : Receives
 ArticleService --> ArticleResponseDTO : Returns
-ArticleDataLoaderService --> Article : Uses
-
+Article --> Author : Associated With
+ArticleRequestDTO --> AuthorIdentifier : References
+ArticleResponseDTO --> AuthorName : Contains
 
 @enduml

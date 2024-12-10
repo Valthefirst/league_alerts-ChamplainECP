@@ -1,0 +1,47 @@
+@startuml
+actor Reader
+participant "ReactApplication" as RA
+participant "LandingPage" as LP
+participant "ArticlePage" as AP
+participant "ArticleController" as Controller
+participant "ArticleService" as Service
+participant "ArticleServiceImpl" as ServiceImpl
+participant "ArticleRepository" as Repo
+participant "ArticleResponseModel" as ResponseModel
+database "Database" as DB
+
+
+
+Reader -> RA: Enters the web application
+activate RA
+RA -> LP: Renders LandingPage
+activate LP
+LP -> AP: Navigates to ArticlePage
+activate AP
+AP -> Controller: GET /api/v1/articles/tag/{tagName}
+activate Controller
+Controller -> Service: getAllArticleForASpecificSport(tagName)
+deactivate Controller
+activate Service
+
+Service -> ServiceImpl: getAllArticleForASpecificSport(tagName)
+activate ServiceImpl
+ServiceImpl -> Service: getAllArticleForASpecificSport(tagName)
+
+Service -> Repo: findArticleByTagName(tagName)
+activate Repo
+Repo -> DB: SELECT * FROM Article WHERE tag = tagName
+activate DB
+DB --> Repo: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
+deactivate DB
+Repo --> ServiceImpl: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
+deactivate Repo
+ServiceImpl --> Service: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
+deactivate ServiceImpl
+Service --> AP: ArticleResponseModel(status, title, body, wordCount, tags, timePosted, viewCount, photo)
+deactivate Service
+AP --> RA: Renders ArticleResponseModel(status, title, body, wordCount, tags, timePosted, viewCount, photo)
+RA --> Reader: Displays the article
+deactivate RA
+
+@enduml
