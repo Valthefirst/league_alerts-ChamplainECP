@@ -142,8 +142,8 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + content: string
             + wordCount: int
             + timestamp: DateTime
-            + article: ArticleIdentifier
-            + reader: ReaderIdentifier
+            + articleId: ArticleIdentifier
+            + readerId: ReaderIdentifier
         }
 
         ENTITY(Like) #bisque {
