@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./ArticleCard.css";
 import { Article } from "../../models/Article";
 import { fetchArticleByTag } from "../../api/getAllArticleBySports";
 import axios from 'axios';
@@ -10,14 +12,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // Helper function to format date
 const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-    }).format(date);
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
 };
 
 const patchArticleTrend = async (articleId: string) => {
@@ -30,30 +32,30 @@ const patchArticleTrend = async (articleId: string) => {
 };
 
 const ArticleCard: React.FC = () => {
-    const { tagName } = useParams<{ tagName: string }>();
-    const navigate = useNavigate();
-    const [articles, setArticles] = useState<Article[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+  const { tagName } = useParams<{ tagName: string }>();
+  const navigate = useNavigate();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const loadArticles = async () => {
-            try {
-                if (tagName) {
-                    const data = await fetchArticleByTag(tagName);
-                    console.log("Fetched Articles:", data); // Debugging output
-                    setArticles(data);
-                }
-            } catch (err) {
-                console.error("Error fetching articles:", err);
-                setError("Failed to fetch articles.");
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        if (tagName) {
+          const data = await fetchArticleByTag(tagName);
+          console.log("Fetched Articles:", data); // Debugging output
+          setArticles(data);
+        }
+      } catch (err) {
+        console.error("Error fetching articles:", err);
+        setError("Failed to fetch articles.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        loadArticles();
-    }, [tagName]);
+    loadArticles();
+  }, [tagName]);
 
     const handleArticleClick = (articleId: string | undefined) => {
         if (articleId) {
@@ -65,13 +67,13 @@ const ArticleCard: React.FC = () => {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
     return (
         <>
           <TrendingArticles tagName={"NBA"} />
-      
+
           <div className="article-card">
             {articles.length > 0 ? (
               articles.map((article) => (

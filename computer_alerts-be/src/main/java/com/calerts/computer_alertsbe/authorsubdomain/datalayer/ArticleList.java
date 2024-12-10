@@ -1,6 +1,6 @@
 package com.calerts.computer_alertsbe.authorsubdomain.datalayer;
 
-import com.calerts.computer_alertsbe.articleservice.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

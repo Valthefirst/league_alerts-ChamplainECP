@@ -1,5 +1,5 @@
 import axios from "axios";
-import authTokenService from "./AuthService";
+import authTokenService from "features/auth/Service/AuthService";
 
 export const testAdminEdpoint = async () => {
   try {
