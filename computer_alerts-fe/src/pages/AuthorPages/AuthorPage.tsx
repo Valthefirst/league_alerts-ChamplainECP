@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import { getAuthorById } from 'features/authors/api/getAuthorById';
 import { fetchArticleByArticleId } from '../../features/articles/api/getSpecificArticle';
 import { Author } from 'features/authors/model/Author';
-import { Article } from 'features/articles/models/Article';
+import { ArticleRequestModel } from 'features/articles/models/ArticleRequestModel';
 import { Button } from 'react-bootstrap';
 
 const AuthorPage: React.FC = () => {
   const { authorId } = useParams<{ authorId: string }>();
   const [author, setAuthor] = useState<Author | null>(null);
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

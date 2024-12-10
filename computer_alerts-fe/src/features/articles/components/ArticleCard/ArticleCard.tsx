@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ArticleCard.css";
-import { Article } from "../../models/Article";
+import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { fetchArticleByTag } from "../../api/getAllArticleBySports";
 import axios from 'axios';
 import TrendingArticles from "../TrendingArticles/TrendingArticles"
@@ -10,7 +10,6 @@ import TrendingArticles from "../TrendingArticles/TrendingArticles"
 import "./ArticleCard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// Helper function to format date
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-US", {
@@ -34,7 +33,7 @@ const patchArticleTrend = async (articleId: string) => {
 const ArticleCard: React.FC = () => {
   const { tagName } = useParams<{ tagName: string }>();
   const navigate = useNavigate();
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -72,8 +71,6 @@ const ArticleCard: React.FC = () => {
 
     return (
         <>
-          <TrendingArticles tagName={"NBA"} />
-
           <div className="article-card">
             {articles.length > 0 ? (
               articles.map((article) => (

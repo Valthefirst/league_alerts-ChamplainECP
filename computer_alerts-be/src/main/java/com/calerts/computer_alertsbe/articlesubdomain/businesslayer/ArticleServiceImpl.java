@@ -19,6 +19,11 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository articleRepository;
 
     @Override
+    public Flux<ArticleResponseModel> getAllArticles() {
+        return articleRepository.findAll().map(EntityModelUtil::toArticleResponseModel);
+    }
+
+    @Override
     public Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName) {
         return articleRepository.findAllArticleByTags(tagName)
                 .map(EntityModelUtil::toArticleResponseModel);

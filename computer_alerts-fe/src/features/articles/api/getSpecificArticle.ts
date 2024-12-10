@@ -1,11 +1,11 @@
 // src/services/articleService.ts
 import axiosInstance from "../models/articlesAxiosInstance";
-import { Article } from "../models/Article";
+import { ArticleRequestModel } from "../models/ArticleRequestModel";
 
-export const fetchArticleByArticleId = async (articleId: string): Promise<Article> => {
+export const fetchArticleByArticleId = async (articleId: string): Promise<ArticleRequestModel> => {
 
   await axiosInstance.patch(`/articles/${articleId}`);
 
-  const response = await axiosInstance.get<Article>(`/articles/${articleId}`);
+  const response = await axiosInstance.get<ArticleRequestModel>(`/articles/${articleId}`);
   return response.data;
 };

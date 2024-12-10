@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchArticleByArticleId } from '../api/getSpecificArticle';
-import { Article } from '../models/Article';
+import { ArticleRequestModel } from '../models/ArticleRequestModel';
 import { Author } from 'features/authors/model/Author';
 import { getAllAuthors } from 'features/authors/api/getAllAuthors';
 
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // The articleId passed via route
-  const [article, setArticle] = useState<Article | null>(null);
+  const [article, setArticle] = useState<ArticleRequestModel | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [author, setAuthor] = useState<Author | null>(null);

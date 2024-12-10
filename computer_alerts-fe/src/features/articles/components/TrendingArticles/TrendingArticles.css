@@ -1,88 +1,82 @@
-.article-card {
+/* TrendingArticles.css */
+.trending-articles .card {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    padding: 20px;
-}
-
-.article-card-content {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
+    flex-direction: column;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 16px;
-    width: 300px;
-    height: 400px; /* Adjust height to accommodate both sections */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-}
-
-.article-card-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.article-image-placeholder {
-    background-color: #f0f0f0; /* Light gray placeholder for image */
-    height: 50%; /* Reserve top half for image */
+    height: 100%;
+  }
+  
+  .trending-articles .card img {
     width: 100%;
-    position: relative;
-}
-
-.article-card-content-footer {
-    background-color: #CD5C5C; /* Indian Red color for footer */
-    padding: 8px;
-    border-radius: 0 0 8px 8px;
-    color: white;
+    height: 75%; 
+    object-fit: cover; 
+  }
+  
+  .trending-articles .card-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: flex-end; 
+    padding: 15px;
+    background-color: #775454; /* Set background color for card body */
+    flex-grow: 1; /* Ensures the body takes the remaining space */
+  }
+  
+  .trending-articles .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff; /* Title text color */
+  }
+  
+  .trending-articles .card-text {
+    font-size: 1rem;
+    color: #fff; /* Text color for details */
+  }
+  
+  
+  .trending-articles .card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trending-articles .col-lg-8, .trending-articles .col-lg-4 {
+    margin-bottom: 20px;
+  }
+  
+  .trending-articles .row {
+    display: flex;
+    flex-wrap: nowrap; /* Ensure the items don't wrap to the next line */
+    gap: 20px; /* Space between the left and right columns */
+}
+
+.trending-articles .col-lg-8 {
+    flex: 0 0 65%; /* 65% width for the bigBoy */
+}
+
+.trending-articles .col-lg-4 {
+    flex: 0 0 35%; /* 35% width for the smallBoys */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between the smaller cards */
+}
+  
+
+  .trending-articles .col-lg-8 .card,
+  .trending-articles .col-lg-4 .card {
     flex-grow: 1;
-}
-
-.title-card {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 8px 0 4px;
-    color: #495057; /* Light dark color for title */
-}
-
-.card-body {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #495057; /* Light dark color for body text */
-}
-
-.card-body-content {
-    font-weight: bold;
-    margin-right: 4px;
-}
-
-.not-found-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-    background-color: #f8f9fa;
   }
-  
-  .not-found-title {
-    font-size: 8rem;
-    font-weight: bold;
-    color: #dc3545; /* Red */
-    margin: 0;
-  }
-  
-  .not-found-message {
-    font-size: 1.5rem;
-    color: #6c757d; /* Gray */
-    margin-top: 1rem;
-  }
+
+.bigBoy {
+    height: 400px;
+}
+
+.smallBoys {
+    height: 400px; /* Match the height of the bigBoy */
+}
+
+.smallBoys .card {
+    flex: 1; /* Ensure equal height for both cards */
+    height: calc(50% - 10px); /* Divide the container height with spacing */
+}
   

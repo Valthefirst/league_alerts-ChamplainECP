@@ -1,5 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
+import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
@@ -22,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static reactor.core.publisher.Mono.when;
@@ -175,46 +178,45 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    void testIncrementRequestCount_ArticleFound() {
-//        // Arrange
-//        String articleId = "ca1d0478-6a9c-421b-b815-84965e3c7b4a";
-//
-//        // Mock the service to simulate successful request count increment
-//        when(articleService.requestCount(articleId)).thenReturn(Mono.empty());
-//
-//        // Act & Assert
-//        webTestClient.patch()
-//                .uri("/articles/{articleId}", articleId) // Call the endpoint
-//                .exchange()
-//                .expectStatus().isNoContent(); // Assert 204 No Content status
-//
-//        // Verify the service method was called
-//        verify(articleService).requestCount(articleId);
-//    }
-//
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    void testIncrementRequestCount_ArticleNotFound() {
-//        // Arrange
-//        String articleId = "nonExistentArticleId";
-//
-//        // Mock the service to simulate a NotFoundException
-//        when(articleService.requestCount(articleId))
-//                .thenReturn(Mono.error(new NotFoundException("Article id was not found: " + articleId)));
-//
-//        // Act & Assert
-//        webTestClient.patch()
-//                .uri("/articles/{articleId}", articleId) // Call the endpoint
-//                .exchange()
-//                .expectStatus().isNotFound() // Assert 404 Not Found status
-//                .expectBody()
-//                .jsonPath("$.message").isEqualTo("Article id was not found: " + articleId); // Verify error message
-//
-//        // Verify the service method was called
-//        verify(articleService).requestCount(articleId);
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    void testIncrementRequestCount_ArticleFound() {
+        // Arrange
+        String articleId = "f53b9392-610a-4223-acdc-81d6d909dd88";
+
+        // Mock the service to simulate successful request count increment
+        when(articleService.requestCount(eq(articleId))).thenReturn(Mono.empty()); // Ensure Mono.empty() is returned
+
+
+        webTestClient.patch()
+                .uri(BASE_URL + "f53b9392-610a-4223-acdc-81d6d909dd88") // Call the endpoint
+                .exchange()
+                .expectStatus().isNoContent(); // Assert 204 No Content status
+
+        verify(articleService, times(1)).requestCount(eq(articleId));
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    void testIncrementRequestCount_ArticleNotFound() {
+        // Arrange
+        String articleId = "nonExistentArticleId";
+
+        // Mock the service to simulate a NotFoundException
+        when(articleService.requestCount(articleId))
+                .thenReturn(Mono.error(new NotFoundException("Article id was not found: " + articleId)));
+
+        // Act & Assert
+        webTestClient.patch()
+                .uri("{articleId}", articleId) // Call the endpoint
+                .exchange()
+                .expectStatus().isNotFound() // Assert 404 Not Found status
+                .expectBody()
+                .jsonPath("$.message").isEqualTo("Article id was not found: " + articleId); // Verify error message
+
+        // Verify the service method was called
+        verify(articleService).requestCount(articleId);
+    }
 
 
 
