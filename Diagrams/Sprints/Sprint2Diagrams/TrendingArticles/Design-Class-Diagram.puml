@@ -1,0 +1,67 @@
+@startuml
+
+class ArticleController {
+    articleService : ArticleService
+    + incrementRequestCount : ResponseEntity<ArticleRequestModel>
+}
+
+class Article {
+    - articleIdentifier : ArticleIdentifier
+    - title : String
+    - body : String
+    - wordCount : String
+    - tags : Tags
+    - requestCount : Integer
+    - timePosted : Date
+    - author : Author
+}
+
+class ArticleServiceImpl {
+    - articleRepository : ArticleRepository
+    + createArticle(articleRequestDTO : ArticleRequestDTO) : ResponseEntity<ArticleResponseDTO>
+    + resetRequestCounts() : Void
+}
+
+interface ArticleService {
+    + createArticle(articleRequestDTO : ArticleRequestDTO) : ResponseEntity<ArticleResponseDTO>
+    + incrementRequestCount(articleRequestDTO : ArticleRequestDTO) : ResponseEntity<ArticleResponseDTO>
+    + resetRequestCount : Void
+}
+
+
+class ArticleRequestDTO {
+    - title : String
+    - body : String
+    - tags : Tags
+    - requestCount : Integer
+    - authorId : AuthorIdentifier
+}
+
+class ArticleResponseDTO {
+    - articleId : ArticleIdentifier
+    - title : String
+    - body : String
+    - wordCount : String
+    - timePosted : Date
+    - requestCount : Integer
+    - authorIdentifier : AuthorIdentifier
+}
+
+class Tags {
+    - tags : List<String>
+}
+
+class ArticleIdentifier {
+    - id : String
+}
+
+ArticleController --> ArticleService : Uses
+ArticleServiceImpl --> ArticleRepository : Uses
+ArticleService --> ArticleRequestDTO : Receives
+ArticleService --> ArticleResponseDTO : Returns
+ArticleIdentifier --> Article : Uses
+ArticleService --> ArticleServiceImpl : Uses
+Article --> Tags : Uses
+
+
+@enduml
