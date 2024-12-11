@@ -5,12 +5,10 @@ package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -41,4 +39,20 @@ public class ArticleController {
                 .flatMap(articleService::getArticleByArticleId)
                 .map(ResponseEntity::ok);
     }
+
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<ArticleResponseModel>> createArticle(@RequestBody ArticleRequestModel articleRequestModel) {
+        return articleService.createArticle(Mono.just(articleRequestModel))
+                .map(articleResponseModel -> ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(articleResponseModel))
+                .onErrorResume(e -> Mono.just(
+                        ResponseEntity
+                                .status(HttpStatus.BAD_REQUEST)
+                                .body(null)));
+    }
+
+
+
 }

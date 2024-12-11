@@ -1,8 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
-
-
-
+import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +32,13 @@ public class Article {
     private ArticleStatus articleStatus;
 
     private String tags;
+
+
+    @Embedded
+    AuthorIdentifier authorIdentifier;
+
+
+    private Tags tagsTag;
     private LocalDateTime timePosted;
 
 }
