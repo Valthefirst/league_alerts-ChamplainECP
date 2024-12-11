@@ -53,6 +53,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -63,6 +64,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -73,6 +75,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -106,6 +109,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .build();
 
