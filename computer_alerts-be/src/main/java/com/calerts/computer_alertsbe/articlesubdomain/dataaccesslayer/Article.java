@@ -50,4 +50,6 @@ public class Article {
         this.likeCount -= 1;
     }
 
+    private Integer requestCount;
+
 }

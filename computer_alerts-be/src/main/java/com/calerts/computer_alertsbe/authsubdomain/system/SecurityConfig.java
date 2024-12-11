@@ -38,6 +38,7 @@ public class SecurityConfig {
                         // Completely public endpoints
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
 
@@ -70,7 +71,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList(frontendDomain));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList(
                 "authorization",
                 "content-type",

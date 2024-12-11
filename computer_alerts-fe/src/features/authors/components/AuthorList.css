@@ -1,65 +1,64 @@
 .author-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-  
+
 .author-list > div {
-    margin-bottom: 20px;
-    padding: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 #btn-1 {
-    background-color: #bcac40;
-    border: none;
-    color: black;
-    padding: 8px 32px;
-    text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    font-weight: bold;
+  background-color: #bcac40;
+  border: none;
+  color: black;
+  padding: 8px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  font-weight: bold;
 }
-  
+
 #btn-2 {
-    background-color: #ec925e;
-    border: none;
-    color: black;
-    padding: 8px 32px;
-    text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    font-weight: bold;
+  background-color: #ec925e;
+  border: none;
+  color: black;
+  padding: 8px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  font-weight: bold;
 }
 
 .bio-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-      
+
 .bio-row p {
-    margin: 0;
+  margin: 0;
 }
 
 .separator {
-    border: none;
-    border-top: 1px solid #aaa;
-    margin: 20px 0;
-    width: 100%;
-    opacity: 0.6;
+  border: none;
+  border-top: 1px solid #aaa;
+  margin: 20px 0;
+  width: 100%;
+  opacity: 0.6;
 }
-      
+
 .author-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-      
+
 .author-header i {
-    margin-left: auto;
-    font-size: 25px;
-    color: #555;
-    cursor: pointer;
+  margin-left: auto;
+  font-size: 25px;
+  color: #555;
+  cursor: pointer;
 }

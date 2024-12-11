@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getAuthorById } from 'features/authors/api/getAuthorById';
-import { Author } from 'features/authors/model/Author';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getAuthorById } from "features/authors/api/getAuthorById";
+import { Author } from "features/authors/model/Author";
 
 const AuthorDetails: React.FC = () => {
   const { authorId } = useParams<{ authorId: string }>();
@@ -16,10 +16,10 @@ const AuthorDetails: React.FC = () => {
           const authorData = await getAuthorById(authorId);
           setAuthor(authorData);
         } else {
-          setError('Author ID is not defined');
+          setError("Author ID is not defined");
         }
       } catch (err) {
-        setError('Failed to fetch author details');
+        setError("Failed to fetch author details");
       } finally {
         setLoading(false);
       }
@@ -35,7 +35,7 @@ const AuthorDetails: React.FC = () => {
     <div>
       {author ? (
         <div>
-          <h1 style={{ textAlign: 'center' }}>
+          <h1 style={{ textAlign: "center" }}>
             {author.firstName} {author.lastName}
           </h1>
           <h3>Author BIO</h3> {author.biography}

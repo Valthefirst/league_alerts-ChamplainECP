@@ -24,8 +24,9 @@ public class EntityModelUtil {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
         BeanUtils.copyProperties(article, articleResponseModel);
         articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
-        articleResponseModel.setArticleStatus(article.getArticleStatus()); // Map the enum directly
         articleResponseModel.setLikeCount(article.getLikeCount());
+        articleResponseModel.setArticleStatus(article.getArticleStatus());
+        articleResponseModel.setRequestCount(article.getRequestCount());
         return articleResponseModel;
     }
 
@@ -44,7 +45,6 @@ public class EntityModelUtil {
         BeanUtils.copyProperties(like, likeResponseModel);
 
 
-        // Map embedded fields explicitly
         likeResponseModel.setLikeId(like.getLikeIdentifier().getLikeId());
         likeResponseModel.setArticleId(like.getArticleIdentifier().getArticleId());
         likeResponseModel.setTimestamp(like.getTimestamp());

@@ -31,4 +31,5 @@ public class ArticleResponseModel {
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
     }
+    private Integer requestCount;
 }

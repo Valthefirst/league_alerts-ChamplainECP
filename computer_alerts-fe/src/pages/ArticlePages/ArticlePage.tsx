@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ArticleCard from "../../features/articles/components/ArticleCard/ArticleCard";
 import { useParams } from "react-router-dom";
-import { Article } from "features/articles/models/Article";
+import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import { fetchArticleByTag } from "features/articles/api/getAllArticleBySports";
 
 export default function NBAArticlesPage(): JSX.Element {
   const { tagName } = useParams<{ tagName: string }>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

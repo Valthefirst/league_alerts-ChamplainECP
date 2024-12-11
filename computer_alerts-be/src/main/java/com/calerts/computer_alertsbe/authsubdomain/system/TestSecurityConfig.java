@@ -18,5 +18,5 @@ public class TestSecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
                 .authorizeExchange(exchange -> exchange.anyExchange().permitAll()) // Allow all requests
                 .build();
-    }
+        }
 }
