@@ -36,6 +36,7 @@ const ArticleDetails: React.FC = () => {
           setArticle(articleData);
           setLikeCount(articleData.likeCount);
 
+<<<<<<< HEAD
           const authorsData = await getAllAuthors();
           const foundAuthor = authorsData.find((author) =>
             author.articles.articleList?.some((a) => a.articleId === id)
@@ -45,6 +46,14 @@ const ArticleDetails: React.FC = () => {
           // Fetch like state for the current user
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
+=======
+            const authorsData: Author[] = await getAllAuthors();
+            const foundAuthor = authorsData.find((author) =>
+              author.articles.articleList?.some((a) => a.articleId === id)
+            );
+            setAuthor(foundAuthor || null);
+          }
+>>>>>>> 56db570 (Modified the UI design after adding photos for articles)
         } else {
           setError("Invalid article ID");
         }
@@ -102,16 +111,17 @@ const ArticleDetails: React.FC = () => {
   return article ? (
     <div className="article-container">
       <div className="article-image">
-        <div className="image-placeholder">
-        {article.photoUrl && (
-                  <img
-                  src={article.photoUrl}
-                  alt={article.title}
-                  className="article-image"
-                  style={{ width: "100%", height: "auto", borderRadius: "8px", marginBottom: "10px" }}
-                />
-                )}
-        </div>
+        {article.photoUrl ? (
+          <img
+            src={article.photoUrl}
+            alt={article.title}
+            className="article-image"
+          />
+        ) : (
+          <div className="image-placeholder">
+            <p>No Image Available</p>
+          </div>
+        )}
       </div>
       <div className="like-section">
         <div
