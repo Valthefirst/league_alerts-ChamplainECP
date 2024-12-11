@@ -24,4 +24,6 @@ public class ArticleRequestModel {
 
     private String tags;
     private LocalDateTime timePosted;
+
+    private String photoUrl;
 }
