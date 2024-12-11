@@ -103,7 +103,14 @@ const ArticleDetails: React.FC = () => {
     <div className="article-container">
       <div className="article-image">
         <div className="image-placeholder">
-          <p>No Image Available</p>
+        {article.photoUrl && (
+                  <img
+                  src={article.photoUrl}
+                  alt={article.title}
+                  className="article-image"
+                  style={{ width: "100%", height: "auto", borderRadius: "8px", marginBottom: "10px" }}
+                />
+                )}
         </div>
       </div>
       <div className="like-section">

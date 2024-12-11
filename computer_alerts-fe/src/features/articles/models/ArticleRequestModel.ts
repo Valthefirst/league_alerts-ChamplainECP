@@ -8,4 +8,5 @@ export interface ArticleRequestModel {
   likeCount: number;
   tags: string;
   timePosted: string;
+  photoUrl: string;
 }

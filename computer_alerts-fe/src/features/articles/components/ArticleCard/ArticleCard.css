@@ -2,25 +2,22 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start; /* Align cards to the left */
   padding: 20px;
+  margin-top: -20px; /* Move the cards slightly upwards */
 }
 
 .article-card-content {
-  background-color: #fff;
-  border: 1px solid #dee2e6;
+  background-color: #cd5c5c; /* Footer color */
   border-radius: 8px;
-  padding: 16px;
-  width: 300px;
-  height: 400px; /* Adjust height to accommodate both sections */
+  padding: 0; /* Remove padding */
+  width: 370px; /* Make the cards smaller */
+  height: 280px; /* Adjust height to fit content */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
   overflow: hidden;
 }
 
@@ -31,38 +28,74 @@
 
 .article-image-placeholder {
   background-color: #f0f0f0; /* Light gray placeholder for image */
-  height: 50%; /* Reserve top half for image */
+  height: 100%; /* Fill the entire card */
   width: 100%;
   position: relative;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 40%, /* Start with transparent */
+    rgba(119, 84, 84, 0.8) 100% /* Transition to footer color */
+  );
+}
+
+.article-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the entire area */
 }
 
 .article-card-content-footer {
-  background-color: #cd5c5c; /* Indian Red color for footer */
-  padding: 8px;
-  border-radius: 0 0 8px 8px;
+  padding: 16px;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex-grow: 1;
+  z-index: 1; /* Ensure footer stays on top of the image */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top, 
+    rgba(119, 84, 84, 1) 5%,  /* Start with fully transparent at the top */
+    rgba(119, 84, 84, 0) 100%  /* End with solid red at the bottom */
+  );
+  border-radius: 0 0 8px 8px;
 }
 
 .title-card {
-  font-size: 18px;
+  font-size: 16px; /* Adjust the font size to fit smaller cards */
   font-weight: bold;
   margin: 8px 0 4px;
-  color: #495057; /* Light dark color for title */
+  color: #fff; /* Light color for the title to stand out on the background */
+  cursor: pointer;
 }
 
 .card-body {
   margin: 4px 0;
   font-size: 14px;
-  color: #495057; /* Light dark color for body text */
+  color: #fff; /* Light color for body text */
 }
 
-.card-body-content {
-  font-weight: bold;
-  margin-right: 4px;
+.like-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.like-count {
+  font-size: 14px;
+  color: #fff;
+}
+
+.heart-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
 }
 
 .not-found-container {
