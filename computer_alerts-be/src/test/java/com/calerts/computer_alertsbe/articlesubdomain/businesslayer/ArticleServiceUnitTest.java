@@ -184,27 +184,56 @@ class ArticleServiceUnitTest {
         ));
     }
 
-//    @Test
-//    void testRequestCount_ArticleNotFound() {
-//        // Arrange
-//        String articleId = "nonExistentArticleId";
-//
-//        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
-//                .thenReturn(Mono.empty());
-//
-//        // Act
-//        Mono<Void> result = articleService.requestCount(articleId);
-//
-//        // Assert
-//        StepVerifier.create(result)
-//                .expectErrorSatisfies(error -> {
-//                    assert error instanceof NotFoundException; // Replace with your exception type
-//                    assert error.getMessage().equals("Article id was not found: " + articleId);
-//                })
-//                .verify();
-//
-//        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
-//        verify(articleRepository, never()).save(any(Article.class)); // Ensure save is never called
-//    }
+    @Test
+    void testRequestCount_WhenArticleHasNoRequestCount() {
+        // Arrange
+        String articleId = "testArticleId";
+        Article article = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .requestCount(null) // No initial request count
+                .build();
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.just(article));
+        when(articleRepository.save(any(Article.class)))
+                .thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+
+        // Act
+        Mono<Void> result = articleService.requestCount(articleId);
+
+        // Assert
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
+        verify(articleRepository).save(argThat(savedArticle ->
+                savedArticle.getArticleIdentifier().getArticleId().equals(articleId) &&
+                        savedArticle.getRequestCount() == 1 // Ensures count is initialized to 0 and incremented
+        ));
+    }
+
+    @Test
+    void testRequestCount_WhenArticleNotFound() {
+        // Arrange
+        String articleId = "nonExistentArticleId";
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = articleService.requestCount(articleId);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectErrorMatches(throwable ->
+                        throwable instanceof NotFoundException &&
+                                throwable.getMessage().contains("article id was not found: " + articleId)
+                )
+                .verify();
+
+        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
+        verify(articleRepository, never()).save(any());
+    }
+
 
 }

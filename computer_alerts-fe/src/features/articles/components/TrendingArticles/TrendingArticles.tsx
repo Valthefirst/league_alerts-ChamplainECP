@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllsArticles } from "../../api/getAllArticles"; // Updated API import
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
+import {useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./TrendingArticles.css";
 
 const TrendingArticles: React.FC = () => {
   const [trendingArticles, setTrendingArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,6 +27,26 @@ const TrendingArticles: React.FC = () => {
 
     fetchTrendingArticles();
   }, []); // Fetch articles on mount
+
+  const patchArticleTrend = async (articleId: string) => {
+    try {
+        await axios.patch(`/articles/${articleId}`);
+        console.log("Article trend updated successfully.");
+    } catch (err) {
+        console.error("Error updating article trend:", err);
+    }
+};
+
+  const handleArticleClick = (articleId: string | undefined) => {
+    if (articleId) {
+        navigate(`/articles/${articleId}`);
+        patchArticleTrend(articleId)
+
+    } else {
+        console.error("Invalid articleId. Cannot navigate.");
+    }
+};
+
 
   if (loading) return <p>Loading trending articles...</p>;
   if (error) return <p>{error}</p>;
@@ -46,7 +69,7 @@ const TrendingArticles: React.FC = () => {
                     alt="Article Image"
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{trendingArticles[0].title}</h5>
+                    <h5 className="card-title" onClick={() => handleArticleClick(trendingArticles[0].articleId)}>{trendingArticles[0].title}</h5>
                     <p className="card-text">Request Count: {trendingArticles[0].requestCount}</p>
                   </div>
                 </div>
@@ -63,7 +86,7 @@ const TrendingArticles: React.FC = () => {
                     alt="Article Image"
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{article.title}</h5>
+                    <h5 className="card-title" onClick={() => handleArticleClick(article.articleId)}>{article.title}</h5>
                     <p className="card-text">Request Count: {article.requestCount}</p>
                   </div>
                 </div>
