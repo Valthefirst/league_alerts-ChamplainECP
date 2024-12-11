@@ -1,4 +1,4 @@
-/* TrendingArticles.css */
+
 .trending-articles .card {
     display: flex;
     flex-direction: column;
@@ -19,20 +19,20 @@
     flex-direction: column;
     justify-content: flex-end; 
     padding: 15px;
-    background-color: #775454; /* Set background color for card body */
-    flex-grow: 1; /* Ensures the body takes the remaining space */
+    background-color: #775454; 
+    flex-grow: 1; 
   }
   
   .trending-articles .card-title {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #fff; /* Title text color */
+    color: #fff;
   }
   
   .trending-articles .card-text {
     font-size: 1rem;
-    color: #fff; /* Text color for details */
+    color: #fff; 
   }
   
   
@@ -46,19 +46,19 @@
   
   .trending-articles .row {
     display: flex;
-    flex-wrap: nowrap; /* Ensure the items don't wrap to the next line */
-    gap: 20px; /* Space between the left and right columns */
+    flex-wrap: nowrap; 
+    gap: 20px; 
 }
 
 .trending-articles .col-lg-8 {
-    flex: 0 0 65%; /* 65% width for the bigBoy */
+    flex: 0 0 65%; 
 }
 
 .trending-articles .col-lg-4 {
-    flex: 0 0 35%; /* 35% width for the smallBoys */
+    flex: 0 0 35%; 
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Space between the smaller cards */
+    gap: 20px; 
 }
   
 
@@ -72,11 +72,11 @@
 }
 
 .smallBoys {
-    height: 400px; /* Match the height of the bigBoy */
+    height: 400px; 
 }
 
 .smallBoys .card {
-    flex: 1; /* Ensure equal height for both cards */
-    height: calc(50% - 10px); /* Divide the container height with spacing */
+    flex: 1; 
+    height: calc(50% - 10px); 
 }
   
