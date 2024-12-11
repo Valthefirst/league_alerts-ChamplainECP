@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getAuthorById } from 'features/authors/api/getAuthorById';
-import { fetchArticleByArticleId } from '../../features/articles/api/getSpecificArticle';
-import { Author } from 'features/authors/model/Author';
-import { Article } from 'features/articles/models/Article';
-import { Button } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getAuthorById } from "features/authors/api/getAuthorById";
+import { fetchArticleByArticleId } from "../../features/articles/api/getSpecificArticle";
+import { Author } from "features/authors/model/Author";
+import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
+import { Button } from "react-bootstrap";
 
 const AuthorPage: React.FC = () => {
   const { authorId } = useParams<{ authorId: string }>();
   const [author, setAuthor] = useState<Author | null>(null);
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ const AuthorPage: React.FC = () => {
     const fetchAuthorAndArticles = async () => {
       try {
         if (!authorId) {
-          setError('Author ID is not defined');
+          setError("Author ID is not defined");
           setLoading(false);
           return;
         }
@@ -29,7 +29,7 @@ const AuthorPage: React.FC = () => {
         if (authorData.articles?.articleList) {
           // Fetch each article individually
           const articleFetchPromises = authorData.articles.articleList.map(
-            articleRef => fetchArticleByArticleId(articleRef.articleId)
+            (articleRef) => fetchArticleByArticleId(articleRef.articleId),
           );
 
           const articlesData = await Promise.all(articleFetchPromises);
@@ -38,7 +38,7 @@ const AuthorPage: React.FC = () => {
           setArticles([]);
         }
       } catch (err) {
-        setError('Failed to fetch author details or articles');
+        setError("Failed to fetch author details or articles");
       } finally {
         setLoading(false);
       }

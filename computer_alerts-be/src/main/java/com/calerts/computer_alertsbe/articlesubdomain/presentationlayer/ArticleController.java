@@ -3,14 +3,13 @@ package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
 
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,6 +24,13 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<ArticleResponseModel> getAllArticles() {
+        return articleService.getAllArticles();
+
+    }
+
     //Get all articles for specific sport
     @GetMapping("/tag/{tagName}")
     public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
@@ -32,7 +38,7 @@ public class ArticleController {
 
 
     }
-    //Get article by article id
+
     @GetMapping(value = "/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> getArticleByArticleId(@PathVariable String articleId) {
         return Mono.just(articleId)
@@ -40,5 +46,10 @@ public class ArticleController {
                 .switchIfEmpty(Mono.error(new InvalidInputException("Provided article id is invalid: " + articleId)))
                 .flatMap(articleService::getArticleByArticleId)
                 .map(ResponseEntity::ok);
+    }
+    @PermitAll
+    @PatchMapping(value = "/{articleId}")
+    public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
+        return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 }

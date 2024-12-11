@@ -22,7 +22,8 @@ public class EntityModelUtil {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
         BeanUtils.copyProperties(article, articleResponseModel);
         articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
-        articleResponseModel.setArticleStatus(article.getArticleStatus()); // Map the enum directly
+        articleResponseModel.setArticleStatus(article.getArticleStatus());
+        articleResponseModel.setRequestCount(article.getRequestCount());
         return articleResponseModel;
     }
 

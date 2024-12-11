@@ -1,0 +1,84 @@
+.trending-articles .card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.trending-articles {
+  margin-top: 25px;
+}
+
+.trending-articles .card img {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+}
+
+.trending-articles .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px;
+  background-color: #775454;
+  flex-grow: 1;
+}
+
+.trending-articles .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.trending-articles .card-text {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.trending-articles .card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.trending-articles .col-lg-8,
+.trending-articles .col-lg-4 {
+  margin-bottom: 20px;
+}
+
+.trending-articles .row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.trending-articles .col-lg-8 {
+  flex: 0 0 65%;
+}
+
+.trending-articles .col-lg-4 {
+  flex: 0 0 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.trending-articles .col-lg-8 .card,
+.trending-articles .col-lg-4 .card {
+  flex-grow: 1;
+}
+
+.bigBoy {
+  height: 400px;
+  width: 500px;
+}
+
+.smallBoys {
+  height: 400px;
+}
+
+.smallBoys .card {
+  flex: 1;
+  height: calc(50% - 10px);
+}

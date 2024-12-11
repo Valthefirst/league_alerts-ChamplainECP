@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ArticleCard.css";
-import { Article } from "../../models/Article";
+import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { fetchArticleByTag } from "../../api/getAllArticleBySports";
+import axios from "axios";
+import "./ArticleCard.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-// Helper function to format date
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-US", {
@@ -17,10 +19,19 @@ const formatDate = (dateString: string) => {
   }).format(date);
 };
 
+const patchArticleTrend = async (articleId: string) => {
+  try {
+    await axios.patch(`/articles/${articleId}`);
+    console.log("Article trend updated successfully.");
+  } catch (err) {
+    console.error("Error updating article trend:", err);
+  }
+};
+
 const ArticleCard: React.FC = () => {
   const { tagName } = useParams<{ tagName: string }>();
   const navigate = useNavigate();
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,6 +57,7 @@ const ArticleCard: React.FC = () => {
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
       navigate(`/articles/${articleId}`);
+      patchArticleTrend(articleId);
     } else {
       console.error("Invalid articleId. Cannot navigate.");
     }
@@ -55,31 +67,33 @@ const ArticleCard: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="article-card">
-      {articles.length > 0 ? (
-        articles.map((article) => (
-          <div
-            key={article.articleId}
-            className="article-card-content"
-            onClick={() => handleArticleClick(article.articleId)}
-            style={{ cursor: article.articleId ? "pointer" : "not-allowed" }}
-          >
-            <div className="article-image-placeholder"></div>
-            <div className="article-card-content-footer">
-              <h3 className="title-card">{article.title}</h3>
-              <p className="card-body">
-                <strong>Tags:</strong> {article.tags}
-              </p>
-              <p className="card-body">
-                <strong>Posted:</strong> {formatDate(article.timePosted)}
-              </p>
+    <>
+      <div className="article-card">
+        {articles.length > 0 ? (
+          articles.map((article) => (
+            <div
+              key={article.articleId}
+              className="article-card-content"
+              onClick={() => handleArticleClick(article.articleId)}
+              style={{ cursor: article.articleId ? "pointer" : "not-allowed" }}
+            >
+              <div className="article-image-placeholder"></div>
+              <div className="article-card-content-footer">
+                <h3 className="title-card">{article.title}</h3>
+                <p className="card-body">
+                  <strong>Tags:</strong> {article.tags}
+                </p>
+                <p className="card-body">
+                  <strong>Posted:</strong> {formatDate(article.timePosted)}
+                </p>
+              </div>
             </div>
-          </div>
-        ))
-      ) : (
-        <p>No articles found.</p>
-      )}
-    </div>
+          ))
+        ) : (
+          <p>No articles found.</p>
+        )}
+      </div>
+    </>
   );
 };
 
