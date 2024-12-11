@@ -34,7 +34,7 @@ const ArticleDetails: React.FC = () => {
 
             const authorsData: Author[] = await getAllAuthors();
             const foundAuthor = authorsData.find((author) =>
-              author.articles.articleList?.some((a) => a.articleId === id)
+              author.articles.articleList?.some((a) => a.articleId === id),
             );
             setAuthor(foundAuthor || null);
           }
@@ -80,11 +80,11 @@ const ArticleDetails: React.FC = () => {
         //   <strong>Author:</strong> {author.firstName} {author.lastName}
         // </p>
         <p className="article-author">
-        <strong>Author:</strong>{' '}
-        <Link to={`/authors/${author.authorId}`}>
-          {author.firstName} {author.lastName}
-        </Link>
-      </p>
+          <strong>Author:</strong>{" "}
+          <Link to={`/authors/${author.authorId}`}>
+            {author.firstName} {author.lastName}
+          </Link>
+        </p>
       )}
 
       <hr className="divider" />

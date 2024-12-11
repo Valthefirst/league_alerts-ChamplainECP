@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllsArticles } from "../../api/getAllArticles"; // Updated API import
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
-import {useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./TrendingArticles.css";
 
 const TrendingArticles: React.FC = () => {
-  const [trendingArticles, setTrendingArticles] = useState<ArticleRequestModel[]>([]);
+  const [trendingArticles, setTrendingArticles] = useState<
+    ArticleRequestModel[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -14,9 +16,11 @@ const TrendingArticles: React.FC = () => {
   useEffect(() => {
     const fetchTrendingArticles = async () => {
       try {
-        const data = await fetchAllsArticles(); 
-        const sortedArticles = data.sort((a, b) => b.requestCount - a.requestCount); 
-        setTrendingArticles(sortedArticles.slice(0, 3)); 
+        const data = await fetchAllsArticles();
+        const sortedArticles = data.sort(
+          (a, b) => b.requestCount - a.requestCount,
+        );
+        setTrendingArticles(sortedArticles.slice(0, 3));
       } catch (err) {
         console.error("Error fetching trending articles:", err);
         setError("Failed to fetch trending articles.");
@@ -30,23 +34,21 @@ const TrendingArticles: React.FC = () => {
 
   const patchArticleTrend = async (articleId: string) => {
     try {
-        await axios.patch(`/articles/${articleId}`);
-        console.log("Article trend updated successfully.");
+      await axios.patch(`/articles/${articleId}`);
+      console.log("Article trend updated successfully.");
     } catch (err) {
-        console.error("Error updating article trend:", err);
+      console.error("Error updating article trend:", err);
     }
-};
+  };
 
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
-        navigate(`/articles/${articleId}`);
-        patchArticleTrend(articleId)
-
+      navigate(`/articles/${articleId}`);
+      patchArticleTrend(articleId);
     } else {
-        console.error("Invalid articleId. Cannot navigate.");
+      console.error("Invalid articleId. Cannot navigate.");
     }
-};
-
+  };
 
   if (loading) return <p>Loading trending articles...</p>;
   if (error) return <p>{error}</p>;
@@ -65,10 +67,17 @@ const TrendingArticles: React.FC = () => {
                   <img
                     src="https://www.mozaics.com/wp-content/uploads/2021/09/SQUARE-GREY-GLOSSY-FLAT-en-o2SweAjKc1RFyXJY.jpg"
                     className="card-img-top"
-                    alt="Article Image"
+                    alt={trendingArticles[0]?.title || "Big article image"}
                   />
                   <div className="card-body">
-                    <h5 className="card-title" onClick={() => handleArticleClick(trendingArticles[0].articleId)}>{trendingArticles[0].title}</h5>
+                    <h5
+                      className="card-title"
+                      onClick={() =>
+                        handleArticleClick(trendingArticles[0].articleId)
+                      }
+                    >
+                      {trendingArticles[0].title}
+                    </h5>
                   </div>
                 </div>
               )}
@@ -81,10 +90,15 @@ const TrendingArticles: React.FC = () => {
                   <img
                     src="https://www.mozaics.com/wp-content/uploads/2021/09/SQUARE-GREY-GLOSSY-FLAT-en-o2SweAjKc1RFyXJY.jpg"
                     className="card-img-top"
-                    alt="Article Image"
+                    alt={article.title || "Trending article image"}
                   />
                   <div className="card-body">
-                    <h5 className="card-title" onClick={() => handleArticleClick(article.articleId)}>{article.title}</h5>
+                    <h5
+                      className="card-title"
+                      onClick={() => handleArticleClick(article.articleId)}
+                    >
+                      {article.title}
+                    </h5>
                   </div>
                 </div>
               ))}
