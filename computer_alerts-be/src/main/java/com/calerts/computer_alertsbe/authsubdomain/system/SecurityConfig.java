@@ -47,7 +47,9 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().authenticated()

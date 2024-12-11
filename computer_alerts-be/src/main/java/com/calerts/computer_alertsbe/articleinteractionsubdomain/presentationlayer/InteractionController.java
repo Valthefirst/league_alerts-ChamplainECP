@@ -4,6 +4,7 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.L
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -21,9 +22,7 @@ public class InteractionController {
         this.likeService = likeService;
     }
 
-    /**
-     * Endpoint to like an article
-     */
+
     @PostMapping("/like")
     public Mono<ResponseEntity<LikeResponseModel>> likeArticle(
             @RequestParam String articleId,
@@ -31,13 +30,11 @@ public class InteractionController {
 
         ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
         return likeService.likeArticle(articleIdentifier, readerId)
-                .map(EntityModelUtil::toLikeResponseModel) // Map to LikeResponseModel
-                .map(ResponseEntity::ok);
+                .map(EntityModelUtil::toLikeResponseModel)
+                .map(responseModel -> ResponseEntity.status(HttpStatus.CREATED).body(responseModel));
     }
 
-    /**
-     * Get likes for a specific article
-     */
+
     @GetMapping("/likes/article/{articleId}")
     public Mono<ResponseEntity<List<LikeResponseModel>>> getLikesByArticle(@PathVariable String articleId) {
         ArticleIdentifier identifier = new ArticleIdentifier(articleId);
@@ -47,26 +44,33 @@ public class InteractionController {
                 .map(ResponseEntity::ok);
     }
 
-    /**
-     * Get likes by reader
-     */
     @GetMapping("/likes/reader/{readerId}")
     public Mono<ResponseEntity<List<LikeResponseModel>>> getLikesByReader(@PathVariable String readerId) {
         return likeService.getLikesByReader(readerId)
                 .map(EntityModelUtil::toLikeResponseModel)
-                .collectList() // Collect the Flux into a List
+                .collectList()
                 .map(likes -> {
                     if (likes.isEmpty()) {
-                        return ResponseEntity.noContent().build(); // Return 204 No Content for an empty list
+                        return ResponseEntity.noContent().build();
                     }
-                    return ResponseEntity.ok(likes); // Return 200 OK with the list
+                    return ResponseEntity.ok(likes);
                 });
     }
 
     @GetMapping("/likes/{likeId}")
     public Mono<ResponseEntity<LikeResponseModel>> getLikeByIdentifier(@PathVariable String likeId) {
         return likeService.getLikeByIdentifier(likeId)
-                .map(EntityModelUtil::toLikeResponseModel) // Map to LikeResponseModel
+                .map(EntityModelUtil::toLikeResponseModel)
                 .map(ResponseEntity::ok);
+    }
+
+    @DeleteMapping("/unlike")
+    public Mono<ResponseEntity<Void>> unlikeArticle(
+            @RequestParam String articleId,
+            @RequestParam String readerId) {
+
+        ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
+        return likeService.unlikeArticle(articleIdentifier, readerId)
+                .then(Mono.just(ResponseEntity.noContent().build())); // Return 204 No Content on success
     }
 }

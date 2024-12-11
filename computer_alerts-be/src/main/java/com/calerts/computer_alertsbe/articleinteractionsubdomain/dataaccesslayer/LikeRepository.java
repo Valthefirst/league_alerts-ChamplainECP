@@ -11,6 +11,8 @@ public interface LikeRepository extends ReactiveMongoRepository<Like, String> {
 
     Flux<Like> findByReaderId(String readerId);
 
+    Mono<Like> findByArticleIdentifierAndReaderId(ArticleIdentifier articleIdentifier, String readerId);
+
     Mono<Like> findByLikeIdentifier_LikeId(String likeId);
 }
 

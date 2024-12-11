@@ -16,8 +16,7 @@ public class LikeResponseModel {
     private String readerId;
     private LocalDateTime timestamp;
 
-    public void setLike(String likeId) {
-        this.likeId = likeId;
-    }
+
+
 }
 

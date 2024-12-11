@@ -46,4 +46,8 @@ public class Article {
         this.likeCount += 1;
     }
 
+    public void decrementLikeCount() {
+        this.likeCount -= 1;
+    }
+
 }

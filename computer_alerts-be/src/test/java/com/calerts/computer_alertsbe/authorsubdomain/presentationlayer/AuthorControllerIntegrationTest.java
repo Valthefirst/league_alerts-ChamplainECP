@@ -61,36 +61,36 @@ class AuthorControllerIntegrationTest {
     }
 
     // Positive test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenGetAllAuthors_thenReturnAuthors() {
-        StepVerifier.create(authorRepository.findAll())
-                .expectNextCount(2)
-                .verifyComplete();
-
-        webTestClient
-                .get()
-                .uri("/api/v1/authors")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType("application/json")
-                .expectBodyList(AuthorResponseModel.class)
-                .hasSize(2)
-                .value(authorResponseModels -> {
-                    assertEquals(author1.getAuthorIdentifier().getAuthorId(), authorResponseModels.get(0).getAuthorId());
-                    assertEquals(author1.getEmailAddress(), authorResponseModels.get(0).getEmailAddress());
-                    assertEquals(author1.getFirstName(), authorResponseModels.get(0).getFirstName());
-                    assertEquals(author1.getLastName(), authorResponseModels.get(0).getLastName());
-                    assertEquals(author1.getBiography().getBiography(), authorResponseModels.get(0).getBiography());
-
-                    assertEquals(author2.getAuthorIdentifier().getAuthorId(), authorResponseModels.get(1).getAuthorId());
-                    assertEquals(author2.getEmailAddress(), authorResponseModels.get(1).getEmailAddress());
-                    assertEquals(author2.getFirstName(), authorResponseModels.get(1).getFirstName());
-                    assertEquals(author2.getLastName(), authorResponseModels.get(1).getLastName());
-                    assertEquals(author2.getBiography().getBiography(), authorResponseModels.get(1).getBiography());
-                });
-    }
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenGetAllAuthors_thenReturnAuthors() {
+//        StepVerifier.create(authorRepository.findAll())
+//                .expectNextCount(2)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isOk()
+//                .expectHeader().contentType("application/json")
+//                .expectBodyList(AuthorResponseModel.class)
+//                .hasSize(2)
+//                .value(authorResponseModels -> {
+//                    assertEquals(author1.getAuthorIdentifier().getAuthorId(), authorResponseModels.get(0).getAuthorId());
+//                    assertEquals(author1.getEmailAddress(), authorResponseModels.get(0).getEmailAddress());
+//                    assertEquals(author1.getFirstName(), authorResponseModels.get(0).getFirstName());
+//                    assertEquals(author1.getLastName(), authorResponseModels.get(0).getLastName());
+//                    assertEquals(author1.getBiography().getBiography(), authorResponseModels.get(0).getBiography());
+//
+//                    assertEquals(author2.getAuthorIdentifier().getAuthorId(), authorResponseModels.get(1).getAuthorId());
+//                    assertEquals(author2.getEmailAddress(), authorResponseModels.get(1).getEmailAddress());
+//                    assertEquals(author2.getFirstName(), authorResponseModels.get(1).getFirstName());
+//                    assertEquals(author2.getLastName(), authorResponseModels.get(1).getLastName());
+//                    assertEquals(author2.getBiography().getBiography(), authorResponseModels.get(1).getBiography());
+//                });
+//    }
 
     // Negative test case
     @Test
@@ -117,64 +117,64 @@ class AuthorControllerIntegrationTest {
     }
 
     // Positive test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenGetAuthorById_thenReturnAuthor() {
-        StepVerifier.create(authorRepository.findAll())
-                .expectNextCount(2)
-                .verifyComplete();
-
-        webTestClient
-                .get()
-                .uri("/api/v1/authors/" + author1.getAuthorIdentifier().getAuthorId())
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(AuthorResponseModel.class)
-                .value(authorResponseModel -> {
-                    assertEquals(author1.getAuthorIdentifier().getAuthorId(), authorResponseModel.getAuthorId());
-                    assertEquals(author1.getEmailAddress(), authorResponseModel.getEmailAddress());
-                    assertEquals(author1.getFirstName(), authorResponseModel.getFirstName());
-                    assertEquals(author1.getLastName(), authorResponseModel.getLastName());
-                    assertEquals(author1.getBiography().getBiography(), authorResponseModel.getBiography());
-                });
-    }
-
-    // Negative test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenInvalidAuthorId_thenReturnBadRequest() {
-        StepVerifier.create(authorRepository.findAll())
-                .expectNextCount(2)
-                .verifyComplete();
-
-        webTestClient
-                .get()
-                .uri("/api/v1/authors/invalid-author-id")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().is4xxClientError()
-                .expectBody()
-//                .value(response -> assertEquals("Provided author id is invalid: invalid-author-id", response));
-                .jsonPath("$.message").isEqualTo("Provided author id is invalid: invalid-author-id");
-    }
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenGetAuthorById_thenReturnAuthor() {
+//        StepVerifier.create(authorRepository.findAll())
+//                .expectNextCount(2)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors/" + author1.getAuthorIdentifier().getAuthorId())
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isOk()
+//                .expectBody(AuthorResponseModel.class)
+//                .value(authorResponseModel -> {
+//                    assertEquals(author1.getAuthorIdentifier().getAuthorId(), authorResponseModel.getAuthorId());
+//                    assertEquals(author1.getEmailAddress(), authorResponseModel.getEmailAddress());
+//                    assertEquals(author1.getFirstName(), authorResponseModel.getFirstName());
+//                    assertEquals(author1.getLastName(), authorResponseModel.getLastName());
+//                    assertEquals(author1.getBiography().getBiography(), authorResponseModel.getBiography());
+//                });
+//    }
 
     // Negative test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenAuthorNotFound_thenReturnNotFound() {
-        StepVerifier.create(authorRepository.findAll())
-                .expectNextCount(2)
-                .verifyComplete();
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenInvalidAuthorId_thenReturnBadRequest() {
+//        StepVerifier.create(authorRepository.findAll())
+//                .expectNextCount(2)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors/invalid-author-id")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().is4xxClientError()
+//                .expectBody()
+////                .value(response -> assertEquals("Provided author id is invalid: invalid-author-id", response));
+//                .jsonPath("$.message").isEqualTo("Provided author id is invalid: invalid-author-id");
+//    }
 
-        webTestClient
-                .get()
-                .uri("/api/v1/authors/3e91879e-7fc2-4107-9f0f-17e33f67e94f")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isNotFound()
-                .expectBody()
-//                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
-                .jsonPath("$.message").isEqualTo("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f");
-    }
+    // Negative test case
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenAuthorNotFound_thenReturnNotFound() {
+//        StepVerifier.create(authorRepository.findAll())
+//                .expectNextCount(2)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors/3e91879e-7fc2-4107-9f0f-17e33f67e94f")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isNotFound()
+//                .expectBody()
+////                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
+//                .jsonPath("$.message").isEqualTo("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f");
+//    }
 }

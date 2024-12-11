@@ -25,7 +25,6 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Mono<Like> likeArticle(ArticleIdentifier articleIdentifier, String readerId) {
-        // Create a new Like object
         Like like = Like.builder()
                 .likeIdentifier(new LikeIdentifier())
                 .articleIdentifier(articleIdentifier)
@@ -33,12 +32,11 @@ public class LikeServiceImpl implements LikeService {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        // Save the Like and update the likeCount of the Article
         return likeRepository.save(like)
                 .flatMap(savedLike -> articleRepository.findArticleByArticleIdentifier_ArticleId(articleIdentifier.getArticleId())
                         .flatMap(article -> {
-                            article.incrementLikeCount(); // Increment the like count in the Article
-                            return articleRepository.save(article); // Save the updated Article
+                            article.incrementLikeCount();
+                            return articleRepository.save(article);
                         })
                         .thenReturn(savedLike));
     }
@@ -58,4 +56,11 @@ public class LikeServiceImpl implements LikeService {
     public Mono<Like> getLikeByIdentifier(String likeId) {
         return likeRepository.findByLikeIdentifier_LikeId(likeId);
     }
+
+    @Override
+    public Mono<Void> unlikeArticle(ArticleIdentifier articleIdentifier, String readerId) {
+        return likeRepository.findByArticleIdentifierAndReaderId(articleIdentifier, readerId)
+                .flatMap(likeRepository::delete).then();
+    }
+
 }
