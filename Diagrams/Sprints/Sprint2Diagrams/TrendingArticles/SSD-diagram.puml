@@ -1,0 +1,15 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+Reader -> LAS: getArticleById(articleId)
+activate LAS
+LAS -> LAS: incrementRequestCount(articleId)
+LAS --> Reader: ArticleDetails(Article)
+deactivate LAS
+
+Reader -> LAS: getTrendingArticles()
+activate LAS
+LAS --> Reader: TrendingArticles(List<Article>)
+deactivate LAS
+@enduml

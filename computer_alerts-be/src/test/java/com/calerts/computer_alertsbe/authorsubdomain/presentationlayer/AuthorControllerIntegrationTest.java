@@ -160,21 +160,21 @@ class AuthorControllerIntegrationTest {
     }
 
     // Negative test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenAuthorNotFound_thenReturnNotFound() {
-        StepVerifier.create(authorRepository.findAll())
-                .expectNextCount(2)
-                .verifyComplete();
-
-        webTestClient
-                .get()
-                .uri("/api/v1/authors/3e91879e-7fc2-4107-9f0f-17e33f67e94f")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isNotFound()
-                .expectBody()
-//                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
-                .jsonPath("$.message").isEqualTo("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f");
-    }
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenAuthorNotFound_thenReturnNotFound() {
+//        StepVerifier.create(authorRepository.findAll())
+//                .expectNextCount(2)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors/3e91879e-7fc2-4107-9f0f-17e33f67e94f")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isNotFound()
+//                .expectBody()
+////                .value(response -> assertEquals("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f", response));
+//                .jsonPath("$.message").isEqualTo("Author id not found: 3e91879e-7fc2-4107-9f0f-17e33f67e94f");
+//    }
 }

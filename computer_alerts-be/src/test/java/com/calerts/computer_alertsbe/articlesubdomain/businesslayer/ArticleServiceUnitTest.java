@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +14,8 @@ import reactor.test.StepVerifier;
 
 import java.time.ZonedDateTime;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @TestPropertySource(properties = {
@@ -99,5 +101,139 @@ class ArticleServiceUnitTest {
                 )
                 .verifyComplete();
     }
+    @Test
+    void testResetRequestCounts() {
+        // Arrange
+        ArticleIdentifier validArticleId = new ArticleIdentifier();
+        ArticleIdentifier validArticleId2 = new ArticleIdentifier();
+        Content content = Content.builder()
+                .title("Valid Title")
+                .body("This is a valid body of the article.")
+                .build();
+
+        // Create two articles with non-zero request counts
+        Article expectedArticle1 = Article.builder()
+                .articleIdentifier(validArticleId)
+                .title(content.getTitle())
+                .body(content.getBody())
+                .wordCount(Content.calculateWordCount(content.getBody()))
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .requestCount(5) // Non-zero request count
+                .build();
+
+        Article expectedArticle2 = Article.builder()
+                .articleIdentifier(validArticleId2)
+                .title(content.getTitle())
+                .body(content.getBody())
+                .wordCount(Content.calculateWordCount(content.getBody()))
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .requestCount(3) // Non-zero request count
+                .build();
+
+        // Mock the repository to return both articles
+        when(articleRepository.findAll()).thenReturn(Flux.just(expectedArticle1, expectedArticle2));
+
+        // Mock the save method to return the article being saved
+        when(articleRepository.save(any(Article.class))).thenAnswer(invocation -> {
+            Article article = invocation.getArgument(0);
+            return Mono.just(article);
+        });
+
+        // Act: Call the method to reset request counts
+        Mono<Void> result = articleService.resetRequestCounts();
+
+        // Assert: Verify that the Mono completes successfully
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        // Verify that save was called for each article with requestCount reset to 0
+        verify(articleRepository, times(2)).save(argThat(article ->
+                article.getRequestCount() == 0
+        ));
+    }
+
+    @Test
+    void testRequestCount_ArticleFound() {
+        // Arrange
+        String articleId = "testArticleId";
+        Article article = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .requestCount(5)
+                .build();
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.just(article));
+        when(articleRepository.save(any(Article.class)))
+                .thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+
+        // Act
+        Mono<Void> result = articleService.requestCount(articleId);
+
+        // Assert
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
+        verify(articleRepository).save(argThat(savedArticle ->
+                savedArticle.getArticleIdentifier().getArticleId().equals(articleId) &&
+                        savedArticle.getRequestCount() == 6 // Ensures count is incremented
+        ));
+    }
+
+    @Test
+    void testRequestCount_WhenArticleHasNoRequestCount() {
+        // Arrange
+        String articleId = "testArticleId";
+        Article article = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .requestCount(null) // No initial request count
+                .build();
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.just(article));
+        when(articleRepository.save(any(Article.class)))
+                .thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+
+        // Act
+        Mono<Void> result = articleService.requestCount(articleId);
+
+        // Assert
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
+        verify(articleRepository).save(argThat(savedArticle ->
+                savedArticle.getArticleIdentifier().getArticleId().equals(articleId) &&
+                        savedArticle.getRequestCount() == 1 // Ensures count is initialized to 0 and incremented
+        ));
+    }
+
+    @Test
+    void testRequestCount_WhenArticleNotFound() {
+        // Arrange
+        String articleId = "nonExistentArticleId";
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = articleService.requestCount(articleId);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectErrorMatches(throwable ->
+                        throwable instanceof NotFoundException &&
+                                throwable.getMessage().contains("article id was not found: " + articleId)
+                )
+                .verify();
+
+        verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
+        verify(articleRepository, never()).save(any());
+    }
+
 
 }
