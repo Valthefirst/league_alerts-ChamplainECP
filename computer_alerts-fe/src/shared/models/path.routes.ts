@@ -10,4 +10,10 @@ export enum AppRoutePaths {
   UFC = "/ufc",
   MLB = "/mlb",
   CREATE_ACCOUNT = "/create-account",
+
+  //
+  //
+  AuthorHomePage = "/authHome",
+  AutherYourArticle = "/authYourArticles",
+  AutherCreateArticle = "/authCreateArticle"
 }
