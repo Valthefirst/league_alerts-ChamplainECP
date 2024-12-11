@@ -36,4 +36,14 @@ public class Article {
     private String tags;
     private LocalDateTime timePosted;
 
+    int likeCount;
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount += 1;
+    }
+
 }

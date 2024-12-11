@@ -25,4 +25,10 @@ public class ArticleResponseModel {
 
     private String tags;
     private LocalDateTime timePosted;
+
+    private int likeCount;
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
 }

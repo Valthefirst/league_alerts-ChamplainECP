@@ -36,6 +36,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nbaContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -52,6 +53,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nbaContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -69,6 +71,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nhlContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -85,6 +88,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nhlContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -102,6 +106,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -118,6 +123,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -134,6 +140,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(ufcContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -150,6 +157,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(ufcContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -166,6 +174,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(mlbContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("MLB")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -182,6 +191,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(mlbContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("MLB")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
