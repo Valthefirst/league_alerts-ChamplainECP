@@ -14,9 +14,9 @@ const TrendingArticles: React.FC = () => {
   useEffect(() => {
     const fetchTrendingArticles = async () => {
       try {
-        const data = await fetchAllsArticles(); // Fetch all articles
-        const sortedArticles = data.sort((a, b) => b.requestCount - a.requestCount); // Sort by requestCount
-        setTrendingArticles(sortedArticles.slice(0, 3)); // Keep top 3 articles
+        const data = await fetchAllsArticles(); 
+        const sortedArticles = data.sort((a, b) => b.requestCount - a.requestCount); 
+        setTrendingArticles(sortedArticles.slice(0, 3)); 
       } catch (err) {
         console.error("Error fetching trending articles:", err);
         setError("Failed to fetch trending articles.");
@@ -53,7 +53,6 @@ const TrendingArticles: React.FC = () => {
 
   return (
     <div className="trending-articles container">
-      <h3>Trending Articles</h3>
       <div className="row">
         {trendingArticles.length === 0 ? (
           <p>No trending articles found.</p>
@@ -70,7 +69,6 @@ const TrendingArticles: React.FC = () => {
                   />
                   <div className="card-body">
                     <h5 className="card-title" onClick={() => handleArticleClick(trendingArticles[0].articleId)}>{trendingArticles[0].title}</h5>
-                    <p className="card-text">Request Count: {trendingArticles[0].requestCount}</p>
                   </div>
                 </div>
               )}
@@ -87,7 +85,6 @@ const TrendingArticles: React.FC = () => {
                   />
                   <div className="card-body">
                     <h5 className="card-title" onClick={() => handleArticleClick(article.articleId)}>{article.title}</h5>
-                    <p className="card-text">Request Count: {article.requestCount}</p>
                   </div>
                 </div>
               ))}
