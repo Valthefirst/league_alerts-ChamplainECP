@@ -47,6 +47,7 @@ class ArticleServiceUnitTest {
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -83,6 +84,7 @@ class ArticleServiceUnitTest {
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 

@@ -41,10 +41,16 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
+
                         // Endpoints requiring authentication
                         .pathMatchers(HttpMethod.POST, "/api/create/**").authenticated()
                         .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().authenticated()
