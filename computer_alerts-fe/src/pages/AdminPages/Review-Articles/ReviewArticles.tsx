@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAllsArticles} from "../../../features/articles/api/getAllArticles";
+import { fetchAllsArticles } from "../../../features/articles/api/getAllArticles";
 import { ArticleRequestModel } from "../../../features/articles/models/ArticleRequestModel";
+import ArticleMainComponent from "../../ArticlePages/ArticleMainComponent";
 import "./ReviewArticles.css";
 
 const ReviewArticles: React.FC = () => {
@@ -27,30 +28,30 @@ const ReviewArticles: React.FC = () => {
         fetchArticles();
     }, []);
 
-    const handleProductClick = (id: string) => {
+    const handleArticleClick = (id: string) => {
         navigate(`/article/${id}`);
-      };
+    };
 
-    if (loading) return <p>Loading articles...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="text-center">Loading articles...</p>;
+    if (error) return <p className="text-center text-danger">{error}</p>;
 
     return (
-        <div className="review-articles">
+        <div className="container review-articles">
             <h1>Here are your articles to review</h1>
             {articles.length > 0 ? (
-                <ul className="review-articles__list">
+                <div className="review-articles__list">
                     {articles.map((article) => (
-                        <li key={article.articleId} className="review-articles__item">
-                            <h2 onClick={() => handleProductClick(article.articleId)}>
-                                {article.title}
-                            </h2>
-                            <p>Word Count: {article.wordCount}</p>
-                            <p>Tags: {article.tags}</p>
-                        </li>
+                        <ArticleMainComponent
+                            key={article.articleId}
+                            title={article.title}
+                            description={`Word Count: ${article.wordCount}`}
+                            tags={article.tags}
+                            onClick={() => handleArticleClick(article.articleId)}
+                        />
                     ))}
-                </ul>
+                </div>
             ) : (
-                <p>No articles to review at the moment.</p>
+                <p className="text-center">No articles to review at the moment.</p>
             )}
         </div>
     );

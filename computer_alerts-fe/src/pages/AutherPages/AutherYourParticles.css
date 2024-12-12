@@ -1,0 +1,20 @@
+.firstRowIntroduction{
+    height: 200px;
+}
+
+.firstRowIntroduction h1 {
+    font-weight: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 20px;
+}
+
+.createButton{
+    margin-top: 10px;
+    margin-right: 10px;
+
+}
+
+.createButton :hover {
+    background-color: powderblue;
+
+}

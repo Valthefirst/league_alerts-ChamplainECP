@@ -1,0 +1,17 @@
+.review-articles {
+    padding: 2rem 0;
+}
+
+.review-articles h1 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.review-articles__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    max-width: 900px; 
+    margin: 0 auto; 
+}
