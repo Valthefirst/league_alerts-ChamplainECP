@@ -5,6 +5,7 @@ export interface ArticleRequestModel {
   wordCount: number;
   articleStatus: string;
   requestCount: number;
+  likeCount: number;
   tags: string;
   timePosted: string;
 }
