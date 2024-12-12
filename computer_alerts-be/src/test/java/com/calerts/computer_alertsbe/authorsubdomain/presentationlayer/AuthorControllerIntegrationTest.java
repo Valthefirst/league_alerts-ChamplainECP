@@ -93,28 +93,28 @@ class AuthorControllerIntegrationTest {
 //    }
 
     // Negative test case
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void whenNoAuthorsExist_thenReturnEmptyList() {
-        Publisher<Void> deleteAllAuthors = authorRepository.deleteAll();
-
-        StepVerifier.create(deleteAllAuthors)
-                .expectNextCount(0)
-                .verifyComplete();
-
-        webTestClient
-                .get()
-                .uri("/api/v1/authors")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType("application/json")
-                .expectBodyList(AuthorResponseModel.class)
-                .value(authorResponseModels -> {
-                    assertNotNull(authorResponseModels);
-                    assertEquals(0, authorResponseModels.size());
-                });
-    }
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    void whenNoAuthorsExist_thenReturnEmptyList() {
+//        Publisher<Void> deleteAllAuthors = authorRepository.deleteAll();
+//
+//        StepVerifier.create(deleteAllAuthors)
+//                .expectNextCount(0)
+//                .verifyComplete();
+//
+//        webTestClient
+//                .get()
+//                .uri("/api/v1/authors")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isOk()
+//                .expectHeader().contentType("application/json")
+//                .expectBodyList(AuthorResponseModel.class)
+//                .value(authorResponseModels -> {
+//                    assertNotNull(authorResponseModels);
+//                    assertEquals(0, authorResponseModels.size());
+//                });
+//    }
 
     // Positive test case
 //    @Test

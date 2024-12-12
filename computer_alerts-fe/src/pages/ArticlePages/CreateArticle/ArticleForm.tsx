@@ -10,8 +10,8 @@ const ArticleForm = () => {
         body: '',
         wordCount: 300,
         articleStatus: 'ARTICLE_REVIEW',
-        tags: 'NBA',
-        tagsTag: '',
+        tags: '',
+        tagsTag: 'NBA',
         timePosted: '',
         authorIdentifier: '3b63de68-9161-4925-b38b-e686dd88f848',
     });
@@ -63,10 +63,10 @@ const ArticleForm = () => {
             onChange={handleChange}
             className="article-form__textarea"
           />
-          <label htmlFor="tagsTag">Tags</label>
+          <label htmlFor="tags">Tags</label>
           <select
-            name="tagsTag"
-            value={formData.tagsTag}
+            name="tags"
+            value={formData.tags}
             onChange={handleChange}
             className="article-form__select"
           >
