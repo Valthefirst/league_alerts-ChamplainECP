@@ -15,6 +15,7 @@ import AutherCreateArticle from "pages/AutherPages/AutherCreateArticle";
 import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
+import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails"
 
 const Navbar = () => {
   const location = useLocation();
@@ -60,7 +61,8 @@ function App(): JSX.Element {
 
 
           <Route path={AppRoutePaths.AuthorHomePage} element={<AdminHomePage/>} />
-          <Route path={AppRoutePaths.AutherYourArticle} element={< AdminReviewArticles/>} />
+          <Route path={AppRoutePaths.AdminReviewArticles} element={< AdminReviewArticles/>} />
+          <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
 
           <Route

@@ -49,6 +49,15 @@ public class ArticleController {
                 .map(ResponseEntity::ok);
     }
 
+//    @GetMapping(value = "/admin/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Mono<ResponseEntity<ArticleResponseModel>> getArticleByArticleIdForAdmin(@PathVariable String articleId) {
+//        return Mono.just(articleId)
+//                .filter(id -> id.length() == 36)
+//                .switchIfEmpty(Mono.error(new InvalidInputException("Provided article id is invalid: " + articleId)))
+//                .flatMap(articleService::getArticleByArticleId)
+//                .map(ResponseEntity::ok);
+//    }
+
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> createArticle(@RequestBody ArticleRequestModel articleRequestModel) {
@@ -68,5 +77,11 @@ public class ArticleController {
     @PatchMapping(value = "/{articleId}")
     public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
         return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));
+    }
+
+    @PermitAll
+    @PatchMapping(value = "acceptArticle/{articleId}")
+    public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
+        return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 }

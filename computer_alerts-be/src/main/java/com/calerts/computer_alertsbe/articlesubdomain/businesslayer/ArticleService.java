@@ -14,6 +14,7 @@ public interface ArticleService {
     Mono<Void> requestCount(String articleId);
     Mono<Void> resetRequestCounts();
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
+    Mono<Void> acceptArticle(String articleId);
 
 
 

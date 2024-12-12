@@ -72,17 +72,22 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(EntityModelUtil::toArticleEntity)
                 .map(article -> {
                     article.setArticleStatus(ArticleStatus.ARTICLE_REVIEW);
+                    article.setRequestCount(0);
                     return article;
                 })
                 .flatMap(articleRepository::save)
                 .map(EntityModelUtil::toArticleResponseModel);
     }
 
-
-
-
-
-
+    @Override
+    public Mono<Void> acceptArticle(String articleId) {
+        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("article id was not found: " + articleId))))
+                .flatMap(article -> {
+                    article.setArticleStatus(ArticleStatus.PUBLISHED);
+                    return articleRepository.save(article).then(); // Save and complete
+                });
+    }
 
 
 }

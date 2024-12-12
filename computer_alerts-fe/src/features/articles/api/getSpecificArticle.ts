@@ -12,3 +12,13 @@ export const fetchArticleByArticleId = async (
   );
   return response.data;
 };
+
+
+export const fetchArticleByArticleIdWithNoPatch = async (
+  articleId: string,
+): Promise<ArticleRequestModel> => {
+  const response = await axiosInstance.get<ArticleRequestModel>(
+    `/articles/${articleId}`,
+  );
+  return response.data;
+};
