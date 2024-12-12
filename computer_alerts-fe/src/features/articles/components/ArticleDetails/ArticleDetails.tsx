@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
+import { likeArticle } from "../../api/likeArticle";
+import { unlikeArticle } from "../../api/unlikeArticle";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
-import "./ArticleDetails.css"; // Import the CSS file
+import { HeartAnimation } from "../../components/animations/HeartAnimation";
+import "./ArticleDetails.css";
 import { Author } from "features/authors/model/Author";
 import { getAllAuthors } from "features/authors/api/getAllAuthors";
 
@@ -14,30 +17,34 @@ const NotFound: React.FC = () => (
 );
 
 const ArticleDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // The articleId passed via route
+  const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
   const [author, setAuthor] = useState<Author | null>(null);
-  const [comments, setComments] = useState<string[]>([]); // Comment section state
+  const [comments, setComments] = useState<string[]>([]);
   const [newComment, setNewComment] = useState<string>("");
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const heartRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const loadArticleAndAuthor = async () => {
       try {
         if (id) {
           const articleData = await fetchArticleByArticleId(id);
-          if (!articleData || Object.keys(articleData).length === 0) {
-            setError("Article not found");
-          } else {
-            setArticle(articleData);
+          setArticle(articleData);
+          setLikeCount(articleData.likeCount);
 
-            const authorsData: Author[] = await getAllAuthors();
-            const foundAuthor = authorsData.find((author) =>
-              author.articles.articleList?.some((a) => a.articleId === id),
-            );
-            setAuthor(foundAuthor || null);
-          }
+          const authorsData = await getAllAuthors();
+          const foundAuthor = authorsData.find((author) =>
+            author.articles.articleList?.some((a) => a.articleId === id)
+          );
+          setAuthor(foundAuthor || null);
+
+          // Fetch like state for the current user
+          const liked = localStorage.getItem(`article-${id}-liked`) === "true";
+          setIsLiked(liked);
         } else {
           setError("Invalid article ID");
         }
@@ -52,6 +59,36 @@ const ArticleDetails: React.FC = () => {
     loadArticleAndAuthor();
   }, [id]);
 
+  useEffect(() => {
+    if (heartRef.current) {
+      const heartEl = heartRef.current;
+      heartEl.classList.remove("active"); // Ensure the heart starts in its default state
+      new HeartAnimation(heartEl);
+    }
+  }, []);
+
+  const handleLikeToggle = async () => {
+    if (id && heartRef.current) {
+      try {
+        const readerId = "06a7d573-bcab-4db3-956f-773324b92a80"; // Replace with actual reader ID
+        if (isLiked) {
+          await unlikeArticle(id, readerId);
+          setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
+          localStorage.setItem(`article-${id}-liked`, "false"); // Persist state
+        } else {
+          const animation = new HeartAnimation(heartRef.current);
+          animation.play();
+          await likeArticle(id, readerId);
+          setLikeCount((prevCount) => prevCount + 1);
+          localStorage.setItem(`article-${id}-liked`, "true"); // Persist state
+        }
+        setIsLiked(!isLiked);
+      } catch (err) {
+        console.error("Error toggling like/unlike:", err);
+      }
+    }
+  };
+
   const addComment = () => {
     if (newComment.trim()) {
       setComments([...comments, newComment]);
@@ -60,9 +97,7 @@ const ArticleDetails: React.FC = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) {
-    return <NotFound />;
-  }
+  if (error) return <NotFound />;
 
   return article ? (
     <div className="article-container">
@@ -71,14 +106,18 @@ const ArticleDetails: React.FC = () => {
           <p>No Image Available</p>
         </div>
       </div>
-
+      <div className="like-section">
+        <div
+          id="heart"
+          className={`button ${isLiked ? "active" : ""}`}
+          ref={heartRef}
+          onClick={handleLikeToggle}
+        ></div>
+        <p className="like-count">{likeCount}</p>
+      </div>
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>
-
       {author && (
-        // <p className="article-author">
-        //   <strong>Author:</strong> {author.firstName} {author.lastName}
-        // </p>
         <p className="article-author">
           <strong>Author:</strong>{" "}
           <Link to={`/authors/${author.authorId}`}>
@@ -86,9 +125,7 @@ const ArticleDetails: React.FC = () => {
           </Link>
         </p>
       )}
-
       <hr className="divider" />
-
       <div className="comments-section">
         <h2 className="comments-title">Comments</h2>
         <div className="comments-list">
@@ -104,7 +141,6 @@ const ArticleDetails: React.FC = () => {
             </p>
           )}
         </div>
-
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}

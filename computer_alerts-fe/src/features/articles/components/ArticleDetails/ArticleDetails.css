@@ -93,3 +93,55 @@
 .add-comment-button:hover {
   background-color: #45a049;
 }
+
+/* Heart button */
+#heart {
+  width: 36px; /* Reduced size by 40% */
+  height: 32.4px; /* Maintain proportional height */
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+#heart:before,
+#heart:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 18px; /* 40% smaller (30px -> 18px) */
+  height: 28.8px; /* 40% smaller (48px -> 28.8px) */
+  background: dimgrey; /* Default heart color */
+  border-radius: 18px 18px 0 0; /* Adjusted for smaller size */
+  transition: background 0.5s ease;
+}
+
+/* Left half of the heart */
+#heart:before {
+  left: 18px; /* Reduced by 40% (30px -> 18px) */
+  transform: rotate(-45deg);
+  transform-origin: 0 100%; /* Keep the round edge intact */
+}
+
+/* Right half of the heart */
+#heart:after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+/* Active (liked) state */
+.active#heart:before,
+.active#heart:after {
+  background: red !important; /* Heart turns red when active */
+}
+
+/* Like count next to the heart */
+.like-count {
+  display: inline-block;
+  margin-left: 8px; /* Add some spacing between the heart and the count */
+  padding-bottom: 8px;
+  font-size: 16px; /* Adjust font size for better alignment with heart */
+  vertical-align: middle; /* Align with the middle of the heart */
+  color: #555; /* Match the style */
+}
