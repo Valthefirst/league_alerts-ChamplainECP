@@ -160,7 +160,7 @@ const ArticleCard: React.FC = () => {
                     article.articleId && handleLikeToggle(article.articleId)
                   }
                 ></div>
-                <p className="like-count">
+                <p className="article-card-like-count">
                   {likedArticles[article.articleId || ""] ? 1 : 0}
                 </p>
               </div>

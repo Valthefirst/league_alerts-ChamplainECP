@@ -141,4 +141,10 @@
   font-size: 16px; /* Adjust font size for better alignment with heart */
   vertical-align: middle; /* Align with the middle of the heart */
   color: #555; /* Match the style */
+  
+}
+
+.like-section {
+  display: inline-flex !important; 
+  align-items: center !important; 
 }
