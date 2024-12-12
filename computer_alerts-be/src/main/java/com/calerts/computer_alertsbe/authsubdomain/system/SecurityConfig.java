@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
 
 
                         // Endpoints requiring authentication
