@@ -70,7 +70,8 @@ const ArticleCard: React.FC = () => {
     <>
       <div className="article-card">
         {articles.length > 0 ? (
-          articles.map((article) => (
+          articles.filter((article) => article.articleStatus === 'PUBLISHED')
+          .map((article) => (
             <div
               key={article.articleId}
               className="article-card-content"
