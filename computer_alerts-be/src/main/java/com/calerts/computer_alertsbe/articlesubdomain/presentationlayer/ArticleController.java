@@ -3,7 +3,9 @@ package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
 
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,13 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<ArticleResponseModel> getAllArticles() {
+        return articleService.getAllArticles();
+
+    }
+
     //Get all articles for specific sport
     @GetMapping("/tag/{tagName}")
     public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
@@ -30,7 +39,7 @@ public class ArticleController {
 
 
     }
-    //Get article by article id
+
     @GetMapping(value = "/{articleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> getArticleByArticleId(@PathVariable String articleId) {
         return Mono.just(articleId)
@@ -55,4 +64,9 @@ public class ArticleController {
 
 
 
+    @PermitAll
+    @PatchMapping(value = "/{articleId}")
+    public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
+        return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));
+    }
 }

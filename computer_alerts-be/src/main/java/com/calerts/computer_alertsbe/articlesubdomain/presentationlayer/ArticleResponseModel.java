@@ -29,4 +29,11 @@ public class ArticleResponseModel {
     private Tags tagsTag;
     private LocalDateTime timePosted;
     private AuthorIdentifier authorIdentifier;
+
+    private int likeCount;
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+    private Integer requestCount;
 }

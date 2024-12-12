@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
-import { Article } from "../../models/Article";
+import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import "./ArticleDetails.css"; // Import the CSS file
 import { Author } from "features/authors/model/Author";
 import { getAllAuthors } from "features/authors/api/getAllAuthors";
@@ -15,7 +15,7 @@ const NotFound: React.FC = () => (
 
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // The articleId passed via route
-  const [article, setArticle] = useState<Article | null>(null);
+  const [article, setArticle] = useState<ArticleRequestModel | null>(null);
   const [author, setAuthor] = useState<Author | null>(null);
   const [comments, setComments] = useState<string[]>([]); // Comment section state
   const [newComment, setNewComment] = useState<string>("");
@@ -34,7 +34,7 @@ const ArticleDetails: React.FC = () => {
 
             const authorsData: Author[] = await getAllAuthors();
             const foundAuthor = authorsData.find((author) =>
-              author.articles.articleList?.some((a) => a.articleId === id)
+              author.articles.articleList?.some((a) => a.articleId === id),
             );
             setAuthor(foundAuthor || null);
           }
@@ -80,11 +80,11 @@ const ArticleDetails: React.FC = () => {
         //   <strong>Author:</strong> {author.firstName} {author.lastName}
         // </p>
         <p className="article-author">
-        <strong>Author:</strong>{' '}
-        <Link to={`/authors/${author.authorId}`}>
-          {author.firstName} {author.lastName}
-        </Link>
-      </p>
+          <strong>Author:</strong>{" "}
+          <Link to={`/authors/${author.authorId}`}>
+            {author.firstName} {author.lastName}
+          </Link>
+        </p>
       )}
 
       <hr className="divider" />

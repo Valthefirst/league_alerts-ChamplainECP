@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ArticleRequestModel } from 'features/articles/models/Article';
+import { ArticleRequestModelI } from 'features/articles/models/ArticleRequestModel';
 
 import "./ArticleForm.css"
 
 const ArticleForm = () => {
-    const [formData, setFormData] = useState<ArticleRequestModel>({
+    const [formData, setFormData] = useState<ArticleRequestModelI>({
         title: '',
         body: '',
         wordCount: 300,

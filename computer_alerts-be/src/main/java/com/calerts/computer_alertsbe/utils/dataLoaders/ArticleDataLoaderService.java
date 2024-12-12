@@ -41,9 +41,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier("e09e8812-32fb-434d-908f-40d5e3b137ca"))
                 .title(nbaContent1.getTitle())
                 .body(nbaContent1.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(nbaContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
                 .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
@@ -61,6 +63,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nbaContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
+                .likeCount(0)
+                .requestCount(0)
                 .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
@@ -80,6 +84,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
                 .tagsTag(Tags.NHL)
+                .likeCount(0)
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("7e93579d-cf40-44a0-9b82-6f8b05f3185b")) // George Smith
                 .build();
@@ -97,6 +103,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
                 .tagsTag(Tags.NHL)
+                .likeCount(0)
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("5a87fa4e-f2a4-4874-b7f6-c22c29decb97")) // Michael Jones
                 .build();
@@ -114,6 +122,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
+                .requestCount(0)
                 .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("6d2bb1f9-0c4f-4691-a6f5-5599e7f2068c")) // Lily Williams
@@ -131,6 +141,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nflContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
+                .likeCount(0)
+                .requestCount(0)
                 .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("1c35b82c-d9a3-4f8f-a0a6-bde7a5096017")) // Thomas Clark
@@ -150,6 +162,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
                 .tagsTag(Tags.UFC)
+                .likeCount(0)
+                .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("9a21d4f8-85fa-477b-bc0a-76819b2d7c8f")) // Kevin Lee
                 .build();
@@ -163,10 +177,12 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier("5f6g7h8i-9j0k-1l2m-3n4o-5p6q7r8s9t0u"))
                 .title(ufcContent2.getTitle())
                 .body(ufcContent2.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(ufcContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
                 .tagsTag(Tags.UFC)
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("8f5be0c1-0fc1-4cfb-b7b8-fc46e221d31e")) // Nancy Davis
                 .build();
@@ -183,8 +199,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .body(mlbContent1.getBody())
                 .wordCount(Content.calculateWordCount(mlbContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
+                .requestCount(0)
                 .tags("MLB")
                 .tagsTag(Tags.MLB)
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("1b71f87d-d5c7-47c2-90e5-0e11b83ed978")) // Elizabeth Brown
                 .build();
@@ -198,9 +216,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleIdentifier(new ArticleIdentifier("7h8i9j0k-1l2m-3n4o-5p6q-7r8s9t0u1v2w"))
                 .title(mlbContent2.getTitle())
                 .body(mlbContent2.getBody())
+                .requestCount(0)
                 .wordCount(Content.calculateWordCount(mlbContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("MLB")
+                .likeCount(0)
                 .tagsTag(Tags.MLB)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin

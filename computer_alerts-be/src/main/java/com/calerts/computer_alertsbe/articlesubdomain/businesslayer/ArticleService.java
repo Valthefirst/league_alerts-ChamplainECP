@@ -8,8 +8,11 @@ import reactor.core.publisher.Mono;
 
 public interface ArticleService {
 
+    Flux<ArticleResponseModel> getAllArticles();
     Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName);
     Mono<ArticleResponseModel> getArticleByArticleId(String articleId);
+    Mono<Void> requestCount(String articleId);
+    Mono<Void> resetRequestCounts();
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
 
 

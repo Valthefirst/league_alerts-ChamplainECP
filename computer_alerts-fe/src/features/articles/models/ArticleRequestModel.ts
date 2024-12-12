@@ -1,9 +1,10 @@
-export interface Article {
+export interface ArticleRequestModel {
   articleId: string; // Top-level property
   title: string;
   body: string;
   wordCount: number;
   articleStatus: string;
+  requestCount: number;
   tags: string;
   tagsTag: string;
   timePosted: string;
@@ -13,7 +14,7 @@ export interface Article {
 
 
 
-export interface ArticleRequestModel{
+export interface ArticleRequestModelI{
   title: string;
   body: string;
   wordCount: number;

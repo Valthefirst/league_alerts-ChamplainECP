@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
 
@@ -46,6 +47,11 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/create/**").authenticated()
                         .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().authenticated()
@@ -66,7 +72,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList(frontendDomain));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList(
                 "authorization",
                 "content-type",

@@ -2,6 +2,8 @@ package com.calerts.computer_alertsbe.utils;
 
 
 
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Like;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
@@ -28,7 +30,9 @@ public class EntityModelUtil {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
         BeanUtils.copyProperties(article, articleResponseModel);
         articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
-        articleResponseModel.setArticleStatus(article.getArticleStatus()); // Map the enum directly
+        articleResponseModel.setLikeCount(article.getLikeCount());
+        articleResponseModel.setArticleStatus(article.getArticleStatus());
+        articleResponseModel.setRequestCount(article.getRequestCount());
         return articleResponseModel;
     }
 
@@ -54,6 +58,18 @@ public class EntityModelUtil {
         authorResponseModel.setBiography(author.getBiography().getBiography());
         authorResponseModel.setArticles(author.getArticles());
         return authorResponseModel;
+    }
+
+    public static LikeResponseModel toLikeResponseModel(Like like) {
+        LikeResponseModel likeResponseModel = new LikeResponseModel();
+        BeanUtils.copyProperties(like, likeResponseModel);
+
+
+        likeResponseModel.setLikeId(like.getLikeIdentifier().getLikeId());
+        likeResponseModel.setArticleId(like.getArticleIdentifier().getArticleId());
+        likeResponseModel.setTimestamp(like.getTimestamp());
+
+        return likeResponseModel;
     }
 
     public static String generateUUIDString(){
