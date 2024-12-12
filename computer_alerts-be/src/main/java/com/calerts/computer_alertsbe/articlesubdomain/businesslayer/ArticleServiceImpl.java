@@ -19,8 +19,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    @Autowired
-    private Cloudinary cloudinary;
+//    @Autowired
+//    private Cloudinary cloudinary;
 
     @Override
     public Flux<ArticleResponseModel> getAllArticles() {
