@@ -5,7 +5,7 @@ const AuthHomePage: React.FC = () => {
 
   return (
     <div>
-      <h1>HELLO</h1>
+      <h1>HELLO Author Domain</h1>
       
     </div>
   );

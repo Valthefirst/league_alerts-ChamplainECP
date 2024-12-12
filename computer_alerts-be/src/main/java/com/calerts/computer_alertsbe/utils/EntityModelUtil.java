@@ -33,7 +33,6 @@ public class EntityModelUtil {
     }
 
     public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
-        Article article = new Article();
         return  Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())

@@ -12,6 +12,9 @@ import ArticlesPage from "./pages/ArticlePages/ArticlePage";
 import AuthHomePage from "pages/AutherPages/AuthHomePage";
 import AutherYourArticles from "pages/AutherPages/AutherYourParticles";
 import AutherCreateArticle from "pages/AutherPages/AutherCreateArticle";
+import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
+import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
+import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 
 const Navbar = () => {
   const location = useLocation();
@@ -23,8 +26,15 @@ const Navbar = () => {
     location.pathname.startsWith("/authYourArticles")
   ) {
     return <AuthorNavBar />;
-  }
+  }else if(
+    location.pathname.startsWith("/adminHomePage") || 
+    location.pathname.startsWith("/adminReviewArticles") 
 
+
+  ){
+    return <AdminNavBar/>
+  }
+    
   return <AppNavBar />;
 };
 
@@ -47,6 +57,10 @@ function App(): JSX.Element {
           <Route path={AppRoutePaths.AuthorHomePage} element={<AuthHomePage />} />
           <Route path={AppRoutePaths.AutherYourArticle} element={< AutherYourArticles/>} />
           <Route path="/authCreateArticle" element={<AutherCreateArticle />} />
+
+
+          <Route path={AppRoutePaths.AuthorHomePage} element={<AdminHomePage/>} />
+          <Route path={AppRoutePaths.AutherYourArticle} element={< AdminReviewArticles/>} />
          
 
         </Routes>

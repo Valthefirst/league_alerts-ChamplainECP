@@ -2,6 +2,7 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
@@ -37,19 +38,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel) {
         return articleRequestModel
-
                 .filter(article -> article.getTitle() != null && !article.getTitle().isEmpty())
                 .switchIfEmpty(Mono.error(new BadRequestException("Article title must not be empty")))
-
-
                 .filter(article -> article.getWordCount() != 0 && article.getWordCount() > 112)
                 .switchIfEmpty(Mono.error(new BadRequestException("Article must have a valid word count")))
-
                 .map(EntityModelUtil::toArticleEntity)
-
-
+                .map(article -> {
+                    article.setArticleStatus(ArticleStatus.ARTICLE_REVIEW);
+                    return article;
+                })
                 .flatMap(articleRepository::save)
-
                 .map(EntityModelUtil::toArticleResponseModel);
     }
 
