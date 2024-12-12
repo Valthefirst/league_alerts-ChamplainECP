@@ -60,7 +60,14 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public Mono<Void> unlikeArticle(ArticleIdentifier articleIdentifier, String readerId) {
         return likeRepository.findByArticleIdentifierAndReaderId(articleIdentifier, readerId)
-                .flatMap(likeRepository::delete).then();
+                .flatMap(like -> likeRepository.delete(like) // Delete the like
+                        .then(articleRepository.findArticleByArticleIdentifier_ArticleId(articleIdentifier.getArticleId())
+                                .flatMap(article -> {
+                                    article.decrementLikeCount(); // Decrement the like count
+                                    return articleRepository.save(article); // Save the updated article
+                                })
+                        )
+                ).then();
     }
 
 }
