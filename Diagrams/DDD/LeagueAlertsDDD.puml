@@ -139,9 +139,9 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
     Package "Interaction Management Subdomain" <<Rectangle>> #aliceblue {
         ENTITY(Comment) #bisque {
             + commentId: CommentIdentifier
-            + content: string
+            + content: String
             + wordCount: int
-            + timestamp: DateTime
+            + timestamp: LocalDateTime
             + articleId: ArticleIdentifier
             + readerId: ReaderIdentifier
         }
@@ -149,15 +149,15 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
         ENTITY(Like) #bisque {
             + likeId: LikeIdentifier
             + timestamp: DateTime
-            + article: ArticleIdentifier
-            + reader: ReaderIdentifier
+            + articleId: ArticleIdentifier
+            + readerId: ReaderIdentifier
         }
 
         ENTITY(Save) #bisque {
             + saveId: SaveIdentifier
             + timestamp: DateTime
-            + article: ArticleIdentifier
-            + reader: ReaderIdentifier
+            + articleId: ArticleIdentifier
+            + readerId: ReaderIdentifier
         }
 
         VALUE_OBJECT(CommentIdentifier) #bisque {
