@@ -1,6 +1,8 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
+import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -241,5 +244,52 @@ class ArticleServiceUnitTest {
         verify(articleRepository, never()).save(any());
     }
 
+    @Test
+    void searchArticles_ShouldReturnMatchingArticles() {
+        // Arrange
+        String query = "example";
+
+        Article article1 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Example Title 1")
+                .body("Example content 1")
+                .wordCount(5)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .requestCount(5)
+                .photoUrl("https://example.com/photo1.jpg")
+                .build();
+
+        Article article2 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Another Example Title")
+                .body("More example content")
+                .wordCount(5)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .requestCount(3)
+                .photoUrl("https://example.com/photo2.jpg")
+                .build();
+
+        when(articleRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query))
+                .thenReturn(Flux.just(article1, article2));
+
+        // Act
+        Mono<List<ArticleResponseModel>> result = articleService.searchArticles(query);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectNextMatches(responseList -> {
+                    return responseList.size() == 2 &&
+                            responseList.stream().anyMatch(article -> article.getTitle().equals("Example Title 1")) &&
+                            responseList.stream().anyMatch(article -> article.getTitle().equals("Another Example Title"));
+                })
+                .verifyComplete();
+
+        verify(articleRepository, times(1))
+                .findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query);
+    }
 
 }
