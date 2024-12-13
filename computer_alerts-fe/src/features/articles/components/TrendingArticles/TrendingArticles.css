@@ -74,11 +74,74 @@
   width: 500px;
 }
 
+.bigBoy .card-body {
+  display: flex;
+  flex-direction: row; /* Make title and like section inline */
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+.bigBoy .like-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bigBoy .like-section .button {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bigBoy .like-section .like-count {
+  font-size: 1rem;
+  color: #fff; /* Make the like count white */
+}
+
 .smallBoys {
-  height: 400px;
+  height: 550px;
 }
 
 .smallBoys .card {
   flex: 1;
   height: calc(50% - 10px);
+}
+
+.smallBoys .card-body {
+  display: flex;
+  flex-direction: row; /* Make title and like section inline */
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+.smallBoys .card-title {
+  margin-bottom: 0; /* Remove bottom margin for inline layout */
+  font-size: 1rem;
+  flex: 1; /* Allow title to take up available space */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncate if the title is too long */
+}
+
+.smallBoys .like-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.smallBoys .like-section .button {
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.smallBoys .like-section .like-count {
+  font-size: 0.9rem;
+  color: #fff; /* Keep the like count white for smaller articles too */
 }
