@@ -98,11 +98,7 @@ public class EntityModelUtil {
         return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
     }
 
-//    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
-//        Article article = new Article();
-//        BeanUtils.copyProperties(articleRequestModel, article);
-//        return article;
-//    }
+
 
 
 }

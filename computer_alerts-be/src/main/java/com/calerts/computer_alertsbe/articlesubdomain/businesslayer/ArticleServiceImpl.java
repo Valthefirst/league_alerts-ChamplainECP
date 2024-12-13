@@ -54,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .flatMap(foundArticle -> articleRequestModel
                         .map(EntityModelUtil::toArticleEntity)
+
                         .doOnNext(
                                 article -> {
                                     article.setRequestCount(foundArticle.getRequestCount());
@@ -72,7 +73,6 @@ public class ArticleServiceImpl implements ArticleService {
 
                 })
                 .map(EntityModelUtil::toArticleResponseModel);
-
     }
 
 

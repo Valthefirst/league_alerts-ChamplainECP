@@ -92,6 +92,7 @@ public class ArticleController {
         return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 
+
     @PostMapping(value = "/acceptDraft" , produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> createArticleDraft(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticleDraft(Mono.just(articleRequestModel))
@@ -105,7 +106,7 @@ public class ArticleController {
     }
 
     @PutMapping(value = "/{articleId}",
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> editArticle
             (@PathVariable String articleId,
@@ -118,5 +119,5 @@ public class ArticleController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
 
     }
-    
+
 }
