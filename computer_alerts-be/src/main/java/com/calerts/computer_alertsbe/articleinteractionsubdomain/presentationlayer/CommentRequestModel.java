@@ -6,12 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
-
-//@Data
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 public class CommentRequestModel {
 
     private String content;
