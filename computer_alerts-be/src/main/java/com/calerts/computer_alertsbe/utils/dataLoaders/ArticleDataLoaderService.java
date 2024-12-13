@@ -39,6 +39,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("NBA")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944103/pexels-pixabay-71103_p1ungr.jpg")
                 .build();
 
         //NBA article
@@ -57,6 +58,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
 
@@ -76,6 +78,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
                 .build();
 
         //NHL article
@@ -94,6 +97,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
 
@@ -113,6 +117,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944084/pexels-pixabay-47331_qhejgo.jpg")
                 .build();
 
         //NFL article
@@ -131,6 +136,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944081/pexels-pixabay-160577_tf74ef.jpg")
                 .build();
 
         //UFC article
@@ -149,6 +155,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944134/pexels-brunogobofoto-2204179_byfjyn.jpg")
                 .build();
 
         //UFC article
@@ -167,6 +174,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("UFC")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944132/pexels-pixabay-163403_xjkj1n.jpg")
                 .build();
 
         //MLB article
@@ -185,6 +193,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("MLB")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944130/pexels-glauco-moquete-1697414982-27899035_ynojsd.jpg")
                 .build();
 
         //MLB article
@@ -203,6 +212,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("MLB")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944128/pexels-courtney-garner-585522281-17061702_nts9s1.jpg")
                 .build();
 
 

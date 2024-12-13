@@ -53,6 +53,7 @@ class LikeServiceUnitTest {
                 .title("Sample Article")
                 .body("This is a sample article.")
                 .likeCount(0)
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         Like expectedLike = Like.builder()
@@ -190,6 +191,7 @@ class LikeServiceUnitTest {
                 .title("Sample Article")
                 .body("This is the body of the article.")
                 .likeCount(5) // Initial like count
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         Like expectedLike = Like.builder()
