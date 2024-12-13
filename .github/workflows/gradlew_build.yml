@@ -30,7 +30,7 @@ jobs:
       run: chmod +x ./gradlew
       working-directory: ./computer_alerts-be
     - name: Build with Gradle Wrapper
-      run: ./gradlew clean build -Dspring.profiles.active=test
+      run: ./gradlew clean build
       working-directory: ./computer_alerts-be
     
   dependency-submission:
