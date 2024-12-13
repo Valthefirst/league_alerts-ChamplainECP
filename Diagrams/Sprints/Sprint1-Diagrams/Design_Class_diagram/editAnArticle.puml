@@ -5,7 +5,7 @@ skinparam packageStyle rectangle
 package "Presentation Layer" {
     class ArticleController {
         -articleService: ArticleService
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+        + editArticleByArticleId(articleId: String, articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
     }
 
    class ArticleResponseModel {
@@ -15,6 +15,8 @@ package "Presentation Layer" {
         - ArticleStatus articleStatus;
         - String tags;
         - LocalDateTime timePosted;
+        - photoUrl: String
+        - articleDescription :string
         }
 
 
@@ -24,12 +26,12 @@ package "Presentation Layer" {
 
 package "Business Layer" {
     interface ArticleService {
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+        + editArticleByArticleId(articleId: String, articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
     }
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
 
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+        + editArticleByArticleId(articleId: String,  articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
     }
 
     ArticleServiceImpl --> ArticleService : implements
@@ -55,7 +57,7 @@ package "Data Access Layer" {
         - tags: String;
         - timePosted: LocalDateTime;
         - photoUrl: string
-        - description: String
+        - articleDescription :string
     }
 
     class Content{
@@ -75,6 +77,8 @@ package "Data Access Layer" {
 
         + ArticleIdentifer(articleId: String)
     }
+
+
 
 
 

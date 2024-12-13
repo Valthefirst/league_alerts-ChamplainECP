@@ -2,7 +2,9 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
+
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
+
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
@@ -45,6 +47,21 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .map(EntityModelUtil::toArticleResponseModel);
     }
+
+    @Override
+    public Mono<ArticleResponseModel> editArticle(String articleId, Mono<ArticleRequestModel> articleRequestModel) {
+        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
+                .flatMap(foundArticle -> articleRequestModel
+                        .map(EntityModelUtil::toArticleEntity)
+                        .doOnNext(article -> article.setArticleIdentifier(foundArticle.getArticleIdentifier()))
+                        .doOnNext(article -> article.setId(foundArticle.getId()))
+                )
+                .flatMap(articleRepository::save)
+                .map(EntityModelUtil::toArticleResponseModel);
+    }
+
+
     @Override
     public Mono<Void> requestCount(String articleId) {
         return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
