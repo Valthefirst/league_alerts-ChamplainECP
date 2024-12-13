@@ -2,7 +2,6 @@ package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationla
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.LikeService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.http.HttpStatus;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.CommentService;
@@ -84,7 +83,7 @@ public class InteractionController {
     @PostMapping(value = "/comments", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<CommentResponseModel>> addComment(@RequestBody Mono<CommentRequestModel> commentRequestModel) {
         return commentService.addComment(commentRequestModel)
-                .map(ResponseEntity::ok)
+                .map(c -> ResponseEntity.status(HttpStatus.CREATED).body(c))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 }
