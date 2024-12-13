@@ -6,7 +6,9 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
@@ -38,20 +40,20 @@ public class EntityModelUtil {
         return articleResponseModel;
     }
 
-    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
-        return  Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
-                .body(articleRequestModel.getBody())
-                .tagsTag(articleRequestModel.getTagsTag())
-                .tags(articleRequestModel.getTags())
-                .title(articleRequestModel.getTitle())
-                .articleStatus(articleRequestModel.getArticleStatus())
-                .wordCount(articleRequestModel.getBody().split(" ").length)
-                .timePosted(articleRequestModel.getTimePosted())
-                .authorIdentifier(articleRequestModel.getAuthorIdentifier())
-                .photoUrl(articleRequestModel.getPhotoUrl())
-                .build();
-    }
+//    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+//        return  Article.builder()
+//                .articleIdentifier(new ArticleIdentifier())
+//                .body(articleRequestModel.getBody())
+//                .tagsTag(articleRequestModel.getTagsTag())
+//                .tags(articleRequestModel.getTags())
+//                .title(articleRequestModel.getTitle())
+//                .articleStatus(articleRequestModel.getArticleStatus())
+//                .wordCount(articleRequestModel.getBody().split(" ").length)
+//                .timePosted(articleRequestModel.getTimePosted())
+//                .authorIdentifier(articleRequestModel.getAuthorIdentifier())
+//                .photoUrl(articleRequestModel.getPhotoUrl())
+//                .build();
+//    }
 
 
     public static AuthorResponseModel toAuthorResponseModel(Author author) {
@@ -75,6 +77,7 @@ public class EntityModelUtil {
         return likeResponseModel;
     }
 
+
     public static CommentResponseModel toCommentResponseModel(Comment comment) {
         CommentResponseModel commentResponseModel = new CommentResponseModel();
         BeanUtils.copyProperties(comment, commentResponseModel);
@@ -94,4 +97,12 @@ public class EntityModelUtil {
     public static String generateUUIDString(){
         return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
     }
+
+    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+        Article article = new Article();
+        BeanUtils.copyProperties(articleRequestModel, article);
+        return article;
+    }
+
+
 }

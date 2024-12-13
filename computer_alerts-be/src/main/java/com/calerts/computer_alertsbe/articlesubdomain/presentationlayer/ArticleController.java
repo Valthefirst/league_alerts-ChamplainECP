@@ -4,6 +4,7 @@ package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +83,20 @@ public class ArticleController {
     public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
         return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
+
+    @PutMapping(value = "/{articleId}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<ArticleResponseModel>> editArticle
+            (@PathVariable String articleId,
+             @RequestBody Mono<ArticleRequestModel> articleRequestModel) {
+        return Mono.just(articleId)
+                .filter(id -> id.length() == 36)
+                .switchIfEmpty(Mono.error(new InvalidInputException("Provided article id is invalid: " + articleId)))
+                .flatMap(id -> articleService.editArticle(id, articleRequestModel))
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+
+    }
+
 }

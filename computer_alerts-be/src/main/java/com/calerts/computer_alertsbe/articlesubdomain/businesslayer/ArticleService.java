@@ -13,6 +13,8 @@ public interface ArticleService {
     Flux<ArticleResponseModel> getAllArticles();
     Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName);
     Mono<ArticleResponseModel> getArticleByArticleId(String articleId);
+
+    Mono<ArticleResponseModel> editArticle(String articleId, Mono<ArticleRequestModel> articleRequestModelMono);
     Mono<Void> requestCount(String articleId);
     Mono<Void> resetRequestCounts();
     Mono<List<ArticleResponseModel>> searchArticles(String query);
