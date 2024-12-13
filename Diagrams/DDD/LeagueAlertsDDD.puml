@@ -97,7 +97,7 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + tags: string
             + timePosted: DateTime
             + viewCount: int
-            + photo: PhotoIdentifier
+            + photoUrl: string
         }
 
         VALUE_OBJECT(ArticleIdentifier) #bisque {
@@ -116,23 +116,12 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + wordCount: int
         }
 
-        VALUE_OBJECT(Photo) #bisque {
-            + id : String
-            + photoIdentifier: PhotoIdentifier
-            + url: string
 
-        }
-
-        VALUE_OBJECT(PhotoIdentifier) #bisque {
-
-            + photoId: UUID
-        }
 
         Article "1" o--> "1" ArticleIdentifier
         Article "1" o--> "1" ArticleStatus
         ArticleList "1" o--> "*" ArticleIdentifier
-        Article "1" o--> "1" PhotoIdentifier
-        PhotoIdentifier "1" o--> "1" Photo
+
 
     }
 
