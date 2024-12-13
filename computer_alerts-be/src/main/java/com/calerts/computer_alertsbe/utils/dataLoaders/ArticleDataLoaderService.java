@@ -30,7 +30,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        //NBA articles
+
+        //NBA article
         Content nbaContent1 = Content.builder()
                 .title("NBA Article 1")
                 .body("\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n" +
@@ -49,8 +50,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944103/pexels-pixabay-71103_p1ungr.jpg")
                 .build();
 
+        //NBA article
         Content nbaContent2 = Content.builder()
                 .title("NBA Article 2")
                 .body("\"The National Basketball Association (NBA) is more competitive than ever, with teams striving to outdo each other in every game. Superstars like LeBron James, Kevin Durant, and Stephen Curry continue to dazzle fans with their incredible performances. This season, the playoff race is heating up, with every win and loss carrying significant weight.\"\n")
@@ -68,9 +71,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
-        //NHL articles
+
+        //NHL article
         Content nhlContent1 = Content.builder()
                 .title("NHL Article 1")
                 .body("\"The National Hockey League (NHL) is in the spotlight as teams battle for playoff positions. The season has been full of thrilling moments, from jaw-dropping goals to spectacular saves. With rivalries reignited and new stars emerging, hockey fans have plenty to cheer for. The race for the Stanley Cup promises to be more intense than ever.\"\n")
@@ -87,12 +92,14 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
                 .authorIdentifier(new AuthorIdentifier("7e93579d-cf40-44a0-9b82-6f8b05f3185b")) // George Smith
                 .build();
 
+        //NHL article
         Content nhlContent2 = Content.builder()
                 .title("NHL Article 2")
-                .body("\"Hockey fans around the world are celebrating the NHL's most exciting season yet. Teams are pushing their limits as they chase the coveted Stanley Cup. Players like Connor McDavid and Auston Matthews are delivering MVP-caliber performances, while goaltenders are showcasing their skills in highlight-reel fashion. The passion of hockey is alive and well.\"\n")
+                .body("\"Hockey fans around the world are celebrating the NHL’s most exciting season yet. Teams are pushing their limits as they chase the coveted Stanley Cup. Players like Connor McDavid and Auston Matthews are delivering MVP-caliber performances, while goaltenders are showcasing their skills in highlight-reel fashion. The passion of hockey is alive and well.\"\n")
                 .build();
 
         Article nhlArticle2 = Article.builder()
@@ -106,10 +113,12 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .authorIdentifier(new AuthorIdentifier("5a87fa4e-f2a4-4874-b7f6-c22c29decb97")) // Michael Jones
                 .build();
 
-        //NFL articles
+
+        //NFL article
         Content nflContent1 = Content.builder()
                 .title("NFL Article 1")
                 .body("\"The National Football League (NFL) is in full swing, with teams vying for playoff spots and showcasing incredible talent. Star quarterbacks like Patrick Mahomes and Josh Allen are delivering jaw-dropping performances, while defensive units are stepping up in clutch moments. The road to the Super Bowl is filled with surprises, making this season one of the most exciting in recent memory.\"\n")
@@ -126,9 +135,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .requestCount(0)
                 .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944084/pexels-pixabay-47331_qhejgo.jpg")
                 .authorIdentifier(new AuthorIdentifier("6d2bb1f9-0c4f-4691-a6f5-5599e7f2068c")) // Lily Williams
                 .build();
 
+        //NFL article
         Content nflContent2 = Content.builder()
                 .title("NFL Article 2")
                 .body("\"As the NFL season progresses, fans are witnessing a mix of epic comebacks, high-scoring thrillers, and nail-biting finishes. Teams are battling it out for divisional supremacy, and every game feels like a must-win. Emerging stars like Justin Jefferson are redefining what it means to dominate the gridiron, while seasoned veterans continue to inspire.\"\n")
@@ -145,10 +156,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .requestCount(0)
                 .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944081/pexels-pixabay-160577_tf74ef.jpg")
                 .authorIdentifier(new AuthorIdentifier("1c35b82c-d9a3-4f8f-a0a6-bde7a5096017")) // Thomas Clark
                 .build();
 
-        //UFC articles
+        //UFC article
         Content ufcContent1 = Content.builder()
                 .title("UFC Article 1")
                 .body("\"The Ultimate Fighting Championship (UFC) continues to captivate audiences with its electrifying matchups. From jaw-dropping knockouts to masterful submissions, fighters are leaving it all in the octagon. Champions like Israel Adesanya and Amanda Nunes are cementing their legacies, while rising stars are making their mark. The anticipation for upcoming fights has never been higher.\"\n")
@@ -165,9 +177,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944134/pexels-brunogobofoto-2204179_byfjyn.jpg")
                 .authorIdentifier(new AuthorIdentifier("9a21d4f8-85fa-477b-bc0a-76819b2d7c8f")) // Kevin Lee
                 .build();
 
+        //UFC article
         Content ufcContent2 = Content.builder()
                 .title("UFC Article 2")
                 .body("\"The UFC's octagon is the stage for some of the most intense rivalries in combat sports. Fighters like Conor McGregor and Kamaru Usman continue to deliver unforgettable moments, while thrilling undercards showcase the depth of talent in the promotion. With upcoming events promising blockbuster main events, fans are in for a wild ride this season.\"\n")
@@ -185,9 +199,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("8f5be0c1-0fc1-4cfb-b7b8-fc46e221d31e")) // Nancy Davis
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944132/pexels-pixabay-163403_xjkj1n.jpg")
                 .build();
 
-        //MLB articles
+        //MLB article
         Content mlbContent1 = Content.builder()
                 .title("MLB Article 1")
                 .body("\"The Major League Baseball (MLB) season has been a rollercoaster of emotions for fans. With players like Shohei Ohtani and Aaron Judge redefining excellence on the field, every game offers unforgettable moments. Teams are battling for playoff spots, and the intensity of the pennant races is unmatched. The postseason is set to deliver even more drama and excitement.\"\n")
@@ -204,9 +219,11 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tagsTag(Tags.MLB)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944130/pexels-glauco-moquete-1697414982-27899035_ynojsd.jpg")
                 .authorIdentifier(new AuthorIdentifier("1b71f87d-d5c7-47c2-90e5-0e11b83ed978")) // Elizabeth Brown
                 .build();
 
+        //MLB article
         Content mlbContent2 = Content.builder()
                 .title("MLB Article 2")
                 .body("\"The MLB season continues to thrill fans with its mix of power hitting, stellar pitching, and dramatic finishes. Rising stars and veteran players alike are showcasing their skills in a season full of surprises. As the postseason looms, every game becomes a must-watch as teams fight to keep their championship dreams alive.\"\n")
@@ -223,8 +240,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .likeCount(0)
                 .tagsTag(Tags.MLB)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944128/pexels-courtney-garner-585522281-17061702_nts9s1.jpg")
                 .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin
                 .build();
+
 
         // Check if the article already exists and insert it only if it doesn't
         Flux.just(nbaArticle1, nbaArticle2,

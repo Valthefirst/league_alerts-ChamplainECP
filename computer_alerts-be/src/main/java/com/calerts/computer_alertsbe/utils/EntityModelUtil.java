@@ -33,6 +33,7 @@ public class EntityModelUtil {
         articleResponseModel.setLikeCount(article.getLikeCount());
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
+        articleResponseModel.setPhotoUrl(article.getPhotoUrl());
         return articleResponseModel;
     }
 
@@ -44,9 +45,10 @@ public class EntityModelUtil {
                 .tags(articleRequestModel.getTags())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
-                .wordCount(articleRequestModel.getWordCount())
+                .wordCount(articleRequestModel.getBody().split(" ").length)
                 .timePosted(articleRequestModel.getTimePosted())
                 .authorIdentifier(articleRequestModel.getAuthorIdentifier())
+                .photoUrl(articleRequestModel.getPhotoUrl())
                 .build();
     }
 

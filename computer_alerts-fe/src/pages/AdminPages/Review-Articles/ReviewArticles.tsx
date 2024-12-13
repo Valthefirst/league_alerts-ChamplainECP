@@ -44,6 +44,7 @@ const ReviewArticles: React.FC = () => {
           {articles.map((article) => (
             <ArticleMainComponent
               key={article.articleId}
+              imageURL={article.photoUrl}
               title={article.title}
               description={`Word Count: ${article.wordCount}`}
               tags={article.tags}

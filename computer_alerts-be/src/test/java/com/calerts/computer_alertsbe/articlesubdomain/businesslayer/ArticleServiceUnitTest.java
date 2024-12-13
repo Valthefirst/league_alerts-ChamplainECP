@@ -51,6 +51,7 @@ class ArticleServiceUnitTest {
                 .tags("NBA")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         // Mock the repository to return a Mono<Article>
@@ -88,6 +89,7 @@ class ArticleServiceUnitTest {
                 .tags("NFL")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("\"https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg\"")
                 .build();
 
         // Mock the repository to return a Flux<Article>
@@ -125,6 +127,7 @@ class ArticleServiceUnitTest {
                 .tags("NFL")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .requestCount(5) // Non-zero request count
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         Article expectedArticle2 = Article.builder()
@@ -135,7 +138,8 @@ class ArticleServiceUnitTest {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NFL")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
-                .requestCount(3) // Non-zero request count
+                .requestCount(3)
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")// Non-zero request count
                 .build();
 
         // Mock the repository to return both articles

@@ -2,6 +2,7 @@ import React from "react";
 import "./ArticleMainComponent.css";
 
 interface ArticleMainComponentProps {
+  imageURL: string;
   title: string;
   description: string;
   tags: string;
@@ -9,6 +10,7 @@ interface ArticleMainComponentProps {
 }
 
 const ArticleMainComponent: React.FC<ArticleMainComponentProps> = ({
+  imageURL,
   title,
   description,
   tags,
@@ -19,7 +21,7 @@ const ArticleMainComponent: React.FC<ArticleMainComponentProps> = ({
       <div className="article-main-component__image">
         {/* Hardcoded placeholder image */}
         <img
-          src="https://via.placeholder.com/150"
+          src={imageURL}
           alt="Article Thumbnail"
           className="article-main-component__thumbnail"
         />

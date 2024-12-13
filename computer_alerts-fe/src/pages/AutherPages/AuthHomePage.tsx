@@ -38,15 +38,16 @@ const AuthHomePage: React.FC = () => {
         <h1>Recently Added Articles</h1>
       </div>
       <div className="row">
-      {articles.slice(0, 4).map((article) => (
-    <ArticleMainComponent
-      key={article.articleId}
-      title={article.title}
-      description={`Word Count: ${article.wordCount}`}
-      tags={article.tags}
-      onClick={() => handleArticleClick(article.articleId)}
-    />
-  ))}
+        {articles.slice(0, 4).map((article) => (
+          <ArticleMainComponent
+            key={article.articleId}
+            imageURL={article.photoUrl}
+            title={article.title}
+            description={`Word Count: ${article.wordCount}`}
+            tags={article.tags}
+            onClick={() => handleArticleClick(article.articleId)}
+          />
+        ))}
       </div>
     </div>
   );

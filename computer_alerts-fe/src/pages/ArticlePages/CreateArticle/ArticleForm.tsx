@@ -8,7 +8,9 @@ const ArticleForm = () => {
   const [formData, setFormData] = useState<ArticleRequestModelI>({
     title: "",
     body: "",
-    wordCount: 300,
+    photoUrl:
+      "https://loudounsportstherapy.com/wp-content/uploads/2017/09/canstockphoto2191080-1.jpg",
+    wordCount: 222,
     articleStatus: "ARTICLE_REVIEW",
     tags: "",
     tagsTag: "NBA",
@@ -60,6 +62,14 @@ const ArticleForm = () => {
         placeholder="Title"
         value={formData.title}
         onChange={handleChange}
+        className="article-form__input"
+      />
+      <label htmlFor="photoUrl">PhotoUrl</label>
+      <input
+        type="text"
+        name="photoUrl"
+        placeholder="photoUrl"
+        value={formData.photoUrl}
         className="article-form__input"
       />
       <label htmlFor="body">Body</label>

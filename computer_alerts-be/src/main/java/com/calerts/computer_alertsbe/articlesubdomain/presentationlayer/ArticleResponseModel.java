@@ -36,4 +36,6 @@ public class ArticleResponseModel {
         this.likeCount = likeCount;
     }
     private Integer requestCount;
+
+    private String photoUrl;
 }

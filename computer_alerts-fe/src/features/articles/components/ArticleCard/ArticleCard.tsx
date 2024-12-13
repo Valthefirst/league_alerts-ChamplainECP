@@ -136,7 +136,15 @@ const ArticleCard: React.FC = () => {
               <div
                 className="article-image-placeholder"
                 onClick={() => handleArticleClick(article.articleId)}
-              ></div>
+              >
+                {article.photoUrl && (
+                  <img
+                    src={article.photoUrl}
+                    alt={article.title}
+                    className="article-image"
+                  />
+                )}
+              </div>
               <div className="article-card-content-footer">
                 <h3
                   className="title-card"
@@ -144,6 +152,9 @@ const ArticleCard: React.FC = () => {
                 >
                   {article.title}
                 </h3>
+                <p className="card-body">
+                  <strong>Description:</strong>
+                </p>
                 <p className="card-body">
                   <strong>Posted:</strong> {formatDate(article.timePosted)}
                 </p>
@@ -160,7 +171,7 @@ const ArticleCard: React.FC = () => {
                       article.articleId && handleLikeToggle(article.articleId)
                     }
                   ></div>
-                  <p className="like-count">
+                  <p className="article-card-like-count">
                     {likedArticles[article.articleId || ""] ? 1 : 0}
                   </p>
                 </div>

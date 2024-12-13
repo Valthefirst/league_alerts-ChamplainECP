@@ -1,0 +1,58 @@
+.con-color {
+  background-color: #fadbd8;
+}
+
+.container {
+  height: 100%;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.goodSize {
+  height: 150px;
+}
+
+.bodyArticle {
+  border: 2px solid black;
+  line-height: "4.5";
+  padding: 25px;
+  margin: 45px; 
+  background-color: white;
+}
+.sameLine {
+  display: flex;
+  align-items: center; 
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.sameLine > h2 {
+  margin: 0; 
+}
+
+.bold{
+    font-weight: 100;
+}
+
+.sameLine > .CircleCheckButton {
+  margin-left: 20px; 
+}
+
+.imageStyle {
+  height: 185px;
+  width: 165px;
+  margin-right: 400px;
+}
+
+.lastRow {
+  margin-top: 50px;
+}
+
+.center{
+    text-align: center;
+}
+
+.rightSpace{
+    margin-right: 80px;
+}

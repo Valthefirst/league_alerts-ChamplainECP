@@ -57,4 +57,6 @@ public class Article {
 
     private Integer requestCount;
 
+    private String photoUrl;
+
 }

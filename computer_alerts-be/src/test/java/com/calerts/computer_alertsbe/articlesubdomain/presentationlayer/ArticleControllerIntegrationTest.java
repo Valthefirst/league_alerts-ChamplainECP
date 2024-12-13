@@ -55,6 +55,7 @@ class ArticleControllerIntegrationTest {
                 .tags("NBA")
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
         var article2 = Article.builder()
@@ -66,6 +67,7 @@ class ArticleControllerIntegrationTest {
                 .tags("NBA")
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
                 .build();
 
         var article3 = Article.builder()
@@ -77,6 +79,7 @@ class ArticleControllerIntegrationTest {
                 .tags("NFL")
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
@@ -111,6 +114,7 @@ class ArticleControllerIntegrationTest {
                 .tags("NBA")
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
         articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
@@ -180,6 +184,7 @@ class ArticleControllerIntegrationTest {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
                 .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
         articleRepository.findArticleByArticleIdentifier_ArticleId(article1.getArticleIdentifier().getArticleId())
                 .switchIfEmpty(articleRepository.save(article1))

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ArticleRequestModel {
 
-//  private String articleId;
+    private String articleId;
 
     private String title;
     private String body;
@@ -28,5 +28,7 @@ public class ArticleRequestModel {
     private String tags;
     private Tags tagsTag;
     private LocalDateTime timePosted;
+
+    private String photoUrl;
     private AuthorIdentifier authorIdentifier;
 }
