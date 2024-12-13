@@ -11,6 +11,6 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
 
         Flux<Article> findAllArticleByTags(String tagName);
 
-        Flux<Article> findByAuthorIdentifier(AuthorIdentifier authorIdentifier);
+//        Flux<Article> findByAuthorIdentifier(AuthorIdentifier authorIdentifier);
 
 }

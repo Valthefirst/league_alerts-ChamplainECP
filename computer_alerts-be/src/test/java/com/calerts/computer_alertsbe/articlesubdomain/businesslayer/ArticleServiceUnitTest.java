@@ -1,6 +1,8 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
+import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,6 +237,113 @@ class ArticleServiceUnitTest {
 
         verify(articleRepository).findArticleByArticleIdentifier_ArticleId(articleId);
         verify(articleRepository, never()).save(any());
+    }
+
+    @Test
+    void createArticle_validArticle_shouldCreateAndReturnArticle() {
+        // Arrange
+        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a valid test article with sufficient word count to pass the validation.")
+                .wordCount(120)
+                .tags("NBA")
+                .build();
+
+        Article savedArticle = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title(validArticleRequest.getTitle())
+                .body(validArticleRequest.getBody())
+                .wordCount(validArticleRequest.getWordCount())
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .tags(validArticleRequest.getTags())
+                .requestCount(0)
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .build();
+
+        // Mock the repository save method to return the saved article
+        when(articleRepository.save(any(Article.class)))
+                .thenReturn(Mono.just(savedArticle));
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(validArticleRequest)))
+                .expectNextMatches(responseModel ->
+                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
+                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
+                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
+                )
+                .verifyComplete();
+    }
+
+    @Test
+    void createArticle_emptyTitle_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("")
+                .body("Some body")
+                .wordCount(120)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
+
+    @Test
+    void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("Test Title")
+                .body("Short body")
+                .wordCount(50)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
+
+    @Test
+    void acceptArticle_validArticleId_shouldUpdateArticleStatus() {
+        // Arrange
+        String validArticleId = "validArticleId";
+        Article existingArticle = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(validArticleId))
+                .title("Test Article")
+                .body("Article body")
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .build();
+
+        // Mock the repository find method to return the existing article
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(validArticleId))
+                .thenReturn(Mono.just(existingArticle));
+
+        // Mock the repository save method to return the updated article
+        when(articleRepository.save(any(Article.class)))
+                .thenReturn(Mono.just(existingArticle));
+
+        // Act and Assert
+        StepVerifier.create(articleService.acceptArticle(validArticleId))
+                .verifyComplete();
+    }
+
+    @Test
+    void acceptArticle_nonExistentArticleId_shouldThrowNotFoundException() {
+        // Arrange
+        String nonExistentArticleId = "nonExistentArticleId";
+
+        // Mock the repository find method to return empty
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(nonExistentArticleId))
+                .thenReturn(Mono.empty());
+
+        // Act and Assert
+        StepVerifier.create(articleService.acceptArticle(nonExistentArticleId))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof NotFoundException &&
+                                throwable.getMessage().contains("article id was not found: " + nonExistentArticleId)
+                )
+                .verify();
     }
 
 
