@@ -27,7 +27,6 @@ export default function AuthorNavBar(): JSX.Element {
             >
               Your Articles
             </Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </Container>

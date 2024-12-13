@@ -1,58 +1,58 @@
 .article-form {
-    display: flex;
-    flex-direction: column;
-    width: 50%; /* Adjust width as needed */
-    margin: 0 auto; /* Center the form horizontally */
-    padding: 2rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-  }
-  
-  .article-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-  
-  .article-form input[type="text"],
-  .article-form textarea,
-  .article-form select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 16px;
-  }
-  
-  .article-form textarea {
-    height: 200px; /* Adjust height as needed */
-    resize: vertical; /* Allow users to resize the textarea */
-  }
-  
-  .article-form select {
-    appearance: none; /* Remove default select styles */
-    background-image: url("data:image/svg+xml;base64,phN2ZyB4bWxucz0iaHR0cDovL3d3dy533cudG9vL20vMTcwMC9zdmciIHZpZXdCbG9jay0neD0iMTAiIHZpZXdCbG9jay0teT0iMTAiIHdpZHRoPSIxNiIgIGhlaWdodD0iMTciIGZpbGw9IiNjY2NjY2MiIgIHN0cm9rZT0ibm9uZSIgIHN0cm9rZS13aWR0aD0iMiIgIHN0cm9rZS1saW5lY2FwPSJvZmZiIj48cGF0aCBkPSJNNSAyOSB2LTExLjE3bDYuNS02LjUgNC45NiA0Ljk2VjI5eiIvPjwvc3ZnPg"); /* Add a down arrow icon */
-    background-repeat: no-repeat;
-    background-position: calc(100% - 10px) center; /* Position the icon at the right end */
-    padding-right: 30px; /* Adjust padding to accommodate the icon */
-  }
-  
-  .article-form select:hover {
-    cursor: pointer; /* Change cursor to pointer on hover */
-  }
-  
-  .article-form button[type="submit"] {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 1rem;
-  }
-  
-  .article-form button[type="submit"]:hover {
-    background-color: #45A049; /* Darker green on hover */
-  }
+  display: flex;
+  flex-direction: column;
+  width: 50%; /* Adjust width as needed */
+  margin: 0 auto; /* Center the form horizontally */
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.article-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.article-form input[type="text"],
+.article-form textarea,
+.article-form select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.article-form textarea {
+  height: 200px; /* Adjust height as needed */
+  resize: vertical; /* Allow users to resize the textarea */
+}
+
+.article-form select {
+  appearance: none; /* Remove default select styles */
+  background-image: url("data:image/svg+xml;base64,phN2ZyB4bWxucz0iaHR0cDovL3d3dy533cudG9vL20vMTcwMC9zdmciIHZpZXdCbG9jay0neD0iMTAiIHZpZXdCbG9jay0teT0iMTAiIHdpZHRoPSIxNiIgIGhlaWdodD0iMTciIGZpbGw9IiNjY2NjY2MiIgIHN0cm9rZT0ibm9uZSIgIHN0cm9rZS13aWR0aD0iMiIgIHN0cm9rZS1saW5lY2FwPSJvZmZiIj48cGF0aCBkPSJNNSAyOSB2LTExLjE3bDYuNS02LjUgNC45NiA0Ljk2VjI5eiIvPjwvc3ZnPg"); /* Add a down arrow icon */
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center; /* Position the icon at the right end */
+  padding-right: 30px; /* Adjust padding to accommodate the icon */
+}
+
+.article-form select:hover {
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.article-form button[type="submit"] {
+  background-color: #4caf50; /* Green color */
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 1rem;
+}
+
+.article-form button[type="submit"]:hover {
+  background-color: #45a049; /* Darker green on hover */
+}

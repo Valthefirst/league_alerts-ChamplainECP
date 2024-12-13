@@ -13,7 +13,6 @@ export const fetchArticleByArticleId = async (
   return response.data;
 };
 
-
 export const fetchArticleByArticleIdWithNoPatch = async (
   articleId: string,
 ): Promise<ArticleRequestModel> => {

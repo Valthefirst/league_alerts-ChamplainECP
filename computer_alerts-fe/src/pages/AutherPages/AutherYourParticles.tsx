@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllsArticles } from "features/articles/api/getAllArticles";
 import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import ArticleMainComponent from "../ArticlePages/ArticleMainComponent";
-import "./AutherYourParticles.css"
+import "./AutherYourParticles.css";
 
 const AutherYourArticles: React.FC = () => {
   const navigate = useNavigate();
@@ -18,64 +18,64 @@ const AutherYourArticles: React.FC = () => {
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
       navigate(`/articles/${articleId}`);
-      
     } else {
       console.error("Invalid articleId. Cannot navigate.");
     }
   };
 
-
-  useEffect(() =>{
-    const fetchArticles = async () =>{
+  useEffect(() => {
+    const fetchArticles = async () => {
       try {
         const allArticles = await fetchAllsArticles();
         const articlesToReview = allArticles.filter(
-            (article: ArticleRequestModel) => article.articleStatus === "PUBLISHED"
+          (article: ArticleRequestModel) =>
+            article.articleStatus === "PUBLISHED",
         );
         setArticles(articlesToReview);
-    } catch (err) {
+      } catch (err) {
         setError("Failed to fetch articles. Please try again later.");
-    } finally {
+      } finally {
         setLoading(false);
-    }
-};
-fetchArticles();
-    }
-  ,[]);
+      }
+    };
+    fetchArticles();
+  }, []);
 
   if (loading) return <p>Loading trending articles...</p>;
   if (error) return <p>{error}</p>;
 
-  
   return (
     <div className="container">
       <div className="row firstRowIntroduction">
         <div className="col-6">
-        <h1>These are Your Articles</h1>
+          <h1>These are Your Articles</h1>
         </div>
         <div className="col-6">
-        <button className="btn btn-primary mt-25 createButton" onClick={handleCreateArticleClick}>Create Article</button>
-        </div>     
+          <button
+            className="btn btn-primary mt-25 createButton"
+            onClick={handleCreateArticleClick}
+          >
+            Create Article
+          </button>
+        </div>
       </div>
       <div className="row">
-
-      <div className="review-articles__list">
-                    {articles.map((article) => (
-                        <ArticleMainComponent
-                            key={article.articleId}
-                            title={article.title}
-                            description={`Word Count: ${article.wordCount}`}
-                            tags={article.tags}
-                            onClick={() => {handleArticleClick(article.articleId)}}
-                        />
-                    ))}
-                </div>
-
+        <div className="review-articles__list">
+          {articles.map((article) => (
+            <ArticleMainComponent
+              key={article.articleId}
+              title={article.title}
+              description={`Word Count: ${article.wordCount}`}
+              tags={article.tags}
+              onClick={() => {
+                handleArticleClick(article.articleId);
+              }}
+            />
+          ))}
+        </div>
       </div>
-      
-      
     </div>
   );
 };
 
-export default  AutherYourArticles;
+export default AutherYourArticles;

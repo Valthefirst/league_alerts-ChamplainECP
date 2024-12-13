@@ -22,5 +22,4 @@ export enum AppRoutePaths {
 
   AdminHomePage = "/adminHomePage",
   AdminReviewArticles = "/adminReviewArticles",
-  
 }

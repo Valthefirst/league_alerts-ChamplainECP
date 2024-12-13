@@ -1,6 +1,11 @@
 import "./App.css";
 import { AppRoutePaths } from "./shared/models/path.routes";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import AppNavBar from "./layouts/AppNavBar";
 import AuthorNavBar from "./layouts/AutherDashboard/AutherNavBar";
 import HomePage from "./pages/Home/HomePage";
@@ -15,7 +20,7 @@ import AutherCreateArticle from "pages/AutherPages/AutherCreateArticle";
 import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
-import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails"
+import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 
 const Navbar = () => {
   const location = useLocation();
@@ -23,17 +28,15 @@ const Navbar = () => {
   if (
     location.pathname.startsWith("/authDashboard") ||
     location.pathname.startsWith("/authHome") ||
-    location.pathname.startsWith("/authCreateArticle")||
+    location.pathname.startsWith("/authCreateArticle") ||
     location.pathname.startsWith("/authYourArticles")
   ) {
     return <AuthorNavBar />;
-  }else if(
+  } else if (
     location.pathname.startsWith("/adminHomePage") ||
     location.pathname.startsWith("/adminReviewArticles")
-
-
-  ){
-    return <AdminNavBar/>
+  ) {
+    return <AdminNavBar />;
   }
 
   return <AppNavBar />;
@@ -46,24 +49,38 @@ function App(): JSX.Element {
         <Navbar />
 
         <Routes>
-
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
-          <Route path={AppRoutePaths.CREATE_ACCOUNT} element={<CreateUserForm />} />
+          <Route
+            path={AppRoutePaths.CREATE_ACCOUNT}
+            element={<CreateUserForm />}
+          />
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-          <Route path={AppRoutePaths.ArticlesByTag} element={<ArticlesPage />} />
+          <Route
+            path={AppRoutePaths.ArticlesByTag}
+            element={<ArticlesPage />}
+          />
 
-
-          <Route path={AppRoutePaths.AuthorHomePage} element={<AuthHomePage />} />
-          <Route path={AppRoutePaths.AutherYourArticle} element={< AutherYourArticles/>} />
+          <Route
+            path={AppRoutePaths.AuthorHomePage}
+            element={<AuthHomePage />}
+          />
+          <Route
+            path={AppRoutePaths.AutherYourArticle}
+            element={<AutherYourArticles />}
+          />
           <Route path="/authCreateArticle" element={<AutherCreateArticle />} />
 
-
-          <Route path={AppRoutePaths.AuthorHomePage} element={<AdminHomePage/>} />
-          <Route path={AppRoutePaths.AdminReviewArticles} element={< AdminReviewArticles/>} />
+          <Route
+            path={AppRoutePaths.AuthorHomePage}
+            element={<AdminHomePage />}
+          />
+          <Route
+            path={AppRoutePaths.AdminReviewArticles}
+            element={<AdminReviewArticles />}
+          />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
-
 
           <Route
             path={AppRoutePaths.ArticlesByTag}

@@ -38,11 +38,10 @@ const ArticleDetails: React.FC = () => {
 
           const authorsData = await getAllAuthors();
           const foundAuthor = authorsData.find((author) =>
-            author.articles.articleList?.some((a) => a.articleId === id)
+            author.articles.articleList?.some((a) => a.articleId === id),
           );
           setAuthor(foundAuthor || null);
 
-        
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
         } else {
@@ -62,7 +61,7 @@ const ArticleDetails: React.FC = () => {
   useEffect(() => {
     if (heartRef.current) {
       const heartEl = heartRef.current;
-      heartEl.classList.remove("active"); 
+      heartEl.classList.remove("active");
       new HeartAnimation(heartEl);
     }
   }, []);
@@ -70,17 +69,17 @@ const ArticleDetails: React.FC = () => {
   const handleLikeToggle = async () => {
     if (id && heartRef.current) {
       try {
-        const readerId = "06a7d573-bcab-4db3-956f-773324b92a80"; 
+        const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
         if (isLiked) {
           await unlikeArticle(id, readerId);
           setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
-          localStorage.setItem(`article-${id}-liked`, "false"); 
+          localStorage.setItem(`article-${id}-liked`, "false");
         } else {
           const animation = new HeartAnimation(heartRef.current);
           animation.play();
           await likeArticle(id, readerId);
           setLikeCount((prevCount) => prevCount + 1);
-          localStorage.setItem(`article-${id}-liked`, "true"); 
+          localStorage.setItem(`article-${id}-liked`, "true");
         }
         setIsLiked(!isLiked);
       } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllsArticles } from "../../api/getAllArticles"; 
+import { fetchAllsArticles } from "../../api/getAllArticles";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,7 +30,7 @@ const TrendingArticles: React.FC = () => {
     };
 
     fetchTrendingArticles();
-  }, []); 
+  }, []);
 
   const patchArticleTrend = async (articleId: string) => {
     try {

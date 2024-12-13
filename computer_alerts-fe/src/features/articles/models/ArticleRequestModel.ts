@@ -12,10 +12,7 @@ export interface ArticleRequestModel {
   authorIdentifier: string;
 }
 
-
-
-
-export interface ArticleRequestModelI{
+export interface ArticleRequestModelI {
   title: string;
   body: string;
   wordCount: number;
@@ -24,5 +21,4 @@ export interface ArticleRequestModelI{
   tagsTag: string;
   timePosted: string;
   authorIdentifier: string;
-
 }

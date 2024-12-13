@@ -1,6 +1,4 @@
 const ArticleReview: React.FC = () => {
-    return(
-        <div></div>
-    )
-}
+  return <div></div>;
+};
 export default ArticleReview;

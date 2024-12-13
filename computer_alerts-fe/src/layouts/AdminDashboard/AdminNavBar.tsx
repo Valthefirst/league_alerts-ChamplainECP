@@ -27,7 +27,6 @@ export default function AuthorNavBar(): JSX.Element {
             >
               Review Pending Articles
             </Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </Container>
