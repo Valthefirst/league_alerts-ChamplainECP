@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/articles")
 public class ArticleController {
@@ -52,4 +54,10 @@ public class ArticleController {
     public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
         return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
+
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<List<ArticleResponseModel>> searchArticles(@RequestParam String query) {
+        return articleService.searchArticles(query);
+    }
+
 }
