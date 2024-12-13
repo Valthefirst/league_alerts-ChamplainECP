@@ -102,9 +102,17 @@ const ArticleDetails: React.FC = () => {
   return article ? (
     <div className="article-container">
       <div className="article-image">
-        <div className="image-placeholder">
-          <p>No Image Available</p>
-        </div>
+        {article.photoUrl ? (
+          <img
+            src={article.photoUrl}
+            alt={article.title}
+            className="article-image"
+          />
+        ) : (
+          <div className="image-placeholder">
+            <p>No Image Available</p>
+          </div>
+        )}
       </div>
       <div className="like-section">
         <div
