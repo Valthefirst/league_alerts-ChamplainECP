@@ -5,6 +5,8 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleR
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 public interface ArticleService {
 
     Flux<ArticleResponseModel> getAllArticles();
@@ -12,7 +14,5 @@ public interface ArticleService {
     Mono<ArticleResponseModel> getArticleByArticleId(String articleId);
     Mono<Void> requestCount(String articleId);
     Mono<Void> resetRequestCounts();
-
-
-
+    Mono<List<ArticleResponseModel>> searchArticles(String query);
 }
