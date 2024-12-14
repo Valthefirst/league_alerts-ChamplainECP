@@ -25,6 +25,7 @@ public class InteractionController {
         this.commentService = commentService;
     }
 
+
     @PostMapping("/like")
     public Mono<ResponseEntity<LikeResponseModel>> likeArticle(
             @RequestParam String articleId,
@@ -35,6 +36,7 @@ public class InteractionController {
                 .map(EntityModelUtil::toLikeResponseModel)
                 .map(responseModel -> ResponseEntity.status(HttpStatus.CREATED).body(responseModel));
     }
+
 
     @GetMapping("/likes/article/{articleId}")
     public Mono<ResponseEntity<List<LikeResponseModel>>> getLikesByArticle(@PathVariable String articleId) {
