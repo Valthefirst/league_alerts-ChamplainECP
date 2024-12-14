@@ -39,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
         return commentRequestModel
                 .filter(comment -> !comment.getContent().trim().isEmpty())
                 .switchIfEmpty(Mono.error(new InvalidCommentException("Comment content cannot be empty")))
+                .flatMap(c ->{
+                    if (c.getContent().trim().split(" ").length > 50)
+                        return Mono.error(new InvalidCommentException("Comment exceeds 50 words."));
+                    return Mono.just(c);
+                })
                 .flatMap(c -> {
                     return articleRepository.findArticleByArticleIdentifier_ArticleId(c.getArticleId())
                             .switchIfEmpty(Mono.error(new NotFoundException("Article id was not found: " + c.getArticleId())))

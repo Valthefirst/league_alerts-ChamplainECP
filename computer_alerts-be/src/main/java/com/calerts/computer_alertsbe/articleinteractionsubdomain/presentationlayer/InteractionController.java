@@ -80,10 +80,9 @@ public class InteractionController {
         return commentService.getAllComments();
     }
 
-    @PostMapping(value = "/comments", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<CommentResponseModel>> addComment(@RequestBody Mono<CommentRequestModel> commentRequestModel) {
+    @PostMapping(value = "/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<Void>> addComment(@RequestBody Mono<CommentRequestModel> commentRequestModel) {
         return commentService.addComment(commentRequestModel)
-                .map(c -> ResponseEntity.status(HttpStatus.CREATED).body(c))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
     }
 }

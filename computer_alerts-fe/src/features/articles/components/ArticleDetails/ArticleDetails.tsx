@@ -8,6 +8,9 @@ import { HeartAnimation } from "../../components/animations/HeartAnimation";
 import "./ArticleDetails.css";
 import { Author } from "features/authors/model/Author";
 import { getAllAuthors } from "features/authors/api/getAllAuthors";
+import CommentList from "features/comments/components/CommentList";
+import { addComment } from "features/comments/api/addComment";
+import { CommentModel } from "features/comments/model/CommentModel";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -20,7 +23,6 @@ const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
   const [author, setAuthor] = useState<Author | null>(null);
-  const [comments, setComments] = useState<string[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
@@ -89,9 +91,23 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  const addComment = () => {
-    if (newComment.trim()) {
-      setComments([...comments, newComment]);
+  // TODO: Get the actual reader Id
+  const postComment = () => {
+    if (newComment.length > 50) {
+      const wordCount = newComment.trim().split(/\s+/).length;
+      if (wordCount > 50) {
+        alert("Comment is too long. Please keep it under 50 words.");
+        return;
+      }
+    }
+    if (newComment.trim() && article) {
+      const comment: Partial<CommentModel> = {
+        content: newComment,
+        articleId: article.articleId,
+        // To replace with actual readerId later on cause Jessy didn't do create account yet or sign in yet
+        readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
+      };
+      addComment(comment);
       setNewComment("");
     }
   };
@@ -136,18 +152,8 @@ const ArticleDetails: React.FC = () => {
       <hr className="divider" />
       <div className="comments-section">
         <h2 className="comments-title">Comments</h2>
+        <CommentList articleId={{ articleId: article.articleId }} />
         <div className="comments-list">
-          {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <div key={index} className="comment-item">
-                {comment}
-              </div>
-            ))
-          ) : (
-            <p className="no-comments">
-              No comments yet. Be the first to comment!
-            </p>
-          )}
         </div>
         <textarea
           value={newComment}
@@ -156,7 +162,7 @@ const ArticleDetails: React.FC = () => {
           className="comment-input"
           rows={3}
         />
-        <button onClick={addComment} className="add-comment-button">
+        <button onClick={postComment} className="add-comment-button">
           Add Comment
         </button>
       </div>
