@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
 import { fetchAllsArticles } from "../../api/getAllArticles";
+import React, { useEffect, useState, useRef } from "react";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { useNavigate } from "react-router-dom";
 import { likeArticle } from "../../api/likeArticle";
@@ -21,13 +21,17 @@ const TrendingArticles: React.FC = () => {
   const navigate = useNavigate();
 
   const refreshLikedState = (articles: ArticleRequestModel[]) => {
-    const initialLikedState = articles.reduce((acc, article) => {
-      if (article.articleId) {
-        acc[article.articleId] =
-          localStorage.getItem(`article-${article.articleId}-liked`) === "true";
-      }
-      return acc;
-    }, {} as { [articleId: string]: boolean });
+    const initialLikedState = articles.reduce(
+      (acc, article) => {
+        if (article.articleId) {
+          acc[article.articleId] =
+            localStorage.getItem(`article-${article.articleId}-liked`) ===
+            "true";
+        }
+        return acc;
+      },
+      {} as { [articleId: string]: boolean },
+    );
     setLikedArticles(initialLikedState);
   };
 
@@ -36,7 +40,7 @@ const TrendingArticles: React.FC = () => {
       try {
         const data = await fetchAllsArticles();
         const sortedArticles = data.sort(
-          (a, b) => b.requestCount - a.requestCount
+          (a, b) => b.requestCount - a.requestCount,
         );
         const topArticles = sortedArticles.slice(0, 3);
         setTrendingArticles(topArticles);
@@ -59,7 +63,10 @@ const TrendingArticles: React.FC = () => {
         const heartElement = heartRefs.current[articleId];
 
         if (isLiked) {
-          await unlikeArticle(articleId, "06a7d573-bcab-4db3-956f-773324b92a80");
+          await unlikeArticle(
+            articleId,
+            "06a7d573-bcab-4db3-956f-773324b92a80",
+          );
           localStorage.setItem(`article-${articleId}-liked`, "false");
         } else {
           if (heartElement) {
@@ -112,7 +119,7 @@ const TrendingArticles: React.FC = () => {
               {trendingArticles[0] && (
                 <div className="card h-100">
                   <img
-                    src="https://www.mozaics.com/wp-content/uploads/2021/09/SQUARE-GREY-GLOSSY-FLAT-en-o2SweAjKc1RFyXJY.jpg"
+                    src={trendingArticles[0].photoUrl}
                     className="card-img-top"
                     alt={trendingArticles[0]?.title || "Big article image"}
                   />
@@ -159,7 +166,7 @@ const TrendingArticles: React.FC = () => {
               {trendingArticles.slice(1).map((article) => (
                 <div key={article.articleId} className="card mb-4 h-100">
                   <img
-                    src="https://www.mozaics.com/wp-content/uploads/2021/09/SQUARE-GREY-GLOSSY-FLAT-en-o2SweAjKc1RFyXJY.jpg"
+                    src={article.photoUrl}
                     className="card-img-top"
                     alt={article.title || "Trending article image"}
                   />
@@ -177,9 +184,7 @@ const TrendingArticles: React.FC = () => {
                           (heartRefs.current[article.articleId || ""] = el)
                         }
                         className={`button ${
-                          likedArticles[article.articleId || ""]
-                            ? "active"
-                            : ""
+                          likedArticles[article.articleId || ""] ? "active" : ""
                         }`}
                         onClick={() =>
                           article.articleId &&

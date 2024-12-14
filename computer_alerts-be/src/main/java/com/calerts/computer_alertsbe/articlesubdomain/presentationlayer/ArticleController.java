@@ -7,6 +7,7 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,21 @@ public class ArticleController {
                 .flatMap(articleService::getArticleByArticleId)
                 .map(ResponseEntity::ok);
     }
+
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<ArticleResponseModel>> createArticle(@RequestBody ArticleRequestModel articleRequestModel) {
+        return articleService.createArticle(Mono.just(articleRequestModel))
+                .map(articleResponseModel -> ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(articleResponseModel))
+                .onErrorResume(e -> Mono.just(
+                        ResponseEntity
+                                .status(HttpStatus.BAD_REQUEST)
+                                .body(null)));
+    }
+
+
     @PermitAll
     @PatchMapping(value = "/{articleId}")
     public Mono<ResponseEntity<Void>> incrementRequestCount(@PathVariable String articleId) {
@@ -60,4 +76,10 @@ public class ArticleController {
         return articleService.searchArticles(query);
     }
 
+
+    @PermitAll
+    @PatchMapping(value = "acceptArticle/{articleId}")
+    public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
+        return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
+    }
 }

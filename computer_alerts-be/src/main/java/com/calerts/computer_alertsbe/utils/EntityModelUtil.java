@@ -7,12 +7,17 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlay
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
+
+import java.util.Date;
+import java.util.UUID;
 
 public class EntityModelUtil {
 
@@ -29,7 +34,23 @@ public class EntityModelUtil {
         articleResponseModel.setLikeCount(article.getLikeCount());
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
+        articleResponseModel.setPhotoUrl(article.getPhotoUrl());
         return articleResponseModel;
+    }
+
+    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+        return  Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .body(articleRequestModel.getBody())
+                .tagsTag(articleRequestModel.getTagsTag())
+                .tags(articleRequestModel.getTags())
+                .title(articleRequestModel.getTitle())
+                .articleStatus(articleRequestModel.getArticleStatus())
+                .wordCount(articleRequestModel.getBody().split(" ").length)
+                .timePosted(articleRequestModel.getTimePosted())
+                .authorIdentifier(articleRequestModel.getAuthorIdentifier())
+                .photoUrl(articleRequestModel.getPhotoUrl())
+                .build();
     }
 
 
@@ -68,5 +89,9 @@ public class EntityModelUtil {
         BeanUtils.copyProperties(commentRequestModel, comment);
         comment.setArticleId(new ArticleIdentifier(commentRequestModel.getArticleId()));
         return comment;
+    }
+
+    public static String generateUUIDString(){
+        return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
     }
 }

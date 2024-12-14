@@ -213,6 +213,91 @@ class ArticleControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isNotFound();
     }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenCreateValidArticle_thenReturnCreatedArticle() {
+        // Arrange
+        ArticleRequestModel articleRequestModel = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a detailed test article with sufficient word count to pass validation.")
+                .wordCount(120)
+                .tags("NBA")
+                .build();
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(articleRequestModel)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ArticleResponseModel.class)
+                .value(response -> {
+                    assertNotNull(response);
+                    assertEquals(articleRequestModel.getTitle(), response.getTitle());
+                    assertEquals(ArticleStatus.ARTICLE_REVIEW, response.getArticleStatus());
+                });
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenCreateArticleWithInvalidData_thenReturnBadRequest() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("")
+                .body("Short body")
+                .wordCount(50)
+                .build();
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(invalidArticleRequest)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenAcceptValidArticle_thenReturnNoContent() {
+        // Arrange
+        var article = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article to Accept")
+                .body("This is the body of an article pending review")
+                .wordCount(100)
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .tags("NBA")
+                .timePosted(LocalDateTime.now())
+                .build();
+
+        // Save the article first
+        articleRepository.save(article).block();
+
+        String url = BASE_URL + "/acceptArticle/" + article.getArticleIdentifier().getArticleId();
+
+        // Act & Assert
+        webTestClient.patch()
+                .uri(url)
+                .exchange()
+                .expectStatus().isNoContent();
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenAcceptNonExistentArticle_thenReturnNotFound() {
+        // Arrange
+        String invalidId = "a0466beb-a91c-4022-a58d-765bb1bbade3";
+        String url = BASE_URL + "/acceptArticle/" + invalidId;
+
+        // Act & Assert
+        webTestClient.patch()
+                .uri(url)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
