@@ -1,4 +1,3 @@
-
 // src/components/ArticleDetail.tsx
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";

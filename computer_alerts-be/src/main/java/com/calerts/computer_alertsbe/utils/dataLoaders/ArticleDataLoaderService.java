@@ -8,6 +8,15 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.time.ZonedDateTime;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 public class ArticleDataLoaderService implements CommandLineRunner {
@@ -38,7 +47,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
                 .likeCount(0)
+                .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944103/pexels-pixabay-71103_p1ungr.jpg")
                 .build();
 
@@ -57,7 +68,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("NBA")
                 .likeCount(0)
                 .requestCount(0)
+                .tagsTag(Tags.NBA)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
@@ -69,16 +82,18 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nhlArticle1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("1f9e4567-8901-4b5c-a23d-4567890123ef"))
                 .title(nhlContent1.getTitle())
                 .body(nhlContent1.getBody())
                 .wordCount(Content.calculateWordCount(nhlContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .tagsTag(Tags.NHL)
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
+                .authorIdentifier(new AuthorIdentifier("7e93579d-cf40-44a0-9b82-6f8b05f3185b")) // George Smith
                 .build();
 
         //NHL article
@@ -94,10 +109,12 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .wordCount(Content.calculateWordCount(nhlContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NHL")
+                .tagsTag(Tags.NHL)
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
+                .authorIdentifier(new AuthorIdentifier("5a87fa4e-f2a4-4874-b7f6-c22c29decb97")) // Michael Jones
                 .build();
 
 
@@ -108,7 +125,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nflArticle1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("2a3b4c5d-6e7f-8g9h-0i1j-2k3l4m5n6o7p"))
                 .title(nflContent1.getTitle())
                 .body(nflContent1.getBody())
                 .wordCount(Content.calculateWordCount(nflContent1.getBody()))
@@ -116,8 +133,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("NFL")
                 .likeCount(0)
                 .requestCount(0)
+                .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944084/pexels-pixabay-47331_qhejgo.jpg")
+                .authorIdentifier(new AuthorIdentifier("6d2bb1f9-0c4f-4691-a6f5-5599e7f2068c")) // Lily Williams
                 .build();
 
         //NFL article
@@ -127,7 +146,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article nflArticle2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("3d4e5f6g-7h8i-9j0k-1l2m-3n4o5p6q7r8s"))
                 .title(nflContent2.getTitle())
                 .body(nflContent2.getBody())
                 .wordCount(Content.calculateWordCount(nflContent2.getBody()))
@@ -135,8 +154,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tags("NFL")
                 .likeCount(0)
                 .requestCount(0)
+                .tagsTag(Tags.NFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944081/pexels-pixabay-160577_tf74ef.jpg")
+                .authorIdentifier(new AuthorIdentifier("1c35b82c-d9a3-4f8f-a0a6-bde7a5096017")) // Thomas Clark
                 .build();
 
         //UFC article
@@ -146,34 +167,38 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article ufcArticle1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("4e5f6g7h-8i9j-0k1l-2m3n-4o5p6q7r8s9t"))
                 .title(ufcContent1.getTitle())
                 .body(ufcContent1.getBody())
                 .wordCount(Content.calculateWordCount(ufcContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
+                .tagsTag(Tags.UFC)
                 .likeCount(0)
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944134/pexels-brunogobofoto-2204179_byfjyn.jpg")
+                .authorIdentifier(new AuthorIdentifier("9a21d4f8-85fa-477b-bc0a-76819b2d7c8f")) // Kevin Lee
                 .build();
 
         //UFC article
         Content ufcContent2 = Content.builder()
                 .title("UFC Article 2")
-                .body("\"The UFC’s octagon is the stage for some of the most intense rivalries in combat sports. Fighters like Conor McGregor and Kamaru Usman continue to deliver unforgettable moments, while thrilling undercards showcase the depth of talent in the promotion. With upcoming events promising blockbuster main events, fans are in for a wild ride this season.\"\n")
+                .body("\"The UFC's octagon is the stage for some of the most intense rivalries in combat sports. Fighters like Conor McGregor and Kamaru Usman continue to deliver unforgettable moments, while thrilling undercards showcase the depth of talent in the promotion. With upcoming events promising blockbuster main events, fans are in for a wild ride this season.\"\n")
                 .build();
 
         Article ufcArticle2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("5f6g7h8i-9j0k-1l2m-3n4o-5p6q7r8s9t0u"))
                 .title(ufcContent2.getTitle())
                 .body(ufcContent2.getBody())
                 .requestCount(0)
                 .wordCount(Content.calculateWordCount(ufcContent2.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("UFC")
+                .tagsTag(Tags.UFC)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .authorIdentifier(new AuthorIdentifier("8f5be0c1-0fc1-4cfb-b7b8-fc46e221d31e")) // Nancy Davis
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944132/pexels-pixabay-163403_xjkj1n.jpg")
                 .build();
 
@@ -184,16 +209,18 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article mlbArticle1 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("6g7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v"))
                 .title(mlbContent1.getTitle())
                 .body(mlbContent1.getBody())
                 .wordCount(Content.calculateWordCount(mlbContent1.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .requestCount(0)
                 .tags("MLB")
+                .tagsTag(Tags.MLB)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944130/pexels-glauco-moquete-1697414982-27899035_ynojsd.jpg")
+                .authorIdentifier(new AuthorIdentifier("1b71f87d-d5c7-47c2-90e5-0e11b83ed978")) // Elizabeth Brown
                 .build();
 
         //MLB article
@@ -203,7 +230,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .build();
 
         Article mlbArticle2 = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
+                .articleIdentifier(new ArticleIdentifier("7h8i9j0k-1l2m-3n4o-5p6q-7r8s9t0u1v2w"))
                 .title(mlbContent2.getTitle())
                 .body(mlbContent2.getBody())
                 .requestCount(0)
@@ -211,8 +238,10 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("MLB")
                 .likeCount(0)
+                .tagsTag(Tags.MLB)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944128/pexels-courtney-garner-585522281-17061702_nts9s1.jpg")
+                .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin
                 .build();
 
 

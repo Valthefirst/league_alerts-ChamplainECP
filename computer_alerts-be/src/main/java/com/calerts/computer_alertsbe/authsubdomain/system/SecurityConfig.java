@@ -38,6 +38,7 @@ public class SecurityConfig {
                         // Completely public endpoints
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 

@@ -42,13 +42,17 @@ const ArticleCard: React.FC = () => {
 
   // Function to refresh liked state from localStorage
   const refreshLikedState = (articles: ArticleRequestModel[]) => {
-    const initialLikedState = articles.reduce((acc, article) => {
-      if (article.articleId) {
-        acc[article.articleId] =
-          localStorage.getItem(`article-${article.articleId}-liked`) === "true";
-      }
-      return acc;
-    }, {} as { [articleId: string]: boolean });
+    const initialLikedState = articles.reduce(
+      (acc, article) => {
+        if (article.articleId) {
+          acc[article.articleId] =
+            localStorage.getItem(`article-${article.articleId}-liked`) ===
+            "true";
+        }
+        return acc;
+      },
+      {} as { [articleId: string]: boolean },
+    );
     setLikedArticles(initialLikedState);
   };
 
@@ -83,7 +87,10 @@ const ArticleCard: React.FC = () => {
         const heartElement = heartRefs.current[articleId];
 
         if (isLiked) {
-          await unlikeArticle(articleId, "06a7d573-bcab-4db3-956f-773324b92a80"); // Replace with actual reader ID
+          await unlikeArticle(
+            articleId,
+            "06a7d573-bcab-4db3-956f-773324b92a80",
+          ); // Replace with actual reader ID
           localStorage.setItem(`article-${articleId}-liked`, "false");
         } else {
           if (heartElement) {
@@ -118,55 +125,59 @@ const ArticleCard: React.FC = () => {
   return (
     <div className="article-card">
       {articles.length > 0 ? (
-        articles.map((article) => (
-          <div
-            key={article.articleId}
-            className="article-card-content"
-            style={{ cursor: article.articleId ? "pointer" : "not-allowed" }}
-          >
+        articles
+          .filter((article) => article.articleStatus === "PUBLISHED")
+          .map((article) => (
             <div
-              className="article-image-placeholder"
-              onClick={() => handleArticleClick(article.articleId)}
+              key={article.articleId}
+              className="article-card-content"
+              style={{ cursor: article.articleId ? "pointer" : "not-allowed" }}
             >
-              {article.photoUrl && (
-                <img
-                  src={article.photoUrl}
-                  alt={article.title}
-                  className="article-image"
-                />
-              )}
-            </div>
-            <div className="article-card-content-footer">
-              <h3
-                className="title-card"
+              <div
+                className="article-image-placeholder"
                 onClick={() => handleArticleClick(article.articleId)}
               >
-                {article.title}
-              </h3>
-              <p className="card-body">
-                <strong>Description:</strong>
-              </p>
-              <p className="card-body">
-                <strong>Posted:</strong> {formatDate(article.timePosted)}
-              </p>
-              <div className="like-section">
-                <div
-                  id="heart"
-                  ref={(el) => (heartRefs.current[article.articleId || ""] = el)}
-                  className={`button ${
-                    likedArticles[article.articleId || ""] ? "active" : ""
-                  }`}
-                  onClick={() =>
-                    article.articleId && handleLikeToggle(article.articleId)
-                  }
-                ></div>
-                <p className="article-card-like-count">
-                  {likedArticles[article.articleId || ""] ? 1 : 0}
+                {article.photoUrl && (
+                  <img
+                    src={article.photoUrl}
+                    alt={article.title}
+                    className="article-image"
+                  />
+                )}
+              </div>
+              <div className="article-card-content-footer">
+                <h3
+                  className="title-card"
+                  onClick={() => handleArticleClick(article.articleId)}
+                >
+                  {article.title}
+                </h3>
+                <p className="card-body">
+                  <strong>Description:</strong>
                 </p>
+                <p className="card-body">
+                  <strong>Posted:</strong> {formatDate(article.timePosted)}
+                </p>
+                <div className="like-section">
+                  <div
+                    id="heart"
+                    ref={(el) =>
+                      (heartRefs.current[article.articleId || ""] = el)
+                    }
+                    className={`button ${
+                      likedArticles[article.articleId || ""] ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      article.articleId && handleLikeToggle(article.articleId)
+                    }
+                  ></div>
+                  <p className="article-card-like-count">
+                    {likedArticles[article.articleId || ""] ? 1 : 0}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          ))
       ) : (
         <p>No articles found.</p>
       )}
