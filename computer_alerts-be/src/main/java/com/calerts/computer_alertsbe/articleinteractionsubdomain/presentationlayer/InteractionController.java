@@ -2,9 +2,10 @@ package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationla
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.LikeService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.http.HttpStatus;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.CommentService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -17,9 +18,11 @@ import java.util.List;
 public class InteractionController {
 
     private final LikeService likeService;
+    private final CommentService commentService;
 
-    public InteractionController(LikeService likeService) {
+    public InteractionController(LikeService likeService, CommentService commentService) {
         this.likeService = likeService;
+        this.commentService = commentService;
     }
 
 
@@ -72,5 +75,16 @@ public class InteractionController {
         ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
         return likeService.unlikeArticle(articleIdentifier, readerId)
                 .then(Mono.just(ResponseEntity.noContent().build())); // Return 204 No Content on success
+    }
+
+    @GetMapping(value = "/comments", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<CommentResponseModel> getAllComments() {
+        return commentService.getAllComments();
+    }
+
+    @PostMapping(value = "/comments", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<Void>> addComment(@RequestBody Mono<CommentRequestModel> commentRequestModel) {
+        return commentService.addComment(commentRequestModel)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
     }
 }
