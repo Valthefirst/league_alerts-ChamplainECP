@@ -129,10 +129,15 @@ const AdminArticleDetails: React.FC = () => {
         <br />
         <hr />
         <br />
-       
 
-        <div className="row samline">
-          <div className="lastRow">
+
+        <div className="row">
+  <div className="col-12">
+    <button className="red-button">Change is needed</button>
+  </div>
+</div>
+
+        <div className="row sameline lastRow">
             <div className="col-6">
             <button onClick={handleCancelButton} className="btn btn-secondary center">
               Cancel
@@ -142,12 +147,11 @@ const AdminArticleDetails: React.FC = () => {
             <div className="col-6">
             <button
               onClick={handleAcceptArticle}
-              className="accept-article-button btn btn-success center bold"
+              className="accept-article-button btn btn-success bold"
             >
               Accept Article
             </button>
             </div>           
-          </div>
         </div>
 
         {successMessage && (

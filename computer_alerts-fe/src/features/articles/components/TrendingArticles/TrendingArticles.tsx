@@ -166,7 +166,7 @@ const TrendingArticles: React.FC = () => {
               {trendingArticles.slice(1).map((article) => (
                 <div key={article.articleId} className="card mb-4 h-100">
                   <img
-                    src="https://www.mozaics.com/wp-content/uploads/2021/09/SQUARE-GREY-GLOSSY-FLAT-en-o2SweAjKc1RFyXJY.jpg"
+                    src={article.photoUrl}
                     className="card-img-top"
                     alt={article.title || "Trending article image"}
                   />
