@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ArticleRequestModelI } from "features/articles/models/ArticleRequestModel";
-import { SuccessMessage, ConfirmationPopup } from "../../../assets/SuccessMessage/SuccessMessage"; // Adjust path if necessary
+import {
+  SuccessMessage,
+  ConfirmationPopup,
+} from "../../../assets/SuccessMessage/SuccessMessage"; // Adjust path if necessary
 
 import "./ArticleForm.css";
 

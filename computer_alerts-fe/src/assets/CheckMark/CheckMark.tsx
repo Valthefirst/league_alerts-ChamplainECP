@@ -62,7 +62,8 @@ const CircleCheckButton: React.FC<CircleCheckButtonProps> = ({
       {/* Success Message */}
       {showMessage && (
         <div className="success-message">
-          You have approved the <strong>{messageProp}</strong> of the selected article.
+          You have approved the <strong>{messageProp}</strong> of the selected
+          article.
         </div>
       )}
     </div>

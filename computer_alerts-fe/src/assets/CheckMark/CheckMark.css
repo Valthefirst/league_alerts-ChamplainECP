@@ -1,32 +1,31 @@
 .circle-check-container {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-check-button {
+  transition: transform 0.2s ease-in-out;
+}
+
+.circle-check-button.filled {
+  transform: scale(1.1); /* Slightly enlarges when filled */
+}
+
+.success-message {
+  margin-top: 8px;
+  color: green;
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animation for the message */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .circle-check-button {
-    transition: transform 0.2s ease-in-out;
+  to {
+    opacity: 1;
   }
-  
-  .circle-check-button.filled {
-    transform: scale(1.1); /* Slightly enlarges when filled */
-  }
-  
-  .success-message {
-    margin-top: 8px;
-    color: green;
-    font-size: 0.9rem;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  
-  /* Animation for the message */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}

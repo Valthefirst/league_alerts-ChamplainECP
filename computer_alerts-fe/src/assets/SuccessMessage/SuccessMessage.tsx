@@ -6,14 +6,13 @@ type SuccessMessageProps = {
 };
 
 export const SuccessMessage: React.FC<SuccessMessageProps> = ({ message }) => {
-  return (
-    <div className="success-message">
-      {message}
-    </div>
-  );
+  return <div className="success-message">{message}</div>;
 };
 
-export const ConfirmationPopup: React.FC<{ onClose: () => void; onAccept: () => void }> = ({ onClose, onAccept }) => {
+export const ConfirmationPopup: React.FC<{
+  onClose: () => void;
+  onAccept: () => void;
+}> = ({ onClose, onAccept }) => {
   return (
     <div className="confirmation-popup">
       <div className="popup-content">

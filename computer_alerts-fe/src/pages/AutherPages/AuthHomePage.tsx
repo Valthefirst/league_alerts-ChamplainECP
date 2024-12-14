@@ -31,6 +31,8 @@ const AuthHomePage: React.FC = () => {
   const handleArticleClick = (id: string) => {
     navigate(`/article/${id}`);
   };
+  if (loading) return <p>Loading article details...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="container">

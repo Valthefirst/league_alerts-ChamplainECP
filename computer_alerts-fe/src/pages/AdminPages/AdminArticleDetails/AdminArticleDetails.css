@@ -15,12 +15,12 @@
   border: 2px solid black;
   line-height: "4.5";
   padding: 25px;
-  margin: 45px; 
+  margin: 45px;
   background-color: white;
 }
 .sameLine {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
 .space-between {
@@ -28,15 +28,15 @@
 }
 
 .sameLine > h2 {
-  margin: 0; 
+  margin: 0;
 }
 
-.bold{
-    font-weight: 100;
+.bold {
+  font-weight: 100;
 }
 
 .sameLine > .CircleCheckButton {
-  margin-left: 20px; 
+  margin-left: 20px;
 }
 
 .imageStyle {
@@ -52,12 +52,12 @@
   width: 80%; /* You can adjust this value for better spacing */
 }
 
-.center{
-    text-align: center;
+.center {
+  text-align: center;
 }
 
-.rightSpace{
-    margin-right: 80px;
+.rightSpace {
+  margin-right: 80px;
 }
 
 /* General button styling */
@@ -96,22 +96,22 @@
 /* Shake Animation */
 @keyframes shake {
   0% {
-      transform: translateX(0);
+    transform: translateX(0);
   }
   25% {
-      transform: translateX(-10px);
+    transform: translateX(-10px);
   }
   50% {
-      transform: translateX(10px);
+    transform: translateX(10px);
   }
   75% {
-      transform: translateX(-10px);
+    transform: translateX(-10px);
   }
   100% {
-      transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
-.margin-butta{
+.margin-butta {
   margin-left: 30%;
 }

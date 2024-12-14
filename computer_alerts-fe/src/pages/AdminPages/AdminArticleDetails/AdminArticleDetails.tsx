@@ -50,9 +50,6 @@ const AdminArticleDetails: React.FC = () => {
   if (!article) return <p>No article found.</p>;
 
   return (
-
-
-    
     <div className="container con-color">
       <br />
       <br />
@@ -61,16 +58,13 @@ const AdminArticleDetails: React.FC = () => {
           <div className="sameLine space-between">
             <h1>Review Article</h1>
 
-            <div className="row sameLine ">
-            </div>
+            <div className="row sameLine "></div>
           </div>
         </div>
-       
+
         <br />
         <hr />
         <br />
-       
-        
 
         <div className="row">
           <div className="col-12">
@@ -83,11 +77,9 @@ const AdminArticleDetails: React.FC = () => {
           </div>
         </div>
 
-       
         <br />
         <hr />
         <br />
-      
 
         <div className="row">
           <div className="col-12 sameLine space-between">
@@ -98,11 +90,9 @@ const AdminArticleDetails: React.FC = () => {
           </div>
         </div>
 
-       
         <br />
         <hr />
         <br />
-        
 
         {/* <div className="row">
           <div className="col-12">
@@ -124,34 +114,33 @@ const AdminArticleDetails: React.FC = () => {
           </div>
         </div>
 
-
-      
         <br />
         <hr />
         <br />
 
-
         <div className="row">
-  <div className="col-12">
-    <button className="red-button">Change is needed</button>
-  </div>
-</div>
+          <div className="col-12">
+            <button className="red-button">Change is needed</button>
+          </div>
+        </div>
 
         <div className="row sameline lastRow">
-            <div className="col-6">
-            <button onClick={handleCancelButton} className="btn btn-secondary center">
+          <div className="col-6">
+            <button
+              onClick={handleCancelButton}
+              className="btn btn-secondary center"
+            >
               Cancel
             </button>
-
-            </div>
-            <div className="col-6">
+          </div>
+          <div className="col-6">
             <button
               onClick={handleAcceptArticle}
               className="accept-article-button btn btn-success bold"
             >
               Accept Article
             </button>
-            </div>           
+          </div>
         </div>
 
         {successMessage && (
