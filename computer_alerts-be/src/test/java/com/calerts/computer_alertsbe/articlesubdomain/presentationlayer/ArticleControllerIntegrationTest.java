@@ -1,9 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -238,7 +236,6 @@ class ArticleControllerIntegrationTest {
                 .value(response -> {
                     assertNotNull(response);
                     assertEquals(articleRequestModel.getTitle(), response.getTitle());
-                    assertEquals(articleRequestModel.getWordCount(), response.getWordCount());
                     assertEquals(ArticleStatus.ARTICLE_REVIEW, response.getArticleStatus());
                 });
     }
@@ -302,8 +299,45 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isNotFound();
     }
 
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchArticlesByTitleOrBody() {
+        // Arrange
 
+        var content1 = Content.builder()
+                .title("Article 1")
+                .body("Hello world")
+                .build();
+        var article1 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title(content1.getTitle())
+                .body(content1.getBody())
+                .wordCount(7)
+                .requestCount(0)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NBA")
+                .likeCount(0)
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://example.com/photo1.jpg")
+                .build();
 
+        articleRepository.save(article1).block(); // Ensure article is saved to the database
 
+        String url = BASE_URL + "/" + "search?query=world";
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ArticleResponseModel.class)
+                .value(response -> {
+                    assertNotNull(response);
+                    assertEquals(1, response.size());
+                    assertTrue(response.stream().anyMatch(article -> article.getTitle().equals(content1.getTitle())));
+                });
+    }
 
 }

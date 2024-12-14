@@ -8,12 +8,13 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleR
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
-import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 import java.time.LocalDateTime;
 
@@ -94,4 +95,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+
+    @Override
+    public Mono<List<ArticleResponseModel>> searchArticles(String query) {
+        return articleRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query)
+                .map(EntityModelUtil::toArticleResponseModel)
+                .collectList();
+    }
 }
