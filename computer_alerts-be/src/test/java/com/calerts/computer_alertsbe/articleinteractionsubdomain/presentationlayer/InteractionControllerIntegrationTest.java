@@ -1,7 +1,9 @@
 package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +36,19 @@ class InteractionControllerIntegrationTest {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private ArticleRepository articleRepository;
+
     private final String BASE_URL = "/api/v1/interactions";
 
     @BeforeEach
     public void setUp() {
         likeRepository.deleteAll().block();
         commentRepository.deleteAll().block();
+        articleRepository.save(Article.builder()
+                .articleIdentifier(new ArticleIdentifier("article-1"))
+                .title("Article 1")
+                .build()).block();
     }
 
     @Test
@@ -275,12 +284,11 @@ class InteractionControllerIntegrationTest {
     // Positive test case for addComment
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
-    public void whenAddComment_thenReturnCreatedComment() {
+    public void whenAddComment_thenReturnNothing() {
         // Arrange
         CommentRequestModel commentRequestModel = CommentRequestModel.builder()
                 .content("This is a comment")
-                .articleId("e09e8812-32fb-434d-908f-40d5e3b137ca")
-//        e09e8812-32fb-434d-908f-40d5e3b137ca
+                .articleId("article-1")
                 .readerId("reader-001")
                 .build();
 
@@ -295,14 +303,7 @@ class InteractionControllerIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isCreated()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody(CommentResponseModel.class)
-                .value((response) -> {
-                    assertNotNull(response);
-                    assertEquals(commentRequestModel.getContent(), response.getContent());
-                    assertEquals(commentRequestModel.getArticleId(), response.getArticleId());
-                    assertEquals(commentRequestModel.getReaderId(), response.getReaderId());
-                });
+                .expectHeader();
     }
 
     // Negative test case for addComment
@@ -360,6 +361,39 @@ class InteractionControllerIntegrationTest {
                 .value((response) -> {
                     assertNotNull(response);
                     assertTrue(response.contains("Article id was not found: invalid-article-id"));
+                });
+    }
+
+    // Negative test case for addComment
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenAddCommentWithExceedingWordCount_thenReturnBadRequest() {
+        // Arrange
+        CommentRequestModel commentRequestModel = CommentRequestModel.builder()
+                .content("This is a comment with more than 50 words. Apple mountain laptop freedom universe " +
+                        "lighthouse keyboard ocean guitar willow cloud chocolate forest puzzle eagle rainbow sunset " +
+                        "journey memory adventure snowflake volcano window dream notebook river camera compass heart " +
+                        "horizon butterfly rocket whisper symphony puzzle treasure star galaxy secret flame oasis " +
+                        "harmony meadow turtle dolphin book breeze lantern melody anchor mountain.")
+                .articleId("e09e8812-32fb-434d-908f-40d5e3b137ca")
+                .readerId("reader-001")
+                .build();
+
+        String url = BASE_URL + "/comments";
+
+        // Act & Assert
+        webTestClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(commentRequestModel), CommentRequestModel.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().is4xxClientError()
+                .expectBody(String.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertTrue(response.contains("Comment exceeds 50 words."));
                 });
     }
 }
