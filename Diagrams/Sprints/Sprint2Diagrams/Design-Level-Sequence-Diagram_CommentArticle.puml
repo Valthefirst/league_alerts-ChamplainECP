@@ -1,0 +1,70 @@
+@startuml
+
+title Reader Posts a Comment on an Article
+
+actor Reader
+
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant ArticlePage as "<<View>>\nArticlePage"
+'participant InteractionController as "<<Controller>>\nInteractionController"
+participant InteractionController as "<<Controller>>\ninteractionController: InteractionController"
+participant CommentRequestDTO as "<<DTO>>\ncommentRequestDTO: CommentRequestDTO"
+participant CommentResponseDTO as "<<DTO>>\ncommentResponseDTO: CommentResponseDTO"
+participant CommentServiceImpl as "<<Service>>\ncommentService: CommentServiceImpl"
+participant Comment as "<<Entity>>\ncomment: Comment"
+participant Repo as "commentRepository: CommentRepository"
+database "Database" as DB
+
+Reader -> ReactApplication : Accesses LeagueAlerts
+activate ReactApplication
+
+ReactApplication -> LandingPage : render() or Renders LandingPage
+activate LandingPage
+
+LandingPage -> ArticlePage : Navigate to ArticlePage
+activate ArticlePage
+
+ArticlePage -> InteractionController : POST /api/v1/interactions/likes\n(CommentRequestDTOJSON)
+activate InteractionController
+
+'InteractionController -> CommentRequestDTO : CommentRequestDTO(content, articleId, readerId)
+'CommentRequestDTO --> InteractionController : commentRequestDTO
+InteractionController -> CommentRequestDTO : commentRequestDTO:=CommentRequestDTO(content, articleId, readerId)
+activate CommentRequestDTO
+
+InteractionController -> CommentServiceImpl : CommentRequestDTO(content, articleId, readerId)
+
+activate CommentServiceImpl
+CommentServiceImpl -> Comment : comment:=Comment(commentId, content, wordCount, timestamp, articleId, readerId)
+activate Comment
+deactivate CommentRequestDTO
+CommentServiceImpl -> Repo : save(Comment)
+activate Repo
+
+Repo -> DB : db.comment.insert({commentId, content, wordCount, timestamp, articleId, readerId})
+activate DB
+
+DB -> Repo : Comment
+deactivate DB
+
+deactivate Repo
+Repo -> CommentServiceImpl : Comment
+deactivate Comment
+
+deactivate CommentServiceImpl
+
+CommentServiceImpl -> InteractionController : CommentResponseModel(commentId, content, wordCount, timestamp, articleId, readerId)
+
+InteractionController -> ArticlePage : CommentResponseModel(commentId, content, wordCount, timestamp, articleId, readerId)
+deactivate InteractionController
+
+ArticlePage -> ReactApplication : Renders CommentResponseModel(commentId, content, wordCount, timestamp, articleId, readerId)
+deactivate ArticlePage
+
+ReactApplication -> Reader : Displays the comment
+
+deactivate ArticlePage
+deactivate ReactApplication
+
+@enduml
