@@ -29,7 +29,8 @@ const Navbar = () => {
     location.pathname.startsWith("/authDashboard") ||
     location.pathname.startsWith("/authHome") ||
     location.pathname.startsWith("/authCreateArticle") ||
-    location.pathname.startsWith("/authYourArticles")
+    location.pathname.startsWith("/authYourArticles") ||
+    location.pathname.startsWith("/authYourDrafts")
   ) {
     return <AuthorNavBar />;
   } else if (
@@ -84,6 +85,10 @@ function App(): JSX.Element {
 
           <Route
             path={AppRoutePaths.ArticlesByTag}
+            element={<ArticlesPage />}
+          />
+          <Route
+            path={AppRoutePaths.AutherDrafts}
             element={<ArticlesPage />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
