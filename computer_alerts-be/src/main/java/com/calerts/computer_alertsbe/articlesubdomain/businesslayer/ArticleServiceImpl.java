@@ -54,11 +54,24 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .flatMap(foundArticle -> articleRequestModel
                         .map(EntityModelUtil::toArticleEntity)
-                        .doOnNext(article -> article.setArticleIdentifier(foundArticle.getArticleIdentifier()))
-                        .doOnNext(article -> article.setId(foundArticle.getId()))
+                        .doOnNext(
+                                article -> {
+                                    article.setRequestCount(foundArticle.getRequestCount());
+                                    article.setLikeCount(foundArticle.getLikeCount());
+                                    article.setArticleIdentifier(foundArticle.getArticleIdentifier());
+                                    article.setArticleStatus(foundArticle.getArticleStatus());
+
+                                    article.setId(foundArticle.getId());
+                                })
                 )
-                .flatMap(articleRepository::save)
+                .flatMap(article -> {
+                    int wordCount = calculateWordCount(article.getBody());
+                    article.setWordCount(wordCount);
+                    return articleRepository.save(article);
+
+                })
                 .map(EntityModelUtil::toArticleResponseModel);
+
     }
 
 
@@ -83,6 +96,7 @@ public class ArticleServiceImpl implements ArticleService {
                 })
                 .then();
     }
+    
 
     @Override
     public Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel) {
@@ -134,6 +148,15 @@ public class ArticleServiceImpl implements ArticleService {
                 .findByTagsContainingAndTitleContainingIgnoreCase(tag, query)
                 .map(EntityModelUtil::toArticleResponseModel)
                 .collectList();
+
+
+    }
+
+    public static int calculateWordCount(String body) {
+        if (body == null || body.trim().isEmpty()) {
+            return 0;
+        }
+        return body.trim().split("\\s+").length; // Split by whitespace and count
     }
 
 }
