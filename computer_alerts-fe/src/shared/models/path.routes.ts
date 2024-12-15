@@ -16,6 +16,7 @@ export enum AppRoutePaths {
   AuthorHomePage = "/authHome",
   AutherYourArticle = "/authYourArticles",
   AutherCreateArticle = "/authCreateArticle",
+  AutherDrafts = "/authYourDrafts",
 
   //
   //
