@@ -11,6 +11,7 @@ export interface ArticleRequestModel {
   timePosted: string;
   photoUrl: string;
   authorIdentifier: string;
+  articleDescpition: string;
 }
 
 export interface ArticleRequestModelI {
