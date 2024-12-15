@@ -85,7 +85,7 @@ public class ArticleController {
     }
 
     @PutMapping(value = "/{articleId}",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> editArticle
             (@PathVariable String articleId,
