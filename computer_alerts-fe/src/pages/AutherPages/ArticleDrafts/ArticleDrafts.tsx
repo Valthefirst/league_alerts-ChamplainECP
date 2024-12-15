@@ -36,7 +36,7 @@ const ArtifleDrafts: React.FC = () => {
   if (error) return <p className="text-center text-danger">{error}</p>;
   return (
     <div className="container review-articles">
-      <h1>Here are your articles to review</h1>
+      <h1>Here are your drafted articles.</h1>
       {articles.length > 0 ? (
         <div className="review-articles__list">
           {articles.map((article) => (
