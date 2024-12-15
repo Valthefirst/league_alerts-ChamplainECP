@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { fetchAllsArticles } from "../../../features/articles/api/getAllArticles";
 import { ArticleRequestModel } from "../../../features/articles/models/ArticleRequestModel";
 import ArticleMainComponent from "../../ArticlePages/ArticleMainComponent";
 import "./ArticleDrafts.css";
 
 const ArtifleDrafts: React.FC = () => {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -74,12 +74,12 @@ const ArticleForm = () => {
       setSuccessMessageText(
         "You have successfully created a Draft of your article.",
       );
-      setShowSuccessMessage(true);
+      // setShowSuccessMessage(true);
 
-      // Hide success message after 3 seconds
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 3000);
+      // // Hide success message after 3 seconds
+      // setTimeout(() => {
+      //   setShowSuccessMessage(false);
+      // }, 3000);
     } catch (error) {
       console.error("Error creating article:", error);
     }
@@ -141,11 +141,7 @@ const ArticleForm = () => {
 
         <div className="row">
           <div className="col-6">
-            <button
-              type="submit"
-              onClick={handleDraftSubmit}
-              className="article-form-draft"
-            >
+            <button onClick={handleDraftSubmit} className="article-form-draft">
               Draft Article
             </button>
           </div>
