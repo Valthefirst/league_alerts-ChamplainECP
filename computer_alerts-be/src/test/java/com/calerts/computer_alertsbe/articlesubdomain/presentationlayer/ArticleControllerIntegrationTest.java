@@ -239,6 +239,32 @@ class ArticleControllerIntegrationTest {
                     assertEquals(ArticleStatus.ARTICLE_REVIEW, response.getArticleStatus());
                 });
     }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenCreateDraftValidArticle_thenReturnCreatedArticle() {
+        // Arrange
+        ArticleRequestModel articleRequestModel = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a detailed test article with sufficient word count to pass validation.")
+                .wordCount(120)
+                .tags("NBA")
+                .build();
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(BASE_URL +"/acceptDraft")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(articleRequestModel)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ArticleResponseModel.class)
+                .value(response -> {
+                    assertNotNull(response);
+                    assertEquals(articleRequestModel.getTitle(), response.getTitle());
+                    assertEquals(ArticleStatus.DRAFT, response.getArticleStatus());
+                });
+    }
 
     @Test
     @WithMockUser(username = "testuser", roles = {"ADMIN"})
@@ -253,6 +279,24 @@ class ArticleControllerIntegrationTest {
         // Act & Assert
         webTestClient.post()
                 .uri(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(invalidArticleRequest)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+    void whenCreateArticleDraftWithInvalidData_thenReturnBadRequest() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("")
+                .body("Short body")
+                .wordCount(50)
+                .build();
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(BASE_URL + "/acceptDraft")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(invalidArticleRequest)
                 .exchange()

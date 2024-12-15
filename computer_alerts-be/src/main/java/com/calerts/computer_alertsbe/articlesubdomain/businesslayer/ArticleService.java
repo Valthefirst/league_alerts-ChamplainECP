@@ -18,6 +18,7 @@ public interface ArticleService {
     Mono<List<ArticleResponseModel>> searchArticles(String query);
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
     Mono<Void> acceptArticle(String articleId);
+    Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel);
 
 
 
