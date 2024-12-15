@@ -64,6 +64,27 @@ const ArticleForm = () => {
     }
   };
 
+  const handleDraftSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/articles/acceptDraft",
+        formData,
+      );
+      console.log("Article saved:", response.data);
+      setSuccessMessageText(
+        "You have successfully created a Draft of your article.",
+      );
+      setShowSuccessMessage(true);
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error creating article:", error);
+    }
+  };
+
   const handlePopupAccept = () => {
     setShowPopup(false);
     handleSubmit();
@@ -117,9 +138,23 @@ const ArticleForm = () => {
           <option value={TagsTagEnum.Tag4}>NFL</option>
           <option value={TagsTagEnum.Tag5}>MLB</option>
         </select>
-        <button type="submit" className="article-form__button">
-          Create Article
-        </button>
+
+        <div className="row">
+          <div className="col-6">
+            <button
+              type="submit"
+              onClick={handleDraftSubmit}
+              className="article-form-draft__button"
+            >
+              Draft Article
+            </button>
+          </div>
+          <div className="col-6">
+            <button type="submit" className="article-form__button">
+              Create Article
+            </button>
+          </div>
+        </div>
       </form>
 
       {showPopup && (

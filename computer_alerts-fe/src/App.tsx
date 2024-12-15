@@ -21,6 +21,7 @@ import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
+import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
 
 const Navbar = () => {
   const location = useLocation();
@@ -89,7 +90,7 @@ function App(): JSX.Element {
           />
           <Route
             path={AppRoutePaths.AutherDrafts}
-            element={<ArticlesPage />}
+            element={<ArtifleDrafts />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
           <Route

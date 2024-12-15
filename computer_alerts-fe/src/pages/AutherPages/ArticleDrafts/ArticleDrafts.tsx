@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllsArticles } from "../../../features/articles/api/getAllArticles";
 import { ArticleRequestModel } from "../../../features/articles/models/ArticleRequestModel";
 import ArticleMainComponent from "../../ArticlePages/ArticleMainComponent";
-import "./ArticleDrafts.css"
+import "./ArticleDrafts.css";
 
-const ArtifleDrafts: React.FC = () =>{
-    const navigate = useNavigate();
+const ArtifleDrafts: React.FC = () => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,8 +16,7 @@ const ArtifleDrafts: React.FC = () =>{
       try {
         const allArticles = await fetchAllsArticles();
         const articlesToReview = allArticles.filter(
-          (article: ArticleRequestModel) =>
-            article.articleStatus === "DRAFT",
+          (article: ArticleRequestModel) => article.articleStatus === "DRAFT",
         );
         setArticles(articlesToReview);
       } catch (err) {
@@ -57,6 +56,5 @@ const ArtifleDrafts: React.FC = () =>{
     </div>
   );
 };
-
 
 export default ArtifleDrafts;
