@@ -198,7 +198,6 @@ class InteractionControllerIntegrationTest {
 
 
 
-
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetLikeByIdentifier_thenReturnLike() {
@@ -324,6 +323,7 @@ class InteractionControllerIntegrationTest {
                 .expectStatus().isCreated()
                 .expectHeader();
     }
+
 
     // Negative test case for addComment
     @Test

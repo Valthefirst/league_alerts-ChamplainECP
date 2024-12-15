@@ -216,6 +216,7 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isNotFound();
     }
 
+    @Test
  @WithMockUser(username = "testuser", roles = {"ADMIN"})
  void whenCreateValidArticle_thenReturnCreatedArticle() {
         // Arrange
@@ -267,34 +268,6 @@ class ArticleControllerIntegrationTest {
                     assertEquals(ArticleStatus.DRAFT, response.getArticleStatus());
                 });
     }
-
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"ADMIN"})
-//    void whenCreateValidArticle_thenReturnCreatedArticle() {
-//        // Arrange
-//        ArticleRequestModel articleRequestModel = ArticleRequestModel.builder()
-//                .title("Test Article")
-//                .body("This is a detailed test article with sufficient word count to pass validation.")
-//                .tags("NBA")
-//                .tagsTag(Tags.NBA)
-//                .photoUrl("https://example")
-//                .build();
-//
-//        // Act & Assert
-//        webTestClient.post()
-//                .uri(BASE_URL)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .bodyValue(articleRequestModel)
-//                .exchange()
-//                .expectStatus().isCreated()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody(ArticleResponseModel.class)
-//                .value(response -> {
-//                    assertNotNull(response);
-//                    assertEquals(articleRequestModel.getTitle(), response.getTitle());
-//                    assertEquals(ArticleStatus.ARTICLE_REVIEW, response.getArticleStatus());
-//                });
-//    }
 
     @Test
     @WithMockUser(username = "testuser", roles = {"ADMIN"})
