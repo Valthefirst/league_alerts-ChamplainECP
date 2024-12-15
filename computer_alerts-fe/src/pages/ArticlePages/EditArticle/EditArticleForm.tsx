@@ -1,9 +1,7 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-//import { updateArticle } from "@/features/articles/api/updateArticle"; // Import the API call
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { ArticleRequestModel } from "../../../features/articles/models/ArticleRequestModel"; 
-import { Button, Form } from "react-bootstrap"; // Bootstrap components
-import "./EditArticlePage.css"; // Import your CSS for styling
+import { Button, Form } from "react-bootstrap"; 
+import "./EditArticlePage.css"; 
 import { editArticle } from "features/articles/api/editArticle";
 
 interface EditArticlePageProps {

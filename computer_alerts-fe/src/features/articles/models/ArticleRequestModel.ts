@@ -24,4 +24,5 @@ export interface ArticleRequestModelI {
   tagsTag: string;
   timePosted: string;
   authorIdentifier: string;
+  articleDescpition: string;
 }

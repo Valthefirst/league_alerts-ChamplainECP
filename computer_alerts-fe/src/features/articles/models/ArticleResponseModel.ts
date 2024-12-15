@@ -11,4 +11,5 @@ export interface ArticleResponseModel {
     timePosted: string;
     photoUrl: string;
     authorIdentifier: string;
+    articleDescpition: string;
   }
