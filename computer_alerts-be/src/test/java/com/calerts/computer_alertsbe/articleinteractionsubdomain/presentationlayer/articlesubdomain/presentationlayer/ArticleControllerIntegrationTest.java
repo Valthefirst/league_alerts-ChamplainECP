@@ -1,6 +1,8 @@
-package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
+package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.articlesubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,9 +215,9 @@ class ArticleControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isNotFound();
     }
-    @Test
-    @WithMockUser(username = "testuser", roles = {"ADMIN"})
-    void whenCreateValidArticle_thenReturnCreatedArticle() {
+
+ @WithMockUser(username = "testuser", roles = {"ADMIN"})
+ void whenCreateValidArticle_thenReturnCreatedArticle() {
         // Arrange
         ArticleRequestModel articleRequestModel = ArticleRequestModel.builder()
                 .title("Test Article")
@@ -265,6 +267,34 @@ class ArticleControllerIntegrationTest {
                     assertEquals(ArticleStatus.DRAFT, response.getArticleStatus());
                 });
     }
+
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"ADMIN"})
+//    void whenCreateValidArticle_thenReturnCreatedArticle() {
+//        // Arrange
+//        ArticleRequestModel articleRequestModel = ArticleRequestModel.builder()
+//                .title("Test Article")
+//                .body("This is a detailed test article with sufficient word count to pass validation.")
+//                .tags("NBA")
+//                .tagsTag(Tags.NBA)
+//                .photoUrl("https://example")
+//                .build();
+//
+//        // Act & Assert
+//        webTestClient.post()
+//                .uri(BASE_URL)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(articleRequestModel)
+//                .exchange()
+//                .expectStatus().isCreated()
+//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+//                .expectBody(ArticleResponseModel.class)
+//                .value(response -> {
+//                    assertNotNull(response);
+//                    assertEquals(articleRequestModel.getTitle(), response.getTitle());
+//                    assertEquals(ArticleStatus.ARTICLE_REVIEW, response.getArticleStatus());
+//                });
+//    }
 
     @Test
     @WithMockUser(username = "testuser", roles = {"ADMIN"})
@@ -401,6 +431,75 @@ class ArticleControllerIntegrationTest {
                     assertEquals(2, response.size());
                     response.forEach(article -> assertTrue(article.getTags().contains("NBA")));
                 });
+    }
+
+
+    @Test
+    void whenUpdatingArticleWithValidId_ReturnUpdatedArticle(){
+        // Arrange
+        var article = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article to Update")
+                .body("This is the body of an article pending review")
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .wordCount(9)
+                .tags("NBA")
+                .tagsTag(Tags.NBA)
+                .timePosted(LocalDateTime.now())
+                .build();
+
+        // Save the article first
+        articleRepository.save(article).block();
+
+        String url = BASE_URL + "/" + article.getArticleIdentifier().getArticleId();
+
+        ArticleRequestModel updatedArticle = ArticleRequestModel.builder()
+                .title("Updated Article")
+                .body("This is the updated body of an article pending review")
+                .wordCount(10)
+                .tags("NBA")
+                .tagsTag(Tags.NBA)
+                .build();
+
+        // Act & Assert
+        webTestClient.put()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(updatedArticle)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ArticleResponseModel.class)
+                .value(response -> {
+                    assertNotNull(response);
+                    assertEquals(updatedArticle.getTitle(), response.getTitle());
+                    assertEquals(updatedArticle.getBody(), response.getBody());
+                    assertEquals(updatedArticle.getWordCount(), response.getWordCount());
+                });
+    }
+
+
+    @Test
+    void whenUpdatingArticleWithInvalidId_ReturnNotFound(){
+        // Arrange
+        String invalidId = "a0466beb-a91c-4022-a58d-765bb1bbade3";
+        String url = BASE_URL + "/" + invalidId;
+
+        ArticleRequestModel updatedArticle = ArticleRequestModel.builder()
+                .title("Updated Article")
+                .body("This is the updated body of an article pending review")
+                .wordCount(10)
+                .tags("NBA")
+                .tagsTag(Tags.NBA)
+                .build();
+
+        // Act & Assert
+        webTestClient.put()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(updatedArticle)
+                .exchange()
+                .expectStatus().isNotFound();
     }
 
 }
