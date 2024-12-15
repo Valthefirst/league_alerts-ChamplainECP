@@ -144,7 +144,7 @@ const ArticleForm = () => {
             <button
               type="submit"
               onClick={handleDraftSubmit}
-              className="article-form-draft__button"
+              className="article-form-draft"
             >
               Draft Article
             </button>

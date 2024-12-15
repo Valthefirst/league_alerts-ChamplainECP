@@ -29,7 +29,7 @@ const ArtifleDrafts: React.FC = () => {
   }, []);
 
   const handleArticleClick = (id: string) => {
-    navigate(`/article/${id}`);
+    return null;
   };
 
   if (loading) return <p className="text-center">Loading articles...</p>;

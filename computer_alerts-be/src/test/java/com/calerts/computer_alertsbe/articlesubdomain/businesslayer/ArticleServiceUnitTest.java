@@ -331,6 +331,20 @@ class ArticleServiceUnitTest {
                 .expectError(BadRequestException.class)
                 .verify();
     }
+    @Test
+    void createArticleDraft_emptyTitle_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("")
+                .body("Some body")
+                .wordCount(120)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticleDraft(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
 
     @Test
     void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
@@ -343,6 +357,20 @@ class ArticleServiceUnitTest {
 
         // Act and Assert
         StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
+    @Test
+    void createArticleDraft_insufficientWordCount_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("Test Title")
+                .body("Short body")
+                .wordCount(50)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticleDraft(Mono.just(invalidArticleRequest)))
                 .expectError(BadRequestException.class)
                 .verify();
     }
