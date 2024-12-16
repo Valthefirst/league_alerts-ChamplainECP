@@ -4,6 +4,7 @@ export enum AppRoutePaths {
   Authors = "/authors",
   ArticlesByTag = "/articles/tag/:tagName",
   SpecificArticle = "/articles/:id",
+  EditArticle = "/articles/edit/:id",
   NBA = "/nba",
   NHL = "/nhl",
   NFL = "/nfl",

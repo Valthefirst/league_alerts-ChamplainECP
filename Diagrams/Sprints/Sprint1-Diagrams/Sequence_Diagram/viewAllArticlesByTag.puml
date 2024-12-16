@@ -7,7 +7,6 @@ participant "ArticleController" as Controller
 participant "ArticleService" as Service
 participant "ArticleServiceImpl" as ServiceImpl
 participant "ArticleRepository" as Repo
-participant "ArticleResponseModel" as ResponseModel
 database "Database" as DB
 
 

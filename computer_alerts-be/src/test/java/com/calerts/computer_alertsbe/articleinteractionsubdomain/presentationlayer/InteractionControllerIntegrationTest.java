@@ -144,6 +144,7 @@ class InteractionControllerIntegrationTest {
                 });
     }
 
+
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenLikeArticle_thenReturnCreatedLike() {
@@ -197,7 +198,6 @@ class InteractionControllerIntegrationTest {
     }
 
 
-
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetLikeByIdentifier_thenReturnLike() {
@@ -233,6 +233,7 @@ class InteractionControllerIntegrationTest {
     }
 
     // Positive test case for getAllComments
+
 //    @Test
 //    @WithMockUser(username = "testuser", roles = {"USER"})
 //    public void whenGetAllComments_thenReturnAllComments() {
@@ -246,6 +247,8 @@ class InteractionControllerIntegrationTest {
 //                .timestamp(LocalDateTime.now())
 //                .articleId(articleId)
 //                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+//                .readerId("reader-001")
+//
 //                .build();
 //
 //        var comment2 = Comment.builder()
@@ -254,7 +257,11 @@ class InteractionControllerIntegrationTest {
 //                .wordCount(4)
 //                .timestamp(LocalDateTime.now())
 //                .articleId(articleId)
+//
 //                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+//
+//                .readerId("reader-002")
+//
 //                .build();
 //
 //        var comment3 = Comment.builder()
@@ -263,7 +270,11 @@ class InteractionControllerIntegrationTest {
 //                .wordCount(4)
 //                .timestamp(LocalDateTime.now())
 //                .articleId(articleId)
+//
 //                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+//
+//                .readerId("reader-003")
+//
 //                .build();
 //
 //        commentRepository.saveAll(List.of(comment1, comment2, comment3)).blockLast();
@@ -285,7 +296,7 @@ class InteractionControllerIntegrationTest {
 //                });
 //    }
 
-    // Positive test case for addComment
+//     //Positive test case for addComment
 //    @Test
 //    @WithMockUser(username = "testuser", roles = {"USER"})
 //    public void whenAddComment_thenReturnNothing() {
@@ -293,7 +304,11 @@ class InteractionControllerIntegrationTest {
 //        CommentRequestModel commentRequestModel = CommentRequestModel.builder()
 //                .content("This is a comment")
 //                .articleId("article-1")
+//
 //                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+//
+//                .readerId("reader-001")
+//
 //                .build();
 //
 //        String url = BASE_URL + "/comments";
@@ -309,6 +324,7 @@ class InteractionControllerIntegrationTest {
 //                .expectStatus().isCreated()
 //                .expectHeader();
 //    }
+
 
     // Negative test case for addComment
     @Test

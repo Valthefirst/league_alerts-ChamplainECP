@@ -2,7 +2,9 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
+
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
+
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
@@ -45,6 +47,34 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .map(EntityModelUtil::toArticleResponseModel);
     }
+
+    @Override
+    public Mono<ArticleResponseModel> editArticle(String articleId, Mono<ArticleRequestModel> articleRequestModel) {
+        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
+                .flatMap(foundArticle -> articleRequestModel
+                        .map(EntityModelUtil::toArticleEntity)
+                        .doOnNext(
+
+                                article -> {
+                                    article.setRequestCount(foundArticle.getRequestCount());
+                                    article.setLikeCount(foundArticle.getLikeCount());
+                                    article.setArticleIdentifier(foundArticle.getArticleIdentifier());
+                                    article.setArticleStatus(foundArticle.getArticleStatus());
+                                    article.setId(foundArticle.getId());
+                                })
+                )
+                .flatMap(article -> {
+                    int wordCount = calculateWordCount(article.getBody());
+                    article.setWordCount(wordCount);
+                    return articleRepository.save(article);
+
+                })
+                .map(EntityModelUtil::toArticleResponseModel);
+
+    }
+
+
     @Override
     public Mono<Void> requestCount(String articleId) {
         return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
@@ -66,6 +96,8 @@ public class ArticleServiceImpl implements ArticleService {
                 })
                 .then();
     }
+
+
 
     @Override
     public Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel) {
@@ -94,6 +126,8 @@ public class ArticleServiceImpl implements ArticleService {
                 });
     }
 
+
+
     @Override
     public Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel) {
         return articleRequestModel
@@ -111,12 +145,22 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(EntityModelUtil::toArticleResponseModel);
     }
 
+
     @Override
     public Mono<List<ArticleResponseModel>> searchArticles(String tag, String query) {
         return articleRepository
                 .findByTagsContainingAndTitleContainingIgnoreCase(tag, query)
                 .map(EntityModelUtil::toArticleResponseModel)
                 .collectList();
+
     }
+
+    public static int calculateWordCount(String body) {
+        if (body == null || body.trim().isEmpty()) {
+            return 0;
+        }
+        return body.trim().split("\\s+").length; // Split by whitespace and count
+    }
+
 
 }

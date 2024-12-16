@@ -38,4 +38,6 @@ public class ArticleResponseModel {
     private Integer requestCount;
 
     private String photoUrl;
+
+    private String articleDescription;
 }
