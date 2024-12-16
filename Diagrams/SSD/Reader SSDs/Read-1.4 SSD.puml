@@ -1,0 +1,13 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Reader, LAS : Read Article
+
+opt Share Article
+    Reader -> LAS: generateShareLink(articleIdentifier)
+    activate LAS
+        LAS --> Reader: returnShareLink(shareLink)
+    deactivate LAS
+end opt
+@enduml

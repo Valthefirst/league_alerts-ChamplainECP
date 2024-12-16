@@ -1,0 +1,86 @@
+@startuml
+actor Reader
+participant Frontend as "<<UI>>\nFrontend"
+participant ArticleController as "<<Controller>>\nArticleController"
+participant ArticleService as "<<Service>>\nArticleService"
+participant ArticleRepository as "<<Repository>>\nArticleRepository"
+participant LikeService as "<<Service>>\nLikeService"
+participant LikeRepository as "<<Repository>>\nLikeRepository"
+participant Like as "<<Entity>>\nLike"
+participant LikeResponseModel as "<<Model>>\nLikeResponseModel"
+
+== Viewing the Article ==
+Reader -> Frontend : Open Article Page
+activate Frontend
+
+Frontend -> ArticleController : getArticleDetails(articleId)
+activate ArticleController
+
+ArticleController -> ArticleService : getArticleById(articleId)
+activate ArticleService
+ArticleService -> ArticleRepository : findArticleById(articleId)
+activate ArticleRepository
+ArticleRepository --> ArticleService : Article Entity
+
+deactivate ArticleRepository
+ArticleService --> ArticleController : Article Details
+
+deactivate ArticleService
+ArticleController --> Frontend : Article Details
+
+deactivate ArticleController
+Frontend --> Reader : Display Article Details
+
+deactivate Frontend
+
+== Liking the Article ==
+Reader -> Frontend : Click "Like" Button
+activate Frontend
+
+Frontend -> ArticleController : likeArticle(articleId, readerId)
+activate ArticleController
+
+ArticleController -> ArticleService : validateArticle(articleId)
+activate ArticleService
+ArticleService -> ArticleRepository : findArticleById(articleId)
+activate ArticleRepository
+ArticleRepository --> ArticleService : Article Entity
+
+deactivate ArticleRepository
+ArticleService --> ArticleController : Validation Success
+
+deactivate ArticleService
+
+ArticleController -> LikeService : likeArticle(articleId, readerId)
+activate LikeService
+
+LikeService -> Like : Create Like Entity
+activate Like
+Like --> LikeService : Like Entity Created
+
+deactivate Like
+
+LikeService -> LikeRepository : save(Like)
+activate LikeRepository
+LikeRepository --> LikeService : Saved Like Entity
+
+deactivate LikeRepository
+
+LikeService -> LikeResponseModel : Create LikeResponseModel
+activate LikeResponseModel
+LikeResponseModel --> LikeService : LikeResponseModel Created
+
+deactivate LikeResponseModel
+
+LikeService --> ArticleController : LikeResponseModel
+
+deactivate LikeService
+
+ArticleController --> Frontend : LikeResponseModel
+
+deactivate ArticleController
+
+Frontend --> Reader : Like animation
+
+deactivate Frontend
+@enduml
