@@ -71,9 +71,17 @@ public class ArticleController {
         return articleService.requestCount(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 
-    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<ArticleResponseModel>> searchArticles(@RequestParam String query) {
-        return articleService.searchArticles(query);
+//    @GetMapping(value = "/tag/{tagName}/search", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Mono<List<ArticleResponseModel>> searchArticles(@RequestParam String query) {
+//        return articleService.searchArticles(query);
+//    }
+
+    @GetMapping(value = "/tag/{tagName}/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<List<ArticleResponseModel>> searchArticles(
+            @PathVariable String tagName,
+            @RequestParam String query
+    ) {
+        return articleService.searchArticles(tagName, query);
     }
 
 

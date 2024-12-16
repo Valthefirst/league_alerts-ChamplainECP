@@ -34,7 +34,7 @@ class ArticleControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        articleRepository.deleteAll();
+        articleRepository.deleteAll().block();
     }
 
 
@@ -301,29 +301,48 @@ class ArticleControllerIntegrationTest {
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
-    void testSearchArticlesByTitleOrBody() {
-        // Arrange
+    void testSearchArticlesByTagAndTitle() {
 
-        var content1 = Content.builder()
-                .title("Article 1")
-                .body("Hello world")
-                .build();
+        //arrange
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
-                .title(content1.getTitle())
-                .body(content1.getBody())
+                .title("Article 1")
+                .body("This is the body of article 1")
                 .wordCount(7)
-                .requestCount(0)
                 .articleStatus(ArticleStatus.PUBLISHED)
                 .tags("NBA")
                 .likeCount(0)
-                .timePosted(ZonedDateTime.now().toLocalDateTime())
-                .photoUrl("https://example.com/photo1.jpg")
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
-        articleRepository.save(article1).block(); // Ensure article is saved to the database
+        var article2 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 2")
+                .body("This is the body of article 2")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NBA")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
+                .build();
 
-        String url = BASE_URL + "/" + "search?query=world";
+        var article3 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 3")
+                .body("This is the body of article 3")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .tags("NFL")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .build();
+
+        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
+
+        String url = BASE_URL + "/tag/NBA/search?query=Article";
 
         // Act & Assert
         webTestClient.get()
@@ -333,10 +352,10 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(ArticleResponseModel.class)
-                .value(response -> {
+                .value((response) -> {
                     assertNotNull(response);
-                    assertEquals(1, response.size());
-                    assertTrue(response.stream().anyMatch(article -> article.getTitle().equals(content1.getTitle())));
+                    assertEquals(2, response.size());
+                    response.forEach(article -> assertTrue(article.getTags().contains("NBA")));
                 });
     }
 

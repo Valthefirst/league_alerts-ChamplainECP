@@ -103,14 +103,18 @@ class ArticleRepositoryIntegrationTest {
         var savedArticles = articleRepository.findAll().collectList().block();
         assertNotNull(savedArticles, "Saved articles should not be null");
 
-        var query = "Article 1";
+        var tag = savedArticles.get(0).getTags();
+        var query = savedArticles.get(0).getTitle();
 
         // Act
-        var actualArticles = articleRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query).collectList().block();
+        var actualArticles = articleRepository.findByTagsContainingAndTitleContainingIgnoreCase(tag, query).collectList().block();
 
         // Assert
         assertNotNull(actualArticles, "Retrieved articles should not be null");
         assertTrue(actualArticles.size() > 0, "Retrieved articles should not be empty");
-        actualArticles.forEach(article -> assertTrue(article.getTitle().contains(query) || article.getBody().contains(query), "Article title or body should contain query"));
+        actualArticles.forEach(article -> {
+            assertEquals(tag, article.getTags(), "Article tag should match");
+            assertTrue(article.getTitle().contains(query), "Article title should contain query");
+        });
     }
 }

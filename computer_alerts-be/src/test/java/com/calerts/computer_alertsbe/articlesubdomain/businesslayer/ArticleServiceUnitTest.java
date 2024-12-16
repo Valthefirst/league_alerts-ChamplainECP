@@ -356,49 +356,47 @@ class ArticleServiceUnitTest {
     @Test
     void searchArticles_ShouldReturnMatchingArticles() {
         // Arrange
-        String query = "example";
+        String tag = "NBA";
+        String query = "Test";
 
         Article article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
-                .title("Example Title 1")
-                .body("Example content 1")
+                .title("Test Article 1")
+                .body("This is a test article 1")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NFL")
+                .tags(tag)
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
-                .requestCount(5)
-                .photoUrl("https://example.com/photo1.jpg")
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
         Article article2 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
-                .title("Another Example Title")
-                .body("More example content")
+                .title("Test Article 2")
+                .body("This is a test article 2")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NFL")
+                .tags(tag)
+                .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
-                .requestCount(3)
-                .photoUrl("https://example.com/photo2.jpg")
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
-        when(articleRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query))
+        // Mock the repository to return a Flux<Article>
+        when(articleRepository.findByTagsContainingAndTitleContainingIgnoreCase(tag, query))
                 .thenReturn(Flux.just(article1, article2));
 
-        // Act
-        Mono<List<ArticleResponseModel>> result = articleService.searchArticles(query);
-
-        // Assert
-        StepVerifier.create(result)
-                .expectNextMatches(responseList -> {
-                    return responseList.size() == 2 &&
-                            responseList.stream().anyMatch(article -> article.getTitle().equals("Example Title 1")) &&
-                            responseList.stream().anyMatch(article -> article.getTitle().equals("Another Example Title"));
-                })
+        // Act and Assert using StepVerifier
+        StepVerifier.create(articleService.searchArticles(tag, query))
+                .expectNextMatches(actualArticles -> actualArticles.size() == 2)
                 .verifyComplete();
 
-        verify(articleRepository, times(1))
-                .findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query);
+        // Verify that the repository method was called with the correct arguments
+        verify(articleRepository).findByTagsContainingAndTitleContainingIgnoreCase(tag, query);
+
+
+
     }
 
 }
