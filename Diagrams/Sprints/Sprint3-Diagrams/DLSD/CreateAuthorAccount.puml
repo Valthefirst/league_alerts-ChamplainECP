@@ -1,0 +1,49 @@
+@startuml
+
+title Create Author Account - Design Level Sequence Diagram
+
+actor Author 
+
+participant ReactApplication as "<<View>>\nReactApplication"
+participant CreateAccountPage as "<<View>>\nCreateAccountPage"
+participant AuthController as "<<Controller>>\nAuthController"
+participant AuthorServiceImpl as "<<Service>>\nAuthorServiceImpl"
+participant AuthorRepository as "<<Repository>>\nAuthorRepository"
+participant AuthServiceImpl as "<<Service>>\nAuthServiceImpl"
+participant Auth0Client as "<<External Service>>\nAuth0Client"
+
+Author -> ReactApplication : Access "Create Account Page"
+activate ReactApplication
+
+ReactApplication -> CreateAccountPage : render()
+
+Author -> CreateAccountPage : Fill in account details\n(firstName, lastName, email, password)
+
+CreateAccountPage -> AuthController : POST /createAccount (email, password)
+activate AuthController
+
+AuthController -> AuthServiceImpl : createAccount(email, password)
+activate AuthServiceImpl
+
+AuthServiceImpl -> Auth0Client : createUser(email, password)
+activate Auth0Client
+
+Auth0Client --> AuthServiceImpl : Return Auth0Response(userId, email)
+deactivate Auth0Client
+
+AuthServiceImpl -> AuthorRepository : save(new Author(...))
+activate AuthorRepository
+deactivate AuthorRepository
+
+AuthServiceImpl --> AuthController : Return success response
+deactivate AuthServiceImpl
+
+AuthController --> ReactApplication : Return success message\n"Account Created!"
+deactivate AuthController
+
+ReactApplication -> CreateAccountPage : Display confirmation message\n"Account successfully created!"
+CreateAccountPage -> Author : Show confirmation message
+
+deactivate ReactApplication
+
+@enduml

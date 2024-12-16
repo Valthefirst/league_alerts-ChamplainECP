@@ -1,0 +1,88 @@
+@startuml
+
+package "AuthorSubdomain" {
+
+    class Author {
+        - authorId: String 
+        - firstName: String
+        - lastName: String
+        - email: String
+        + Author(authorId: String, firstName: String, lastName: String, email: String)
+        + getAuthorId(): String
+        + getFirstName(): String
+        + getLastName(): String
+        + getEmail(): String
+        + setFirstName(firstName: String): void
+        + setLastName(lastName: String): void
+        + setEmail(email: String): void
+    }
+
+    class AuthorRepository {
+        + save(author: Author): void
+        + findById(authorId: String): Author
+        + findByEmail(email: String): Author
+    }
+
+    class AuthorService {
+        + createAuthorAccount(firstName: String, lastName: String, email: String): Author
+    }
+
+    class AuthorServiceImpl {
+        - authorService : AuthorService
+        - authorRepository: AuthorRepository
+        + AuthorServiceImpl(authorRepository: AuthorRepository)
+        + createAuthorAccount(firstName: String, lastName: String, email: String): Author
+    }
+}
+
+package "AuthSubdomain" {
+
+    class SecurityConfig {
+        + configure(): void
+    }
+
+    class AuthController {
+        + getUserInfo(token: String): Map<String, Object>
+        + createAccount(auth0Request: Auth0Request): Auth0Response
+    }
+
+    class AuthService {
+        + getUserInfo(token: String): Map<String, Object>
+        + createAccount(auth0Request: Auth0Request): Auth0Response
+    }
+
+    class AuthServiceImpl {
+        - auth0Client: Auth0Client
+        + AuthServiceImpl(auth0Client: Auth0Client)
+        + getUserInfo(token: String): Map<String, Object>
+        + createAccount(auth0Request: Auth0Request): Auth0Response
+    }
+
+    class Auth0Request {
+        - email: String
+        - password: String
+        + Auth0Request(email: String, password: String)
+        + getEmail(): String
+        + getPassword(): String
+    }
+
+    class Auth0Response {
+        - userId: String
+        - email: String
+        + Auth0Response(userId: String, email: String)
+        + getUserId(): String
+        + getEmail(): String
+    }
+
+    class Auth0Client {
+        + createUser(auth0Request: Auth0Request): Auth0Response
+        + getUserInfo(token: String): Map<String, Object>
+    }
+}
+
+AuthorServiceImpl --> AuthorRepository
+AuthController --> AuthService
+AuthServiceImpl --> Auth0Client
+AuthorServiceImpl --> AuthService
+
+@enduml
