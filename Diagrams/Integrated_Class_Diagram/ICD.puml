@@ -1,6 +1,6 @@
 @startuml
 
-title Integrated Class Diagram for Provided Backend System
+title Integrated Class Diagram for Provided Backend System (Updated with Search)
 
 package "Article Subdomain" {
     class ArticleController {
@@ -8,6 +8,7 @@ package "Article Subdomain" {
         + createArticle(articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
         + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
         + deleteArticle(articleId: String) : ResponseEntity<Void>
+        + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>  ' Added search endpoint
     }
 
     class ArticleService {
@@ -15,19 +16,22 @@ package "Article Subdomain" {
         + createArticle(articleRequest: ArticleRequestModel) : ArticleResponseModel
         + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
         + deleteArticle(articleId: String) : void
+        + searchArticles(keyword: String) : List<ArticleResponseModel>  ' Added search service
     }
 
     class ArticleRepository {
-        + findById(articleId: String) : Article
+        + findById(articleId: String) : Optional<Article>
         + save(article: Article) : Article
         + deleteById(articleId: String) : void
+        + findByTitleContainingOrTags_TagNameContaining(keyword: String) : List<Article>
     }
 
     class Article {
         - articleId: String
         - title: String
         - content: String
-        - tags: List<String>
+        - tags: List<Tags>
+        - status: ArticleStatus
     }
 
     class ArticleRequestModel {
@@ -41,13 +45,27 @@ package "Article Subdomain" {
         - title: String
         - content: String
         - tags: List<String>
+        - status: ArticleStatus
+    }
+
+    class Tags {
+        - tagId: String
+        - tagName: String
+    }
+
+    enum ArticleStatus {
+        DRAFT
+        PUBLISHED
+        ARCHIVED
     }
 
     ArticleController --> ArticleService
     ArticleService --> ArticleRepository
     ArticleRepository --> Article
-    ArticleRequestModel --> Article
     Article --> ArticleResponseModel
+    Article --> Tags
+    Article --> ArticleStatus
+    ArticleRequestModel --> Article
 }
 
 package "Interaction Subdomain" {
@@ -211,4 +229,5 @@ Article --> Interaction : interacts
 Reader --> Article : reads
 Authentication --> Reader : authenticates
 Authentication --> Interaction : validates
+
 @enduml
