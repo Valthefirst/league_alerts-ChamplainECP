@@ -137,13 +137,15 @@ const ArticleDetails: React.FC = () => {
         )}
       </div>
       <div className="like-section">
-        <div
-          id="heart"
-          className={`button ${isLiked ? "active" : ""}`}
-          ref={heartRef}
-          onClick={handleLikeToggle}
-        ></div>
-        <p className="like-count">{likeCount}</p>
+        <div className="like-container">
+          <div
+            id="heart"
+            className={`button ${isLiked ? "active" : ""}`}
+            ref={heartRef}
+            onClick={handleLikeToggle}
+          ></div>
+          <p className="like-count">{likeCount}</p>
+        </div>
         <button className="edit-button" onClick={openEditPage}>
           Edit Article
         </button>

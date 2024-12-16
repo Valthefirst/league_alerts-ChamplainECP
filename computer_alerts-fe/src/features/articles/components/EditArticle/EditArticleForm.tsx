@@ -108,7 +108,7 @@ export default function EditArticle({ article }: EditArticlePageProps): JSX.Elem
                     </select>
                 </div>
 
-                {/* Description Field */}
+                {/* Description Field
                 <div className="field">
                     <label>Description</label>
                     <textarea
@@ -116,7 +116,7 @@ export default function EditArticle({ article }: EditArticlePageProps): JSX.Elem
                         value={formData.articleDescpition}
                         onChange={handleChanges}
                     />
-                </div>
+                </div> */}
 
                 {/* Photo URL Field */}
                 <div className="field">
@@ -139,9 +139,44 @@ export default function EditArticle({ article }: EditArticlePageProps): JSX.Elem
                     />
                 </div>
                     
-                    <Button type="submit" onClick={handleSubmit}>
-                        Update Article
-                    </Button>
+                <button
+                    className="submit-Update"
+                    type="submit"
+                    onClick={handleSubmit}
+                    style={{
+                      backgroundColor: '#CDA09F', // Set button color
+                      color: 'white', // Text color
+                      padding: '10px 20px', // Button padding
+                      borderRadius: '8px', // Rounded corners
+                      border: 'none', // Remove default border
+                      fontSize: '16px', // Adjust font size
+                      fontWeight: 'bold', // Make text bold
+                      cursor: 'pointer', // Change cursor to pointer on hover
+                      transition: 'all 0.3s ease', // Smooth transition
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#A67C6D'; // Darken the color on hover
+                      e.currentTarget.style.transform = 'translateY(-3px)'; // Lift the button slightly
+                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)'; // Darker shadow on hover
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = '#CDA09F'; // Reset button color
+                      e.currentTarget.style.transform = 'translateY(0)'; // Reset transform
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)'; // Reset shadow
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.outline = 'none'; // Remove focus outline
+                      e.currentTarget.style.boxShadow = '0 0 0 4px #A67C6D'; // Add a glowing effect when focused
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)'; // Reset shadow after focus
+                    }}
+                  >
+                    Update Article
+              </button>
+
+
                     
             </div>
         </div>
