@@ -7,10 +7,24 @@ activate LAS
 
 alt Success
     LAS -> Reader : Return Articles
+    deactivate LAS
 
-deactivate LAS
+    opt View Specific Article
+        Reader -> LAS : Request Specific Article by articleId
+        activate LAS
 
+        alt Success
+            LAS -> Reader : Return Article Details
+            deactivate LAS
 
+            opt Search Articles
+                Reader -> LAS : searchArticle(query, filters)
+                activate LAS
+                    LAS -> Reader : Return Search Results
+                deactivate LAS
+            end opt
+        end alt
+    end opt
+end alt
 
-deactivate LAS
 @enduml
