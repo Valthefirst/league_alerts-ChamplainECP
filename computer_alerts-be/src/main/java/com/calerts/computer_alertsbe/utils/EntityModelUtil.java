@@ -40,20 +40,20 @@ public class EntityModelUtil {
         return articleResponseModel;
     }
 
-//    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
-//        return  Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
-//                .body(articleRequestModel.getBody())
-//                .tagsTag(articleRequestModel.getTagsTag())
-//                .tags(articleRequestModel.getTags())
-//                .title(articleRequestModel.getTitle())
-//                .articleStatus(articleRequestModel.getArticleStatus())
-//                .wordCount(articleRequestModel.getBody().split(" ").length)
-//                .timePosted(articleRequestModel.getTimePosted())
-//                .authorIdentifier(articleRequestModel.getAuthorIdentifier())
-//                .photoUrl(articleRequestModel.getPhotoUrl())
-//                .build();
-//    }
+    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+        return  Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .body(articleRequestModel.getBody())
+                .tagsTag(articleRequestModel.getTagsTag())
+                .tags(articleRequestModel.getTags())
+                .title(articleRequestModel.getTitle())
+                .articleStatus(articleRequestModel.getArticleStatus())
+                .wordCount(articleRequestModel.getBody().split(" ").length)
+                .timePosted(articleRequestModel.getTimePosted())
+                .authorIdentifier(articleRequestModel.getAuthorIdentifier())
+                .photoUrl(articleRequestModel.getPhotoUrl())
+                .build();
+    }
 
 
     public static AuthorResponseModel toAuthorResponseModel(Author author) {
@@ -98,11 +98,11 @@ public class EntityModelUtil {
         return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
     }
 
-    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
-        Article article = new Article();
-        BeanUtils.copyProperties(articleRequestModel, article);
-        return article;
-    }
+//    public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+//        Article article = new Article();
+//        BeanUtils.copyProperties(articleRequestModel, article);
+//        return article;
+//    }
 
 
 }

@@ -60,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
                                     article.setLikeCount(foundArticle.getLikeCount());
                                     article.setArticleIdentifier(foundArticle.getArticleIdentifier());
                                     article.setArticleStatus(foundArticle.getArticleStatus());
+                                    //article.setTagsTag(foundArticle.getTagsTag());
 
                                     article.setId(foundArticle.getId());
                                 })
