@@ -1,0 +1,24 @@
+@startuml
+title Like and Unlike State Transition Diagram - Managed States
+
+skinparam shadowing false
+skinparam ArrowColor Black
+skinparam StateBackgroundColor PaleGreen
+skinparam StateBorderColor Black
+
+[*] --> NotLiked : User views article
+
+NotLiked --> Liked : likeArticle(articleId, userId)
+Liked --> NotLiked : unlikeArticle(articleId, userId)
+
+state Liked {
+    [*] --> LikeProcessing : Processing Like
+    LikeProcessing --> [*] : Like Completed
+}
+
+state NotLiked {
+    [*] --> UnlikeProcessing : Processing Unlike
+    UnlikeProcessing --> [*] : Unlike Completed
+}
+
+@enduml

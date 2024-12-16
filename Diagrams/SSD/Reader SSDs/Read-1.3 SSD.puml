@@ -1,0 +1,13 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Reader, LAS : Read Article
+
+opt Comment on Article
+    Reader -> LAS: addComment(readerId, articleIdentifier, commentText)
+    activate LAS
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.Created)
+    deactivate LAS
+end opt
+@enduml

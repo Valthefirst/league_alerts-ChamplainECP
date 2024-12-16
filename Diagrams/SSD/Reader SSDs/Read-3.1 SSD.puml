@@ -1,0 +1,14 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Reader, LAS : Subscribe to Notifications
+
+opt Unsubscribe from Notifications
+    Reader -> LAS: unsubscribeNotifications(readerIdentifier)
+    activate LAS
+        LAS -> LAS: Remove Reader from Notification List
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    deactivate LAS
+end opt
+@enduml
