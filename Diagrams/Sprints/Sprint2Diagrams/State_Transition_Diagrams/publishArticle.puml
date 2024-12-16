@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+[*] --> DRAFT : Author creates article
+
+state DRAFT {
+    state FillRequiredFields {
+        [*] --> EnterFields
+        EnterFields : Author fills required fields
+        EnterFields --> ValidateFields
+        ValidateFields : Check field completeness
+        ValidateFields --> ReadyToPublish : All fields valid
+        ValidateFields --> EnterFields : Invalid fields
+    }
+    ReadyToPublish : Author clicks Publish Button
+    ReadyToPublish --> ARTICLE_REVIEW : Proceed to review
+}
+
+state ARTICLE_REVIEW {
+    state ReviewProcess {
+        [*] --> AdminReview
+        AdminReview : Sent to Admin for Review
+        AdminReview --> RequestChanges : Needs modifications
+        AdminReview --> Approve : Meets requirements
+        RequestChanges --> DRAFT : Return for edits
+        Approve --> PUBLISHED
+    }
+}
+
+state PUBLISHED {
+    state LiveArticle {
+        [*] --> Viewable
+        Viewable : Article is live and viewable by users
+    }
+}
+
+PUBLISHED --> [*] : Article lifecycle complete
+@enduml

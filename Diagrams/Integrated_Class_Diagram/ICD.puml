@@ -8,6 +8,9 @@ package "Article Subdomain" {
         + deleteArticle(articleId: String) : ResponseEntity<Void>
         + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>
         + saveArticle(readerId: String, articleId: String) : ResponseEntity<Void>
+        + acceptArticle(articleId:String) : ResponseEntity<ArticleResponseMode>
+        + incrementRequestCount(articleId:String) : ResponseEntity<Void>
+        + createArticleDraft(articleRequestModel: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
     }
 
     class ArticleService {
@@ -17,6 +20,9 @@ package "Article Subdomain" {
         + deleteArticle(articleId: String) : void
         + searchArticles(keyword: String) : List<ArticleResponseModel>
         + saveArticle(readerId: String, articleId: String) : void
+        + incrementrequestCount(articleID : String) : void
+        + acceptArticle(articleId : String) : ArticleResponseModel
+        + createArticleDraft(articleRequestModel: ArticleRequestModel) : ArticleResponseModel
     }
 
     class ArticleRepository {
@@ -33,6 +39,8 @@ package "Article Subdomain" {
         - tags: List<Tags>
         - status: ArticleStatus
         - author: Author
+        - requestCount : Integer
+        
     }
 
     class ArticleRequestModel {
@@ -59,6 +67,7 @@ package "Article Subdomain" {
         DRAFT
         PUBLISHED
         ARCHIVED
+        ARTICLE_REVIEW
     }
 
     ArticleController --> ArticleService
@@ -150,11 +159,38 @@ package "Authentication Subdomain" {
     class AuthController {
         + authenticate(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
         + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+        + getUserInfo(token: String): Map<String, Object>
+        + createAccount(auth0Request: Auth0Request): Auth0Response
+        + resetPassword(auth0Request: Auth0Request): Auth0Response
+    }
+
+     class Auth0Request {
+        - email: String
+        - password: String
+        + Auth0Request(email: String, password: String)
+        + getEmail(): String
+        + getPassword(): String
+    }
+
+    class Auth0Response {
+        - userId: String
+        - email: String
+        + Auth0Response(userId: String, email: String)
+        + getUserId(): String
+        + getEmail(): String
+    }
+
+    class Auth0Client {
+        + createUser(auth0Request: Auth0Request): Auth0Response
+        + getUserInfo(token: String): Map<String, Object>
+        + resetPassword(auth0Request: Auth0Request): Auth0Response
     }
 
     class UserService {
         + authenticate(userRequest: UserRequestDTO) : UserResponseModel
         + registerUser(userRequest: UserRequestDTO) : UserResponseModel
+         + getUserInfo(token: String): Map<String, Object>
+        + createAccount(auth0Request: Auth0Request): Auth0Response
     }
 
     class UserRepository {
@@ -236,6 +272,7 @@ package "Author Subdomain" {
         + createAuthor(authorRequest: AuthorRequestModel) : ResponseEntity<AuthorResponseModel>
         + updateAuthor(authorId: String, authorRequest: AuthorRequestModel) : ResponseEntity<AuthorResponseModel>
         + deleteAuthor(authorId: String) : ResponseEntity<Void>
+
     }
 
     class AuthorService {
@@ -243,6 +280,8 @@ package "Author Subdomain" {
         + createAuthor(authorRequest: AuthorRequestModel) : AuthorResponseModel
         + updateAuthor(authorId: String, authorRequest: AuthorRequestModel) : AuthorResponseModel
         + deleteAuthor(authorId: String) : void
+        + createAuthorAccount(authorId: String):
+        
     }
 
     class AuthorRepository {

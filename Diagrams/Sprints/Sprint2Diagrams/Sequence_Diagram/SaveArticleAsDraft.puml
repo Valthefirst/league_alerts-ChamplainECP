@@ -1,0 +1,34 @@
+@startuml
+actor Author
+
+participant ReactApplication as "<<View>>\nReactApplication"
+participant CreateArticlePage as "<<View>>\nCreateArticlePage"
+participant ArticleController as Controller
+participant ArticleServiceImpl as ServiceImpl
+participant ArticleRepository as Repository
+participant ArticleRequestDTO as RequestDTO
+participant ArticleResponseDTO as ResponseDTO
+participant Article as Article
+participant Database as DB
+
+== Author Saves Article as Draft ==
+Author -> ReactApplication: Navigate to Create Article Page
+ReactApplication -> CreateArticlePage: Open Create Article Page
+Author -> CreateArticlePage: Fill out form fields (title, content, etc.)
+Author -> CreateArticlePage: Click "Save as Draft"
+CreateArticlePage -> Controller: POST /articles (ArticleRequestDTO with status = "DRAFT")
+
+Controller -> RequestDTO: Parse Request Body to ArticleRequestDTO
+Controller -> ServiceImpl: saveArticle(ArticleRequestDTO)
+ServiceImpl -> Article: Map RequestDTO -> Article (with status = "DRAFT")
+Article -> ServiceImpl: Article Object
+ServiceImpl -> Repository: save(Article)
+Repository -> DB: INSERT INTO Articles VALUES (...)
+DB --> Repository: Success
+Repository --> ServiceImpl: Saved Article
+ServiceImpl -> ResponseDTO: Map Article -> ResponseDTO
+ResponseDTO --> Controller: ResponseDTO
+Controller --> CreateArticlePage: Return Saved Article (201 Created)
+CreateArticlePage --> Author: Show "Article Saved as Draft" Confirmation
+
+@enduml

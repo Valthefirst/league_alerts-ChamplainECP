@@ -1,0 +1,67 @@
+@startuml
+
+package "Article Subdomain" {
+
+    class Author {
+        - authorId: String
+       
+    }
+
+    class Article {
+        - articleId: String
+        - title: String
+        - body: String
+        - autherIdentifier: AuthorIdentifier
+        - status: String
+        - createdAt: LocalDateTime
+
+    }
+
+    class ArticleRequestDTO {
+        - title: String
+        - autherIdentifier: AuthorIdentifier
+        - body: String
+        - status: String
+    }
+
+    class ArticleResponseDTO {
+        - articleId: String
+        - title: String
+        - body: String
+        - status: String
+        - createdAt: LocalDateTime
+    }
+
+    class Tags {
+        - DRAFT : string
+    }
+
+
+    class ArticleController {
+        + createArticleDraft(articleRequestDTO: ArticleRequestDTO): ArticleResponseDTO
+    }
+
+    class ArticleService {
+        + createArticleDraft(articleRequestDTO: ArticleRequestDTO): Article
+    }
+
+    class ArticleServiceImpl {
+        - articleRepository: ArticleRepository
+        + ArticleServiceImpl(articleRepository: ArticleRepository)
+        + createArticleDraft(articleRequestDTO: ArticleRequestDTO): Article
+    }
+
+    class ArticleRepository {
+        + save(article: Article): void
+    }
+
+    
+}
+
+ArticleController --> ArticleService
+ArticleServiceImpl --> ArticleRepository
+ArticleServiceImpl --> Article
+ArticleController --> ArticleRequestDTO
+ArticleController --> ArticleResponseDTO
+
+@enduml

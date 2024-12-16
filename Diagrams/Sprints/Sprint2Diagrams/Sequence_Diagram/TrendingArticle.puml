@@ -1,0 +1,47 @@
+@startuml
+actor Reader
+
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant ArticleController as Controller
+participant ArticleServiceImpl as ServiceImpl
+participant ArticleRepository as Repository
+participant ArticleRequestDTO as RequestDTO
+participant ArticleResponseDTO as ResponseDTO
+participant Article as Article
+participant Database as DB
+
+== Reader Views an Article ==
+Reader -> ReactApplication: Open Article by ID
+ReactApplication -> LandingPage: Open Article by ID (GET /articles/{id})
+LandingPage -> Controller: GET /articles/{id}
+
+Controller -> ServiceImpl: getArticleById(id)
+ServiceImpl -> Repository: findById(id)
+Repository -> DB: SELECT * FROM Articles WHERE id = ?
+DB --> Repository: Article Data
+Repository --> ServiceImpl: Article
+ServiceImpl -> ResponseDTO: Map Article -> ResponseDTO
+ResponseDTO --> Controller: ResponseDTO
+Controller --> LandingPage: Return Article (200 OK)
+LandingPage --> Reader: Display Article Content
+
+== Increment Request Count ==
+Reader -> LandingPage: Clicks on Article (Engagement)
+LandingPage -> Controller: PATCH /articles/{id}/requestCount
+Controller -> ServiceImpl: updateRequestCount(id)
+ServiceImpl -> Repository: findById(id)
+Repository -> DB: SELECT * FROM Articles WHERE id = ?
+DB --> Repository: Article Data
+Repository --> ServiceImpl: Article
+
+ServiceImpl -> Article: Increment requestCount (+1)
+ServiceImpl -> Repository: save(Article)
+Repository -> DB: UPDATE Articles SET requestCount = ? WHERE id = ?
+DB --> Repository: Success
+Repository --> ServiceImpl: Updated Article
+ServiceImpl -> ResponseDTO: Map Article -> ResponseDTO
+ResponseDTO --> Controller: Updated ResponseDTO
+Controller --> LandingPage: Return Updated Article (200 OK)
+
+@enduml
