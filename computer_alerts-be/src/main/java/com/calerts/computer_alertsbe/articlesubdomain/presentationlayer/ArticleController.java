@@ -93,6 +93,7 @@ public class ArticleController {
     }
 
 
+
     @PostMapping(value = "/acceptDraft" , produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ArticleResponseModel>> createArticleDraft(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticleDraft(Mono.just(articleRequestModel))

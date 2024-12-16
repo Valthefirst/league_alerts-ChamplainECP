@@ -269,6 +269,8 @@ class ArticleControllerIntegrationTest {
                 });
     }
 
+
+
     @Test
     @WithMockUser(username = "testuser", roles = {"ADMIN"})
     void whenCreateArticleWithInvalidData_thenReturnBadRequest() {

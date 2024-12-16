@@ -98,7 +98,6 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .authorIdentifier(new AuthorIdentifier("7e93579d-cf40-44a0-9b82-6f8b05f3185b")) // George Smith
                 .articleDescription("An exciting NHL season filled with rivalries, emerging stars, and spectacular plays sets the stage for an intense race to the Stanley Cup.")
 
-
                 .build();
 
         //NHL article
@@ -188,7 +187,6 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944134/pexels-brunogobofoto-2204179_byfjyn.jpg")
                 .authorIdentifier(new AuthorIdentifier("9a21d4f8-85fa-477b-bc0a-76819b2d7c8f")) // Kevin Lee
                 .articleDescription("The article covers the excitement of UFC, highlighting thrilling fights, champions like Israel Adesanya and Amanda Nunes, and the rise of new stars.")
-
                 .build();
 
         //UFC article
@@ -254,6 +252,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944128/pexels-courtney-garner-585522281-17061702_nts9s1.jpg")
                 .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin.articleDescription("The MLB season is full of power hitting, stellar pitching, and dramatic finishes, with rising stars and veteran players delivering unforgettable moments.")
+               .articleDescription("The MLB season is full of power hitting, stellar pitching, and dramatic finishes, with rising stars and veteran players delivering unforgettable moments.")
 
                 .build();
 

@@ -144,6 +144,7 @@ class InteractionControllerIntegrationTest {
                 });
     }
 
+
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenLikeArticle_thenReturnCreatedLike() {
@@ -197,7 +198,6 @@ class InteractionControllerIntegrationTest {
     }
 
 
-
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetLikeByIdentifier_thenReturnLike() {
@@ -233,6 +233,7 @@ class InteractionControllerIntegrationTest {
     }
 
     // Positive test case for getAllComments
+
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetAllComments_thenReturnAllComments() {

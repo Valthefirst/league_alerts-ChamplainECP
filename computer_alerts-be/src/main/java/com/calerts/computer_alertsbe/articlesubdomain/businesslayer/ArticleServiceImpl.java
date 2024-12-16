@@ -54,7 +54,8 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No article with this id was found " + articleId))))
                 .flatMap(foundArticle -> articleRequestModel
                         .map(EntityModelUtil::toArticleEntity)
-                       .doOnNext(
+                        .doOnNext(
+
                                 article -> {
                                     article.setRequestCount(foundArticle.getRequestCount());
                                     article.setLikeCount(foundArticle.getLikeCount());
@@ -126,6 +127,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+
     @Override
     public Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel) {
         return articleRequestModel
@@ -151,9 +153,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(EntityModelUtil::toArticleResponseModel)
                 .collectList();
 
-
     }
-
 
     public static int calculateWordCount(String body) {
         if (body == null || body.trim().isEmpty()) {
@@ -161,5 +161,6 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return body.trim().split("\\s+").length; // Split by whitespace and count
     }
+
 
 }

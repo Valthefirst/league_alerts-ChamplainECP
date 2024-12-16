@@ -608,4 +608,76 @@ class ArticleServiceUnitTest {
                 .verify();
     }
 
+    @Test
+    void whenUpdateArticle_validArticle_shouldUpdateAndReturnArticle() {
+        // Arrange
+        String validArticleId = "validArticleId";
+        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a valid test article with sufficient word count to pass the validation.")
+                .tags("NBA")
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .build();
+
+        Article existingArticle = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(validArticleId))
+                .title("Old Title")
+                .body("Old body")
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .tags("NFL")
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .build();
+
+        Article updatedArticle = Article.builder()
+                .articleIdentifier(new ArticleIdentifier(validArticleId))
+                .title(validArticleRequest.getTitle())
+                .body(validArticleRequest.getBody())
+                .wordCount(validArticleRequest.getWordCount())
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .tags(validArticleRequest.getTags())
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .build();
+
+        // Mock the repository find method to return the existing article
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(validArticleId))
+                .thenReturn(Mono.just(existingArticle));
+
+        // Mock the repository save method to return the updated article
+        when(articleRepository.save(any(Article.class)))
+                .thenReturn(Mono.just(updatedArticle));
+
+        // Act and Assert
+        StepVerifier.create(articleService.editArticle(validArticleId, Mono.just(validArticleRequest)))
+                .expectNextMatches(responseModel ->
+                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
+                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
+                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
+                )
+                .verifyComplete();
+    }
+
+    @Test
+    void whenUpdateArticle_nonExistentArticle_shouldThrowNotFoundException() {
+        // Arrange
+        String nonExistentArticleId = "nonExistentArticleId";
+        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a valid test article with sufficient word count to pass the validation.")
+                .tags("NBA")
+                .build();
+
+        // Mock the repository find method to return empty
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(nonExistentArticleId))
+                .thenReturn(Mono.empty());
+
+        // Act and Assert
+        StepVerifier.create(articleService.editArticle(nonExistentArticleId, Mono.just(validArticleRequest)))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof NotFoundException &&
+                                throwable.getMessage().contains("No article with this id was found " + nonExistentArticleId)
+                )
+                .verify();
+    }
+
 }
