@@ -22,8 +22,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @TestPropertySource(properties = {
@@ -230,6 +229,78 @@ class LikeServiceUnitTest {
                         like.getReaderId().equals(readerId)
         ));
     }
+
+    @Test
+    void whenValidArticleAndReader_thenUnlikeArticle() {
+        // Arrange
+        String articleId = "article-1";
+        String readerId = "reader-001";
+
+        // Create an ArticleIdentifier and Article mock object
+        ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
+        Article article = Article.builder()
+                .articleIdentifier(articleIdentifier)
+                .title("Sample Article")
+                .body("This is a test article.")
+                .likeCount(5) // Initial like count
+                .photoUrl("https://example.com/photo.jpg")
+                .build();
+
+        // Create a Like mock object
+        Like like = Like.builder()
+                .articleIdentifier(articleIdentifier)
+                .readerId(readerId)
+                .build();
+
+        // Mock repository behaviors
+        when(likeRepository.findByArticleIdentifierAndReaderId(articleIdentifier, readerId))
+                .thenReturn(Mono.just(like)); // Simulate the Like exists
+
+        when(likeRepository.delete(like))
+                .thenReturn(Mono.empty()); // Simulate successful deletion
+
+        when(articleRepository.findArticleByArticleIdentifier_ArticleId(articleId))
+                .thenReturn(Mono.just(article)); // Simulate fetching the Article
+
+        when(articleRepository.save(any(Article.class)))
+                .thenAnswer(invocation -> Mono.just(invocation.getArgument(0))); // Simulate saving the updated Article
+
+        // Act
+        likeService.unlikeArticle(articleIdentifier, readerId).block();
+
+        // Assert
+        // Verify that the Like is deleted
+        verify(likeRepository, times(1))
+                .delete(like);
+
+        // Verify that the Article's like count is decremented and saved
+        verify(articleRepository, times(1))
+                .save(argThat(updatedArticle -> updatedArticle.getLikeCount() == 4));
+    }
+
+    @Test
+    void whenLikeDoesNotExist_thenUnlikeArticleDoesNothing() {
+        // Arrange
+        String articleId = "article-1";
+        String readerId = "reader-001";
+
+        ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
+
+        // Mock repository behaviors
+        when(likeRepository.findByArticleIdentifierAndReaderId(articleIdentifier, readerId))
+                .thenReturn(Mono.empty()); // Simulate no Like exists
+
+        // Act
+        likeService.unlikeArticle(articleIdentifier, readerId).block();
+
+        // Assert
+        // Verify that delete is not called since the Like does not exist
+        verify(likeRepository, never()).delete(any(Like.class));
+
+        // Verify that save is not called on the Article repository
+        verify(articleRepository, never()).save(any(Article.class));
+    }
+
 
 
 }

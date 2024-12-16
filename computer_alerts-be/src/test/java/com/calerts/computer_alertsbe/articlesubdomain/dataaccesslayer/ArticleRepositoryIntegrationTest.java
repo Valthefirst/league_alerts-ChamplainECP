@@ -1,4 +1,4 @@
-package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.articlesubdomain.dataaccesslayer;
+package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
