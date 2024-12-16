@@ -22,6 +22,8 @@ import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 import SavedArticlesPage from "pages/SavedArticlesPage/SavedArticlesPage";
+import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
+import EditArticlePage from "pages/ArticlePages/EditArticle/EditArticlePage";
 
 const Navbar = () => {
   const location = useLocation();
@@ -30,7 +32,8 @@ const Navbar = () => {
     location.pathname.startsWith("/authDashboard") ||
     location.pathname.startsWith("/authHome") ||
     location.pathname.startsWith("/authCreateArticle") ||
-    location.pathname.startsWith("/authYourArticles")
+    location.pathname.startsWith("/authYourArticles") ||
+    location.pathname.startsWith("/authYourDrafts")
   ) {
     return <AuthorNavBar />;
   } else if (
@@ -58,6 +61,8 @@ function App(): JSX.Element {
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
+          <Route path={AppRoutePaths.EditArticle} element={<EditArticlePage />} />
+          
           <Route
             path={AppRoutePaths.ArticlesByTag}
             element={<ArticlesPage />}
@@ -86,6 +91,10 @@ function App(): JSX.Element {
           <Route
             path={AppRoutePaths.ArticlesByTag}
             element={<ArticlesPage />}
+          />
+          <Route
+            path={AppRoutePaths.AutherDrafts}
+            element={<ArtifleDrafts />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
           <Route

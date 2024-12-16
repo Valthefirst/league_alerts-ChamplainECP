@@ -59,4 +59,6 @@ public class Article {
 
     private String photoUrl;
 
+    private String articleDescription;
+
 }

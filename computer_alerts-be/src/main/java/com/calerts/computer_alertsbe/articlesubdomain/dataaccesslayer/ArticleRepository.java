@@ -11,9 +11,17 @@ import java.util.Optional;
 public interface ArticleRepository extends ReactiveMongoRepository<Article, String> {
         Mono<Article> findArticleByArticleIdentifier_ArticleId(String articleId);
 
+
         Flux<Article> findAllArticleByTags(String tagName);
 
+
+
+        Flux<Article> findByTagsContainingAndTitleContainingIgnoreCase(
+                String tag,
+                String title
+        );
+
         Flux<Article> findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(String title, String body);
-//        Flux<Article> findByAuthorIdentifier(AuthorIdentifier authorIdentifier);
+
 
 }

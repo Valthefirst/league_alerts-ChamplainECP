@@ -6,7 +6,9 @@ interface CommentListProps {
   articleId: { articleId: string };
 }
 
-const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) => {
+const CommentList: React.FC<CommentListProps> = ({
+  articleId: { articleId },
+}) => {
   const [comments, setComments] = useState<CommentModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -15,7 +17,9 @@ const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) =
     const seenCommentIds = new Set<string>();
 
     const connectToSSE = () => {
-      eventSource = new EventSource('http://localhost:8080/api/v1/interactions/comments');
+      eventSource = new EventSource(
+        "http://localhost:8080/api/v1/interactions/comments",
+      );
 
       eventSource.onopen = () => {
         setIsLoading(false);
@@ -24,7 +28,10 @@ const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) =
       eventSource.onmessage = (event) => {
         try {
           const newComment: CommentModel = JSON.parse(event.data);
-          if (newComment.articleId === articleId && !seenCommentIds.has(newComment.commentId)) {
+          if (
+            newComment.articleId === articleId &&
+            !seenCommentIds.has(newComment.commentId)
+          ) {
             seenCommentIds.add(newComment.commentId);
             setComments((prevComments) => [...prevComments, newComment]);
           }
@@ -44,9 +51,11 @@ const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) =
   }, [articleId]);
 
   const filteredComments = comments
-  .filter(comment => comment.articleId === articleId)
-  .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-
+    .filter((comment) => comment.articleId === articleId)
+    .sort(
+      (a, b) =>
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+    );
 
   if (isLoading) {
     return <div>Loading comments...</div>;
@@ -58,13 +67,18 @@ const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) =
         {filteredComments.length > 0 ? (
           filteredComments.map((comment) => (
             <div key={comment.commentId} className="comment-item">
-              <p><strong>Reader ID:</strong> <span className="reader-id">{comment.readerId}</span></p>
+              <p>
+                <strong>Reader ID:</strong>{" "}
+                <span className="reader-id">{comment.readerId}</span>
+              </p>
               <p>{comment.content}</p>
               {/* <p><strong>Timestamp:</strong> {new Date(comment.timestamp).toLocaleString()}</p> */}
             </div>
           ))
         ) : (
-          <p className="no-comments">No comments yet. Be the first to comment!</p>
+          <p className="no-comments">
+            No comments yet. Be the first to comment!
+          </p>
         )}
       </div>
     </div>

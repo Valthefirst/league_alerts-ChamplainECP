@@ -1,0 +1,44 @@
+@startuml
+
+title Design Level Class Diagram for Interaction Subdomain
+
+package "Interaction Subdomain" {
+
+    class InteractionController {
+        + likeArticle(articleId: String, userId: String) : ResponseEntity<LikeResponseModel>
+        + unlikeArticle(articleId: String, userId: String) : ResponseEntity<Void>
+    }
+
+    class LikeService {
+        + likeArticle(articleId: String, userId: String) : LikeResponseModel
+        + unlikeArticle(articleId: String, userId: String) : void
+        + getLikesCount(articleId: String) : int
+    }
+
+    class LikeRepository {
+        + save(like: Like) : Like
+        + deleteByArticleIdAndUserId(articleId: String, userId: String) : void
+        + countByArticleId(articleId: String) : int
+        + existsByArticleIdAndUserId(articleId: String, userId: String) : boolean
+    }
+
+    class Like {
+        - likeId: String
+        - articleId: String
+        - userId: String
+        - timestamp: LocalDateTime
+    }
+
+    class LikeResponseModel {
+        - likeId: String
+        - articleId: String
+        - userId: String
+    }
+
+    InteractionController --> LikeService
+    LikeService --> LikeRepository
+    LikeRepository --> Like
+    Like --> LikeResponseModel
+}
+
+@enduml

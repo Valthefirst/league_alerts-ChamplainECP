@@ -1,0 +1,17 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Reader, LAS : View Sports Team
+
+opt View Team Analytics
+    Reader -> LAS: getTeamAnalytics(teamIdentifier)
+    activate LAS
+    alt Analytics Available
+        LAS --> Reader: returnAnalyticsData(analyticsData)
+    else Analytics Not Available
+        LAS --> Reader: returnError(HttpStatusCode.NOT_FOUND)
+    end
+    deactivate LAS
+end opt
+@enduml

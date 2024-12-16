@@ -5,7 +5,9 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.*;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
@@ -72,6 +74,7 @@ public class EntityModelUtil {
         return likeResponseModel;
     }
 
+
     public static CommentResponseModel toCommentResponseModel(Comment comment) {
         CommentResponseModel commentResponseModel = new CommentResponseModel();
         BeanUtils.copyProperties(comment, commentResponseModel);
@@ -107,4 +110,7 @@ public class EntityModelUtil {
     public static String generateUUIDString(){
         return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
     }
+
+
+
 }

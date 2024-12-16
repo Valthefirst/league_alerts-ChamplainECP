@@ -1,0 +1,11 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+
+Reader -> LAS: getTeamById(teamIdentifier)
+activate LAS
+    LAS --> Reader: returnTeamData(teamData)
+
+deactivate LAS
+@enduml

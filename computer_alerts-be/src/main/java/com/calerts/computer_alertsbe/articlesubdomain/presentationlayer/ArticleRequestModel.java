@@ -30,5 +30,10 @@ public class ArticleRequestModel {
     private LocalDateTime timePosted;
 
     private String photoUrl;
+
     private AuthorIdentifier authorIdentifier;
+
+
+    private String articleDescription;
+
 }
