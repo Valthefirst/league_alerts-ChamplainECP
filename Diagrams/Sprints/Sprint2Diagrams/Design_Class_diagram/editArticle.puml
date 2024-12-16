@@ -1,11 +1,11 @@
-@startuml viewAllArticles
+@startuml editArticles
 skinparam packageStyle rectangle
 
 package "ArticleSubdomain" {
 
     class ArticleController {
         -articleService: ArticleService
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+       + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
     }
 
     class ArticleResponseModel {
@@ -19,17 +19,29 @@ package "ArticleSubdomain" {
         - String articleDescription;
     }
 
+    class ArticleRequestModel {
+        - String articleId;
+        - String title;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
     interface ArticleService {
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+         + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
     }
 
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
-        + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
+        + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
     }
 
     interface ArticleRepository {
-        + findAllArticlesByTags(tagName : String): Flux<Article>
+        + findArticleByArticleIdentifier_ArticleId(articleId : String): Mono<Article>
     }
 
     class Article {
@@ -62,7 +74,9 @@ package "ArticleSubdomain" {
         + ArticleIdentifer(articleId: String);
     }
 
-    ArticleResponseModel --> Article
+
+    ArticleResponseModel <-- Article
+    ArticleRequestModel --> Article
     ArticleController --> ArticleService : uses
     ArticleServiceImpl --> ArticleService : implements
     ArticleServiceImpl --> ArticleRepository : uses
@@ -70,7 +84,6 @@ package "ArticleSubdomain" {
     Article --> ArticleIdentifer
     Article --> Content
     Article --> ArticleStatus
-
 }
 
 @enduml
