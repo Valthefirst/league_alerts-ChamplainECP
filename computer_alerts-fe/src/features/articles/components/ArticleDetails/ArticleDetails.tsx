@@ -152,8 +152,7 @@ const ArticleDetails: React.FC = () => {
       <div className="comments-section">
         <h2 className="comments-title">Comments</h2>
         <CommentList articleId={{ articleId: article.articleId }} />
-        <div className="comments-list">
-        </div>
+        <div className="comments-list"></div>
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}

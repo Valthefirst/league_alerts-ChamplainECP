@@ -28,6 +28,15 @@ export default function AuthorNavBar(): JSX.Element {
               Your Articles
             </Nav.Link>
           </Nav>
+          <Nav className="ms-auto">
+            <Nav.Link
+              as={Link}
+              to={AppRoutePaths.AutherDrafts}
+              className="nav-link"
+            >
+              Draft Articles
+            </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

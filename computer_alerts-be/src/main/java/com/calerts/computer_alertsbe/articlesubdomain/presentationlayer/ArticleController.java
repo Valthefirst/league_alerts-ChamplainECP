@@ -90,4 +90,16 @@ public class ArticleController {
     public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
         return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
+
+    @PostMapping(value = "/acceptDraft" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<ArticleResponseModel>> createArticleDraft(@RequestBody ArticleRequestModel articleRequestModel) {
+        return articleService.createArticleDraft(Mono.just(articleRequestModel))
+                .map(articleResponseModel -> ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(articleResponseModel))
+                .onErrorResume(e -> Mono.just(
+                        ResponseEntity
+                                .status(HttpStatus.BAD_REQUEST)
+                                .body(null)));
+    }
 }

@@ -20,6 +20,7 @@ public interface ArticleService {
 
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
     Mono<Void> acceptArticle(String articleId);
+    Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel);
 
 
 

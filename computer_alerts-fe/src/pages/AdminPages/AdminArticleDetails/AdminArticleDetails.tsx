@@ -125,11 +125,8 @@ const AdminArticleDetails: React.FC = () => {
         </div>
 
         <div className="row sameline lastRow">
-          <div className="col-6">
-            <button
-              onClick={handleCancelButton}
-              className="btn btn-secondary center"
-            >
+          <div className="col-6 margin-butta">
+            <button onClick={handleCancelButton} className="btn btn-secondary">
               Cancel
             </button>
           </div>

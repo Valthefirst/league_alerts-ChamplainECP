@@ -94,6 +94,22 @@ public class ArticleServiceImpl implements ArticleService {
                 });
     }
 
+    @Override
+    public Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel) {
+        return articleRequestModel
+                .filter(article -> article.getTitle() != null && !article.getTitle().isEmpty())
+                .switchIfEmpty(Mono.error(new BadRequestException("Article title must not be empty")))
+                .filter(article -> article.getWordCount() != 0 && article.getWordCount() > 112)
+                .switchIfEmpty(Mono.error(new BadRequestException("Article must have a valid word count")))
+                .map(EntityModelUtil::toArticleEntity)
+                .map(article -> {
+                    article.setArticleStatus(ArticleStatus.DRAFT);
+                    article.setRequestCount(0);
+                    return article;
+                })
+                .flatMap(articleRepository::save)
+                .map(EntityModelUtil::toArticleResponseModel);
+    }
 
     @Override
     public Mono<List<ArticleResponseModel>> searchArticles(String tag, String query) {
