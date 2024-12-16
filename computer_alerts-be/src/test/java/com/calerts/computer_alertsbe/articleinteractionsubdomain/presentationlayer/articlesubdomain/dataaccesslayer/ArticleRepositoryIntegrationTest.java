@@ -1,10 +1,15 @@
-package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
+package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.articlesubdomain.dataaccesslayer;
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -117,4 +122,55 @@ class ArticleRepositoryIntegrationTest {
             assertTrue(article.getTitle().contains(query), "Article title should contain query");
         });
     }
+
+
+    @Test
+    public void whenEditingArticleWithValidId_ReturnEditedArticle(){
+        // Arrange
+        var savedArticle = articleRepository.findAll().blockFirst();
+        assertNotNull(savedArticle);
+
+        var articleId = savedArticle.getArticleIdentifier().getArticleId();
+
+        // Act
+        var actualArticle = articleRepository.findArticleByArticleIdentifier_ArticleId(articleId).block();
+        assertNotNull(actualArticle);
+
+        var newTitle = "New Title";
+        var newBody = "New Body";
+        var newTags = "New Tag";
+        var newPhotoUrl = "https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg";
+
+        actualArticle.setTitle(newTitle);
+        actualArticle.setBody(newBody);
+        actualArticle.setTags(newTags);
+        actualArticle.setPhotoUrl(newPhotoUrl);
+
+        articleRepository.save(actualArticle).block();
+
+        // Assert
+        var editedArticle = articleRepository.findArticleByArticleIdentifier_ArticleId(articleId).block();
+        assertNotNull(editedArticle);
+        assertEquals(newTitle, editedArticle.getTitle());
+        assertEquals(newBody, editedArticle.getBody());
+        assertEquals(newTags, editedArticle.getTags());
+        assertEquals(newPhotoUrl, editedArticle.getPhotoUrl());
+    }
+
+    @Test
+    public void whenEditingArticleWithInvalidId_ReturnNotFound() {
+        // Arrange
+        var articleId = "invalid-id";
+
+        // Act
+        var actualArticleMono = articleRepository.findArticleByArticleIdentifier_ArticleId(articleId);
+
+        // Assert
+        StepVerifier.create(actualArticleMono)
+                .expectNextCount(0)
+                .verifyComplete();
+    }
+
+
+
 }

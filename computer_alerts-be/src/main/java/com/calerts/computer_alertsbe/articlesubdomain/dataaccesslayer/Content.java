@@ -11,7 +11,7 @@ public class Content {
 
     private String title;
     private String body;
-//    private Integer wordCount;
+    private Integer wordCount;
 
     public static int calculateWordCount(String body) {
         if (body == null || body.trim().isEmpty()) {

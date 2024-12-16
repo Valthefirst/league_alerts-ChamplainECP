@@ -51,6 +51,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944103/pexels-pixabay-71103_p1ungr.jpg")
+                .articleDescription("An in-depth exploration of key principles and practical approaches to balancing professional performance and personal well-being.")
                 .build();
 
         //NBA article
@@ -72,6 +73,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("3b63de68-9161-4925-b38b-e686dd88f848")) // Nicky Dupont
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .articleDescription("An overview of the competitive dynamics of the NBA, featuring key superstars and the intensifying playoff race.")
                 .build();
 
 
@@ -94,6 +96,8 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
                 .authorIdentifier(new AuthorIdentifier("7e93579d-cf40-44a0-9b82-6f8b05f3185b")) // George Smith
+                .articleDescription("An exciting NHL season filled with rivalries, emerging stars, and spectacular plays sets the stage for an intense race to the Stanley Cup.")
+
                 .build();
 
         //NHL article
@@ -115,6 +119,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .authorIdentifier(new AuthorIdentifier("5a87fa4e-f2a4-4874-b7f6-c22c29decb97")) // Michael Jones
+                .articleDescription("The NHL's thrilling season showcases MVP performances, highlight-reel saves, and teams fiercely competing for the Stanley Cup.")
                 .build();
 
 
@@ -137,6 +142,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944084/pexels-pixabay-47331_qhejgo.jpg")
                 .authorIdentifier(new AuthorIdentifier("6d2bb1f9-0c4f-4691-a6f5-5599e7f2068c")) // Lily Williams
+                .articleDescription("The NFL season is thrilling, with star quarterbacks and dominant defenses making the road to the Super Bowl unforgettable.")
                 .build();
 
         //NFL article
@@ -158,6 +164,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944081/pexels-pixabay-160577_tf74ef.jpg")
                 .authorIdentifier(new AuthorIdentifier("1c35b82c-d9a3-4f8f-a0a6-bde7a5096017")) // Thomas Clark
+                .articleDescription("The NFL season captivates fans with thrilling comebacks, intense battles for division supremacy, and breakout stars redefining the game.")
                 .build();
 
         //UFC article
@@ -179,6 +186,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944134/pexels-brunogobofoto-2204179_byfjyn.jpg")
                 .authorIdentifier(new AuthorIdentifier("9a21d4f8-85fa-477b-bc0a-76819b2d7c8f")) // Kevin Lee
+                .articleDescription("The article covers the excitement of UFC, highlighting thrilling fights, champions like Israel Adesanya and Amanda Nunes, and the rise of new stars.")
                 .build();
 
         //UFC article
@@ -200,6 +208,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .authorIdentifier(new AuthorIdentifier("8f5be0c1-0fc1-4cfb-b7b8-fc46e221d31e")) // Nancy Davis
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944132/pexels-pixabay-163403_xjkj1n.jpg")
+                .articleDescription("The UFC's octagon is the setting for intense rivalries, unforgettable moments, and blockbuster main events that keep fans on the edge of their seats.")
                 .build();
 
         //MLB article
@@ -221,6 +230,7 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944130/pexels-glauco-moquete-1697414982-27899035_ynojsd.jpg")
                 .authorIdentifier(new AuthorIdentifier("1b71f87d-d5c7-47c2-90e5-0e11b83ed978")) // Elizabeth Brown
+                .articleDescription("The MLB season is a rollercoaster of emotions, with stars like Shohei Ohtani and Aaron Judge delivering unforgettable moments on the field.")
                 .build();
 
         //MLB article
@@ -241,7 +251,9 @@ public class ArticleDataLoaderService implements CommandLineRunner {
                 .tagsTag(Tags.MLB)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944128/pexels-courtney-garner-585522281-17061702_nts9s1.jpg")
-                .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin
+                .authorIdentifier(new AuthorIdentifier("2d87fa3e-a1b1-4b7d-b5b6-c33982a8728c")) // Rebecca Martin.articleDescription("The MLB season is full of power hitting, stellar pitching, and dramatic finishes, with rising stars and veteran players delivering unforgettable moments.")
+               .articleDescription("The MLB season is full of power hitting, stellar pitching, and dramatic finishes, with rising stars and veteran players delivering unforgettable moments.")
+
                 .build();
 
 

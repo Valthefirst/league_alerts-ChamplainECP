@@ -1,0 +1,39 @@
+@startuml
+actor Editor
+participant "ReactApplication" as RA
+participant "EditPage" as EP
+participant "ArticleController" as Controller
+participant "ArticleService" as Service
+participant "ArticleServiceImpl" as ServiceImpl
+participant "ArticleRepository" as Repo
+participant "Article" as Article
+database "Database" as DB
+
+Editor -> RA: Enters the web application
+activate RA
+RA -> EP: Navigates to EditPage
+activate EP
+EP -> Controller: PUT /api/v1/articles/{articleId}
+activate Controller
+Controller -> Service: editArticleByArticleId(articleId, articleRequestModel)
+deactivate Controller
+activate Service
+
+Service -> ServiceImpl: editArticleByArticleId(articleId, articleRequestModel)
+activate ServiceImpl
+ServiceImpl -> Repo: updateArticle(articleId, articleRequestModel)
+activate Repo
+Repo -> DB: UPDATE Article SET title = ..., body = ..., wordCount = ..., articleStatus = ..., tags = ..., timePosted = ..., photoUrl = ..., articleDescription = ... WHERE id = articleId
+activate DB
+DB --> Repo: Success or Failure
+deactivate DB
+Repo --> ServiceImpl: Updated Article
+ServiceImpl --> Service: Updated Article
+Service --> Controller: ArticleResponseModel(title, body, wordCount, articleStatus, tags, timePosted, photoUrl, articleDescription)
+deactivate Service
+Controller --> EP: ArticleResponseModel(title, body, wordCount, articleStatus, tags, timePosted, photoUrl, articleDescription)
+EP --> RA: Renders the updated article
+RA --> Editor: Displays the updated article
+deactivate RA
+
+@enduml

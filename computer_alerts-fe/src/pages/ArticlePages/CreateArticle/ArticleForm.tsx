@@ -20,6 +20,7 @@ const ArticleForm = () => {
     tagsTag: "NBA",
     timePosted: "",
     authorIdentifier: "3b63de68-9161-4925-b38b-e686dd88f848",
+    articleDescpition: "",
   });
 
   const [showPopup, setShowPopup] = useState(false);

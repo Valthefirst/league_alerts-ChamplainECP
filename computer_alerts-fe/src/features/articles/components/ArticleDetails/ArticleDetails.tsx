@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
 import { likeArticle } from "../../api/likeArticle";
 import { unlikeArticle } from "../../api/unlikeArticle";
@@ -29,6 +29,7 @@ const ArticleDetails: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const heartRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadArticleAndAuthor = async () => {
@@ -111,6 +112,12 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
+  const openEditPage = () => {
+    if (article) {
+      navigate(`/articles/edit/${article.articleId}`, { state: { article } });
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <NotFound />;
 
@@ -130,13 +137,18 @@ const ArticleDetails: React.FC = () => {
         )}
       </div>
       <div className="like-section">
-        <div
-          id="heart"
-          className={`button ${isLiked ? "active" : ""}`}
-          ref={heartRef}
-          onClick={handleLikeToggle}
-        ></div>
-        <p className="like-count">{likeCount}</p>
+        <div className="like-container">
+          <div
+            id="heart"
+            className={`button ${isLiked ? "active" : ""}`}
+            ref={heartRef}
+            onClick={handleLikeToggle}
+          ></div>
+          <p className="like-count">{likeCount}</p>
+        </div>
+        <button className="edit-button" onClick={openEditPage}>
+          Edit Article
+        </button>
       </div>
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>

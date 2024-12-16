@@ -4,20 +4,16 @@
 
 .container {
   height: 100%;
-  /* font-family: "Times New Roman", Times, serif; */
-}
-
-.goodSize {
-  height: 150px;
 }
 
 .bodyArticle {
   border: 2px solid black;
-  line-height: "4.5";
+  line-height: 1.5;
   padding: 25px;
   margin: 45px;
   background-color: white;
 }
+
 .sameLine {
   display: flex;
   align-items: center;
@@ -49,7 +45,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 80%; /* You can adjust this value for better spacing */
+  width: 80%;
 }
 
 .center {
@@ -60,58 +56,75 @@
   margin-right: 80px;
 }
 
-/* General button styling */
-.red-button {
-  background-color: #dc3545; /* Red color */
-  color: #fff;
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.field textarea {
+  min-height: 100px;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.sameLine > button {
+  margin-left: 20px;
+}
+
+.centerButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.centerButton button {
+  background-color: #007bff;
+  color: white;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
-  border-radius: 8px; /* Fully rounded corners for a more modern look */
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  margin-left: 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
-  width: auto;
-  display: inline-block;
-  margin: 10px 0; /* Margin for spacing */
+  transition: all 0.3s ease-in-out;
 }
 
-/* Red Button Hover Effect */
-.red-button:hover {
-  background-color: #c82333; /* Darker red */
-  transform: translateY(-5px); /* Slight lift effect */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow when hovered */
-  animation: shake 0.5s ease-in-out; /* Shake animation on hover */
+.centerButton button:hover {
+  background-color: #0056b3;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Button Focus Effect (when clicked) */
-.red-button:focus {
+.centerButton button:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.5); /* Add glowing effect on focus */
-}
-
-/* Shake Animation */
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-10px);
-  }
-  50% {
-    transform: translateX(10px);
-  }
-  75% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.margin-butta {
-  margin-left: 30%;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);
 }
