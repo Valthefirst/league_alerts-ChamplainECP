@@ -21,6 +21,7 @@ import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
+import SavedArticlesPage from "pages/SavedArticlesPage/SavedArticlesPage";
 
 const Navbar = () => {
   const location = useLocation();
@@ -91,6 +92,7 @@ function App(): JSX.Element {
             path={AppRoutePaths.ArticlesByTag}
             element={<ArticlesPage />}
           />
+          <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
         </Routes>
       </Router>
     </div>

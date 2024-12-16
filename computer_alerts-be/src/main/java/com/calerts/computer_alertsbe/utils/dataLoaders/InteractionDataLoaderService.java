@@ -159,7 +159,7 @@ public class InteractionDataLoaderService implements CommandLineRunner {
         Save save6 = Save.builder()
                 .saveId(new SaveIdentifier("15cba998-5c75-4787-81d1-c987fc38cbd8"))
                 .timestamp(LocalDateTime.now())
-                .articleId(new ArticleIdentifier("13d4e5f6g-7h8i-9j0k-1l2m-3n4o5p6q7r8s"))
+                .articleId(new ArticleIdentifier("3d4e5f6g-7h8i-9j0k-1l2m-3n4o5p6q7r8s"))
                 .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
                 .build();
 

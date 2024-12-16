@@ -43,8 +43,6 @@ const CommentList: React.FC<CommentListProps> = ({ articleId: { articleId } }) =
     };
   }, [articleId]);
 
-  // const filteredComments = comments.filter(comment => comment.articleId === articleId);
-
   const filteredComments = comments
   .filter(comment => comment.articleId === articleId)
   .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());

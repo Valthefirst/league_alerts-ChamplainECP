@@ -9,14 +9,4 @@ export async function addComment(comment:Partial<CommentModel>): Promise<void> {
         console.error("Error posting comments", err);
         throw err;
       }
-} 
-
-// export const addComment = async (): Promise<void> => {
-//   try {
-//     const response = await axiosInstance.post<void>('');
-//     return response.data;
-//   } catch (err) {
-//     console.error("Error posting comments", err);
-//     throw err;
-//   }
-// };
+}

@@ -1,0 +1,42 @@
+.saved-articles-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.saved-article-item {
+    margin-bottom: 20px;
+}
+
+.article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.article-content {
+    margin-bottom: 15px;
+}
+
+.separator {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 30px 0;
+}
+
+.saved-article-item {
+    transition: all 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.saved-article-item.removing {
+    opacity: 0;
+    transform: translateY(-20px);
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}

@@ -68,6 +68,12 @@ export default function AppNavBar(): JSX.Element {
             <Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">
               Your Authors
             </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to={AppRoutePaths.SavedArticles}
+              className="nav-link">
+              Saved Articles
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
