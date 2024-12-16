@@ -13,7 +13,11 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
 
         Flux<Article> findAllArticleByTags(String tagName);
 
-        Flux<Article> findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(String title, String body);
-//        Flux<Article> findByAuthorIdentifier(AuthorIdentifier authorIdentifier);
+
+        Flux<Article> findByTagsContainingAndTitleContainingIgnoreCase(
+                String tag,
+                String title
+        );
+
 
 }
