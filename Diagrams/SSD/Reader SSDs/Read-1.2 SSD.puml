@@ -10,4 +10,11 @@ opt Like Article
         LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
     deactivate LAS
 end opt
+
+opt Unlike Article (if already liked)
+    Reader -> LAS: unlikeArticle(readerIdentifier, articleIdentifier)
+    activate LAS
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    deactivate LAS
+end opt
 @enduml
