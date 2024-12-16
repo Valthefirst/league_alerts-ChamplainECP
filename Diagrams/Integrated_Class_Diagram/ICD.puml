@@ -1,0 +1,214 @@
+@startuml
+
+title Integrated Class Diagram for Provided Backend System
+
+package "Article Subdomain" {
+    class ArticleController {
+        + getArticleById(articleId: String) : ResponseEntity<ArticleResponseModel>
+        + createArticle(articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
+        + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
+        + deleteArticle(articleId: String) : ResponseEntity<Void>
+    }
+
+    class ArticleService {
+        + getArticleById(articleId: String) : ArticleResponseModel
+        + createArticle(articleRequest: ArticleRequestModel) : ArticleResponseModel
+        + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
+        + deleteArticle(articleId: String) : void
+    }
+
+    class ArticleRepository {
+        + findById(articleId: String) : Article
+        + save(article: Article) : Article
+        + deleteById(articleId: String) : void
+    }
+
+    class Article {
+        - articleId: String
+        - title: String
+        - content: String
+        - tags: List<String>
+    }
+
+    class ArticleRequestModel {
+        - title: String
+        - content: String
+        - tags: List<String>
+    }
+
+    class ArticleResponseModel {
+        - articleId: String
+        - title: String
+        - content: String
+        - tags: List<String>
+    }
+
+    ArticleController --> ArticleService
+    ArticleService --> ArticleRepository
+    ArticleRepository --> Article
+    ArticleRequestModel --> Article
+    Article --> ArticleResponseModel
+}
+
+package "Interaction Subdomain" {
+    class InteractionController {
+        + likeArticle(articleId: String, userId: String) : ResponseEntity<LikeResponseModel>
+        + addComment(articleId: String, commentRequest: CommentRequestModel) : ResponseEntity<CommentResponseModel>
+        + deleteComment(commentId: String) : ResponseEntity<Void>
+    }
+
+    class LikeService {
+        + likeArticle(articleId: String, userId: String) : LikeResponseModel
+    }
+
+    class CommentService {
+        + addComment(articleId: String, commentRequest: CommentRequestModel) : CommentResponseModel
+        + deleteComment(commentId: String) : void
+    }
+
+    class LikeRepository {
+        + save(like: Like) : Like
+        + findByArticleIdAndUserId(articleId: String, userId: String) : Optional<Like>
+    }
+
+    class CommentRepository {
+        + save(comment: Comment) : Comment
+        + deleteById(commentId: String) : void
+        + findById(commentId: String) : Optional<Comment>
+    }
+
+    class Like {
+        - likeId: String
+        - userId: String
+        - articleId: String
+    }
+
+    class Comment {
+        - commentId: String
+        - userId: String
+        - articleId: String
+        - text: String
+        - timestamp: LocalDateTime
+    }
+
+    class LikeResponseModel {
+        - likeId: String
+        - userId: String
+        - articleId: String
+    }
+
+    class CommentResponseModel {
+        - commentId: String
+        - userId: String
+        - articleId: String
+        - text: String
+        - timestamp: LocalDateTime
+    }
+
+    class CommentRequestModel {
+        - userId: String
+        - articleId: String
+        - text: String
+    }
+
+    InteractionController --> LikeService
+    InteractionController --> CommentService
+    LikeService --> LikeRepository
+    CommentService --> CommentRepository
+    LikeRepository --> Like
+    CommentRepository --> Comment
+    Like --> LikeResponseModel
+    Comment --> CommentResponseModel
+    CommentRequestModel --> Comment
+}
+
+package "Authentication Subdomain" {
+    class AuthController {
+        + authenticate(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+        + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+    }
+
+    class UserService {
+        + authenticate(userRequest: UserRequestDTO) : UserResponseModel
+        + registerUser(userRequest: UserRequestDTO) : UserResponseModel
+    }
+
+    class UserRepository {
+        + findByUsername(username: String) : Optional<User>
+        + save(user: User) : User
+    }
+
+    class UserResponseModel {
+        - userId: String
+        - token: String
+    }
+
+    class UserRequestDTO {
+        - username: String
+        - password: String
+    }
+
+    class User {
+        - userId: String
+        - username: String
+        - passwordHash: String
+    }
+
+    AuthController --> UserService
+    UserService --> UserRepository
+    UserRepository --> User
+    User --> UserResponseModel
+    UserRequestDTO --> User
+}
+
+package "Reader Subdomain" {
+    class ReaderController {
+        + getReaderById(readerId: String) : ResponseEntity<ReaderResponseModel>
+        + createReader(readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + deleteReader(readerId: String) : ResponseEntity<Void>
+    }
+
+    class ReaderService {
+        + getReaderById(readerId: String) : ReaderResponseModel
+        + createReader(readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + deleteReader(readerId: String) : void
+    }
+
+    class ReaderRepository {
+        + findById(readerId: String) : Optional<Reader>
+        + save(reader: Reader) : Reader
+        + deleteById(readerId: String) : void
+    }
+
+    class Reader {
+        - readerId: String
+        - name: String
+        - email: String
+    }
+
+    class ReaderRequestModel {
+        - name: String
+        - email: String
+    }
+
+    class ReaderResponseModel {
+        - readerId: String
+        - name: String
+        - email: String
+    }
+
+    ReaderController --> ReaderService
+    ReaderService --> ReaderRepository
+    ReaderRepository --> Reader
+    ReaderRequestModel --> Reader
+    Reader --> ReaderResponseModel
+}
+
+' Relationships For Subdomains
+Article --> Interaction : interacts
+Reader --> Article : reads
+Authentication --> Reader : authenticates
+Authentication --> Interaction : validates
+@enduml

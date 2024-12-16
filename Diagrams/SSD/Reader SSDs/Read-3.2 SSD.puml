@@ -1,0 +1,13 @@
+@startuml
+participant "League Alerts System" as LAS
+actor Reader
+
+ref over Reader, LAS : Subscribe to Notifications
+
+opt Receive Notifications
+    loop For Each Subscribed Reader
+        LAS -> Reader: sendNotification(notificationData)
+        Reader --> LAS: Acknowledge Notification
+    end
+end opt
+@enduml
