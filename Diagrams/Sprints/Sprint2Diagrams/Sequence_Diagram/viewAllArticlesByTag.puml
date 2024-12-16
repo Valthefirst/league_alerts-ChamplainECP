@@ -10,38 +10,57 @@ participant "ArticleRepository" as Repo
 participant "ArticleResponseModel" as ResponseModel
 database "Database" as DB
 
-
-
 Reader -> RA: Enters the web application
 activate RA
 RA -> LP: Renders LandingPage
 activate LP
 LP -> AP: Navigates to ArticlePage
 activate AP
-AP -> Controller: GET /api/v1/articles/tag/{tagName}
-activate Controller
-Controller -> Service: getAllArticleForASpecificSport(tagName)
-deactivate Controller
-activate Service
 
-Service -> ServiceImpl: getAllArticleForASpecificSport(tagName)
-activate ServiceImpl
-ServiceImpl -> Service: getAllArticleForASpecificSport(tagName)
+alt Search Functionality
+    AP -> Controller: GET /api/v1/articles/search?keyword={keyword}
+    activate Controller
+    Controller -> Service: searchArticles(keyword)
+    deactivate Controller
+    activate Service
+    Service -> ServiceImpl: searchArticles(keyword)
+    activate ServiceImpl
+    ServiceImpl -> Repo: findArticlesByKeyword(keyword)
+    activate Repo
+    Repo -> DB: SELECT * FROM Article WHERE title LIKE '%keyword%' OR tags LIKE '%keyword%'
+    activate DB
+    DB --> Repo: Matching articles
+    deactivate DB
+    Repo --> ServiceImpl: Matching articles
+    deactivate Repo
+    ServiceImpl --> Service: Matching articles
+    deactivate ServiceImpl
+    Service --> AP: ArticleResponseModel[]
+    deactivate Service
+else Get All Articles
+    AP -> Controller: GET /api/v1/articles/tag/{tagName}
+    activate Controller
+    Controller -> Service: getAllArticleForASpecificSport(tagName)
+    deactivate Controller
+    activate Service
+    Service -> ServiceImpl: getAllArticleForASpecificSport(tagName)
+    activate ServiceImpl
+    ServiceImpl -> Repo: findArticleByTagName(tagName)
+    activate Repo
+    Repo -> DB: SELECT * FROM Article WHERE tag = tagName
+    activate DB
+    DB --> Repo: article(status, title, body, ...)
+    deactivate DB
+    Repo --> ServiceImpl: article(status, title, body, ...)
+    deactivate Repo
+    ServiceImpl --> Service: article(status, title, body, ...)
+    deactivate ServiceImpl
+    Service --> AP: ArticleResponseModel[]
+    deactivate Service
+end
 
-Service -> Repo: findArticleByTagName(tagName)
-activate Repo
-Repo -> DB: SELECT * FROM Article WHERE tag = tagName
-activate DB
-DB --> Repo: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
-deactivate DB
-Repo --> ServiceImpl: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
-deactivate Repo
-ServiceImpl --> Service: article(status, title, body, wordCount, tags, timePosted, viewCount, photo)
-deactivate ServiceImpl
-Service --> AP: ArticleResponseModel(status, title, body, wordCount, tags, timePosted, viewCount, photo)
-deactivate Service
-AP --> RA: Renders ArticleResponseModel(status, title, body, wordCount, tags, timePosted, viewCount, photo)
-RA --> Reader: Displays the article
+AP --> RA: Renders ArticleResponseModel[]
+RA --> Reader: Displays articles
+deactivate AP
 deactivate RA
-
 @enduml

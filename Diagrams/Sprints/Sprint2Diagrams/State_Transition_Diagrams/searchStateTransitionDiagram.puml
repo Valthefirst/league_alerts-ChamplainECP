@@ -1,0 +1,27 @@
+@startuml
+title State Transition Diagram for Searching Articles
+
+skinparam shadowing false
+skinparam ArrowColor Black
+skinparam StateBackgroundColor LightBlue
+skinparam StateBorderColor Black
+
+[*] --> Idle : User is on the landing page
+
+state Idle {
+    [*] --> WaitingForSearchInput : User ready to search
+}
+
+WaitingForSearchInput --> ValidatingQuery : User submits keyword and optional filters
+ValidatingQuery --> ExecutingSearch : Query and filters are valid
+
+state ExecutingSearch {
+    [*] --> SearchingDatabase : Query sent to repository
+    SearchingDatabase --> NoResults : No matching articles found
+    SearchingDatabase --> ResultsReturned : Matching articles found
+}
+
+NoResults --> Idle : Display "No articles found"
+ResultsReturned --> Idle : Display results to the user
+
+@enduml
