@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel"; 
-import { Button } from "react-bootstrap"; 
 import { editArticle } from "features/articles/api/editArticle";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +10,7 @@ interface EditArticlePageProps {
 export default function EditArticle({ article }: EditArticlePageProps): JSX.Element {
 
     const [formData, setFormData] = useState<ArticleRequestModel>(article);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
