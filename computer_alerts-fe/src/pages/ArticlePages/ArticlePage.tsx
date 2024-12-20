@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import { fetchArticleByTag } from "features/articles/api/getAllArticleBySports";
 import { searchArticlesByTagAndQuery } from "features/articles/api/searchArticles";
-import "./ArticlePage.css"
+import "./ArticlePage.css";
 
 export default function NBAArticlesPage(): JSX.Element {
   const { tagName } = useParams<{ tagName: string }>();

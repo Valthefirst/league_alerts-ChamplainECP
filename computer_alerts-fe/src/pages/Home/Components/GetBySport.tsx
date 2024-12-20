@@ -9,7 +9,9 @@ interface FetchAllArticlesBySportProps {
   prop: string; // Prop used to filter articles
 }
 
-const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({ prop }) => {
+const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({
+  prop,
+}) => {
   const navigate = useNavigate();
   const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +24,7 @@ const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({ prop 
 
         const articlesToReview = allArticles.filter(
           (article: ArticleRequestModel) =>
-            article.articleStatus === "PUBLISHED" && article.tagsTag === prop
+            article.articleStatus === "PUBLISHED" && article.tagsTag === prop,
         );
 
         setArticles(articlesToReview);
