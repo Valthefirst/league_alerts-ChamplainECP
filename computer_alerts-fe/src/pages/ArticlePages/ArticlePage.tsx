@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import { fetchArticleByTag } from "features/articles/api/getAllArticleBySports";
 import { searchArticlesByTagAndQuery } from "features/articles/api/searchArticles";
-import "./ArticlePage.css";
+import ArticleSearchError from "../ArticlePages/ArticleSearchError/ArticleSearchError";
+import "./ArticlePage.Module.css";
 
 export default function NBAArticlesPage(): JSX.Element {
   const { tagName } = useParams<{ tagName: string }>();
@@ -61,27 +62,38 @@ export default function NBAArticlesPage(): JSX.Element {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>{tagName} Articles</h1>
-      <p>Welcome to the {tagName} Articles Page!</p>
-
-      {/* Search Input */}
-      <div className="search-bar-container">
-        <input
-          className="search-bar"
-          type="text"
-          placeholder="Search articles..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+    <div className="container">
+      <div className="row">
+        <div className="col-5">
+          <h1>{tagName} Articles</h1>
+          <p>Welcome to the {tagName} Articles Page!</p>
+        </div>
+        <div className="col-7">
+          {/* Search Input */}
+          <div className="search-bar-container">
+            <input
+              className="search-bar"
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Render Articles */}
-      {articles.length > 0 ? (
-        <ArticleCard articles={articles} />
-      ) : (
-        <p>No articles found.</p>
-      )}
+      <div className="row">
+        {articles.length > 0 ? (
+          <ArticleCard articles={articles} />
+        ) : (
+          <ArticleSearchError />
+          //////////////////////////////////////
+
+          ///// Add Article Error Component
+
+          ///////////////////////////////////////
+        )}
+      </div>
     </div>
   );
 }
