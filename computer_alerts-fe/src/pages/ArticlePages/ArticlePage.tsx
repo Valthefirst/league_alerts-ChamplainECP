@@ -66,7 +66,6 @@ export default function NBAArticlesPage(): JSX.Element {
       <div className="row">
         <div className="col-5">
           <h1>{tagName} Articles</h1>
-          <p>Welcome to the {tagName} Articles Page!</p>
         </div>
         <div className="col-7">
           {/* Search Input */}
