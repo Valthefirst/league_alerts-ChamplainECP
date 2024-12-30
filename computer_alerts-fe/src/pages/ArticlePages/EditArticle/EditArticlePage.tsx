@@ -4,21 +4,19 @@ import EditArticle from "features/articles/components/EditArticle/EditArticleFor
 import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import { fetchArticleByArticleId } from "features/articles/api/getSpecificArticle";
 
-
 export default function EditArticlePage(): JSX.Element {
   const { id } = useParams<{ id: string }>(); // Extract the article ID from the URL
   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-
   useEffect(() => {
     const fetchArticle = async () => {
       setLoading(true);
       try {
-        if(id){
-            const fetchedArticle = await fetchArticleByArticleId(id); 
-            setArticle(fetchedArticle);
+        if (id) {
+          const fetchedArticle = await fetchArticleByArticleId(id);
+          setArticle(fetchedArticle);
         }
       } catch (err) {
         setError("Failed to fetch the article. Please try again later.");
@@ -36,9 +34,7 @@ export default function EditArticlePage(): JSX.Element {
 
   return (
     <div className="edit-article-page">
-      <EditArticle
-        article={article}
-      />
+      <EditArticle article={article} />
     </div>
   );
 }

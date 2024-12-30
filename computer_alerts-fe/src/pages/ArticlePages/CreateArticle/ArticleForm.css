@@ -1,7 +1,7 @@
 .article-form {
   display: flex;
   flex-direction: column;
-  width: 50%; /* Adjust width as needed */
+  width: 70%; /* Adjust width as needed */
   margin: 0 auto; /* Center the form horizontally */
   padding: 2rem;
   border: 1px solid #ddd;
@@ -23,10 +23,11 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   font-size: 16px;
+  margin-bottom: 14px;
 }
 
 .article-form textarea {
-  height: 200px; /* Adjust height as needed */
+  height: 550px; /* Adjust height as needed */
   resize: vertical; /* Allow users to resize the textarea */
 }
 
@@ -62,6 +63,10 @@
   cursor: pointer;
   font-size: 16px;
   margin-top: 1rem;
+}
+.article-form label {
+  font-weight: bold;
+  font-style: italic;
 }
 
 .article-form button[type="submit"]:hover {

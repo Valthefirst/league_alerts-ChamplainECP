@@ -82,11 +82,13 @@ const AdminArticleDetails: React.FC = () => {
         <br />
 
         <div className="row">
-          <div className="col-12 sameLine space-between">
-            <h2 className="bold">
-              Tags for Article: <span>{article.tags}</span>
-            </h2>
-            <CircleCheckButton messageProp="Tags" />
+          <div className="col-12">
+            <div className="sameLine space-between">
+              <h2 className="bold">
+                Tags for Article: <span>{article.tags}</span>
+              </h2>
+              <CircleCheckButton messageProp="Tags" />
+            </div>
           </div>
         </div>
 
@@ -119,21 +121,22 @@ const AdminArticleDetails: React.FC = () => {
         <br />
 
         <div className="row">
-          <div className="col-12">
-            <button className="red-button">Change is needed</button>
-          </div>
+          <button className="btn btn-danger center">Change is needed</button>
         </div>
 
-        <div className="row sameline lastRow">
-          <div className="col-6 margin-butta">
-            <button onClick={handleCancelButton} className="btn btn-secondary">
+        <div className="row">
+          <div className="col-6">
+            <button
+              onClick={handleCancelButton}
+              className="btn btn-secondary cancelButton"
+            >
               Cancel
             </button>
           </div>
           <div className="col-6">
             <button
               onClick={handleAcceptArticle}
-              className="accept-article-button btn btn-success bold"
+              className="btn btn-success acceptButton"
             >
               Accept Article
             </button>
