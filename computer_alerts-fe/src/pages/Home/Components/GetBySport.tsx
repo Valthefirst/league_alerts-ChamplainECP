@@ -39,7 +39,7 @@ const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({
   }, [prop]); // Re-run the effect if the prop changes
 
   const handleArticleClick = (id: string) => {
-    navigate(`/article/${id}`);
+    navigate(`/articles/${id}`);
   };
 
   if (loading) return <p>Loading...</p>;
