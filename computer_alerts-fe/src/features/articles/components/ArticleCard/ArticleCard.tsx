@@ -32,14 +32,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   useEffect(() => {
     // Initialize liked state from localStorage
     const initializeLikedState = () => {
-      const initialLikedState = articles.reduce((acc, article) => {
-        if (article.articleId) {
-          acc[article.articleId] =
-            localStorage.getItem(`article-${article.articleId}-liked`) ===
-            "true";
-        }
-        return acc;
-      }, {} as { [articleId: string]: boolean });
+      const initialLikedState = articles.reduce(
+        (acc, article) => {
+          if (article.articleId) {
+            acc[article.articleId] =
+              localStorage.getItem(`article-${article.articleId}-liked`) ===
+              "true";
+          }
+          return acc;
+        },
+        {} as { [articleId: string]: boolean },
+      );
       setLikedArticles(initialLikedState);
     };
 

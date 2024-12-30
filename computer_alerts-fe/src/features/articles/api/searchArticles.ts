@@ -9,13 +9,13 @@ import { ArticleRequestModel } from "../models/ArticleRequestModel";
  */
 export const searchArticlesByTagAndQuery = async (
   tagName: string,
-  query: string
+  query: string,
 ): Promise<ArticleRequestModel[]> => {
   const response = await axiosInstance.get<ArticleRequestModel[]>(
     `/articles/tag/${tagName}/search`,
     {
       params: { query },
-    }
+    },
   );
   return response.data;
 };

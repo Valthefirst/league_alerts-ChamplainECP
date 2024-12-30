@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-import { fetchAllsArticles } from "../../../features/articles/api/getAllArticles";
+import { useNavigate } from "react-router-dom";
 import { ArticleRequestModel } from "../../../features/articles/models/ArticleRequestModel";
+import { fetchAllsArticles } from "features/articles/api/getAllArticles";
 import ArticleMainComponent from "../../ArticlePages/ArticleMainComponent";
-import "./ArticleDrafts.css";
 
-const ArtifleDrafts: React.FC = () => {
-  //   const navigate = useNavigate();
+// Define props interface
+interface FetchAllArticlesBySportProps {
+  prop: string; // Prop used to filter articles
+}
+
+const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({
+  prop,
+}) => {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,9 +21,12 @@ const ArtifleDrafts: React.FC = () => {
     const fetchArticles = async () => {
       try {
         const allArticles = await fetchAllsArticles();
+
         const articlesToReview = allArticles.filter(
-          (article: ArticleRequestModel) => article.articleStatus === "DRAFT",
+          (article: ArticleRequestModel) =>
+            article.articleStatus === "PUBLISHED" && article.tagsTag === prop,
         );
+
         setArticles(articlesToReview);
       } catch (err) {
         setError("Failed to fetch articles. Please try again later.");
@@ -25,18 +34,19 @@ const ArtifleDrafts: React.FC = () => {
         setLoading(false);
       }
     };
+
     fetchArticles();
-  }, []);
+  }, [prop]); // Re-run the effect if the prop changes
 
   const handleArticleClick = (id: string) => {
-    return null;
+    navigate(`/articles/${id}`);
   };
 
-  if (loading) return <p className="text-center">Loading articles...</p>;
-  if (error) return <p className="text-center text-danger">{error}</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
-    <div className="container review-articles">
-      <h1>Here are your drafted articles.</h1>
+    <>
       {articles.length > 0 ? (
         <div className="review-articles__list">
           {articles.map((article) => (
@@ -51,10 +61,10 @@ const ArtifleDrafts: React.FC = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center">No articles to review at the moment.</p>
+        <p>No articles found for this category.</p>
       )}
-    </div>
+    </>
   );
 };
 
-export default ArtifleDrafts;
+export default FetchAllArticlesBySport;

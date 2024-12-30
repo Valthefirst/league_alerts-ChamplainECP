@@ -99,7 +99,6 @@ const CreateUserForm: React.FC = () => {
         <p className={styles.successMessage}>{successMessage}</p>
       )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-      {/* <Footer/> */}
     </div>
   );
 };

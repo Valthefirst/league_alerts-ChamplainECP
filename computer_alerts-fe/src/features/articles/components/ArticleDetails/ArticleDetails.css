@@ -161,7 +161,7 @@
 }
 
 .edit-button {
-  background-color: #CDA09F; /* Set button color */
+  background-color: #cda09f; /* Set button color */
   color: white; /* Text color */
   padding: 10px 20px; /* Button padding */
   border-radius: 8px; /* Rounded corners */
@@ -174,12 +174,12 @@
 }
 
 .edit-button:hover {
-  background-color: #A67C6D; /* Darken the color on hover */
+  background-color: #a67c6d; /* Darken the color on hover */
   transform: translateY(-3px); /* Lift the button slightly */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
 }
 
 .edit-button:focus {
   outline: none; /* Remove focus outline */
-  box-shadow: 0 0 0 4px #A67C6D; /* Add a glowing effect when focused */
+  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
 }

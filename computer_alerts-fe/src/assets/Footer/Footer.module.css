@@ -1,0 +1,39 @@
+.container {
+  height: 400px;
+  width: 100%;
+  background-color: lightgrey;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.imgContainer {
+  margin-right: 20px;
+  text-align: center;
+  margin-top: 12%;
+}
+
+.img {
+  height: 185px;
+  width: 185px;
+  border-radius: 25px;
+}
+
+.textContainer {
+  flex: 1;
+}
+
+.text {
+  font-size: 18px;
+  font-weight: bold;
+}
+.icons {
+  text-align: center;
+  margin-top: 12%;
+  padding: 10px;
+}
+.instagram {
+  margin-right: 12%;
+}
+.textParagraph {
+  margin-top: 5%;
+}
