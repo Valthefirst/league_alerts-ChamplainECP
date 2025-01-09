@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
 import { AuthService } from "features/auth/Service/AuthService";
 import styles from "../components/CreateUser.module.css";
-// import Footer from "assets/Footer";
+import Loging from "../../../features/auth/Login-Logout/Login"
 import LeagueImage from "assets/LeagueAlertsImg.jpg";
 
 const CreateUserForm: React.FC = () => {
@@ -99,6 +99,8 @@ const CreateUserForm: React.FC = () => {
         <p className={styles.successMessage}>{successMessage}</p>
       )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+
+      <Loging/>
     </div>
   );
 };

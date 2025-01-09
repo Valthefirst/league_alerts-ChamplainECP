@@ -7,11 +7,7 @@ export class AuthService {
 
   private auth0Client: Auth0Client | null = null;
 
-  // Auth0 configuration for the Management API
   private AUTH0_DOMAIN = "dev-im24qkb6l7t2yhha.ca.auth0.com";
-  private CLIENT_ID = "YOUR_MANAGEMENT_API_CLIENT_ID";
-  private CLIENT_SECRET = "YOUR_MANAGEMENT_API_CLIENT_SECRET";
-  private AUDIENCE = `https://${this.AUTH0_DOMAIN}/api/v2/`; // Auth0 Management API audience
 
   constructor() {
     this.initializeAuth0();
@@ -51,6 +47,8 @@ export class AuthService {
     if (isAuthenticated) {
       console.log("Logged in successfully.");
       const token = await this.getToken();
+
+      localStorage.setItem("accessToken", token);
       console.log("Access token:", token);
     } else {
       console.log("Login failed.");
