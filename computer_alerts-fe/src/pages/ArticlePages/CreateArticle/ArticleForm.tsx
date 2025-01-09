@@ -16,7 +16,7 @@ const ArticleForm = () => {
       "https://loudounsportstherapy.com/wp-content/uploads/2017/09/canstockphoto2191080-1.jpg",
     wordCount: 222,
     articleStatus: "ARTICLE_REVIEW",
-    tags: "",
+    category: "",
     tagsTag: "NBA",
     timePosted: "",
     authorIdentifier: "3b63de68-9161-4925-b38b-e686dd88f848",
@@ -129,7 +129,7 @@ const ArticleForm = () => {
         <label htmlFor="tags">Tags</label>
         <select
           name="tags"
-          value={formData.tags}
+          value={formData.category}
           onChange={handleChange}
           className="article-form__select"
         >

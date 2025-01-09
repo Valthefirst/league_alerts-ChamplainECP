@@ -31,7 +31,7 @@ public class Article {
     @Field("article_status")
     private ArticleStatus articleStatus;
 
-    private String tags;
+    private String category;
 
 
     @Embedded

@@ -25,7 +25,7 @@ public class ArticleResponseModel {
 
     private ArticleStatus articleStatus;
 
-    private String tags;
+    private String category;
     private Tags tagsTag;
     private LocalDateTime timePosted;
     private AuthorIdentifier authorIdentifier;

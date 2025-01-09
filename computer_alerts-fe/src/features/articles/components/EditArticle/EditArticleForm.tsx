@@ -50,7 +50,7 @@ export default function EditArticle({
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.title) newErrors.title = "Title is required";
-    if (!formData.tags) newErrors.tags = "Categories are required";
+    if (!formData.category) newErrors.category = "Categories are required";
     if (!formData.tagsTag) newErrors.tagsTag = "Tags are required";
     if (!formData.body) newErrors.body = "Body is required";
     if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
@@ -86,8 +86,8 @@ export default function EditArticle({
             <label>Categories</label>
             <input
               type="text"
-              name="tags"
-              value={formData.tags}
+              name="category"
+              value={formData.category}
               onChange={handleChanges}
             />
           </div>

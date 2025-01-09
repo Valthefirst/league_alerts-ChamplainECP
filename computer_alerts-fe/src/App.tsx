@@ -67,7 +67,7 @@ function App(): JSX.Element {
           />
 
           <Route
-            path={AppRoutePaths.ArticlesByTag}
+            path={AppRoutePaths.ArticlesByCategory}
             element={<ArticlesPage />}
           />
 
@@ -92,7 +92,7 @@ function App(): JSX.Element {
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
           <Route
-            path={AppRoutePaths.ArticlesByTag}
+            path={AppRoutePaths.ArticlesByCategory}
             element={<ArticlesPage />}
           />
           <Route
@@ -101,7 +101,7 @@ function App(): JSX.Element {
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
           <Route
-            path={AppRoutePaths.ArticlesByTag}
+            path={AppRoutePaths.ArticlesByCategory}
             element={<ArticlesPage />}
           />
         </Routes>
