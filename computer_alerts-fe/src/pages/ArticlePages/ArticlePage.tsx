@@ -16,13 +16,13 @@ export default function ArticlesPage(): JSX.Element {
 
   // Load all articles for the given tag when the page loads
   useEffect(() => {
-    console.log("useEffect triggered with category:", category);
-    
+   
     const loadArticles = 
     async () => {
       try {
         setLoading(true);
         if (category) {
+          console.log("useEffect triggered with category:", category);
           const data = await fetchArticleByCategory(category);
           setArticles(data); // Load all articles
         }

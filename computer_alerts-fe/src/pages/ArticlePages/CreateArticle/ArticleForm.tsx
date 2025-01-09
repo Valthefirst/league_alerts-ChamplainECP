@@ -109,6 +109,16 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__input"
         />
+
+        <input
+          type="text"
+          name="category"
+          placeholder="Category"
+          value={formData.category}
+          onChange={handleChange}
+          className="article-form__input"
+        />
+
         <label htmlFor="photoUrl">PhotoUrl</label>
         <input
           type="text"
@@ -129,7 +139,7 @@ const ArticleForm = () => {
         <label htmlFor="tags">Tags</label>
         <select
           name="tags"
-          value={formData.category}
+          value={formData.tagsTag}
           onChange={handleChange}
           className="article-form__select"
         >
