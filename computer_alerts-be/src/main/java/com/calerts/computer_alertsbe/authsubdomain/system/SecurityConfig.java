@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "api/create/Author").permitAll()
 
                         // Endpoints requiring authentication
                         .pathMatchers(HttpMethod.POST, "/api/create/**").authenticated()

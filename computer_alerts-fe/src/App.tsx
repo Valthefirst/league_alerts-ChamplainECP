@@ -23,7 +23,9 @@ import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
 import EditArticlePage from "pages/ArticlePages/EditArticle/EditArticlePage";
+import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
 import Footer from "assets/Footer/Footer";
+import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 
 const Navbar = () => {
   const location = useLocation();
@@ -38,7 +40,8 @@ const Navbar = () => {
     return <AuthorNavBar />;
   } else if (
     location.pathname.startsWith("/adminHomePage") ||
-    location.pathname.startsWith("/adminReviewArticles")
+    location.pathname.startsWith("/adminReviewArticles") ||
+    location.pathname.startsWith("/adminAuthors")
   ) {
     return <AdminNavBar />;
   }
@@ -86,8 +89,16 @@ function App(): JSX.Element {
             element={<AdminHomePage />}
           />
           <Route
+            path={AppRoutePaths.AdminAuthors}
+            element={<AdminAuthorsPage />}
+          />
+          <Route
             path={AppRoutePaths.AdminReviewArticles}
             element={<AdminReviewArticles />}
+          />
+          <Route
+            path={AppRoutePaths.AdminCreateAuthor}
+            element={<AdminCreateAuthor />}
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 

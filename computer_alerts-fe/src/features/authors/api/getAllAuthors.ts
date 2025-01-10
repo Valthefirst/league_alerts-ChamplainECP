@@ -5,3 +5,5 @@ export const getAllAuthors = async (): Promise<Author[]> => {
   const response = await axiosInstance.get<Author[]>("");
   return response.data;
 };
+
+

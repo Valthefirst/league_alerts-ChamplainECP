@@ -1,7 +1,7 @@
 import { createAuth0Client, Auth0Client } from "@auth0/auth0-spa-js";
 import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
-
+import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
   URL = "http://localhost:8080/api/"; // Your backend URL
 
@@ -112,6 +112,32 @@ export class AuthService {
 
   // Create user using the Management API token
 
+
+
+//   public Message addRole(AddRole addRole) throws UnirestException, JSONException {
+//     String accessToken = getAccessToken();
+//     String urlCompliant = addRole.getUserId().replace("|", "%7C");
+
+//     HttpResponse<String> response = Unirest.post("https://dev-7k6npylc7qks07rv.us.auth0.com/api/v2/users/" + urlCompliant + "/roles")
+//             .header("content-type", "application/json")
+//             .header("authorization", "Bearer " + accessToken)
+//             .header("cache-control", "no-cache")
+//             .body("{ \"roles\": [ \"rol_ateA49X4oBWvfywq\" ] }")
+//             .asString();
+
+//     log.info("response: {}", response.getBody());
+
+//     if (response.getBody() != null) {
+//         return Message.from("Failed to add role for user: " + addRole.getUserId());
+//     }
+
+//     final var text = "Role added for user: " + addRole.getUserId();
+
+//     return Message.from(text);
+// }
+
+
+
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
       // Get the Management API token before making the request
@@ -138,6 +164,29 @@ export class AuthService {
       console.error("Response:", error.response);
       console.error("Request:", error.request);
       throw new Error(error.response?.data || "Failed to create user");
+    }
+  }
+
+  async createAuthor(authorData: AuthorRequestDTO): Promise<any> {
+    try {
+      const managementApiToken = await this.getManagementApiToken();
+      const response = await fetch(this.URL + 'create/Author', { // switch this
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+           Authorization: `Bearer ${managementApiToken}`,
+        },
+        body: JSON.stringify(authorData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to create author');
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw error;
     }
   }
 }

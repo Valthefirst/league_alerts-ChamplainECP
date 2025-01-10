@@ -1,5 +1,7 @@
 package com.calerts.computer_alertsbe.authsubdomain.presentationlayer;
 
+import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRequestDTO;
+import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModelAuth;
 import com.calerts.computer_alertsbe.authsubdomain.businessLayer.UserService;
 
 
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 @CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
@@ -31,8 +34,20 @@ public class AuthController {
                     .body(e.getMessage());
         }
     }
+    @PostMapping("/create/Author")
+    public Mono<ResponseEntity<AuthorResponseModelAuth>> createAuthor(@RequestBody AuthorRequestDTO authorRequest) {
+        return userService.createAuthor(authorRequest)
+                .map(authorResponse -> ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(authorResponse))
+                .onErrorResume(e -> {
+                    System.out.println(e.getMessage());
+                    return Mono.just(ResponseEntity
+                            .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
+                });
+    }
 
-    @RequestMapping(value = "/create", method = RequestMethod.OPTIONS)
+        @RequestMapping(value = "/create", method = RequestMethod.OPTIONS)
     public ResponseEntity<?> handlePreflight() {
         return ResponseEntity.ok().build();
     }
