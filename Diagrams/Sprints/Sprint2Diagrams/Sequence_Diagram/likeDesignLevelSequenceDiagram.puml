@@ -13,7 +13,7 @@ participant LikeResponseModel as "<<Model>>\nLikeResponseModel"
 Reader -> Frontend : Open Article Page
 activate Frontend
 
-Frontend -> ArticleController : getArticleDetails(articleId)
+Frontend -> ArticleController : GET /articles/{articleId}
 activate ArticleController
 
 ArticleController -> ArticleService : getArticleById(articleId)
@@ -37,7 +37,7 @@ deactivate Frontend
 Reader -> Frontend : Click "Like" Button
 activate Frontend
 
-Frontend -> ArticleController : likeArticle(articleId, readerId)
+Frontend -> ArticleController : POST /interactions/like/{articleId}/{readerId}
 activate ArticleController
 
 ArticleController -> ArticleService : validateArticle(articleId)
@@ -81,6 +81,40 @@ ArticleController --> Frontend : LikeResponseModel
 deactivate ArticleController
 
 Frontend --> Reader : Like animation
+
+deactivate Frontend
+
+== Unliking the Article ==
+Reader -> Frontend : Click "Unlike" Button
+activate Frontend
+
+Frontend -> ArticleController : DELETE /interactions/like/{articleId}/{readerId}
+activate ArticleController
+
+ArticleController -> LikeService : unlikeArticle(articleId, readerId)
+activate LikeService
+
+LikeService -> LikeRepository : findByArticleIdAndReaderId(articleId, readerId)
+activate LikeRepository
+LikeRepository --> LikeService : Like Entity
+
+deactivate LikeRepository
+
+LikeService -> LikeRepository : delete(Like)
+activate LikeRepository
+LikeRepository --> LikeService : Deletion Success
+
+deactivate LikeRepository
+
+LikeService --> ArticleController : Deletion Confirmation
+
+deactivate LikeService
+
+ArticleController --> Frontend : Deletion Success Response
+
+deactivate ArticleController
+
+Frontend --> Reader : Unlike animation
 
 deactivate Frontend
 @enduml

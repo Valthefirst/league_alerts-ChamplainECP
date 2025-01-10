@@ -1,0 +1,23 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+title System Context Diagram for League Alerts
+
+Person(employee, "Author", "An employee who writes articles abouts the latest news in sports.")
+Person(user, "Reader", "A person who reads articles on the web application and interacts with them.")
+Person(admin, "Admin", "A person who administers the whole system.")
+
+System_Boundary(computerAlerts, "Computer Alerts") {
+    System(sys, "Computer Alerts", "A web application has articles about the latest sports news.")
+}
+    System(mailing, "Google API", "The external e-mail system.")
+
+Rel(employee, sys, "Writes articles", "Uses")
+Rel(user, sys, "Reads articles and interacts with them", "Uses")
+Rel(admin, sys, "Generates reports and creates author accounts", "Uses")
+Rel(sys, mailing, "Sends e-mail using")
+employee -[hidden]> admin
+user -[hidden]> admin
+
+'SHOW_LEGEND()
+@enduml
