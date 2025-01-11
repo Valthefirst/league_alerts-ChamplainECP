@@ -2,7 +2,6 @@ import TrendingArticles from "../../features/articles/components/TrendingArticle
 import FetchAllArticlesBySport from "./Components/GetBySport";
 import { Link } from "react-router-dom";
 import styles from "./HomePage.module.css";
-import { AppRoutePaths } from "shared/models/path.routes";
 
 export default function HomePage(): JSX.Element {
   return (
