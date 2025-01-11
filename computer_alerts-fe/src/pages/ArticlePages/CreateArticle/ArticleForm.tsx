@@ -110,6 +110,7 @@ const ArticleForm = () => {
           className="article-form__input"
         />
 
+        <label htmlFor="category">Category</label>
         <input
           type="text"
           name="category"
