@@ -4,7 +4,7 @@ package "Article Subdomain" {
     class ArticleController {
         + getArticleById(articleId: String) : ResponseEntity<ArticleResponseModel>
         + createArticle(articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
-        + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
+        + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
         + deleteArticle(articleId: String) : ResponseEntity<Void>
         + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>
         + saveArticle(readerId: String, articleId: String) : ResponseEntity<Void>
@@ -13,7 +13,7 @@ package "Article Subdomain" {
     class ArticleService {
         + getArticleById(articleId: String) : ArticleResponseModel
         + createArticle(articleRequest: ArticleRequestModel) : ArticleResponseModel
-        + updateArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
+        + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
         + deleteArticle(articleId: String) : void
         + searchArticles(keyword: String) : List<ArticleResponseModel>
         + saveArticle(readerId: String, articleId: String) : void

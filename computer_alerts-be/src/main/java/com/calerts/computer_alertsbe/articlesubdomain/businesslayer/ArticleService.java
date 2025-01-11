@@ -11,14 +11,14 @@ import java.util.List;
 public interface ArticleService {
 
     Flux<ArticleResponseModel> getAllArticles();
-    Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName);
+    Flux<ArticleResponseModel> getAllArticleForSpecificSport(String category);
     Mono<ArticleResponseModel> getArticleByArticleId(String articleId);
 
     Mono<ArticleResponseModel> editArticle(String articleId, Mono<ArticleRequestModel> articleRequestModelMono);
     Mono<Void> requestCount(String articleId);
     Mono<Void> resetRequestCounts();
 
-    Mono<List<ArticleResponseModel>> searchArticles(String tag, String query);
+    Mono<List<ArticleResponseModel>> searchArticles(String category, String query);
 
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
     Mono<Void> acceptArticle(String articleId);

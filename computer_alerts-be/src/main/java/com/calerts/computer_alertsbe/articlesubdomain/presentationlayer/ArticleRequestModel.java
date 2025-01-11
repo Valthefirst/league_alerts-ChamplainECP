@@ -25,7 +25,7 @@ public class ArticleRequestModel {
 
     private ArticleStatus articleStatus;
 
-    private String tags;
+    private String category;
     private Tags tagsTag;
     private LocalDateTime timePosted;
 
