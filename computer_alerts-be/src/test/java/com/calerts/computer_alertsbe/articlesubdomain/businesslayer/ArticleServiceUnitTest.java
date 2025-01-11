@@ -52,7 +52,7 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NBA")
+                .category("NBA")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -90,14 +90,14 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NFL")
+                .category("NFL")
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("\"https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg\"")
                 .build();
 
         // Mock the repository to return a Flux<Article>
-        when(articleRepository.findAllArticleByTags(expectedArticle.getTags()))
+        when(articleRepository.findAllArticleByCategory(expectedArticle.getCategory()))
                 .thenReturn(Flux.just(expectedArticle)); // Return Flux<Article>
 
         // Act and Assert using StepVerifier
@@ -128,7 +128,7 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NFL")
+                .category("NFL")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .requestCount(5) // Non-zero request count
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -140,7 +140,7 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags("NFL")
+                .category("NFL")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .requestCount(3)
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")// Non-zero request count
@@ -254,7 +254,7 @@ class ArticleServiceUnitTest {
                 .title("Test Article")
                 .body("This is a valid test article with sufficient word count to pass the validation.")
                 .wordCount(120)
-                .tags("NBA")
+                .category("NBA")
                 .build();
 
         Article savedArticle = Article.builder()
@@ -263,7 +263,7 @@ class ArticleServiceUnitTest {
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .tags(validArticleRequest.getTags())
+                .category(validArticleRequest.getCategory())
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
@@ -289,7 +289,7 @@ class ArticleServiceUnitTest {
                 .title("Test Article")
                 .body("This is a valid test article with sufficient word count to pass the validation.")
                 .wordCount(120)
-                .tags("NBA")
+                .category("NBA")
                 .build();
 
         Article savedArticle = Article.builder()
@@ -298,7 +298,7 @@ class ArticleServiceUnitTest {
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.DRAFT)
-                .tags(validArticleRequest.getTags())
+                .category(validArticleRequest.getCategory())
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
@@ -430,7 +430,7 @@ class ArticleServiceUnitTest {
                 .body("This is a test article 1")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags(tag)
+                .category(tag)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -442,7 +442,7 @@ class ArticleServiceUnitTest {
                 .body("This is a test article 2")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .tags(tag)
+                .category(tag)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -471,7 +471,7 @@ class ArticleServiceUnitTest {
         ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
                 .title("Test Article")
                 .body("This is a valid test article with sufficient word count to pass the validation.")
-                .tags("NBA")
+                .category("NBA")
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
@@ -480,7 +480,7 @@ class ArticleServiceUnitTest {
                 .title("Old Title")
                 .body("Old body")
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .tags("NFL")
+                .category("NFL")
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
@@ -491,7 +491,7 @@ class ArticleServiceUnitTest {
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .tags(validArticleRequest.getTags())
+                .category(validArticleRequest.getCategory())
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 
@@ -520,7 +520,7 @@ class ArticleServiceUnitTest {
         ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
                 .title("Test Article")
                 .body("This is a valid test article with sufficient word count to pass the validation.")
-                .tags("NBA")
+                .category("NBA")
                 .build();
 
         // Mock the repository find method to return empty

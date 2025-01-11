@@ -58,7 +58,7 @@ export default function EditArticle({
       newErrors.lastName = "Tags are required name is required";
     if (!formData.articleDescpition)
       newErrors.articleDescpition = "Article Descpition is required";
-    if (!formData.tags) newErrors.tags = "Category is required";
+    if (!formData.category) newErrors.tags = "Category is required";
     if (!formData.body) newErrors.body = "Body is required";
     if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
 
@@ -86,7 +86,7 @@ export default function EditArticle({
         <input
           type="text"
           name="tags"
-          value={formData.tags}
+          value={formData.category}
           onChange={handleChanges}
         />
       </div>

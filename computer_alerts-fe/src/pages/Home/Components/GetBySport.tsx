@@ -55,7 +55,7 @@ const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({
               imageURL={article.photoUrl}
               title={article.title}
               description={`Word Count: ${article.wordCount}`}
-              tags={article.tags}
+              category={article.category}
               onClick={() => handleArticleClick(article.articleId)}
             />
           ))}

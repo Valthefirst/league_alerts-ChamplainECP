@@ -48,7 +48,7 @@ const ArticleDetails: React.FC = () => {
         <strong>Body:</strong> {article.body}
       </p>
       <p>
-        <strong>Tags:</strong> {article.tags}
+        <strong>Category:</strong> {article.category}
       </p>
       <p>
         <strong>Status:</strong> {article.articleStatus}
