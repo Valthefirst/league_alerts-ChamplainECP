@@ -22,7 +22,6 @@ export default function ArticlesPage(): JSX.Element {
       try {
         setLoading(true);
         if (category) {
-          //console.log("useEffect triggered with category:", category);
           const data = await fetchArticleByCategory(category);
           setArticles(data); // Load all articles
         }
