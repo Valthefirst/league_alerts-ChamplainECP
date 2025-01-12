@@ -1,6 +1,8 @@
 package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.LikeService;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.ShareService;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,12 @@ public class InteractionController {
     private final LikeService likeService;
     private final CommentService commentService;
 
-    public InteractionController(LikeService likeService, CommentService commentService) {
+    private final ShareService shareService;
+
+    public InteractionController(LikeService likeService, CommentService commentService, ShareService shareService) {
         this.likeService = likeService;
         this.commentService = commentService;
+        this.shareService = shareService;
     }
 
 
@@ -86,5 +91,12 @@ public class InteractionController {
     public Mono<ResponseEntity<Void>> addComment(@RequestBody Mono<CommentRequestModel> commentRequestModel) {
         return commentService.addComment(commentRequestModel)
                 .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
+    }
+
+    @GetMapping("/share")
+    public Mono<String> generateShareLink(@RequestParam String articleId, @RequestParam String readerId) {
+        ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
+        return shareService.shareArticle(articleIdentifier, readerId)
+                .map(Share::getShareLink);
     }
 }

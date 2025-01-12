@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ArticleRequestModel } from "features/articles/models/ArticleRequestModel";
 import { fetchArticleByTag } from "features/articles/api/getAllArticleBySports";
 import { searchArticlesByTagAndQuery } from "features/articles/api/searchArticles";
-import ArticleSearchError from "../ArticlePages/ArticleSearchError/ArticleSearchError";
+// import ArticleSearchError from "../ArticlePages/ArticleSearchError/ArticleSearchError";
 import "./ArticlePage.Module.css";
 
 export default function NBAArticlesPage(): JSX.Element {
@@ -85,9 +85,9 @@ export default function NBAArticlesPage(): JSX.Element {
         {articles.length > 0 ? (
           <ArticleCard articles={articles} />
         ) : (
-          <ArticleSearchError />
+          // <ArticleSearchError />
           //////////////////////////////////////
-
+          <div> </div>
           ///// Add Article Error Component
 
           ///////////////////////////////////////
