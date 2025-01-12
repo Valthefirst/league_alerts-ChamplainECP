@@ -24,6 +24,7 @@ public interface ArticleService {
     Mono<Void> acceptArticle(String articleId);
     Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel);
 
+    //Mono<String> uploadImage(String articleId, Mono<byte[]> imageBytes);
 
 
 }
