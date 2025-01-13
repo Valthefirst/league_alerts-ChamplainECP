@@ -12,7 +12,7 @@ import CommentList from "features/comments/components/CommentList";
 import { addComment } from "features/comments/api/addComment";
 import { CommentModel } from "features/comments/model/CommentModel";
 import { shareArticle } from "../../api/shareArticle";
-// import shareIcon from "../../../assets/share-icon.png";
+import shareIcon from "../../../../assets/share-icon.png"; // Import the share icon image
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -30,8 +30,9 @@ const ArticleDetails: React.FC = () => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const heartRef = useRef<HTMLDivElement | null>(null);
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const heartRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const ArticleDetails: React.FC = () => {
 
           const authorsData = await getAllAuthors();
           const foundAuthor = authorsData.find((author) =>
-            author.articles.articleList?.some((a) => a.articleId === id),
+            author.articles.articleList?.some((a) => a.articleId === id)
           );
           setAuthor(foundAuthor || null);
 
@@ -94,20 +95,15 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  // TODO: Get the actual reader Id
   const postComment = () => {
-    if (newComment.length > 50) {
-      const wordCount = newComment.trim().split(/\s+/).length;
-      if (wordCount > 50) {
-        alert("Comment is too long. Please keep it under 50 words.");
-        return;
-      }
+    if (newComment.trim().split(/\s+/).length > 50) {
+      alert("Comment is too long. Please keep it under 50 words.");
+      return;
     }
     if (newComment.trim() && article) {
       const comment: Partial<CommentModel> = {
         content: newComment,
         articleId: article.articleId,
-        // To replace with actual readerId later on cause Jessy didn't do create account yet or sign in yet
         readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
       };
       addComment(comment);
@@ -121,176 +117,111 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  const toggleSharePopup = () => {
-    setShowSharePopup(!showSharePopup);
-  };
+  const toggleSharePopup = () => setShowSharePopup(!showSharePopup);
 
   const copyToClipboard = async (text: string) => {
-    const articleId = id; // Assuming `id` is the article's ID from `useParams`
-    const readerId = "06a7d573-bcab-4db3-956f-773324b92a80"; // Replace with actual readerId when available
-  
+    const articleId = id;
+    const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
+
     try {
-      // Copy the text to clipboard
       await navigator.clipboard.writeText(text);
-  
-      // Send the share request to the server
       if (articleId) {
         await shareArticle(articleId, readerId);
       }
-  
-      alert("Link copied to clipboard and share registered!");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
     } catch (error) {
       console.error("Error sharing or copying the link:", error);
-      alert("Failed to copy the link or send share request.");
     }
   };
-  
-
 
   if (loading) return <p>Loading...</p>;
   if (error) return <NotFound />;
 
-  return article ? (
-    <div className="article-container">
-      <div className="article-image">
-        {article.photoUrl ? (
-          <img
-            src={article.photoUrl}
-            alt={article.title}
-            className="article-image"
-          />
-        ) : (
-          <div className="image-placeholder">
-            <p>No Image Available</p>
-          </div>
-        )}
-      </div>
-      <div className="like-section">
-        <div className="like-container">
-          <div
-            id="heart"
-            className={`button ${isLiked ? "active" : ""}`}
-            ref={heartRef}
-            onClick={handleLikeToggle}
-          ></div>
-          <p className="like-count">{likeCount}</p>
-        </div>
-        <button className="edit-button" onClick={openEditPage}>
-          Edit Article
-        </button>
-        <div className="share-container">
-          <button
-            onClick={toggleSharePopup}
-            className="share-button"
-            style={{
-              backgroundColor: "blue",
-              color: "white",
-              border: "none",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-          >
-            Share
-          </button>
-          {showSharePopup && (
-            <>
-              <div
-                style={{
-                  position: "fixed",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  backgroundColor: "white",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  zIndex: 1000,
-                  textAlign: "center",
-                }}
-              >
-                <p>Share this article using the link below!</p>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span style={{ wordBreak: "break-all" }}>
-                    {window.location.href}
-                  </span>
-                  <button
-                    onClick={() => copyToClipboard(window.location.href)}
-                    style={{
-                      backgroundColor: "blue",
-                      color: "white",
-                      border: "none",
-                      padding: "5px 10px",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-                <button
-                  onClick={toggleSharePopup}
-                  style={{
-                    marginTop: "20px",
-                    backgroundColor: "blue",
-                    color: "white",
-                    border: "none",
-                    padding: "10px 20px",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-              <div
-                onClick={toggleSharePopup}
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  zIndex: 999,
-                }}
-              />
-            </>
+  return (
+    <>
+      <div className="article-container">
+        <div className="article-image">
+          {article?.photoUrl ? (
+            <img src={article.photoUrl} alt={article.title} className="article-image" />
+          ) : (
+            <div className="image-placeholder">
+              <p>No Image Available</p>
+            </div>
           )}
         </div>
+        <div className="like-section">
+          <div className="like-container">
+            <div
+              id="heart"
+              className={`button ${isLiked ? "active" : ""}`}
+              ref={heartRef}
+              onClick={handleLikeToggle}
+            >
+              <p className="like-count">{likeCount}</p>
+            </div>
+            <img
+              src={shareIcon}
+              alt="Share"
+              className="share-icon"
+              onClick={toggleSharePopup}
+            />
+          </div>
+          <button className="edit-button" onClick={openEditPage}>
+            Edit Article
+          </button>
+        </div>
+        <h1 className="article-title">{article?.title}</h1>
+        <p className="article-body">{article?.body}</p>
+        {author && (
+          <p className="article-author">
+            <strong>Author:</strong>{" "}
+            <Link to={`/authors/${author.authorId}`}>
+              {author.firstName} {author.lastName}
+            </Link>
+          </p>
+        )}
+        <hr className="divider" />
+        <div className="comments-section">
+          <h2 className="comments-title">Comments</h2>
+          {article?.articleId && (
+            <CommentList articleId={{ articleId: article.articleId }} />
+          )}
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment..."
+            className="comment-input"
+            rows={3}
+          />
+          <button onClick={postComment} className="add-comment-button">
+            Add Comment
+          </button>
+        </div>
       </div>
-      <h1 className="article-title">{article.title}</h1>
-      <p className="article-body">{article.body}</p>
-      {author && (
-        <p className="article-author">
-          <strong>Author:</strong>{" "}
-          <Link to={`/authors/${author.authorId}`}>
-            {author.firstName} {author.lastName}
-          </Link>
-        </p>
+
+      {showSharePopup && (
+        <>
+          <div className="modal-backdrop" onClick={toggleSharePopup}></div>
+          <div className="share-modal">
+            <p>Share this article using the link below!</p>
+            <div className="share-link-container">
+              <span className="share-link">{window.location.href}</span>
+              <button
+                onClick={() => copyToClipboard(window.location.href)}
+                className="copy-button"
+              >
+                Copy
+              </button>
+            </div>
+            <button onClick={toggleSharePopup} className="close-button">
+              Close
+            </button>
+          </div>
+        </>
       )}
-      <hr className="divider" />
-      <div className="comments-section">
-        <h2 className="comments-title">Comments</h2>
-        <CommentList articleId={{ articleId: article.articleId }} />
-        <div className="comments-list"></div>
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Write a comment..."
-          className="comment-input"
-          rows={3}
-        />
-        <button onClick={postComment} className="add-comment-button">
-          Add Comment
-        </button>
-      </div>
-    </div>
-  ) : (
-    <NotFound />
+      {showToast && <div className="toast">Link copied and share registered!</div>}
+    </>
   );
 };
 

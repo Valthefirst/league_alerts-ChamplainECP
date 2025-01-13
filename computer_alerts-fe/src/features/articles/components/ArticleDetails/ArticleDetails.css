@@ -134,14 +134,14 @@
 }
 
 /* Like count next to the heart */
-.like-count {
+/* .like-count {
   display: inline-block;
-  margin-left: 8px; /* Add some spacing between the heart and the count */
+  margin-left: 8px;  
   padding-bottom: 8px;
-  font-size: 16px; /* Adjust font size for better alignment with heart */
-  vertical-align: middle; /* Align with the middle of the heart */
-  color: #555; /* Match the style */
-}
+  font-size: 16px; 
+  vertical-align: middle; 
+  color: #555; 
+/* } */
 
 .like-section {
   display: flex !important; /* Make the section a flex container */
@@ -155,23 +155,12 @@
 }
 
 .like-count {
-  margin-left: 8px; /* Space between the heart and like count */
+  margin-left: 42.5px;
   font-size: 16px;
   color: #555;
 }
 
-.edit-button {
-  background-color: #cda09f; /* Set button color */
-  color: white; /* Text color */
-  padding: 10px 20px; /* Button padding */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove default border */
-  font-size: 16px; /* Adjust font size */
-  font-weight: bold; /* Make text bold */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  transition: all 0.3s ease; /* Smooth transition */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
+
 
 .edit-button:hover {
   background-color: #a67c6d; /* Darken the color on hover */
@@ -199,4 +188,202 @@
   width: 24px;
   height: 24px;
 }
+
+
+/* Modal Popup Container */
+.share-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border: 2px solid #b27b67; /* Match the border color of the "Edit Article" button */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  text-align: center;
+  width: 80%;
+  max-width: 500px;
+}
+
+/* Share Modal Text */
+.share-modal p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* Share Link Container */
+.share-link-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.share-link {
+  word-break: break-all;
+  font-size: 14px;
+  color: #333333;
+  flex: 1;
+}
+
+/* Copy Button */
+.copy-button {
+  background-color: #b27b67; /* Match the "Edit Article" button color */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+  background-color: #a06658; /* Slightly darker on hover */
+}
+
+/* Close Button */
+.close-button {
+  background-color: #b27b67; /* Match the "Edit Article" button color */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #a06658; /* Slightly darker on hover */
+}
+
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745; /* Success green */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1002; /* Ensure it's above the modal */
+  font-size: 14px;
+  animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-out 2.7s forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+
+.like-share-section {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between like and share buttons */
+}
+
+.share-button {
+  background-color: #b27b67; /* Same as edit button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.share-button:hover {
+  background-color: #a06658; /* Slightly darker on hover */
+}
+
+.like-edit-share-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.like-share-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between like and share buttons */
+}
+
+.edit-button {
+  background-color: #b27b67; /* Same color as the other buttons */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+/* Style for the share icon */
+.share-icon {
+  width: 45px; /* Adjust to match the size of the heart */
+  height: 45px; /* Ensure it's a perfect square */
+  cursor: pointer;
+  border: 2px solid red; /* Add the red circular border */
+  border-radius: 50%; /* Make the border circular */
+  padding: 5px; /* Space between the icon and the border */
+  box-sizing: border-box; /* Include padding in size calculation */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+  margin-left: 25px;
+}
+
+/* Hover effect for the share icon */
+.share-icon:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4); /* Red shadow */
+}
+
+.like-container {
+  display: inline-flex; /* Ensure the elements stay inline */
+  align-items: center;
+  position: relative; /* Position the like count separately */
+}
+
+
 
