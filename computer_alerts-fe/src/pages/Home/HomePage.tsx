@@ -14,27 +14,27 @@ export default function HomePage(): JSX.Element {
         <hr />
         <div className="row">
           <div className={styles.sportsArticles}>
-            <Link to="/articles/tag/NBA" className={styles.link}>
+            <Link to="/articles/categories/NBA" className={styles.link}>
               NBA
             </Link>
             <FetchAllArticlesBySport prop="NBA" />
             <hr />
-            <Link to="/articles/tag/NHL" className={styles.link}>
+            <Link to="/articles/categories/NHL" className={styles.link}>
               NHL
             </Link>
             <FetchAllArticlesBySport prop="NHL" />
             <hr />
-            <Link to="/articles/tag/NFL" className={styles.link}>
+            <Link to="/articles/categories/NFL" className={styles.link}>
               NFL
             </Link>
             <FetchAllArticlesBySport prop="NFL" />
             <hr />
-            <Link to="/articles/tag/UFC" className={styles.link}>
+            <Link to="/articles/categories/UFC" className={styles.link}>
               UFC
             </Link>
             <FetchAllArticlesBySport prop="UFC" />
             <hr />
-            <Link to="/articles/tag/MLB" className={styles.link}>
+            <Link to="/articles/categories/MLB" className={styles.link}>
               MLB
             </Link>
             <FetchAllArticlesBySport prop="MLB" />

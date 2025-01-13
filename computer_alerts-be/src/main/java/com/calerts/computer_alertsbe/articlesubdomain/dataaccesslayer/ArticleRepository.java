@@ -12,12 +12,12 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
         Mono<Article> findArticleByArticleIdentifier_ArticleId(String articleId);
 
 
-        Flux<Article> findAllArticleByTags(String tagName);
+        Flux<Article> findAllArticleByCategory(String category);
 
 
 
-        Flux<Article> findByTagsContainingAndTitleContainingIgnoreCase(
-                String tag,
+        Flux<Article> findByCategoryContainingAndTitleContainingIgnoreCase(
+                String category,
                 String title
         );
 

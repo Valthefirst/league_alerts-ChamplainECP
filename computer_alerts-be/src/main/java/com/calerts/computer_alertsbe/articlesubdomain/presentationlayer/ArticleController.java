@@ -36,9 +36,9 @@ public class ArticleController {
     }
 
     //Get all articles for specific sport
-    @GetMapping("/tag/{tagName}")
-    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
-        return articleService.getAllArticleForSpecificSport(tagName);
+    @GetMapping("/categories/{category}")
+    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String category) {
+        return articleService.getAllArticleForSpecificSport(category);
 
 
     }
@@ -77,12 +77,12 @@ public class ArticleController {
 //        return articleService.searchArticles(query);
 //    }
 
-    @GetMapping(value = "/tag/{tagName}/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/categories/{category}/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<List<ArticleResponseModel>> searchArticles(
-            @PathVariable String tagName,
+            @PathVariable String category,
             @RequestParam String query
     ) {
-        return articleService.searchArticles(tagName, query);
+        return articleService.searchArticles(category, query);
     }
 
 
