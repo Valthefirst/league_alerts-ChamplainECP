@@ -1,10 +1,12 @@
 package com.calerts.computer_alertsbe.utils;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Like;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.ShareResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
@@ -99,5 +101,14 @@ public class EntityModelUtil {
     }
 
 
+    public static ShareResponseModel toShareResponseModel(Share share) {
+        ShareResponseModel shareResponseModel = new ShareResponseModel();
+        BeanUtils.copyProperties(share, shareResponseModel);
+        shareResponseModel.setShareId(share.getShareIdentifier().getShareId());
+        shareResponseModel.setArticleId(share.getArticleIdentifier().getArticleId());
+        shareResponseModel.setReaderId(share.getReaderId());
+        shareResponseModel.setTimestamp(share.getTimestamp());
+        return shareResponseModel;
 
+    }
 }
