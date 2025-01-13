@@ -19,9 +19,8 @@ export default function AuthorNavBar(): JSX.Element {
           <span>☰</span>
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
-          
           <Nav className="ms-auto">
-          <Nav.Link
+            <Nav.Link
               as={Link}
               to={AppRoutePaths.AdminAuthors}
               className="nav-link"

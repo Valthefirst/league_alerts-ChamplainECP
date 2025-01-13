@@ -75,8 +75,6 @@ function App(): JSX.Element {
             element={<EditArticlePage />}
           />
 
-         
-
           <Route
             path={AppRoutePaths.AuthorHomePage}
             element={<AuthHomePage />}
@@ -105,13 +103,11 @@ function App(): JSX.Element {
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
-        
           <Route
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
-      
         </Routes>
       </Router>
 

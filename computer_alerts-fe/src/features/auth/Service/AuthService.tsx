@@ -112,31 +112,27 @@ export class AuthService {
 
   // Create user using the Management API token
 
+  //   public Message addRole(AddRole addRole) throws UnirestException, JSONException {
+  //     String accessToken = getAccessToken();
+  //     String urlCompliant = addRole.getUserId().replace("|", "%7C");
 
+  //     HttpResponse<String> response = Unirest.post("https://dev-7k6npylc7qks07rv.us.auth0.com/api/v2/users/" + urlCompliant + "/roles")
+  //             .header("content-type", "application/json")
+  //             .header("authorization", "Bearer " + accessToken)
+  //             .header("cache-control", "no-cache")
+  //             .body("{ \"roles\": [ \"rol_ateA49X4oBWvfywq\" ] }")
+  //             .asString();
 
-//   public Message addRole(AddRole addRole) throws UnirestException, JSONException {
-//     String accessToken = getAccessToken();
-//     String urlCompliant = addRole.getUserId().replace("|", "%7C");
+  //     log.info("response: {}", response.getBody());
 
-//     HttpResponse<String> response = Unirest.post("https://dev-7k6npylc7qks07rv.us.auth0.com/api/v2/users/" + urlCompliant + "/roles")
-//             .header("content-type", "application/json")
-//             .header("authorization", "Bearer " + accessToken)
-//             .header("cache-control", "no-cache")
-//             .body("{ \"roles\": [ \"rol_ateA49X4oBWvfywq\" ] }")
-//             .asString();
+  //     if (response.getBody() != null) {
+  //         return Message.from("Failed to add role for user: " + addRole.getUserId());
+  //     }
 
-//     log.info("response: {}", response.getBody());
+  //     final var text = "Role added for user: " + addRole.getUserId();
 
-//     if (response.getBody() != null) {
-//         return Message.from("Failed to add role for user: " + addRole.getUserId());
-//     }
-
-//     final var text = "Role added for user: " + addRole.getUserId();
-
-//     return Message.from(text);
-// }
-
-
+  //     return Message.from(text);
+  // }
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
@@ -170,18 +166,19 @@ export class AuthService {
   async createAuthor(authorData: AuthorRequestDTO): Promise<any> {
     try {
       const managementApiToken = await this.getManagementApiToken();
-      const response = await fetch(this.URL + 'create/Author', { // switch this
-        method: 'POST',
+      const response = await fetch(this.URL + "create/Author", {
+        // switch this
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-           Authorization: `Bearer ${managementApiToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${managementApiToken}`,
         },
-        body: JSON.stringify(authorData)
+        body: JSON.stringify(authorData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Failed to create author');
+        throw new Error(error.message || "Failed to create author");
       }
 
       return await response.json();
@@ -189,34 +186,32 @@ export class AuthService {
       throw error;
     }
   }
-  }
-  
-  // async addRoles(auth0UserId: string): Promise<any> {
-  //   try {
-  //     const managementApiToken = await this.getManagementApiToken();
-  //     const response = await fetch(this.URL + `addRoles/${auth0UserId}`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${managementApiToken}`,
-  //       },
-  //     });
-  
-  //     if (!response.ok) {
-  //       const error = await response.json();
-  //       throw new Error(error.message || 'Failed to add roles');
-  //     }
-  
-  //     const responseData = await response.json();
-  //     console.log('Roles added successfully:', responseData); // Log the API response
-  //     return responseData;
-  //   } catch (error) {
-  //     console.error('Error adding roles:', error); // Log the error for debugging
-  //     throw error;
-  //   }
-  // }
-  
+}
 
+// async addRoles(auth0UserId: string): Promise<any> {
+//   try {
+//     const managementApiToken = await this.getManagementApiToken();
+//     const response = await fetch(this.URL + `addRoles/${auth0UserId}`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${managementApiToken}`,
+//       },
+//     });
+
+//     if (!response.ok) {
+//       const error = await response.json();
+//       throw new Error(error.message || 'Failed to add roles');
+//     }
+
+//     const responseData = await response.json();
+//     console.log('Roles added successfully:', responseData); // Log the API response
+//     return responseData;
+//   } catch (error) {
+//     console.error('Error adding roles:', error); // Log the error for debugging
+//     throw error;
+//   }
+// }
 
 const authTokenService = new AuthService();
 export default authTokenService;

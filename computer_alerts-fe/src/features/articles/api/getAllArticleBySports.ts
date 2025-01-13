@@ -6,25 +6,21 @@ export const fetchArticleByCategory = async (
 ): Promise<ArticleRequestModel[]> => {
   console.log("Fetching articles by category");
   try {
-
     const accessToken = localStorage.getItem("accessToken");
 
-    if(!accessToken){
-      throw new Error("Access token is missing. Please Log in again.")
+    if (!accessToken) {
+      throw new Error("Access token is missing. Please Log in again.");
     }
 
     const response = await axiosInstance.get<ArticleRequestModel[]>(
-        `/articles/categories/${category}`,{
+      `/articles/categories/${category}`,
+      {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
-
-
-
+      },
     );
     return response.data;
-
   } catch (err) {
     console.error("error fetching articles by category", err);
     throw err;
