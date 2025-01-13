@@ -5,6 +5,7 @@ import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRes
 import com.calerts.computer_alertsbe.authsubdomain.businessLayer.UserService;
 
 
+import com.calerts.computer_alertsbe.utils.HttpErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AuthController {
+
 
     @Autowired
     private UserService userService;
@@ -41,11 +43,21 @@ public class AuthController {
                         .status(HttpStatus.CREATED)
                         .body(authorResponse))
                 .onErrorResume(e -> {
-                    System.out.println(e.getMessage());
+                    System.out.println("Did Not create user" +e.getMessage());
                     return Mono.just(ResponseEntity
                             .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
                 });
     }
+//    @PostMapping("/addRoles/{auth0UserId}")
+//    public Mono<ResponseEntity<String>> addRoles(@PathVariable String auth0UserId) {
+//        return userService.addRoles(auth0UserId)
+//                .then(Mono.just(ResponseEntity
+//                        .status(HttpStatus.NO_CONTENT)
+//                        .body("Roles added successfully.")))
+//                .onErrorResume(e -> Mono.just(ResponseEntity
+//                        .status(HttpStatus.BAD_REQUEST)
+//                        .body("Failed to assign roles: " + e.getMessage())));
+//    }
 
         @RequestMapping(value = "/create", method = RequestMethod.OPTIONS)
     public ResponseEntity<?> handlePreflight() {

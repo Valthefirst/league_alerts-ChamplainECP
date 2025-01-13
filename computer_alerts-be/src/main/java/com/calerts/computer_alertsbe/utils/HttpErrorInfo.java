@@ -1,12 +1,15 @@
 package com.calerts.computer_alertsbe.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-
+@Data
+@AllArgsConstructor
 @Getter
 public class HttpErrorInfo {
 

@@ -2,11 +2,10 @@ package com.calerts.computer_alertsbe.authsubdomain.businessLayer;
 
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.*;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRequestDTO;
-import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
+
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModelAuth;
 import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserRequestDTO;
 import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserResponseModel;
-import jakarta.persistence.Embedded;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -133,6 +133,7 @@ public class UserService {
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 Map<String, Object> responseBody = response.getBody();
                 String auth0UserId = (String) responseBody.get("user_id");
+                addRoles(auth0UserId,managementApiToken);
 
                 Author author = Author.builder()
                         .authorIdentifier(new AuthorIdentifier())
@@ -158,6 +159,37 @@ public class UserService {
             }
         } catch (RestClientException e) {
             return Mono.error(new RuntimeException("Error communicating with Auth0: " + e.getMessage(), e));
+        }
+    }
+    public Mono<Void> addRoles(String auth0UserId, String managementToken) {
+
+        String urlCompliantUserId = auth0UserId.replace("|", "%7C");
+        String url = "https://" + AUTH0_DOMAIN + "/api/v2/users/" + urlCompliantUserId + "/roles";
+        String managementApiToken2 = managementToken;
+
+        if (managementApiToken2 == null || managementApiToken2.isEmpty()) {
+            return Mono.error(new RuntimeException("Management API token is missing or invalid"));
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + managementApiToken2);
+
+        // Define roles (this could be dynamic or come from a parameter)
+        Map<String, Object> body = new HashMap<>();
+        body.put("roles", new String[] { "rol_W1iELc1CHmzBtfE4" });  // Replace ROLE_ID with the actual role ID
+
+        try {
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+            if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+                return Mono.empty();  // Return an empty Mono to signal success
+            } else {
+                return Mono.error(new RuntimeException("Failed to add roles: " + response.getBody()));
+            }
+        } catch (RestClientException e) {
+            return Mono.error(new RuntimeException("Error assigning roles to user: " + e.getMessage(), e));
         }
     }
 }

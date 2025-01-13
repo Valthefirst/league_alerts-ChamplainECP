@@ -189,7 +189,34 @@ export class AuthService {
       throw error;
     }
   }
-}
+  }
+  
+  // async addRoles(auth0UserId: string): Promise<any> {
+  //   try {
+  //     const managementApiToken = await this.getManagementApiToken();
+  //     const response = await fetch(this.URL + `addRoles/${auth0UserId}`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${managementApiToken}`,
+  //       },
+  //     });
+  
+  //     if (!response.ok) {
+  //       const error = await response.json();
+  //       throw new Error(error.message || 'Failed to add roles');
+  //     }
+  
+  //     const responseData = await response.json();
+  //     console.log('Roles added successfully:', responseData); // Log the API response
+  //     return responseData;
+  //   } catch (error) {
+  //     console.error('Error adding roles:', error); // Log the error for debugging
+  //     throw error;
+  //   }
+  // }
+  
+
 
 const authTokenService = new AuthService();
 export default authTokenService;
