@@ -449,7 +449,7 @@ class ArticleServiceUnitTest {
                 .build();
 
         // Mock the repository to return a Flux<Article>
-        when(articleRepository.findByTagsContainingAndTitleContainingIgnoreCase(tag, query))
+        when(articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(tag, query))
                 .thenReturn(Flux.just(article1, article2));
 
         // Act and Assert using StepVerifier
@@ -458,7 +458,7 @@ class ArticleServiceUnitTest {
                 .verifyComplete();
 
         // Verify that the repository method was called with the correct arguments
-        verify(articleRepository).findByTagsContainingAndTitleContainingIgnoreCase(tag, query);
+        verify(articleRepository).findByCategoryContainingAndTitleContainingIgnoreCase(tag, query);
 
 
 

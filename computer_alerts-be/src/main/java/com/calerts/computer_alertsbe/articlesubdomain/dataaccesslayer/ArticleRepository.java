@@ -25,4 +25,5 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
 
 
 
+
 }
