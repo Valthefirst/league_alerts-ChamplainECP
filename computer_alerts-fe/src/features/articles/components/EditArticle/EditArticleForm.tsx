@@ -53,7 +53,7 @@ export default function EditArticle({
     if (!formData.category) newErrors.category = "Categories are required";
     if (!formData.tagsTag) newErrors.tagsTag = "Tags are required";
     if (!formData.body) newErrors.body = "Body is required";
-    if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
+    //if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
 
     if (Object.keys(newErrors).length > 0) {
       console.error("Validation errors:", newErrors);
