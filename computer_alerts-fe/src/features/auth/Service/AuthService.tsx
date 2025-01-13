@@ -167,7 +167,6 @@ export class AuthService {
     try {
       const managementApiToken = await this.getManagementApiToken();
       const response = await fetch(this.URL + "create/Author", {
-        // switch this
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,13 +174,21 @@ export class AuthService {
         },
         body: JSON.stringify(authorData),
       });
-
+      
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || "Failed to create author");
       }
-
-      return await response.json();
+      
+      // Check if there's content to parse
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        console.log(response.json)
+        return await response.json();
+      } else {
+        // If no JSON content (like with 204 status), return success message
+        return { success: true, status: response.status };
+      }
     } catch (error) {
       throw error;
     }

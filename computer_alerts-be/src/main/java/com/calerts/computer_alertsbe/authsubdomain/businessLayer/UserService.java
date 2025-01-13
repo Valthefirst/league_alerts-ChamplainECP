@@ -16,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 
@@ -26,6 +27,7 @@ import java.util.Map;
 public class UserService {
 
     private final AuthorRepository authorRepository;
+    private final WebClient webClient;
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String AUTHOR_ROLE_ID = "rol_W1iELc1CHmzBtfE4";
 
@@ -41,8 +43,9 @@ public class UserService {
     @Value("${auth0.audience}")
     private String AUDIENCE;
 
-    public UserService(AuthorRepository authorRepository) {
+    public UserService(AuthorRepository authorRepository, WebClient.Builder webClientBuilder) {
         this.authorRepository = authorRepository;
+        this.webClient = WebClient.builder().build();
         // Initialize Unirest
         Unirest.config()
                 .setDefaultHeader("Content-Type", "application/json")
@@ -143,26 +146,26 @@ public class UserService {
                 Map<String, Object> responseBody = response.getBody();
                 String auth0UserId = (String) responseBody.get("user_id");
 
-                try {
-                    String goodUserId = auth0UserId.replace("|", "%7C");
-                    HttpResponse<String> roleResponse = Unirest.post("https://" + AUTH0_DOMAIN + "/api/v2/users/" + goodUserId + "/roles")
-                            .header("Content-Type", "application/json")
-                            .header("Authorization", "Bearer " + managementApiToken)
-                            .header("Cache-Control", "no-cache")
-                            .body("{ \"roles\": [ \"rol_W1iELc1CHmzBtfE4\" ] }")
-                            .asString();
+                assignRoleToUser(auth0UserId,managementApiToken);
 
-                    if (roleResponse.getStatus() != 204) {
-                        return Mono.error(new RuntimeException("Failed to assign author role. Status: " + roleResponse.getStatus()));
-                    }
-                } catch (UnirestException e) {
-                    return Mono.error(new RuntimeException("Error assigning author role: " + e.getMessage(), e));
-                }
+//                try {
+//                    String goodUserId = auth0UserId.replace("|", "%7C");
+//                    HttpResponse<String> roleResponse = Unirest.post("https://" + AUTH0_DOMAIN + "/api/v2/users/" + goodUserId + "/roles")
+//                            .header("Content-Type", "application/json")
+//                            .header("Authorization", "Bearer " + managementApiToken)
+//                            .header("Cache-Control", "no-cache")
+//                            .body("{ \"roles\":  [ \"rol_W1iELc1CHmzBtfE4\" ] }")
+//                            .asString();
+//
+//                    if (roleResponse.getStatus() != 204) {
+//                        return Mono.error(new RuntimeException("Failed to assign author role. Status: " + roleResponse.getStatus()));
+//                    }
+//            } catch (UnirestException e) {
+//                return Mono.error(new RuntimeException("Error assigning author role: " + e.getMessage(), e));
+//            }
 
 
-
-
-                Author author = Author.builder()
+            Author author = Author.builder()
                         .authorIdentifier(new AuthorIdentifier())
                         .emailAddress(request.getEmailAddress())
                         .firstName(request.getFirstName())
@@ -186,6 +189,19 @@ public class UserService {
         } catch (RestClientException e) {
             return Mono.error(new RuntimeException("Error communicating with Auth0: " + e.getMessage(), e));
         }
+    }
+
+    public Mono<Void> assignRoleToUser(String auth0UserId, String manegmenttoken) {
+
+        return webClient.post()
+                .uri("https://" + AUTH0_DOMAIN + "/api/v2/users/" + auth0UserId + "/roles")
+                .headers(headers -> headers.setBearerAuth(manegmenttoken))
+                .bodyValue("{ \"roles\": [ \"rol_W1iELc1CHmzBtfE4\" ] }")
+                .retrieve()
+                .toBodilessEntity()
+                .doOnSuccess(response -> System.out.println(("Role '{}' assigned successfully to User ID: {}" + auth0UserId)))
+                .doOnError(error -> System.out.println(("Failed to assign role '{}' to User ID: {}"  +auth0UserId + error)))
+                .then();
     }
 //    public void addRoles(String auth0UserId, String managementToken) {
 //
