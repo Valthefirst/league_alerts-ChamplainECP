@@ -183,3 +183,20 @@
   outline: none; /* Remove focus outline */
   box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
 }
+
+.share-container {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.share-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.share-icon {
+  width: 24px;
+  height: 24px;
+}
+

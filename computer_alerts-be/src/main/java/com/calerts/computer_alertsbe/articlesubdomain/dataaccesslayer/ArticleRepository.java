@@ -24,4 +24,5 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
         Flux<Article> findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(String title, String body);
 
 
+
 }

@@ -4,6 +4,7 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,11 @@ public class ShareServiceImpl implements ShareService{
                 .build();
 
         return shareRepository.save(share);
+    }
+
+    @Override
+    public Flux<Share> getSharesByArticle(ArticleIdentifier articleIdentifier) {
+        return shareRepository.findByArticleIdentifier(articleIdentifier);
     }
 
 }

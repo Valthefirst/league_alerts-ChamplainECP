@@ -93,10 +93,30 @@ public class InteractionController {
                 .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
     }
 
-    @GetMapping("/share")
-    public Mono<String> generateShareLink(@RequestParam String articleId, @RequestParam String readerId) {
+//    @PostMapping("/share")
+//    public Mono<String> generateShareLink(@RequestParam String articleId, @RequestParam String readerId) {
+//        ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
+//        return shareService.shareArticle(articleIdentifier, readerId)
+//                .map(Share::getShareLink);
+//    }
+
+    @PostMapping("/share")
+    public Mono<ResponseEntity<ShareResponseModel>> shareArticle(
+            @RequestParam String articleId,
+            @RequestParam String readerId) {
+
         ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
         return shareService.shareArticle(articleIdentifier, readerId)
-                .map(Share::getShareLink);
+                .map(EntityModelUtil::toShareResponseModel)
+                .map(responseModel -> ResponseEntity.status(HttpStatus.CREATED).body(responseModel));
+    }
+
+    @GetMapping("/shares/article/{articleId}")
+    public Mono<ResponseEntity<List<ShareResponseModel>>> getSharesByArticle(@PathVariable String articleId) {
+        ArticleIdentifier identifier = new ArticleIdentifier(articleId);
+        return shareService.getSharesByArticle(identifier)
+                .map(EntityModelUtil::toShareResponseModel)
+                .collectList() // Collect the Flux into a List
+                .map(ResponseEntity::ok);
     }
 }

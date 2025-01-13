@@ -11,6 +11,8 @@ import { getAllAuthors } from "features/authors/api/getAllAuthors";
 import CommentList from "features/comments/components/CommentList";
 import { addComment } from "features/comments/api/addComment";
 import { CommentModel } from "features/comments/model/CommentModel";
+import { shareArticle } from "../../api/shareArticle";
+// import shareIcon from "../../../assets/share-icon.png";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -29,6 +31,7 @@ const ArticleDetails: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const heartRef = useRef<HTMLDivElement | null>(null);
+  const [showSharePopup, setShowSharePopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -118,6 +121,32 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
+  const toggleSharePopup = () => {
+    setShowSharePopup(!showSharePopup);
+  };
+
+  const copyToClipboard = async (text: string) => {
+    const articleId = id; // Assuming `id` is the article's ID from `useParams`
+    const readerId = "06a7d573-bcab-4db3-956f-773324b92a80"; // Replace with actual readerId when available
+  
+    try {
+      // Copy the text to clipboard
+      await navigator.clipboard.writeText(text);
+  
+      // Send the share request to the server
+      if (articleId) {
+        await shareArticle(articleId, readerId);
+      }
+  
+      alert("Link copied to clipboard and share registered!");
+    } catch (error) {
+      console.error("Error sharing or copying the link:", error);
+      alert("Failed to copy the link or send share request.");
+    }
+  };
+  
+
+
   if (loading) return <p>Loading...</p>;
   if (error) return <NotFound />;
 
@@ -149,6 +178,89 @@ const ArticleDetails: React.FC = () => {
         <button className="edit-button" onClick={openEditPage}>
           Edit Article
         </button>
+        <div className="share-container">
+          <button
+            onClick={toggleSharePopup}
+            className="share-button"
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            Share
+          </button>
+          {showSharePopup && (
+            <>
+              <div
+                style={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  backgroundColor: "white",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  zIndex: 1000,
+                  textAlign: "center",
+                }}
+              >
+                <p>Share this article using the link below!</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{ wordBreak: "break-all" }}>
+                    {window.location.href}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(window.location.href)}
+                    style={{
+                      backgroundColor: "blue",
+                      color: "white",
+                      border: "none",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+                <button
+                  onClick={toggleSharePopup}
+                  style={{
+                    marginTop: "20px",
+                    backgroundColor: "blue",
+                    color: "white",
+                    border: "none",
+                    padding: "10px 20px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+              <div
+                onClick={toggleSharePopup}
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 999,
+                }}
+              />
+            </>
+          )}
+        </div>
       </div>
       <h1 className="article-title">{article.title}</h1>
       <p className="article-body">{article.body}</p>
