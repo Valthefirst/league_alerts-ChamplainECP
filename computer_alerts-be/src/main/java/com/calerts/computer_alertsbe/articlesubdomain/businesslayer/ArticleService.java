@@ -3,6 +3,8 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -24,7 +26,7 @@ public interface ArticleService {
     Mono<Void> acceptArticle(String articleId);
     Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel);
 
-    //Mono<String> uploadImage(String articleId, Mono<byte[]> imageBytes);
+    Mono<String> updateArticleImage(String articleId, FilePart file);
 
 
 }
