@@ -31,6 +31,7 @@ public class ArticleResponseModel {
     private AuthorIdentifier authorIdentifier;
 
     private int likeCount;
+    private int shareCount;
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;

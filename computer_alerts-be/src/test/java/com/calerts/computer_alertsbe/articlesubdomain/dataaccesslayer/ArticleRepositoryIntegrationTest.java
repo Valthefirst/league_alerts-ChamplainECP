@@ -112,7 +112,7 @@ class ArticleRepositoryIntegrationTest {
         var query = savedArticles.get(0).getTitle();
 
         // Act
-        var actualArticles = articleRepository.findByTagsContainingAndTitleContainingIgnoreCase(tag, query).collectList().block();
+        var actualArticles = articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(tag, query).collectList().block();
 
         // Assert
         assertNotNull(actualArticles, "Retrieved articles should not be null");
