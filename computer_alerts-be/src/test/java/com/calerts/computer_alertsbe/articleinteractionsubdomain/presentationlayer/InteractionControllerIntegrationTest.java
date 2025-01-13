@@ -40,6 +40,9 @@ class InteractionControllerIntegrationTest {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private ShareRepository shareRepository;
+
     private final String BASE_URL = "/api/v1/interactions";
 
     @BeforeEach
@@ -416,4 +419,75 @@ class InteractionControllerIntegrationTest {
                     assertTrue(response.contains("Comment exceeds 50 words."));
                 });
     }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenGetSharesByArticle_thenReturnAllShares() {
+        // Arrange
+        var articleId = new ArticleIdentifier("article-1");
+
+        var share1 = Share.builder()
+                .shareIdentifier(new ShareIdentifier())
+                .articleIdentifier(articleId)
+                .readerId("reader-001")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        var share2 = Share.builder()
+                .shareIdentifier(new ShareIdentifier())
+                .articleIdentifier(articleId)
+                .readerId("reader-002")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        var share3 = Share.builder()
+                .shareIdentifier(new ShareIdentifier())
+                .articleIdentifier(new ArticleIdentifier("article-2"))
+                .readerId("reader-003")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        shareRepository.saveAll(List.of(share1, share2, share3)).blockLast();
+
+        String url = BASE_URL + "/shares/article/" + articleId.getArticleId();
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ShareResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(2, response.size());
+                    response.forEach(share -> assertEquals(articleId.getArticleId(), share.getArticleId()));
+                });
+    }
+
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenShareArticle_thenReturnCreatedShare() {
+        // Arrange
+        var articleId = new ArticleIdentifier("article-1");
+        var readerId = "reader-001";
+
+        String url = BASE_URL + "/share?articleId=" + articleId + "&readerId=" + readerId;
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(ShareResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(articleId.toString(), response.getArticleId());
+                    assertEquals(readerId, response.getReaderId());
+                });
+    }
+
+
 }

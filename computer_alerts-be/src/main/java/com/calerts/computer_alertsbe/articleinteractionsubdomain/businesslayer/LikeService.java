@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono;
 
 public interface LikeService {
 
-    Mono<Like> likeArticle(ArticleIdentifier articleIdentifier, String readerId);
 
     Flux<Like> getLikesByArticle(ArticleIdentifier articleIdentifier);
 
@@ -16,5 +15,6 @@ public interface LikeService {
 
     Mono<Like> getLikeByIdentifier(String likeId);
 
+    Mono<Like> likeArticle(ArticleIdentifier articleIdentifier, String readerId);
     Mono<Void> unlikeArticle(ArticleIdentifier articleIdentifier, String readerId);
 }

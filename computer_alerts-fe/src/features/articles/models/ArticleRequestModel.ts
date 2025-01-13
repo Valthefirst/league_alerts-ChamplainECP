@@ -6,7 +6,7 @@ export interface ArticleRequestModel {
   articleStatus: string;
   requestCount: number;
   likeCount: number;
-  tags: string;
+  category: string;
   tagsTag: string;
   timePosted: string;
   photoUrl: string;
@@ -20,7 +20,7 @@ export interface ArticleRequestModelI {
   photoUrl: string;
   wordCount: number;
   articleStatus: string;
-  tags: string;
+  category: string;
   tagsTag: string;
   timePosted: string;
   authorIdentifier: string;

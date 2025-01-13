@@ -35,8 +35,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Flux<ArticleResponseModel> getAllArticleForSpecificSport(String tagName) {
-        return articleRepository.findAllArticleByTags(tagName)
+    public Flux<ArticleResponseModel> getAllArticleForSpecificSport(String category) {
+        return articleRepository.findAllArticleByCategory(category)
                 .map(EntityModelUtil::toArticleResponseModel);
 
     }
@@ -147,9 +147,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Mono<List<ArticleResponseModel>> searchArticles(String tag, String query) {
+    public Mono<List<ArticleResponseModel>> searchArticles(String category, String query) {
         return articleRepository
-                .findByTagsContainingAndTitleContainingIgnoreCase(tag, query)
+                .findByCategoryContainingAndTitleContainingIgnoreCase(category, query)
                 .map(EntityModelUtil::toArticleResponseModel)
                 .collectList();
 

@@ -85,9 +85,9 @@ const AdminArticleDetails: React.FC = () => {
           <div className="col-12">
             <div className="sameLine space-between">
               <h2 className="bold">
-                Tags for Article: <span>{article.tags}</span>
+                Category for Article: <span>{article.category}</span>
               </h2>
-              <CircleCheckButton messageProp="Tags" />
+              <CircleCheckButton messageProp="Category" />
             </div>
           </div>
         </div>

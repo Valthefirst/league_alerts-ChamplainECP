@@ -61,6 +61,12 @@ function App(): JSX.Element {
             path={AppRoutePaths.CREATE_ACCOUNT}
             element={<CreateUserForm />}
           />
+
+          <Route
+            path={AppRoutePaths.ArticlesByCategory}
+            element={<ArticlesPage />}
+          />
+
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
@@ -69,10 +75,7 @@ function App(): JSX.Element {
             element={<EditArticlePage />}
           />
 
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+         
 
           <Route
             path={AppRoutePaths.AuthorHomePage}
@@ -102,19 +105,13 @@ function App(): JSX.Element {
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+        
           <Route
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+      
         </Routes>
       </Router>
 

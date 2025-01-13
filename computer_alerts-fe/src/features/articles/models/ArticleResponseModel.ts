@@ -5,7 +5,7 @@ export interface ArticleResponseModel {
   articleStatus: string;
   requestCount: number;
   likeCount: number;
-  tags: string;
+  category: string;
   tagsTag: string;
   timePosted: string;
   photoUrl: string;
