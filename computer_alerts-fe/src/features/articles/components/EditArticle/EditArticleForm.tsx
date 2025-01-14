@@ -1,7 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { editArticle } from "features/articles/api/editArticle";
 import { useNavigate } from "react-router-dom";
+import { editArticleImage } from "features/articles/api/updateArticleImage";
+import "./EditArticleForm.css"; // Adjust the path based on your file structure
+
 
 interface EditArticlePageProps {
   article: ArticleRequestModel;
@@ -13,8 +16,12 @@ export default function EditArticle({
   const [formData, setFormData] = useState<ArticleRequestModel>(article);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState<boolean>(false); // For showing a loading state
   const navigate = useNavigate();
 
+ 
+    
   const handleChanges = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
@@ -22,10 +29,53 @@ export default function EditArticle({
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleImageChanges = async (
+    e: ChangeEvent<HTMLInputElement>,
+    ) => {
+    const file = e.target.files?.[0];
+      if  (!file) return;
+
+    setLoading(true);
+      
+      try{
+        
+        const response = await editArticleImage(article.articleId, file);
+      
+        // Url is a plain tring returned by the api
+        const photoUrl = response.data;
+        console.log("Photo URL:", photoUrl);
+
+        if (photoUrl) {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            photoUrl,
+            // Update other fields as needed
+          }));
+        } else {
+          console.error("Photo URL is missing in the response");
+          setError("Failed to update image. Please try again later.");
+        }
+          // Additional log to confirm state update
+        console.log("Form data after state update:", formData);
+        } catch (err) {
+          console.error("Error updating image:", err);
+          setError("Failed to update image. Please try again later.");
+        } finally {
+          setLoading(false);
+      }
+    
+    };
+
   const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = e.target; // Get the selected value
     setFormData({ ...formData, tagsTag: value }); // Update tagsTag in formData
   };
+
+
+     // Ensure the formData is updated whenever the article prop changes
+     useEffect(() => {
+      setFormData(article);
+    }, [article]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -66,36 +116,37 @@ export default function EditArticle({
   };
 
   return (
-    <div className="con-color">
-      <div className="container">
-        <h1 className="center">Edit Article</h1>
+    <div className="edit-article-container">
+    <div className="edit-con-color">
+      <div className="edit-container">
+        <h1 className="edit-title">Edit Article</h1>
 
-        {/* Title and Tags Fields */}
-        <div className="sameLine">
-          <div className="field" style={{ flex: 1, marginRight: "10px" }}>
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChanges}
-            />
-          </div>
-
-          <div className="field" style={{ flex: 1 }}>
-            <label>Categories</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChanges}
-            />
-          </div>
+        {/* Title and Categories Fields */}
+        <div className="article-fields-box sameLine">
+        <div className="title-field" style={{ flex: 1, marginRight: "10px" }}>
+          <label className="field-title">Title</label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChanges}
+          />
         </div>
 
+        <div className="article-field-box" style={{ flex: 1 }}>
+          <label className="field-title">Categories</label>
+          <input
+            type="text"
+            name="category"
+            value={formData.category}
+            onChange={handleChanges}
+          />
+        </div>
+      </div>
+
         {/* Tags Select Field */}
-        <div className="field">
-          <label>Tags</label>
+        <div className="article-field-box">
+          <label className="field-title">Tags</label>
           <select
             name="tagsTag"
             value={formData.tagsTag}
@@ -120,19 +171,41 @@ export default function EditArticle({
                 </div> */}
 
         {/* Photo URL Field */}
-        <div className="field">
-          <label>Photo URL</label>
+        <div className="article-field-box">
+          <label className="field-title">Photo URL</label>
           <input
             type="text"
             name="photoUrl"
             value={formData.photoUrl}
-            onChange={handleChanges}
+            readOnly = {true}
           />
         </div>
 
+                  {/* Photo Upload Button */}
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => document.getElementById("fileInput")?.click()}
+              className="upload-button"
+            >
+              Upload Image
+          </button>
+
+           {/* Hidden File Input */}
+          <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChanges}
+              style={{ display: "none" }} // Still hide the file input
+            />
+          </div>
+
+        
+
         {/* Body Field */}
-        <div className="field">
-          <label>Body</label>
+        <div className="article-field-box">
+          <label className="field-title">Body</label>
           <textarea
             name="body"
             value={formData.body}
@@ -140,43 +213,18 @@ export default function EditArticle({
           />
         </div>
 
-        <button
-          className="submit-Update"
-          type="submit"
-          onClick={handleSubmit}
-          style={{
-            backgroundColor: "#CDA09F", // Set button color
-            color: "white", // Text color
-            padding: "10px 20px", // Button padding
-            borderRadius: "8px", // Rounded corners
-            border: "none", // Remove default border
-            fontSize: "16px", // Adjust font size
-            fontWeight: "bold", // Make text bold
-            cursor: "pointer", // Change cursor to pointer on hover
-            transition: "all 0.3s ease", // Smooth transition
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#A67C6D"; // Darken the color on hover
-            e.currentTarget.style.transform = "translateY(-3px)"; // Lift the button slightly
-            e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)"; // Darker shadow on hover
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#CDA09F"; // Reset button color
-            e.currentTarget.style.transform = "translateY(0)"; // Reset transform
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Reset shadow
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.outline = "none"; // Remove focus outline
-            e.currentTarget.style.boxShadow = "0 0 0 4px #A67C6D"; // Add a glowing effect when focused
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Reset shadow after focus
-          }}
-        >
-          Update Article
-        </button>
-      </div>
+                {/* Submit Button */}
+        <div className="button-container">
+          <button
+            className="submit-Update-button"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            Update Article
+          </button>
+        </div>
+    </div>
+    </div>
     </div>
   );
 }

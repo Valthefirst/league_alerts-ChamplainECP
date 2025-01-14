@@ -130,7 +130,7 @@ public class ArticleController {
 
         System.out.println("cloudinary service" + filePart);
         return articleService.updateArticleImage(articleId, filePart)
-                .map(url -> ResponseEntity.ok("Image updated successfully. URL: " + url))
+                .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
