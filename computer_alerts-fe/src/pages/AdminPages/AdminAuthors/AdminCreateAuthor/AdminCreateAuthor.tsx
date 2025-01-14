@@ -103,7 +103,7 @@ const AdminCreateAuthor: React.FC = () => {
                 />
               </div> */}
           <button className={styles.button} type="submit">
-            Create User
+            Create Author
           </button>
         </form>
       </div>

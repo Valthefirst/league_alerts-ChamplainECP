@@ -51,8 +51,18 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchange -> exchange
                         // Completely public endpoints
+
+
+
+
+                        //---------------ReaderEndpoints
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
-                        .pathMatchers("/api/v1/articles/**").authenticated()
+                        .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
+
+
+
+
+                        //---------------AuthorEndpoints
                         .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
@@ -61,7 +71,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "api/create/Author").permitAll()
 
-                        // Endpoints requiring authentication
+
+                        //--------------AdminEndpoints
                         .pathMatchers(HttpMethod.POST, "/api/create/**").authenticated()
                         .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
@@ -71,6 +82,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/rules/").permitAll()
+                        .pathMatchers(HttpMethod.OPTIONS, "/api/rules/").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().permitAll()

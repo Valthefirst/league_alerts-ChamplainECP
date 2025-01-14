@@ -31,7 +31,7 @@ public class ArticleController {
 
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('writer:role')")
+    @PreAuthorize("hasAuthority('like:articles')")
     public Flux<ArticleResponseModel> getAllArticles() {
         return articleService.getAllArticles();
 
@@ -56,6 +56,7 @@ public class ArticleController {
 
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> createArticle(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticle(Mono.just(articleRequestModel))
                 .map(articleResponseModel -> ResponseEntity
@@ -90,6 +91,7 @@ public class ArticleController {
 
     @PermitAll
     @PatchMapping(value = "acceptArticle/{articleId}")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
         return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
@@ -97,6 +99,7 @@ public class ArticleController {
 
 
     @PostMapping(value = "/acceptDraft" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> createArticleDraft(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticleDraft(Mono.just(articleRequestModel))
                 .map(articleResponseModel -> ResponseEntity
@@ -111,6 +114,7 @@ public class ArticleController {
     @PutMapping(value = "/{articleId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> editArticle
             (@PathVariable String articleId,
              @RequestBody Mono<ArticleRequestModel> articleRequestModel) {

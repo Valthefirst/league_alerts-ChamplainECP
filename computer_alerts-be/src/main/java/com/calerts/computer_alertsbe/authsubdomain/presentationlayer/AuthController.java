@@ -48,6 +48,14 @@ public class AuthController {
                             .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
                 });
     }
+    @PostMapping("/roles/assign")
+    public Mono<Void> assignRole(@PathVariable String userId, @RequestHeader("Authorization") String managementToken) {
+        // Remove "Bearer " prefix if it exists
+        String token = managementToken.replace("Bearer ", "");
+        return userService.addRoles(userId, token);
+    }
+
+
 //    @PostMapping("/addRoles/{auth0UserId}")
 //    public Mono<ResponseEntity<String>> addRoles(@PathVariable String auth0UserId) {
 //        return userService.addRoles(auth0UserId)
