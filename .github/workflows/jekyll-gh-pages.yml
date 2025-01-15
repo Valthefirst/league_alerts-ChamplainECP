@@ -33,7 +33,7 @@ jobs:
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./computer_alerts-fe/public/index.html
+          source: ./computer_alerts-fe/public/
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
