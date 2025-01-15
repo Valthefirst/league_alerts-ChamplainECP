@@ -79,11 +79,13 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
-                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
-                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/rules/").permitAll()
-                        .pathMatchers(HttpMethod.OPTIONS, "/api/rules/").permitAll()
+
+                        
+                        .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").authenticated()
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").authenticated()
+                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").authenticated()
+//                        .pathMatchers(HttpMethod.POST, "/api/rules/").permitAll()
+//                        .pathMatchers(HttpMethod.OPTIONS, "/api/rules/").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().permitAll()
