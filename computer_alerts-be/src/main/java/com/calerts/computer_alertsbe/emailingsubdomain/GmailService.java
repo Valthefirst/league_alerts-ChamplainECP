@@ -34,7 +34,7 @@ public class GmailService {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String USER = "me";
-    private static final String TEST_EMAIL = "frisbeefr@gmail.com";
+    private static final String TEST_EMAIL = "zystio@gmail.com";
     private static final java.util.List<String> SCOPES = Collections.singletonList(GMAIL_SEND);
     private final Gmail service;
 
