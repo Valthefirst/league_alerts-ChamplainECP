@@ -173,6 +173,11 @@ public class ArticleServiceImpl implements ArticleService {
                 );
     }
 
+    @Override
+    public Mono<String> uploadImage(FilePart filePart) {
+        return cloudinaryService.uploadImage(filePart)
+                .switchIfEmpty(Mono.error(new NotFoundException("No image found")));
+    }
 
     public static int calculateWordCount(String body) {
         if (body == null || body.trim().isEmpty()) {

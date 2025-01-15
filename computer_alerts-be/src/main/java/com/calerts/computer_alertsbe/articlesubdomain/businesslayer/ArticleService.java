@@ -28,5 +28,7 @@ public interface ArticleService {
 
     Mono<String> updateArticleImage(String articleId, FilePart file);
 
+    Mono<String> uploadImage(FilePart file);
+
 
 }

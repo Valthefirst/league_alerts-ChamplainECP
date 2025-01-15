@@ -41,13 +41,13 @@ public class CloudinaryService {
                 }));
     }
 
-    public Mono<String> extractImageUrl(FilePart filePart){
-        try{
-            Map<String, Object> uploadImage = cloudinary.uploader().upload(filePart.content(), ObjectUtils.emptyMap());
-            String imageUrl = (String) uploadImage.get("url");
-            return Mono.just(imageUrl);
-        }catch (IOException e){
-            return Mono.error(new RuntimeException("Error uploading image to Cloudinary", e));
-        }
-    }
+//    public Mono<String> extractImageUrl(FilePart filePart){
+//        try{
+//            Map<String, Object> uploadImage = cloudinary.uploader().upload(filePart.content(), ObjectUtils.emptyMap());
+//            String imageUrl = (String) uploadImage.get("url");
+//            return Mono.just(imageUrl);
+//        }catch (IOException e){
+//            return Mono.error(new RuntimeException("Error uploading image to Cloudinary", e));
+//        }
+//    }
 }

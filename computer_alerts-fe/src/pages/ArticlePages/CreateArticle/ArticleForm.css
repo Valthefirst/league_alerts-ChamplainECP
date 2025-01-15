@@ -1,74 +1,128 @@
-.article-form {
+/* Full height container for the content */
+.article-form-container {
+  background-color: #fadbd8; /* Ensure the background color fills the container */
   display: flex;
-  flex-direction: column;
-  width: 70%; /* Adjust width as needed */
-  margin: 0 auto; /* Center the form horizontally */
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center; /* Centers the content vertically */
+  flex-direction: column; /* Ensures the content fills vertically */
+  min-height: 100vh; /* Ensures the container fills the entire height of the viewport */
+  padding: 20px;
 }
 
-.article-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.article-form input[type="text"],
-.article-form textarea,
-.article-form select {
+.article-form {
   width: 100%;
-  padding: 0.75rem 1rem;
+  max-width: 800px; /* Set a max width for the form container */
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.article-field-box {
+  margin-bottom: 20px;
+}
+
+.sameLine {
+  display: flex;
+  align-items: stretch; /* Ensures both fields are stretched to the same height */
+  justify-content: space-between; /* Distribute space evenly between elements */
+  gap: 10px; /* Adds space between the elements */
+}
+
+.sameLine .article-field-box,
+.sameLine .title-field {
+  flex: 1; /* Ensures the fields take equal space */
+}
+
+.article-field-box input,
+.article-field-box select,
+.article-field-box textarea,
+.title-field input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 16px;
-  margin-bottom: 14px;
+  border-radius: 5px;
 }
 
-.article-form textarea {
-  height: 550px; /* Adjust height as needed */
-  resize: vertical; /* Allow users to resize the textarea */
+.article-field-box textarea {
+  height: 150px;
 }
 
-.article-form select {
-  appearance: none; /* Remove default select styles */
-  background-image: url("data:image/svg+xml;base64,phN2ZyB4bWxucz0iaHR0cDovL3d3dy533cudG9vL20vMTcwMC9zdmciIHZpZXdCbG9jay0neD0iMTAiIHZpZXdCbG9jay0teT0iMTAiIHdpZHRoPSIxNiIgIGhlaWdodD0iMTciIGZpbGw9IiNjY2NjY2MiIgIHN0cm9rZT0ibm9uZSIgIHN0cm9rZS13aWR0aD0iMiIgIHN0cm9rZS1saW5lY2FwPSJvZmZiIj48cGF0aCBkPSJNNSAyOSB2LTExLjE3bDYuNS02LjUgNC45NiA0Ljk2VjI5eiIvPjwvc3ZnPg"); /* Add a down arrow icon */
-  background-repeat: no-repeat;
-  background-position: calc(100% - 10px) center; /* Position the icon at the right end */
-  padding-right: 30px; /* Adjust padding to accommodate the icon */
+/* Style for labels */
+.field-title {
+  font-size: 16px; /* Set the font size */
+  font-weight: bold; /* Make the label bold */
+  color: #333; /* Set a dark color for the labels */
+  margin-bottom: 5px; /* Add some space between the label and the input */
+  display: block; /* Ensures labels are block elements */
 }
 
-.article-form select:hover {
-  cursor: pointer; /* Change cursor to pointer on hover */
+/* Button container for alignment */
+.button-container {
+  text-align: left; /* Align buttons to the left */
+  margin-top: 10px; /* Optional: add some space from the above fields */
 }
 
-.article-form button[type="submit"] {
-  background-color: #4caf50; /* Green color */
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 1rem;
+/* Style for the buttons */
+.submit-button,
+.upload-button {
+  background-color: #cda09f; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px 20px; /* Padding around the button */
+  border-radius: 8px; /* Rounded corners */
+  border: none; /* Remove default border */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: inline-block; /* Make the button inline-block */
+  margin-right: 10px; /* Add some space between buttons (if you have multiple) */
 }
 
-.article-form-draft {
-  background-color: rosybrown; /* Green color */
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 1rem;
-}
-.article-form label {
-  font-weight: bold;
-  font-style: italic;
+/* Hover and focus states for buttons */
+.submit-button:hover,
+.upload-button:hover {
+  background-color: #a67c6d; /* Darken the color on hover */
+  transform: translateY(-3px); /* Lift the button slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
 }
 
-.article-form button[type="submit"]:hover {
-  background-color: #45a049; /* Darker green on hover */
+.submit-button:focus,
+.upload-button:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
+}
+
+.upload-button:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+.cancel-button {
+  background-color: #f3a683; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px 20px; /* Padding around the button */
+  border-radius: 8px; /* Rounded corners */
+  border: none; /* Remove default border */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: inline-block; /* Make the button inline-block */
+  margin-right: 10px; /* Add some space between buttons */
+}
+
+.cancel-button:hover {
+  background-color: #e67e22; /* Darken the color on hover */
+  transform: translateY(-3px); /* Lift the button slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.cancel-button:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 0 4px #e67e22; /* Add a glowing effect when focused */
 }

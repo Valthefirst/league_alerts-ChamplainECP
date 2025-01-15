@@ -134,5 +134,11 @@ public class ArticleController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PostMapping(value="/uploadImage",produces = MediaType.MULTIPART_FORM_DATA_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity<String>> uploadImage(@RequestPart("file") FilePart filePart) {
+        return articleService.uploadImage(filePart)
+                .map(ResponseEntity::ok)
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image")));
+    }
 
 }

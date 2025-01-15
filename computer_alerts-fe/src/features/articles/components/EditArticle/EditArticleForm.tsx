@@ -44,8 +44,6 @@ export default function EditArticle({
        
         alert("File could not be uploaded:");
       };
-
-    
     };
 
   const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {

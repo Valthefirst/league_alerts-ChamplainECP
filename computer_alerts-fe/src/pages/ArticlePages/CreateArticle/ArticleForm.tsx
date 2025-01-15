@@ -7,6 +7,7 @@ import {
 } from "../../../assets/SuccessMessage/SuccessMessage"; // Adjust path if necessary
 
 import "./ArticleForm.css";
+import { uploadImage } from "features/articles/api/uploadImage";
 
 const ArticleForm = () => {
   const [formData, setFormData] = useState<ArticleRequestModelI>({
@@ -21,11 +22,14 @@ const ArticleForm = () => {
     timePosted: "",
     authorIdentifier: "3b63de68-9161-4925-b38b-e686dd88f848",
     articleDescpition: "",
+    fileName: "",
   });
 
   const [showPopup, setShowPopup] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessageText, setSuccessMessageText] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [fileName, setFileName] = useState<string>("")
 
   enum TagsTagEnum {
     Tag1 = "NBA",
@@ -46,8 +50,29 @@ const ArticleForm = () => {
     });
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+      if  (file) {
+        setImageFile(file);
+        setFileName(file.name);
+        alert("Image file selected:" + file.name);
+      } else if (!file){
+        setImageFile(null);
+       
+        alert("File could not be uploaded:");
+      };
+  }
+
+
   const handleSubmit = async () => {
     try {
+      if(imageFile){
+        const response = await uploadImage(imageFile)
+        const photoUrl = response.data;
+        console.log("Photo URL:", photoUrl);
+        formData.photoUrl = photoUrl;
+      }
+
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles",
         formData,
@@ -60,6 +85,7 @@ const ArticleForm = () => {
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
+      
     } catch (error) {
       console.error("Error creating article:", formData.wordCount);
       console.error("Error creating article:", error);
@@ -121,15 +147,35 @@ const ArticleForm = () => {
           className="article-form__input"
         />
 
-        <label htmlFor="photoUrl">PhotoUrl</label>
-        <input
-          type="text"
-          name="photoUrl"
-          placeholder="PhotoUrl"
-          value={formData.photoUrl}
-          onChange={handleChange}
-          className="article-form__input"
-        />
+
+          <label className="field-title">
+            New File Name
+            </label>
+          <input
+            type="text"
+            name="author"
+            value={fileName}
+            readOnly
+          />
+    <div className="button-container">
+          <button
+            type="button"
+            onClick={() => document.getElementById("fileInput")?.click()}
+            className="upload-button"
+          >
+            Upload Image
+          </button>
+  
+          {/* Hidden File Input */}
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: "none" }}
+          />
+        </div>
+
         <label htmlFor="body">Body</label>
         <textarea
           name="body"
