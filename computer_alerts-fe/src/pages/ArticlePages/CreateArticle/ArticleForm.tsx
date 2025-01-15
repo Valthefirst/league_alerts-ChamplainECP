@@ -55,12 +55,13 @@ const ArticleForm = () => {
       console.log("Article created:", response.data);
       setSuccessMessageText("You have successfully created an article.");
       setShowSuccessMessage(true);
-
+      console.error("Error creating article:", formData.wordCount);
       // Hide success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
     } catch (error) {
+      console.error("Error creating article:", formData.wordCount);
       console.error("Error creating article:", error);
     }
   };

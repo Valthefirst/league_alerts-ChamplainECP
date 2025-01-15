@@ -18,6 +18,8 @@ export default function EditArticle({
   const [error, setError] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(false); // For showing a loading state
+  const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [fileName, setFileName] = useState<string>("") //temporary file
   const navigate = useNavigate();
 
  
@@ -33,36 +35,16 @@ export default function EditArticle({
     e: ChangeEvent<HTMLInputElement>,
     ) => {
     const file = e.target.files?.[0];
-      if  (!file) return;
+      if  (file) {
+        setImageFile(file);
+        setFileName(file.name);
+        alert("Image file selected:" + file.name);
+      } else if (!file){
+        setImageFile(null);
+       
+        alert("File could not be uploaded:");
+      };
 
-    setLoading(true);
-      
-      try{
-        
-        const response = await editArticleImage(article.articleId, file);
-      
-        // Url is a plain tring returned by the api
-        const photoUrl = response.data;
-        console.log("Photo URL:", photoUrl);
-
-        if (photoUrl) {
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            photoUrl,
-            // Update other fields as needed
-          }));
-        } else {
-          console.error("Photo URL is missing in the response");
-          setError("Failed to update image. Please try again later.");
-        }
-          // Additional log to confirm state update
-        console.log("Form data after state update:", formData);
-        } catch (err) {
-          console.error("Error updating image:", err);
-          setError("Failed to update image. Please try again later.");
-        } finally {
-          setLoading(false);
-      }
     
     };
 
@@ -77,24 +59,37 @@ export default function EditArticle({
       setFormData(article);
     }, [article]);
 
+    const handleCancel = () => {
+      navigate(`/articles/${article.articleId}`); // Adjust the path if needed
+    };
+
   const handleSubmit = async (e: FormEvent) => {
+
     e.preventDefault();
-    console.log("Submit button clicked");
+    
     if (!validate()) {
-      console.log("Validation failed");
       return;
     }
 
-    try {
-      console.log("Sending request to editArticle");
-      await editArticle(article.articleId, formData);
-      alert("Article updated successfully");
-      navigate(`/articles/${article.articleId}`);
-    } catch (err) {
-      console.error("Error updating article:", err);
-      setError("Failed to update article. Please try again later.");
+    setLoading(true);
+
+   try{
+    if(imageFile){
+      const response = await editArticleImage(article.articleId, imageFile);
+      const photoUrl = response.data;
+      formData.photoUrl = photoUrl;
     }
-  };
+
+    await editArticle(article.articleId, formData);
+    alert("Article updated successfully");
+    navigate(`/articles/${article.articleId}`);
+   }catch(err){
+     console.error("Error updating article:", err);
+     setError("Failed to update article. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const validate = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -103,7 +98,7 @@ export default function EditArticle({
     if (!formData.category) newErrors.category = "Categories are required";
     if (!formData.tagsTag) newErrors.tagsTag = "Tags are required";
     if (!formData.body) newErrors.body = "Body is required";
-    //if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
+    if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
 
     if (Object.keys(newErrors).length > 0) {
       console.error("Validation errors:", newErrors);
@@ -120,30 +115,30 @@ export default function EditArticle({
     <div className="edit-con-color">
       <div className="edit-container">
         <h1 className="edit-title">Edit Article</h1>
-
+  
         {/* Title and Categories Fields */}
         <div className="article-fields-box sameLine">
-        <div className="title-field" style={{ flex: 1, marginRight: "10px" }}>
-          <label className="field-title">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChanges}
-          />
+          <div className="title-field" style={{ flex: 1, marginRight: "10px" }}>
+            <label className="field-title">Title</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChanges}
+            />
+          </div>
+  
+          <div className="article-field-box" style={{ flex: 1 }}>
+            <label className="field-title">Categories</label>
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChanges}
+            />
+          </div>
         </div>
-
-        <div className="article-field-box" style={{ flex: 1 }}>
-          <label className="field-title">Categories</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChanges}
-          />
-        </div>
-      </div>
-
+  
         {/* Tags Select Field */}
         <div className="article-field-box">
           <label className="field-title">Tags</label>
@@ -159,50 +154,49 @@ export default function EditArticle({
             <option value="MLB">MLB</option>
           </select>
         </div>
-
-        {/* Description Field
-                <div className="field">
-                    <label>Description</label>
-                    <textarea
-                        name="descitpion"
-                        value={formData.articleDescpition}
-                        onChange={handleChanges}
-                    />
-                </div> */}
-
-        {/* Photo URL Field */}
+        <div className="article-field-box">
+          <label className="field-title">
+            New File Name
+            </label>
+          <input
+            type="text"
+            name="author"
+            value={fileName}
+            readOnly
+          />
+          </div>
+        
+        {/* Photo URL Field
         <div className="article-field-box">
           <label className="field-title">Photo URL</label>
           <input
             type="text"
             name="photoUrl"
             value={formData.photoUrl}
-            readOnly = {true}
+            readOnly
+          />
+        </div> */}
+  
+        {/* Photo Upload Button */}
+        <div className="button-container">
+          <button
+            type="button"
+            onClick={() => document.getElementById("fileInput")?.click()}
+            className="upload-button"
+          >
+            Upload Image
+          </button>
+  
+          {/* Hidden File Input */}
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChanges}
+            style={{ display: "none" }}
           />
         </div>
-
-                  {/* Photo Upload Button */}
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => document.getElementById("fileInput")?.click()}
-              className="upload-button"
-            >
-              Upload Image
-          </button>
-
-           {/* Hidden File Input */}
-          <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChanges}
-              style={{ display: "none" }} // Still hide the file input
-            />
-          </div>
-
-        
-
+  
         {/* Body Field */}
         <div className="article-field-box">
           <label className="field-title">Body</label>
@@ -212,8 +206,8 @@ export default function EditArticle({
             onChange={handleChanges}
           />
         </div>
-
-                {/* Submit Button */}
+  
+        {/* Submit Button */}
         <div className="button-container">
           <button
             className="submit-Update-button"
@@ -222,9 +216,17 @@ export default function EditArticle({
           >
             Update Article
           </button>
+          <button
+              className="cancel-update-button"
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
         </div>
+      </div>
     </div>
     </div>
-    </div>
+  
   );
 }

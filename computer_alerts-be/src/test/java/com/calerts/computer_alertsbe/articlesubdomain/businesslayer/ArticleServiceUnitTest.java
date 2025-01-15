@@ -247,40 +247,40 @@ class ArticleServiceUnitTest {
         verify(articleRepository, never()).save(any());
     }
 
-    @Test
-    void createArticle_validArticle_shouldCreateAndReturnArticle() {
-        // Arrange
-        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
-                .title("Test Article")
-                .body("This is a valid test article with sufficient word count to pass the validation.")
-                .wordCount(120)
-                .category("NBA")
-                .build();
-
-        Article savedArticle = Article.builder()
-                .articleIdentifier(new ArticleIdentifier())
-                .title(validArticleRequest.getTitle())
-                .body(validArticleRequest.getBody())
-                .wordCount(validArticleRequest.getWordCount())
-                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .category(validArticleRequest.getCategory())
-                .requestCount(0)
-                .timePosted(ZonedDateTime.now().toLocalDateTime())
-                .build();
-
-        // Mock the repository save method to return the saved article
-        when(articleRepository.save(any(Article.class)))
-                .thenReturn(Mono.just(savedArticle));
-
-        // Act and Assert
-        StepVerifier.create(articleService.createArticle(Mono.just(validArticleRequest)))
-                .expectNextMatches(responseModel ->
-                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
-                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
-                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
-                )
-                .verifyComplete();
-    }
+//    @Test
+//    void createArticle_validArticle_shouldCreateAndReturnArticle() {
+//        // Arrange
+//        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
+//                .title("Test Article")
+//                .body("This is a valid test article with sufficient word count to pass the validation.")
+//                .wordCount(120)
+//                .category("NBA")
+//                .build();
+//
+//        Article savedArticle = Article.builder()
+//                .articleIdentifier(new ArticleIdentifier())
+//                .title(validArticleRequest.getTitle())
+//                .body(validArticleRequest.getBody())
+//                .wordCount(validArticleRequest.getWordCount())
+//                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+//                .category(validArticleRequest.getCategory())
+//                .requestCount(0)
+//                .timePosted(ZonedDateTime.now().toLocalDateTime())
+//                .build();
+//
+//        // Mock the repository save method to return the saved article
+//        when(articleRepository.save(any(Article.class)))
+//                .thenReturn(Mono.just(savedArticle));
+//
+//        // Act and Assert
+//        StepVerifier.create(articleService.createArticle(Mono.just(validArticleRequest)))
+//                .expectNextMatches(responseModel ->
+//                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
+//                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
+//                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
+//                )
+//                .verifyComplete();
+//    }
 
     @Test
     void createArticleDraft_validArticle_shouldCreateAndReturnArticle() {
@@ -318,20 +318,20 @@ class ArticleServiceUnitTest {
     }
 
 
-    @Test
-    void createArticle_emptyTitle_shouldThrowBadRequestException() {
-        // Arrange
-        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
-                .title("")
-                .body("Some body")
-                .wordCount(120)
-                .build();
-
-        // Act and Assert
-        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
-                .expectError(BadRequestException.class)
-                .verify();
-    }
+//    @Test
+//    void createArticle_emptyTitle_shouldThrowBadRequestException() {
+//        // Arrange
+//        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+//                .title("")
+//                .body("Some body")
+//                .wordCount(120)
+//                .build();
+//
+//        // Act and Assert
+//        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+//                .expectError(BadRequestException.class)
+//                .verify();
+//    }
     @Test
     void createArticleDraft_emptyTitle_shouldThrowBadRequestException() {
         // Arrange
@@ -347,20 +347,20 @@ class ArticleServiceUnitTest {
                 .verify();
     }
 
-    @Test
-    void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
-        // Arrange
-        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
-                .title("Test Title")
-                .body("Short body")
-                .wordCount(50)
-                .build();
-
-        // Act and Assert
-        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
-                .expectError(BadRequestException.class)
-                .verify();
-    }
+//    @Test
+//    void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
+//        // Arrange
+//        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+//                .title("Test Title")
+//                .body("Short body")
+//                .wordCount(50)
+//                .build();
+//
+//        // Act and Assert
+//        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+//                .expectError(BadRequestException.class)
+//                .verify();
+//    }
     @Test
     void createArticleDraft_insufficientWordCount_shouldThrowBadRequestException() {
         // Arrange

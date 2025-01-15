@@ -101,3 +101,38 @@
   transform: translateY(0); /* Reset transform on click */
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
 }
+
+
+
+/* Style for the buttons */
+.cancel-update-button {
+  background-color: #cda09f; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px 20px; /* Padding around the button */
+  border-radius: 8px; /* Rounded corners */
+  border: none; /* Remove default border */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: inline-block; /* Make the button inline-block */
+  margin-right: 10px; /* Add some space between buttons (if you have multiple) */
+}
+
+/* Hover and focus states for buttons */
+.cancel-update-button:hover {
+  background-color: #a67c6d; /* Darken the color on hover */
+  transform: translateY(-3px); /* Lift the button slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.cancel-update-button:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
+}
+
+.upload-button:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
