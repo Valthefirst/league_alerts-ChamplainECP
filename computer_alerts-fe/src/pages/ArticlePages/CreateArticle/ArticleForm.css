@@ -1,44 +1,23 @@
 /* Full height container for the content */
-.article-form-container {
-  background-color: #fadbd8; /* Ensure the background color fills the container */
-  display: flex;
-  justify-content: center; /* Centers the content horizontally */
-  align-items: center; /* Centers the content vertically */
-  flex-direction: column; /* Ensures the content fills vertically */
-  min-height: 100vh; /* Ensures the container fills the entire height of the viewport */
-  padding: 20px;
-}
-
 .article-form {
-  width: 100%;
-  max-width: 800px; /* Set a max width for the form container */
+  width: 100%; /* Ensures it uses full available width */
+  max-width: 1000px; /* Increase the max-width to make the form larger */
+  min-width: 600px; /* Optional: Prevent it from becoming too small */
   background-color: #fff;
-  padding: 20px;
+  padding: 30px; /* Increase padding for more spacing inside the form */
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keeps the subtle shadow */
+  margin: auto; /* Center the form horizontally */
 }
 
 .article-field-box {
   margin-bottom: 20px;
 }
 
-.sameLine {
-  display: flex;
-  align-items: stretch; /* Ensures both fields are stretched to the same height */
-  justify-content: space-between; /* Distribute space evenly between elements */
-  gap: 10px; /* Adds space between the elements */
-}
-
-.sameLine .article-field-box,
-.sameLine .title-field {
-  flex: 1; /* Ensures the fields take equal space */
-}
-
 .article-field-box input,
 .article-field-box select,
-.article-field-box textarea,
-.title-field input {
+.article-field-box textarea {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -52,77 +31,59 @@
 
 /* Style for labels */
 .field-title {
-  font-size: 16px; /* Set the font size */
-  font-weight: bold; /* Make the label bold */
-  color: #333; /* Set a dark color for the labels */
-  margin-bottom: 5px; /* Add some space between the label and the input */
-  display: block; /* Ensures labels are block elements */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
 }
 
 /* Button container for alignment */
 .button-container {
   text-align: left; /* Align buttons to the left */
-  margin-top: 10px; /* Optional: add some space from the above fields */
+  margin-top: 20px; /* Add space above buttons */
 }
 
-/* Style for the buttons */
+/* Consistent button styling */
 .submit-button,
-.upload-button {
-  background-color: #cda09f; /* Button background color */
-  color: white; /* Button text color */
-  padding: 10px 20px; /* Padding around the button */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove default border */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition effects */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  display: inline-block; /* Make the button inline-block */
-  margin-right: 10px; /* Add some space between buttons (if you have multiple) */
+.upload-button,
+.cancel-button {
+  background-color: #cda09f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-right: 10px; /* Spacing between buttons */
 }
 
-/* Hover and focus states for buttons */
+/* Hover and focus states */
 .submit-button:hover,
-.upload-button:hover {
-  background-color: #a67c6d; /* Darken the color on hover */
-  transform: translateY(-3px); /* Lift the button slightly */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+.upload-button:hover,
+.cancel-button:hover {
+  background-color: #a67c6d;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .submit-button:focus,
-.upload-button:focus {
-  outline: none; /* Remove focus outline */
-  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
-}
-
-.upload-button:active {
-  transform: translateY(0); /* Reset transform on click */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
-}
-
-.cancel-button {
-  background-color: #f3a683; /* Button background color */
-  color: white; /* Button text color */
-  padding: 10px 20px; /* Padding around the button */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove default border */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition effects */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  display: inline-block; /* Make the button inline-block */
-  margin-right: 10px; /* Add some space between buttons */
-}
-
-.cancel-button:hover {
-  background-color: #e67e22; /* Darken the color on hover */
-  transform: translateY(-3px); /* Lift the button slightly */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
-}
-
+.upload-button:focus,
 .cancel-button:focus {
-  outline: none; /* Remove focus outline */
-  box-shadow: 0 0 0 4px #e67e22; /* Add a glowing effect when focused */
+  outline: none;
+  box-shadow: 0 0 0 4px #a67c6d;
+}
+
+/* Header Title Styling */
+.form-title {
+  font-weight: 700; /* Bold font for emphasis */
+  font-size: 36px; /* Larger font size for the title */
+  color: #5d4037; /* Deep brown color for contrast */
+  text-align: center; /* Center aligns the title */
+  margin-bottom: 40px; /* Adds space below the title */
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }

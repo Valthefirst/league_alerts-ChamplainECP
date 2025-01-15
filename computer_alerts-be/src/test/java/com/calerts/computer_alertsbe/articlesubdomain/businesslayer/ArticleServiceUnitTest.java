@@ -3,22 +3,32 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
+import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Uploader;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.awt.image.DataBuffer;
+import java.nio.ByteBuffer;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -33,6 +43,9 @@ class ArticleServiceUnitTest {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @MockBean
     private ArticleRepository articleRepository;
@@ -247,40 +260,40 @@ class ArticleServiceUnitTest {
         verify(articleRepository, never()).save(any());
     }
 
-//    @Test
-//    void createArticle_validArticle_shouldCreateAndReturnArticle() {
-//        // Arrange
-//        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
-//                .title("Test Article")
-//                .body("This is a valid test article with sufficient word count to pass the validation.")
-//                .wordCount(120)
-//                .category("NBA")
-//                .build();
-//
-//        Article savedArticle = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
-//                .title(validArticleRequest.getTitle())
-//                .body(validArticleRequest.getBody())
-//                .wordCount(validArticleRequest.getWordCount())
-//                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-//                .category(validArticleRequest.getCategory())
-//                .requestCount(0)
-//                .timePosted(ZonedDateTime.now().toLocalDateTime())
-//                .build();
-//
-//        // Mock the repository save method to return the saved article
-//        when(articleRepository.save(any(Article.class)))
-//                .thenReturn(Mono.just(savedArticle));
-//
-//        // Act and Assert
-//        StepVerifier.create(articleService.createArticle(Mono.just(validArticleRequest)))
-//                .expectNextMatches(responseModel ->
-//                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
-//                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
-//                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
-//                )
-//                .verifyComplete();
-//    }
+    @Test
+    void createArticle_validArticle_shouldCreateAndReturnArticle() {
+        // Arrange
+        ArticleRequestModel validArticleRequest = ArticleRequestModel.builder()
+                .title("Test Article")
+                .body("This is a valid test article with sufficient word count to pass the validation.")
+                .wordCount(120)
+                .category("NBA")
+                .build();
+
+        Article savedArticle = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title(validArticleRequest.getTitle())
+                .body(validArticleRequest.getBody())
+                .wordCount(validArticleRequest.getWordCount())
+                .articleStatus(ArticleStatus.ARTICLE_REVIEW)
+                .category(validArticleRequest.getCategory())
+                .requestCount(0)
+                .timePosted(ZonedDateTime.now().toLocalDateTime())
+                .build();
+
+        // Mock the repository save method to return the saved article
+        when(articleRepository.save(any(Article.class)))
+                .thenReturn(Mono.just(savedArticle));
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(validArticleRequest)))
+                .expectNextMatches(responseModel ->
+                        responseModel.getTitle().equals(validArticleRequest.getTitle()) &&
+                                responseModel.getWordCount() == validArticleRequest.getWordCount() &&
+                                responseModel.getArticleStatus() == ArticleStatus.ARTICLE_REVIEW
+                )
+                .verifyComplete();
+    }
 
     @Test
     void createArticleDraft_validArticle_shouldCreateAndReturnArticle() {
@@ -318,20 +331,20 @@ class ArticleServiceUnitTest {
     }
 
 
-//    @Test
-//    void createArticle_emptyTitle_shouldThrowBadRequestException() {
-//        // Arrange
-//        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
-//                .title("")
-//                .body("Some body")
-//                .wordCount(120)
-//                .build();
-//
-//        // Act and Assert
-//        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
-//                .expectError(BadRequestException.class)
-//                .verify();
-//    }
+    @Test
+    void createArticle_emptyTitle_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("")
+                .body("Some body")
+                .wordCount(120)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
     @Test
     void createArticleDraft_emptyTitle_shouldThrowBadRequestException() {
         // Arrange
@@ -347,20 +360,20 @@ class ArticleServiceUnitTest {
                 .verify();
     }
 
-//    @Test
-//    void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
-//        // Arrange
-//        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
-//                .title("Test Title")
-//                .body("Short body")
-//                .wordCount(50)
-//                .build();
-//
-//        // Act and Assert
-//        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
-//                .expectError(BadRequestException.class)
-//                .verify();
-//    }
+    @Test
+    void createArticle_insufficientWordCount_shouldThrowBadRequestException() {
+        // Arrange
+        ArticleRequestModel invalidArticleRequest = ArticleRequestModel.builder()
+                .title("Test Title")
+                .body("Short body")
+                .wordCount(50)
+                .build();
+
+        // Act and Assert
+        StepVerifier.create(articleService.createArticle(Mono.just(invalidArticleRequest)))
+                .expectError(BadRequestException.class)
+                .verify();
+    }
     @Test
     void createArticleDraft_insufficientWordCount_shouldThrowBadRequestException() {
         // Arrange
@@ -535,5 +548,9 @@ class ArticleServiceUnitTest {
                 )
                 .verify();
     }
+
+
+
+
 
 }

@@ -1,46 +1,42 @@
-
-/* Full height container for the content */
-.edit-article-container {
-  background-color: #fadbd8; /* Ensure the background color fills the container */
-  display: flex;
-  justify-content: center; /* Centers the content horizontally */
-  align-items: center; /* Centers the content vertically */
-  flex-direction: column; /* Ensures the content fills vertically */
-  min-height: 100vh; /* Ensures the container fills the entire height of the viewport */
-  padding: 20px;
-}
-
-.edit-con-color {
-  width: 100%;
-  max-width: 800px; /* Set a max width for the form container */
-}
-
+/* Edit Article Form */
 .edit-container {
   text-align: center;
-}
-
-.article-field-box {
-  margin-bottom: 20px;
-}
-
-.sameLine {
+  margin: 20px auto; /* Center the form container with some top/bottom margin */
   display: flex;
-  align-items: stretch; /* Ensures both fields are stretched to the same height */
-  justify-content: space-between; /* Distribute space evenly between elements */
-  gap: 10px; /* Adds space between the elements */
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent the entire container from overflowing */
 }
 
-.sameLine .article-field-box,
-.sameLine .title-field {
-  flex: 1; /* Ensures the fields take equal space */
+.article-form {
+  background-color: #fadbd8 !important; /* Background color for the form */
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Fixed smaller width */
+  max-height: 650px; /* Limit the height of the form */
+  overflow-y: auto; /* Add vertical scrolling if content overflows */
+  box-sizing: border-box; /* Include padding in width/height calculations */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Title */
+.form-title {
+  font-weight: bold;
+  font-size: 30px;
+  color: #5d4037;
+  text-align: center;
+  margin-bottom: 20px; /* Space below the title */
+}
 
+/* Form Fields */
 .article-field-box input,
 .article-field-box select,
 .article-field-box textarea,
 .title-field input {
-  width: 100%;
+  width: 100%; /* Full width of the form */
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -48,91 +44,61 @@
 }
 
 .article-field-box textarea {
-  height: 150px;
+  height: 250px !important; /* Fixed height for text area */
 }
 
-/* Style for labels */
-.field-title {
-  font-size: 16px; /* Set the font size */
-  font-weight: bold; /* Make the label bold */
-  color: #333; /* Set a dark color for the labels */
-  margin-bottom: 5px; /* Add some space between the label and the input */
-  display: block; /* Ensures labels are block elements */
-}
-
-/* Button container for alignment */
 .button-container {
-  text-align: left; /* Align buttons to the left */
-  margin-top: 10px;  /* Optional: add some space from the above fields */
+  text-align: center;
+  margin-top: 20px;
 }
 
-/* Style for the buttons */
 .submit-Update-button,
-.upload-button {
-  background-color: #cda09f; /* Button background color */
-  color: white; /* Button text color */
-  padding: 10px 20px; /* Padding around the button */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove default border */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition effects */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  display: inline-block; /* Make the button inline-block */
-  margin-right: 10px; /* Add some space between buttons (if you have multiple) */
-}
-
-/* Hover and focus states for buttons */
-.submit-Update-button:hover,
-.upload-button:hover {
-  background-color: #a67c6d; /* Darken the color on hover */
-  transform: translateY(-3px); /* Lift the button slightly */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
-}
-
-.submit-Update-button:focus,
-.upload-button:focus {
-  outline: none; /* Remove focus outline */
-  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
-}
-
-.upload-button:active {
-  transform: translateY(0); /* Reset transform on click */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
-}
-
-
-
-/* Style for the buttons */
+.upload-button,
 .cancel-update-button {
-  background-color: #cda09f; /* Button background color */
-  color: white; /* Button text color */
-  padding: 10px 20px; /* Padding around the button */
-  border-radius: 8px; /* Rounded corners */
-  border: none; /* Remove default border */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: all 0.3s ease; /* Smooth transition effects */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  display: inline-block; /* Make the button inline-block */
-  margin-right: 10px; /* Add some space between buttons (if you have multiple) */
+  background-color: #cda09f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 10px;
 }
 
-/* Hover and focus states for buttons */
+.submit-Update-button:hover,
+.upload-button:hover,
 .cancel-update-button:hover {
-  background-color: #a67c6d; /* Darken the color on hover */
-  transform: translateY(-3px); /* Lift the button slightly */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+  background-color: #a67c6d;
+  transform: translateY(-3px);
 }
 
-.cancel-update-button:focus {
-  outline: none; /* Remove focus outline */
-  box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
+.article-field-box,
+.article-fields-box {
+  margin-bottom: 20px;
 }
 
-.upload-button:active {
-  transform: translateY(0); /* Reset transform on click */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+.article-fields-box {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allows fields to wrap if space is limited */
+}
+
+.sameLine {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.file-preview {
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
 }

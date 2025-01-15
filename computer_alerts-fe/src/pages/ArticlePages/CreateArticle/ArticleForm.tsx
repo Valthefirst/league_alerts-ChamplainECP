@@ -9,6 +9,7 @@ import {
 import "./ArticleForm.css";
 import { uploadImage } from "features/articles/api/uploadImage";
 
+
 const ArticleForm = () => {
   const [formData, setFormData] = useState<ArticleRequestModelI>({
     title: "",
@@ -119,15 +120,19 @@ const ArticleForm = () => {
   };
 
   return (
-    <div className="article-form-container">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setShowPopup(true);
-        }}
-        className="article-form"
-      >
-        <label htmlFor="title">Title</label>
+    <div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setShowPopup(true);
+      }}
+      className="article-form"
+    >
+      <h1 className="form-title">Create an Article</h1>
+
+      {/* Title Section */}
+      <div className="article-field-box">
+        <label htmlFor="title" className="field-title">Title</label>
         <input
           type="text"
           name="title"
@@ -136,8 +141,11 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__input"
         />
-
-        <label htmlFor="category">Category</label>
+      </div>
+  
+      {/* Category Section */}
+      <div className="article-field-box">
+        <label htmlFor="category" className="field-title">Category</label>
         <input
           type="text"
           name="category"
@@ -146,18 +154,19 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__input"
         />
-
-
-          <label className="field-title">
-            New File Name
-            </label>
-          <input
-            type="text"
-            name="author"
-            value={fileName}
-            readOnly
-          />
-    <div className="button-container">
+      </div>
+  
+      {/* File Upload Section */}
+      <div className="article-field-box">
+        <label className="field-title">New File Name</label>
+        <input
+          type="text"
+          name="author"
+          value={fileName}
+          readOnly
+          className="article-form__input"
+        />
+        <div className="button-container">
           <button
             type="button"
             onClick={() => document.getElementById("fileInput")?.click()}
@@ -165,8 +174,6 @@ const ArticleForm = () => {
           >
             Upload Image
           </button>
-  
-          {/* Hidden File Input */}
           <input
             id="fileInput"
             type="file"
@@ -175,8 +182,11 @@ const ArticleForm = () => {
             style={{ display: "none" }}
           />
         </div>
-
-        <label htmlFor="body">Body</label>
+      </div>
+  
+      {/* Body Section */}
+      <div className="article-field-box">
+        <label htmlFor="body" className="field-title">Body</label>
         <textarea
           name="body"
           placeholder="Body"
@@ -184,7 +194,11 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__textarea"
         />
-        <label htmlFor="tags">Tags</label>
+      </div>
+  
+      {/* Tags Section */}
+      <div className="article-field-box">
+        <label htmlFor="tags" className="field-title">Tags</label>
         <select
           name="tags"
           value={formData.tagsTag}
@@ -197,20 +211,24 @@ const ArticleForm = () => {
           <option value={TagsTagEnum.Tag4}>NFL</option>
           <option value={TagsTagEnum.Tag5}>MLB</option>
         </select>
-
-        <div className="row">
-          <div className="col-6">
-            <button onClick={handleDraftSubmit} className="article-form-draft">
-              Draft Article
-            </button>
-          </div>
-          <div className="col-6">
-            <button type="submit" className="article-form__button">
-              Create Article
-            </button>
-          </div>
+      </div>
+  
+      {/* Submit Buttons */}
+      <div className="row">
+        <div className="col-6">
+          <button onClick={handleDraftSubmit} className="cancel-button">
+            Draft Article
+          </button>
         </div>
-      </form>
+        <div className="col-6">
+          <button type="submit" className="submit-button">
+            Create Article
+          </button>
+        </div>
+      </div>
+    </form>
+
+  
 
       {showPopup && (
         <ConfirmationPopup
