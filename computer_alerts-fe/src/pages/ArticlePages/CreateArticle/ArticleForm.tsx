@@ -48,10 +48,19 @@ const ArticleForm = () => {
 
   const handleSubmit = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles",
         formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+       
+        
       );
+      
       console.log("Article created:", response.data);
       setSuccessMessageText("You have successfully created an article.");
       setShowSuccessMessage(true);
@@ -60,16 +69,32 @@ const ArticleForm = () => {
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
-    } catch (error) {
-      console.error("Error creating article:", error);
+    } catch (error: any) {
+    
+      if (error.response && error.response.status === 401) {
+        
+        
+        window.location.href = "/unauthorized"; 
+      } else {
+        console.error("Error in unlikeArticle API call:", error);
+      }
+      throw error; 
     }
   };
 
   const handleDraftSubmit = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles/acceptDraft",
         formData,
+        {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      
+      }
+
       );
       console.log("Article saved:", response.data);
       setSuccessMessageText(

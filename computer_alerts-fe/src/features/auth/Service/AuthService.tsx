@@ -114,11 +114,16 @@ export class AuthService {
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
+      const accessToken = localStorage.getItem("accessToken");
+
+
+
       // First create the author
       const response = await fetch(this.URL + "create/Reader", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(userRequest),
       });
@@ -155,11 +160,13 @@ export class AuthService {
 
   async createAuthor(authorData: AuthorRequestDTO): Promise<any> {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       // First create the author
       const response = await fetch(this.URL + "create/Author", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(authorData),
       });

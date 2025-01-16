@@ -60,8 +60,6 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
 
-
-
                                 .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").authenticated()
                                 .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").authenticated()
                                 .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").authenticated()
@@ -79,13 +77,16 @@ public class SecurityConfig {
 
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
-                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "api/create/Author").permitAll()
+                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").authenticated()
+
+                                .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/acceptArticle/").authenticated()
 
 
                         //--------------AdminEndpoints
-                        .pathMatchers(HttpMethod.POST, "/api/create/**").permitAll()
-                        .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
+                                .pathMatchers(HttpMethod.POST, "api/create/Author").authenticated()
+                                .pathMatchers(HttpMethod.POST, "api/create/Reader").authenticated()
+
+                                .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
 
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").authenticated()

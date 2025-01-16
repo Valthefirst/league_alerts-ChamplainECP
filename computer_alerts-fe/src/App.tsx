@@ -26,6 +26,7 @@ import EditArticlePage from "pages/ArticlePages/EditArticle/EditArticlePage";
 import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
+import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
 
 const Navbar = () => {
   const location = useLocation();
@@ -106,6 +107,10 @@ function App(): JSX.Element {
           <Route
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
+          />
+          <Route
+            path="/unauthorized"
+            element={<UnAuthorized />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
         </Routes>

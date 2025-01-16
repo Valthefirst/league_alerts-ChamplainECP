@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -27,6 +28,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/create/Reader")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createUser(@RequestBody AuthorRequestDTO userRequest) {
         return userService.createReader(userRequest)
                 .map(authorResponse -> ResponseEntity
@@ -41,6 +43,7 @@ public class AuthController {
 
     }
     @PostMapping("/create/Author")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createAuthor(@RequestBody AuthorRequestDTO authorRequest) {
         return userService.createAuthor(authorRequest)
                 .map(authorResponse -> ResponseEntity

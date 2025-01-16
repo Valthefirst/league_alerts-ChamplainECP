@@ -21,8 +21,15 @@ export const shareArticle = async (
         readerId,
       },
     });
-  } catch (error) {
-    console.error("Error in shareArticle api call:", error);
-    throw error;
+  }catch (error: any) {
+    
+    if (error.response && error.response.status === 401) {
+      
+      
+      window.location.href = "/unauthorized"; 
+    } else {
+      console.error("Error in unlikeArticle API call:", error);
+    }
+    throw error; 
   }
 };
