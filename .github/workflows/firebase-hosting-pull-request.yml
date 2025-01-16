@@ -14,9 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies and build
-        run: |
-          cd computer_alerts-fe
-          npm ci && npm run build
+        run: npm ci && npm run build
         working-directory: ./league_alerts-ChamplainECP/computer_alerts-fe
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
