@@ -3,6 +3,9 @@ frontend:
 #  url: http://localhost:3000
   url: https://league-alerts.web.app
 
+cloudinary:
+  url: ${CLOUDINARY_URL}
+
 backend:
   url: http://localhost:8080
 
