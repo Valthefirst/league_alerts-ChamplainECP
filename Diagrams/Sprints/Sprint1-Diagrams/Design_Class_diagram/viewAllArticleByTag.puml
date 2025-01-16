@@ -54,7 +54,8 @@ package "Data Access Layer" {
         - articleStatus: ArticleStatus;
         - tags: String;
         - timePosted: LocalDateTime;
-        - photo: PhotoIdentifier
+        - photoUrl: string
+        - description: String
     }
 
     class Content{
@@ -75,22 +76,13 @@ package "Data Access Layer" {
         + ArticleIdentifer(articleId: String)
     }
 
-    class PhotoIdentifier{
-        - photoId: String
-    }
 
-    class Photo{
-        - id : String
-        - photoIdentifier: PhotoIdentifier
-        - url: String
-    }
 
 Article --> ArticleIdentifer : has
 Article --> Content : has
 Article --> ArticleStatus : has
 ArticleServiceImpl --> ArticleRepository : uses
-Photo --> PhotoIdentifier : has
-Article --> PhotoIdentifier : has
+ArticleRepository --> Article : uses
 }
 
 

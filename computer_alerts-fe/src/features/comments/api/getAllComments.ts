@@ -12,6 +12,8 @@
 // };
 
 export const getAllComments = () => {
-  const eventSource = new EventSource('http://localhost:8080/api/v1/interactions/comments');
+  const eventSource = new EventSource(
+    "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/interactions/comments",
+  );
   return eventSource;
 };

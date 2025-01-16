@@ -1,12 +1,16 @@
 package com.calerts.computer_alertsbe.utils;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Like;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.ShareResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
+
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
@@ -43,7 +47,7 @@ public class EntityModelUtil {
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .tags(articleRequestModel.getTags())
+                .category(articleRequestModel.getCategory())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
@@ -75,6 +79,7 @@ public class EntityModelUtil {
         return likeResponseModel;
     }
 
+
     public static CommentResponseModel toCommentResponseModel(Comment comment) {
         CommentResponseModel commentResponseModel = new CommentResponseModel();
         BeanUtils.copyProperties(comment, commentResponseModel);
@@ -93,5 +98,17 @@ public class EntityModelUtil {
 
     public static String generateUUIDString(){
         return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
+    }
+
+
+    public static ShareResponseModel toShareResponseModel(Share share) {
+        ShareResponseModel shareResponseModel = new ShareResponseModel();
+        BeanUtils.copyProperties(share, shareResponseModel);
+        shareResponseModel.setShareId(share.getShareIdentifier().getShareId());
+        shareResponseModel.setArticleId(share.getArticleIdentifier().getArticleId());
+        shareResponseModel.setReaderId(share.getReaderId());
+        shareResponseModel.setTimestamp(share.getTimestamp());
+        return shareResponseModel;
+
     }
 }

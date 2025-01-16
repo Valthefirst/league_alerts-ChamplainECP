@@ -4,27 +4,34 @@
 
 .container {
   height: 100%;
-  /* font-family: "Times New Roman", Times, serif; */
-}
-
-.goodSize {
-  height: 150px;
 }
 
 .bodyArticle {
   border: 2px solid black;
-  line-height: "4.5";
+  line-height: 1.5;
   padding: 25px;
   margin: 45px;
   background-color: white;
 }
+
 .sameLine {
   display: flex;
   align-items: center;
+  margin-left: 10%;
 }
 
 .space-between {
   justify-content: space-between;
+}
+
+.acceptButton {
+  float: right;
+  margin-right: 15%;
+  margin-bottom: 10px;
+}
+.cancelButton {
+  margin-left: 15%;
+  margin-bottom: 10px;
 }
 
 .sameLine > h2 {
@@ -36,7 +43,7 @@
 }
 
 .sameLine > .CircleCheckButton {
-  margin-left: 20px;
+  margin-left: 20%;
 }
 
 .imageStyle {
@@ -49,69 +56,60 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 80%; /* You can adjust this value for better spacing */
+  width: 80%;
 }
 
 .center {
   text-align: center;
+  width: 30%;
+  position: center;
+  height: 60px;
+  margin-left: 30%;
+  margin-bottom: 20px;
 }
 
 .rightSpace {
   margin-right: 80px;
 }
 
-/* General button styling */
-.red-button {
-  background-color: #dc3545; /* Red color */
-  color: #fff;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  display: block;
   font-weight: bold;
-  text-align: center;
-  border-radius: 8px; /* Fully rounded corners for a more modern look */
-  border: none;
-  cursor: pointer;
-  margin-left: 50px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
-  width: auto;
-  display: inline-block;
-  margin: 10px 0; /* Margin for spacing */
+  margin-bottom: 5px;
 }
 
-/* Red Button Hover Effect */
-.red-button:hover {
-  background-color: #c82333; /* Darker red */
-  transform: translateY(-5px); /* Slight lift effect */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow when hovered */
-  animation: shake 0.5s ease-in-out; /* Shake animation on hover */
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-/* Button Focus Effect (when clicked) */
-.red-button:focus {
+.field textarea {
+  min-height: 100px;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: #66afe9;
   outline: none;
-  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.5); /* Add glowing effect on focus */
 }
 
-/* Shake Animation */
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-10px);
-  }
-  50% {
-    transform: translateX(10px);
-  }
-  75% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+.error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
 }
 
-.margin-butta {
-  margin-left: 30%;
+.sameLine > button {
+  margin-left: 20px;
 }

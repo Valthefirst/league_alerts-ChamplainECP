@@ -1,97 +1,76 @@
 @startuml viewAllArticles
 skinparam packageStyle rectangle
 
+package "ArticleSubdomain" {
 
-package "Presentation Layer" {
     class ArticleController {
         -articleService: ArticleService
         + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
     }
 
-   class ArticleResponseModel {
+    class ArticleResponseModel {
         - String title;
         - String body;
         - int wordCount;
         - ArticleStatus articleStatus;
         - String tags;
         - LocalDateTime timePosted;
-        }
+        - String photoUrl;
+        - String articleDescription;
+    }
 
-
-    ArticleController --> ArticleResponseModel : uses
-
-}
-
-package "Business Layer" {
     interface ArticleService {
         + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
     }
+
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
-
         + getAllArticleForASpecificSport(tagName : String): Flux<ArticleResponseModel>
     }
 
-    ArticleServiceImpl --> ArticleService : implements
-    ArticleController --> ArticleService: uses
-
-}
-
-
-
-
-package "Data Access Layer" {
     interface ArticleRepository {
         + findAllArticlesByTags(tagName : String): Flux<Article>
     }
 
-    class Article{
-        - String id
-        - articleIdentifer: ArticleIdentifer
+    class Article {
+        - String id;
+        - articleIdentifer: ArticleIdentifer;
         - title: String;
         - body: String;
         - wordCount: Integer;
         - articleStatus: ArticleStatus;
         - tags: String;
         - timePosted: LocalDateTime;
-        - photo: PhotoIdentifier
+        - photoUrl: String;
+        - articleDescription: String;
     }
 
-    class Content{
+    class Content {
         - title: String;
         - body: String;
-        - wordCount: Integer
+        - wordCount: Integer;
     }
 
-   enum ArticleStatus {
-            PUBLISHED
-            DRAFT
-            ARCHIVED
-        }
-
-    class ArticleIdentifer{
-        - articleId: String
-
-        + ArticleIdentifer(articleId: String)
+    enum ArticleStatus {
+        PUBLISHED
+        DRAFT
+        ARCHIVED
     }
 
-    class PhotoIdentifier{
-        - photoId: String
+    class ArticleIdentifer {
+        - articleId: String;
+        + ArticleIdentifer(articleId: String);
     }
 
-    class Photo{
-        - id : String
-        - photoIdentifier: PhotoIdentifier
-        - url: String
-    }
+    ArticleResponseModel --> Article
+    ArticleController --> ArticleService : uses
+    ArticleServiceImpl --> ArticleService : implements
+    ArticleServiceImpl --> ArticleRepository : uses
+    ArticleRepository --> Article : queries
+    Article --> ArticleIdentifer
+    Article --> Content
+    Article --> ArticleStatus
 
-Article --> ArticleIdentifer : has
-Article --> Content : has
-Article --> ArticleStatus : has
-ArticleServiceImpl --> ArticleRepository : uses
-Photo --> PhotoIdentifier : has
-Article --> PhotoIdentifier : has
 }
-
 
 @enduml

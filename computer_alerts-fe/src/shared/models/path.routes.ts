@@ -2,8 +2,9 @@ export enum AppRoutePaths {
   Default = "/",
   HomePage = "/home",
   Authors = "/authors",
-  ArticlesByTag = "/articles/tag/:tagName",
+  ArticlesByCategory = "/articles/categories/:category",
   SpecificArticle = "/articles/:id",
+  EditArticle = "/articles/edit/:id",
   NBA = "/nba",
   NHL = "/nhl",
   NFL = "/nfl",
@@ -16,6 +17,7 @@ export enum AppRoutePaths {
   AuthorHomePage = "/authHome",
   AutherYourArticle = "/authYourArticles",
   AutherCreateArticle = "/authCreateArticle",
+  AutherDrafts = "/authYourDrafts",
 
   //
   //

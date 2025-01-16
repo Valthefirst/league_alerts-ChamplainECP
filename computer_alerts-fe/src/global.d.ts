@@ -49,3 +49,8 @@ declare module "@mojs/core" {
 
   export default mojs;
 }
+
+declare module "*.png" {
+  const value: string;
+  export default value;
+}

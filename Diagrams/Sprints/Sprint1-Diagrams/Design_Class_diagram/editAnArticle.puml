@@ -1,0 +1,93 @@
+@startuml viewAllArticles
+skinparam packageStyle rectangle
+
+
+package "Presentation Layer" {
+    class ArticleController {
+        -articleService: ArticleService
+        + editArticleByArticleId(articleId: String, articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
+    }
+
+   class ArticleResponseModel {
+        - String title;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - photoUrl: String
+        - articleDescription :string
+        }
+
+
+    ArticleController --> ArticleResponseModel : uses
+
+}
+
+package "Business Layer" {
+    interface ArticleService {
+        + editArticleByArticleId(articleId: String, articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
+    }
+    class ArticleServiceImpl {
+        - articleRepository: ArticleRepository
+
+        + editArticleByArticleId(articleId: String,  articleRequestModel: ArticleRequestModel): Flux<ArticleResponseModel>
+    }
+
+    ArticleServiceImpl --> ArticleService : implements
+    ArticleController --> ArticleService: uses
+
+}
+
+
+
+
+package "Data Access Layer" {
+    interface ArticleRepository {
+        + findAllArticlesByTags(tagName : String): Flux<Article>
+    }
+
+    class Article{
+        - String id
+        - articleIdentifer: ArticleIdentifer
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+        - articleStatus: ArticleStatus;
+        - tags: String;
+        - timePosted: LocalDateTime;
+        - photoUrl: string
+        - articleDescription :string
+    }
+
+    class Content{
+        - title: String;
+        - body: String;
+        - wordCount: Integer
+    }
+
+   enum ArticleStatus {
+            PUBLISHED
+            DRAFT
+            ARCHIVED
+        }
+
+    class ArticleIdentifer{
+        - articleId: String
+
+        + ArticleIdentifer(articleId: String)
+    }
+
+
+
+
+
+Article --> ArticleIdentifer : has
+Article --> Content : has
+Article --> ArticleStatus : has
+ArticleServiceImpl --> ArticleRepository : uses
+ArticleRepository --> Article : uses
+}
+
+
+@enduml

@@ -5,8 +5,8 @@ import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 export default function AppNavBar(): JSX.Element {
-  const generateTagRoute = (tagName: string) =>
-    AppRoutePaths.ArticlesByTag.replace(":tagName", tagName);
+  const generateTagRoute = (category: string) =>
+    AppRoutePaths.ArticlesByCategory.replace(":category", category);
 
   return (
     <Navbar expand="lg" className="navbar">

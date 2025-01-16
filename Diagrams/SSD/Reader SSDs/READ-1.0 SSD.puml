@@ -1,0 +1,30 @@
+@startuml viewArticle
+actor Reader
+participant "League Alert System" as LAS
+
+Reader -> LAS : Request Articles by tag
+activate LAS
+
+alt Success
+    LAS -> Reader : Return Articles
+    deactivate LAS
+
+    opt View Specific Article
+        Reader -> LAS : Request Specific Article by articleId
+        activate LAS
+
+        alt Success
+            LAS -> Reader : Return Article Details
+            deactivate LAS
+
+            opt Search Articles
+                Reader -> LAS : searchArticle(query, filters)
+                activate LAS
+                    LAS -> Reader : Return Search Results
+                deactivate LAS
+            end opt
+        end alt
+    end opt
+end alt
+
+@enduml

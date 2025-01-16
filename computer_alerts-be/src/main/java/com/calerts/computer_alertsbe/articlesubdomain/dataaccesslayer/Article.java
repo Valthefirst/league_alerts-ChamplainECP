@@ -31,7 +31,7 @@ public class Article {
     @Field("article_status")
     private ArticleStatus articleStatus;
 
-    private String tags;
+    private String category;
 
 
     @Embedded
@@ -41,7 +41,9 @@ public class Article {
     private Tags tagsTag;
     private LocalDateTime timePosted;
 
-    int likeCount;
+    private int likeCount;
+
+    private int shareCount;
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
@@ -55,8 +57,14 @@ public class Article {
         this.likeCount -= 1;
     }
 
+    public void incrementShareCount() {
+        this.shareCount += 1;
+    }
+
     private Integer requestCount;
 
     private String photoUrl;
+
+    private String articleDescription;
 
 }

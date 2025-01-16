@@ -1,0 +1,20 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Reader, LAS : Read Article
+
+opt Like Article
+    Reader -> LAS: likeArticle(readerIdentifier, articleIdentifier)
+    activate LAS
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    deactivate LAS
+end opt
+
+opt Unlike Article (if already liked)
+    Reader -> LAS: unlikeArticle(readerIdentifier, articleIdentifier)
+    activate LAS
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    deactivate LAS
+end opt
+@enduml

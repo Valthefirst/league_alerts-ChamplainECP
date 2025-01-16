@@ -7,11 +7,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "8888:8888"
     depends_on:
       - mongo
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
-
+      #DOTENV_PATH: .env
   frontend:
     build:
       context: ./computer_alerts-fe

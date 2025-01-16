@@ -1,0 +1,56 @@
+@startuml
+title Design Level Sequence Diagram for Modifying Reader Account Details
+
+actor Reader
+participant "ReactApplication" as RA
+participant "ReaderAccountPage" as AccountPage
+participant "ReaderController" as Controller
+participant "ReaderService" as Service
+participant "ReaderRepository" as Repository
+participant "ReaderRequestModel" as RequestModel
+participant "ReaderResponseModel" as ResponseModel
+database "Database" as DB
+
+Reader -> RA : Navigates to Reader Account Page
+RA -> AccountPage : Loads account details
+activate AccountPage
+
+AccountPage -> Controller : GET /api/v1/readers/{readerId}
+activate Controller
+Controller -> Service : getReaderById(readerId)
+activate Service
+Service -> Repository : findById(readerId)
+activate Repository
+Repository -> DB : SELECT * FROM Reader WHERE id = {readerId}
+DB --> Repository : Reader Entity
+deactivate Repository
+Repository --> Service : Reader Entity
+Service --> Controller : ReaderResponseModel
+Controller --> AccountPage : ReaderResponseModel
+deactivate Controller
+
+AccountPage --> Reader : Displays account details
+Reader -> AccountPage : Submits updated account details (name, email, password)
+AccountPage -> Controller : PUT /api/v1/readers/{readerId} with ReaderRequestModel
+activate Controller
+Controller -> Service : updateReader(readerId, ReaderRequestModel)
+activate Service
+Service -> Repository : findById(readerId)
+activate Repository
+Repository -> DB : SELECT * FROM Reader WHERE id = {readerId}
+DB --> Repository : Reader Entity
+deactivate Repository
+Repository --> Service : Reader Entity
+
+Service -> Repository : save(updatedReader)
+Repository -> DB : UPDATE Reader SET name, email, password WHERE id = {readerId}
+DB --> Repository : Updated Reader Entity
+Repository --> Service : Updated Reader Entity
+Service --> Controller : ReaderResponseModel
+deactivate Service
+Controller --> AccountPage : ReaderResponseModel
+deactivate Controller
+
+AccountPage --> Reader : Displays updated account details
+
+@enduml

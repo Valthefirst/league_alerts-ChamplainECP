@@ -6,21 +6,24 @@ export interface ArticleRequestModel {
   articleStatus: string;
   requestCount: number;
   likeCount: number;
-  tags: string;
+  category: string;
   tagsTag: string;
   timePosted: string;
   photoUrl: string;
   authorIdentifier: string;
+  articleDescpition: string;
 }
 
 export interface ArticleRequestModelI {
+  fileName: string | number | readonly string[] | undefined;
   title: string;
   body: string;
   photoUrl: string;
   wordCount: number;
   articleStatus: string;
-  tags: string;
+  category: string;
   tagsTag: string;
   timePosted: string;
   authorIdentifier: string;
+  articleDescpition: string;
 }

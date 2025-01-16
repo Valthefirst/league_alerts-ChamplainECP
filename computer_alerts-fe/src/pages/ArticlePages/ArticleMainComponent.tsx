@@ -5,7 +5,7 @@ interface ArticleMainComponentProps {
   imageURL: string;
   title: string;
   description: string;
-  tags: string;
+  category: string;
   onClick: () => void;
 }
 
@@ -13,7 +13,7 @@ const ArticleMainComponent: React.FC<ArticleMainComponentProps> = ({
   imageURL,
   title,
   description,
-  tags,
+  category,
   onClick,
 }) => {
   return (
@@ -30,7 +30,7 @@ const ArticleMainComponent: React.FC<ArticleMainComponentProps> = ({
         <h2 className="article-main-component__title">{title}</h2>
         <p className="article-main-component__description">{description}</p>
         <p className="article-main-component__tags">
-          <strong>Tags:</strong> {tags}
+          <strong>Category:</strong> {category}
         </p>
       </div>
     </div>

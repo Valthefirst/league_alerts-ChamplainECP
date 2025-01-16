@@ -1,20 +1,27 @@
 
-//package com.calerts.computer_alertsbe.utils.configAPI;
+package com.calerts.computer_alertsbe.utils.configAPI;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class CloudinaryConfig {
+
+    @Value("${cloudinary.url}")
+    private String CLOUDINARY_SECRET_URL;
+    @Bean
+    public Cloudinary cloudinary() {
+//        String dotenvPath = System.getenv("DOTENV_PATH");
 //
-//import com.cloudinary.Cloudinary;
-//import com.cloudinary.utils.ObjectUtils;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//
-//@Configuration
-//public class CloudinaryConfig {
-////    @Bean
-////    public Cloudinary cloudinary() {
-////        return new Cloudinary(ObjectUtils.asMap(
-////                "cloud_name", "ddihej6gw",
-////                "api_key", "774976436626872",
-////                "api_secret", "5PuaO04mxzwACVBnxmwrYxOBT0A"
-////        ));
-////    }
-//}
+//        Dotenv dotenv = Dotenv.configure()
+//                .directory(dotenvPath != null ? dotenvPath : ".")
+//                .load();
+        return new Cloudinary(CLOUDINARY_SECRET_URL);
+
+    }
+}
 

@@ -21,6 +21,9 @@ import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
+import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
+
+import Footer from "assets/Footer/Footer";
 
 const Navbar = () => {
   const location = useLocation();
@@ -29,7 +32,8 @@ const Navbar = () => {
     location.pathname.startsWith("/authDashboard") ||
     location.pathname.startsWith("/authHome") ||
     location.pathname.startsWith("/authCreateArticle") ||
-    location.pathname.startsWith("/authYourArticles")
+    location.pathname.startsWith("/authYourArticles") ||
+    location.pathname.startsWith("/authYourDrafts")
   ) {
     return <AuthorNavBar />;
   } else if (
@@ -54,13 +58,18 @@ function App(): JSX.Element {
             path={AppRoutePaths.CREATE_ACCOUNT}
             element={<CreateUserForm />}
           />
+
+          <Route
+            path={AppRoutePaths.ArticlesByCategory}
+            element={<ArticlesPage />}
+          />
+
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+         
+
+         
 
           <Route
             path={AppRoutePaths.AuthorHomePage}
@@ -82,17 +91,17 @@ function App(): JSX.Element {
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
+        
           <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
+            path={AppRoutePaths.AutherDrafts}
+            element={<ArtifleDrafts />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+      
         </Routes>
       </Router>
+
+      <Footer />
     </div>
   );
 }
