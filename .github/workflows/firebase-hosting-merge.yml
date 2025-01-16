@@ -17,7 +17,7 @@ jobs:
 
       # Navigate to the correct directory and build the project
       - run: |
-          cd league_alerts-ChamplainECP/computer_alerts-fe
+          working-directory: ./computer_alerts-fe
           npm ci
           npm run build
 
