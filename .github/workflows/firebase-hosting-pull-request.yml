@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: List files in repository
-        run: ls -R /home/runner/work/league_alerts-ChamplainECP/league_alerts-ChamplainECP
       - name: Install dependencies and build
         run: npm ci && npm run build
-        working-directory: ./league_alerts-ChamplainECP/computer_alerts-fe
+        working-directory: ./computer_alerts-fe
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LEAGUE_ALERTS }}
           projectId: league-alerts
+
 
