@@ -71,7 +71,7 @@ const ArticleForm = () => {
       }, 3000);
     } catch (error: any) {
     
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 403) {
         
         
         window.location.href = "/unauthorized"; 
@@ -106,8 +106,16 @@ const ArticleForm = () => {
       // setTimeout(() => {
       //   setShowSuccessMessage(false);
       // }, 3000);
-    } catch (error) {
-      console.error("Error creating article:", error);
+    } catch (error: any) {
+    
+      if (error.response && error.response.status === 403) {
+        
+        
+        window.location.href = "/unauthorized"; 
+      } else {
+        console.error("Error in unlikeArticle API call:", error);
+      }
+      throw error; 
     }
   };
 

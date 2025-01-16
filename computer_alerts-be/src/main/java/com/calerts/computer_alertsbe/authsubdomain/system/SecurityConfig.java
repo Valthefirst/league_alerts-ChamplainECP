@@ -60,30 +60,30 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
 
-                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").authenticated()
-                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").authenticated()
-                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").authenticated()
-                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").authenticated()
+                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").hasAuthority("like:articles")
 
 
-                                .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").authenticated()
-                                .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").authenticated()
+                                .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").hasAuthority("like:articles")
 
 
 
 
                         //---------------AuthorEndpoints
-                        .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").hasAuthority("create:articles")
 
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
-                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").authenticated()
+                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").hasAuthority("create:articles")
 
-                                .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/acceptArticle/").authenticated()
+                                .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/acceptArticle/").hasAuthority("admin:articles")
 
 
                         //--------------AdminEndpoints
-                                .pathMatchers(HttpMethod.POST, "api/create/Author").authenticated()
+                                .pathMatchers(HttpMethod.POST, "api/create/Author").hasAuthority("admin:articles")
                                 .pathMatchers(HttpMethod.POST, "api/create/Reader").authenticated()
 
                                 .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
@@ -94,7 +94,7 @@ public class SecurityConfig {
 //                        .pathMatchers(HttpMethod.OPTIONS, "/api/rules/").permitAll()
 
                         // Catch-all to require authentication for other endpoints
-                        .anyExchange().permitAll()
+                        .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
@@ -115,18 +115,20 @@ public class SecurityConfig {
 
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
         return jwt -> {
-            // Extract authorities from the "permissions" or "roles" claim
             JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
-            authoritiesConverter.setAuthoritiesClaimName("permissions"); // Use "roles" if needed
-            authoritiesConverter.setAuthorityPrefix(""); // No prefix
+            // Set to "permissions" to match your token structure
+            authoritiesConverter.setAuthoritiesClaimName("permissions");
+            // Remove the authority prefix since your permissions don't have one
+            authoritiesConverter.setAuthorityPrefix("");
 
             Collection<GrantedAuthority> authorities = authoritiesConverter.convert(jwt);
 
+            // Debug logging to see what's happening
+            System.out.println("Permissions from token: " + jwt.getClaim("permissions"));
             authorities.forEach(auth ->
-                    System.out.println("User permission: " + auth.getAuthority())
+                    System.out.println("Converted authority: " + auth.getAuthority())
             );
 
-            // Create and return the authentication token in a reactive way
             return Mono.just(new JwtAuthenticationToken(jwt, authorities));
         };
     }

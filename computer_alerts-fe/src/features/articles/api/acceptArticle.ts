@@ -11,7 +11,7 @@ export const acceptArticle = async (articleId: string): Promise<void> => {
 
     );
   } catch (error: any) {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 403) {
       // Redirect to unauthorized page if status is 401
       window.location.href = "/unauthorized"; 
     } else {
