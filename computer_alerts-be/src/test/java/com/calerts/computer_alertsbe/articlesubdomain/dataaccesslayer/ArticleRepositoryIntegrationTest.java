@@ -4,6 +4,7 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ class ArticleRepositoryIntegrationTest {
 
     @Autowired
     private ArticleRepository articleRepository;
+//    @Autowired
+//    private CloudinaryService cloudinaryService; // Inject CloudinaryService to mock or use actual file upload
+
 
     @BeforeEach
     void setUp() {
@@ -170,6 +174,9 @@ class ArticleRepositoryIntegrationTest {
                 .expectNextCount(0)
                 .verifyComplete();
     }
+
+
+
 
 
 

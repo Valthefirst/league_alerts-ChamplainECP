@@ -5,6 +5,7 @@ import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRes
 import com.calerts.computer_alertsbe.authsubdomain.businessLayer.UserService;
 
 
+import com.calerts.computer_alertsbe.emailingsubdomain.GmailService;
 import com.calerts.computer_alertsbe.utils.HttpErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

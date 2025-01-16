@@ -40,66 +40,66 @@ class ArticleControllerIntegrationTest {
     }
 
 
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    public void whenGetAllArticlesByTag_thenReturnAllArticles() {
-//
-//        articleRepository.deleteAll().block();
-//
-//        var article1 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 1")
-//                .body("This is the body of article 1")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NBA")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
-//                .build();
-//
-//        var article2 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 2")
-//                .body("This is the body of article 2")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NBA")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
-//                .build();
-//
-//        var article3 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 3")
-//                .body("This is the body of article 3")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NFL")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
-//                .build();
-//
-//        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
-//
-//        String url = BASE_URL + "/tag/NBA";
-//
-//        // Act & Assert
-//        webTestClient.get()
-//                .uri(url)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBodyList(ArticleResponseModel.class)
-//                .value((response) -> {
-//                    assertNotNull(response);
-//                    assertEquals(2, response.size());
-//                    response.forEach(article -> assertTrue(article.getCategory().contains("NBA")));
-//                });
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenGetAllArticlesByTag_thenReturnAllArticles() {
+
+        articleRepository.deleteAll().block();
+
+        var article1 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 1")
+                .body("This is the body of article 1")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NBA")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
+                .build();
+
+        var article2 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 2")
+                .body("This is the body of article 2")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NBA")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
+                .build();
+
+        var article3 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 3")
+                .body("This is the body of article 3")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NFL")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .build();
+
+        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
+
+        String url = BASE_URL + "/categories/NBA";
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ArticleResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(2, response.size());
+                    response.forEach(article -> assertTrue(article.getCategory().contains("NBA")));
+                });
+    }
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
@@ -347,65 +347,65 @@ class ArticleControllerIntegrationTest {
                 .expectStatus().isNotFound();
     }
 
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    void testSearchArticlesByTagAndTitle() {
-//
-//        //arrange
-//        var article1 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 1")
-//                .body("This is the body of article 1")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NBA")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
-//                .build();
-//
-//        var article2 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 2")
-//                .body("This is the body of article 2")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NBA")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
-//                .build();
-//
-//        var article3 = Article.builder()
-//                .articleIdentifier(new ReaderIdentifier())
-//                .title("Article 3")
-//                .body("This is the body of article 3")
-//                .wordCount(7)
-//                .articleStatus(ArticleStatus.PUBLISHED)
-//                .category("NFL")
-//                .likeCount(0)
-//                .timePosted(LocalDateTime.now())
-//                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
-//                .build();
-//
-//        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
-//
-//        String url = BASE_URL + "/tag/NBA/search?query=Article";
-//
-//        // Act & Assert
-//        webTestClient.get()
-//                .uri(url)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBodyList(ArticleResponseModel.class)
-//                .value((response) -> {
-//                    assertNotNull(response);
-//                    assertEquals(2, response.size());
-//                    response.forEach(article -> assertTrue(article.getCategory().contains("NBA")));
-//                });
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchArticlesByTagAndTitle() {
+
+        //arrange
+        var article1 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 1")
+                .body("This is the body of article 1")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NBA")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
+                .build();
+
+        var article2 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 2")
+                .body("This is the body of article 2")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NBA")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
+                .build();
+
+        var article3 = Article.builder()
+                .articleIdentifier(new ArticleIdentifier())
+                .title("Article 3")
+                .body("This is the body of article 3")
+                .wordCount(7)
+                .articleStatus(ArticleStatus.PUBLISHED)
+                .category("NFL")
+                .likeCount(0)
+                .timePosted(LocalDateTime.now())
+                .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
+                .build();
+
+        articleRepository.saveAll(List.of(article1, article2, article3)).blockLast();
+
+        String url = BASE_URL + "/categories/NBA/search?query=Article";
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ArticleResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(2, response.size());
+                    response.forEach(article -> assertTrue(article.getCategory().contains("NBA")));
+                });
+    }
 
 
     @Test

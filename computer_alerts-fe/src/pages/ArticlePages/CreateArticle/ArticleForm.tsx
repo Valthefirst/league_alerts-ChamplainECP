@@ -7,6 +7,8 @@ import {
 } from "../../../assets/SuccessMessage/SuccessMessage"; // Adjust path if necessary
 
 import "./ArticleForm.css";
+import { uploadImage } from "features/articles/api/uploadImage";
+
 
 const ArticleForm = () => {
   const [formData, setFormData] = useState<ArticleRequestModelI>({
@@ -21,11 +23,14 @@ const ArticleForm = () => {
     timePosted: "",
     authorIdentifier: "3b63de68-9161-4925-b38b-e686dd88f848",
     articleDescpition: "",
+    fileName: "",
   });
 
   const [showPopup, setShowPopup] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessageText, setSuccessMessageText] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("")
 
   enum TagsTagEnum {
     Tag1 = "NBA",
@@ -46,9 +51,30 @@ const ArticleForm = () => {
     });
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+      if  (file) {
+        setImageFile(file);
+        setFileName(file.name);
+        alert("Image file selected:" + file.name);
+      } else if (!file){
+        setImageFile(null);
+
+        alert("File could not be uploaded:");
+      };
+  }
+
+
   const handleSubmit = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
+      if(imageFile){
+        const response = await uploadImage(imageFile)
+        const photoUrl = response.data;
+        console.log("Photo URL:", photoUrl);
+        formData.photoUrl = photoUrl;
+      }
+
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles",
         formData,
@@ -57,28 +83,29 @@ const ArticleForm = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         }
-       
-        
+
+
       );
-      
+
       console.log("Article created:", response.data);
       setSuccessMessageText("You have successfully created an article.");
       setShowSuccessMessage(true);
-
+      console.error("Error creating article:", formData.wordCount);
       // Hide success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
+
     } catch (error: any) {
-    
+
       if (error.response && error.response.status === 403) {
-        
-        
-        window.location.href = "/unauthorized"; 
+
+
+        window.location.href = "/unauthorized";
       } else {
         console.error("Error in unlikeArticle API call:", error);
       }
-      throw error; 
+      throw error;
     }
   };
 
@@ -92,7 +119,7 @@ const ArticleForm = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      
+
       }
 
       );
@@ -107,15 +134,15 @@ const ArticleForm = () => {
       //   setShowSuccessMessage(false);
       // }, 3000);
     } catch (error: any) {
-    
+
       if (error.response && error.response.status === 403) {
-        
-        
-        window.location.href = "/unauthorized"; 
+
+
+        window.location.href = "/unauthorized";
       } else {
         console.error("Error in unlikeArticle API call:", error);
       }
-      throw error; 
+      throw error;
     }
   };
 
@@ -125,15 +152,19 @@ const ArticleForm = () => {
   };
 
   return (
-    <div className="article-form-container">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setShowPopup(true);
-        }}
-        className="article-form"
-      >
-        <label htmlFor="title">Title</label>
+    <div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setShowPopup(true);
+      }}
+      className="article-form"
+    >
+      <h1 className="form-title">Create an Article</h1>
+
+      {/* Title Section */}
+      <div className="article-field-box">
+        <label htmlFor="title" className="field-title">Title</label>
         <input
           type="text"
           name="title"
@@ -142,8 +173,11 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__input"
         />
+      </div>
 
-        <label htmlFor="category">Category</label>
+      {/* Category Section */}
+      <div className="article-field-box">
+        <label htmlFor="category" className="field-title">Category</label>
         <input
           type="text"
           name="category"
@@ -152,17 +186,39 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__input"
         />
+      </div>
 
-        <label htmlFor="photoUrl">PhotoUrl</label>
+      {/* File Upload Section */}
+      <div className="article-field-box">
+        <label className="field-title">New File Name</label>
         <input
           type="text"
-          name="photoUrl"
-          placeholder="PhotoUrl"
-          value={formData.photoUrl}
-          onChange={handleChange}
+          name="author"
+          value={fileName}
+          readOnly
           className="article-form__input"
         />
-        <label htmlFor="body">Body</label>
+        <div className="button-container">
+          <button
+            type="button"
+            onClick={() => document.getElementById("fileInput")?.click()}
+            className="upload-button"
+          >
+            Upload Image
+          </button>
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: "none" }}
+          />
+        </div>
+      </div>
+
+      {/* Body Section */}
+      <div className="article-field-box">
+        <label htmlFor="body" className="field-title">Body</label>
         <textarea
           name="body"
           placeholder="Body"
@@ -170,7 +226,11 @@ const ArticleForm = () => {
           onChange={handleChange}
           className="article-form__textarea"
         />
-        <label htmlFor="tags">Tags</label>
+      </div>
+
+      {/* Tags Section */}
+      <div className="article-field-box">
+        <label htmlFor="tags" className="field-title">Tags</label>
         <select
           name="tags"
           value={formData.tagsTag}
@@ -183,20 +243,24 @@ const ArticleForm = () => {
           <option value={TagsTagEnum.Tag4}>NFL</option>
           <option value={TagsTagEnum.Tag5}>MLB</option>
         </select>
+      </div>
 
-        <div className="row">
-          <div className="col-6">
-            <button onClick={handleDraftSubmit} className="article-form-draft">
-              Draft Article
-            </button>
-          </div>
-          <div className="col-6">
-            <button type="submit" className="article-form__button">
-              Create Article
-            </button>
-          </div>
+      {/* Submit Buttons */}
+      <div className="row">
+        <div className="col-6">
+          <button onClick={handleDraftSubmit} className="cancel-button">
+            Draft Article
+          </button>
         </div>
-      </form>
+        <div className="col-6">
+          <button type="submit" className="submit-button">
+            Create Article
+          </button>
+        </div>
+      </div>
+    </form>
+
+
 
       {showPopup && (
         <ConfirmationPopup

@@ -9,13 +9,16 @@ const Login: React.FC = () => {
     // Check for accessToken in localStorage to set initial authentication state
     return !!localStorage.getItem("accessToken");
   });
-  const [userInfo, setUserInfo] = useState<{
+  const [, setUserInfo] = useState<{
     name: string;
     roles: string[];
   } | null>(null);
 
+  
+
   useEffect(() => {
     if (isAuthenticated) {
+      
       // Fetch user info if already authenticated (access token exists)
       fetchUserInfo();
     }

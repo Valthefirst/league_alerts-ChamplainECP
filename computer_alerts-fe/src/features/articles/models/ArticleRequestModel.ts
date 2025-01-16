@@ -15,6 +15,7 @@ export interface ArticleRequestModel {
 }
 
 export interface ArticleRequestModelI {
+  fileName: string | number | readonly string[] | undefined;
   title: string;
   body: string;
   photoUrl: string;
