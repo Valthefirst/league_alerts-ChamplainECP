@@ -15,11 +15,11 @@ public class CloudinaryConfig {
     private String CLOUDINARY_SECRET_URL;
     @Bean
     public Cloudinary cloudinary() {
-        String dotenvPath = System.getenv("DOTENV_PATH");
-
-        Dotenv dotenv = Dotenv.configure()
-                .directory(dotenvPath != null ? dotenvPath : ".")
-                .load();
+//        String dotenvPath = System.getenv("DOTENV_PATH");
+//
+//        Dotenv dotenv = Dotenv.configure()
+//                .directory(dotenvPath != null ? dotenvPath : ".")
+//                .load();
         return new Cloudinary(CLOUDINARY_SECRET_URL);
 
     }
