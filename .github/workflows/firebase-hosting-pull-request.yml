@@ -34,3 +34,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LEAGUE_ALERTS }}
           projectId: league-alerts
+          entryPoint: ./computer_alerts-fe # Specify the directory containing firebase.json
