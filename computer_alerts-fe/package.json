@@ -2,7 +2,6 @@
   "name": "computer_alerts-fe",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Valthefirst.github.io/league_alerts-ChamplainECP/",
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.1.3",
