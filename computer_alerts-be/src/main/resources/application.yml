@@ -12,9 +12,9 @@ website:
 spring:
   data:
     mongodb:
-      host: mongo
-      port: 27017
-#      uri: ${MONGO_CONNECTION_STRING}
+#      host: mongo
+#      port: 27017
+      uri: ${MONGO_CONNECTION_STRING}
       database: computeralerts
       auto-index-creation: true
 
