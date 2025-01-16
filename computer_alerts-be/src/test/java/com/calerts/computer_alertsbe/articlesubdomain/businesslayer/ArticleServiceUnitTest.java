@@ -12,6 +12,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -549,6 +550,12 @@ class ArticleServiceUnitTest {
                 .verify();
     }
 
+
+//    @Test
+//    void whenUpdateArticlePicture_validArticle_shouldUpdateAndReturnPhotoUrl(){
+//
+//
+//    }
 
 
 
