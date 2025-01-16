@@ -73,7 +73,7 @@ public class SecurityConfig {
 
 
                         //--------------AdminEndpoints
-                        .pathMatchers(HttpMethod.POST, "/api/create/**").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/api/create/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()

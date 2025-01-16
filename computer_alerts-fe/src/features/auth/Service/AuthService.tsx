@@ -5,9 +5,15 @@ import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
   URL = "http://localhost:8080/api/"; // Your backend URL
 
+  
+
   private auth0Client: Auth0Client | null = null;
 
-  private AUTH0_DOMAIN = "dev-im24qkb6l7t2yhha.ca.auth0.com";
+  private AUTH0_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
+  private AUTH0_DOMAIN2 = "dev-im24qkb6l7t2yhha.ca.auth0.com";
+
+  
 
   constructor() {
     this.initializeAuth0();
@@ -24,7 +30,6 @@ export class AuthService {
         scope: "openid profile email roles",
       },
     });
-    console.log("Auth0 initialized.");
   }
 
   private async ensureAuth0Client(): Promise<void> {
@@ -49,7 +54,7 @@ export class AuthService {
       const token = await this.getToken();
 
       localStorage.setItem("accessToken", token);
-      console.log("Access token:", token);
+      
     } else {
       console.log("Login failed.");
     }
@@ -87,18 +92,16 @@ export class AuthService {
   private async getManagementApiToken(): Promise<string> {
     try {
       const response = await axios.post(
-        `https://dev-im24qkb6l7t2yhha.ca.auth0.com/oauth/token`,
+        `${process.env.REACT_APP_API_DOMAIN}`,
         {
-          client_id: "dErtDK4v3hzp0FoM26aX9qGDayGobMIs",
-          client_secret:
-            "hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI",
-          audience: "https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/",
+          client_id: process.env.REACT_APP_API_ClIENT_ID,
+          client_secret: process.env.REACT_APP_API_SECREAT,
+          audience: process.env.REACT_APP_API_AUDIENCE,
           grant_type: "client_credentials",
         },
       );
 
       const token = response.data.access_token;
-      console.log("Management API token:", token);
       return token;
     } catch (error: any) {
       console.error(
@@ -114,14 +117,6 @@ export class AuthService {
       // Get the Management API token before making the request
       const managementApiToken = await this.getManagementApiToken();
   
-      // Log the token to verify it's correct
-      console.log("Management API Token:", managementApiToken);
-  
-      // Check if the token is valid (you can enhance this validation if needed)
-      const isValidToken = managementApiToken && managementApiToken.length > 0;
-      console.log("Is Bearer Token Valid:", isValidToken);
-  
-      // Step 1: Create the user in Auth0
       const response = await axios.post(this.URL + "create", userRequest, {
         headers: {
           "Content-Type": "application/json",
@@ -130,15 +125,9 @@ export class AuthService {
         withCredentials: true,
       });
   
-    
-      
-  
-      // Return the original user creation response
       return response.data;
     } catch (error: any) {
       console.error("Full error:", error);
-      console.error("Response:", error.response);
-      console.error("Request:", error.request);
       throw new Error(error.response?.data || "Failed to create user or assign roles");
     }
   }
@@ -163,20 +152,18 @@ export class AuthService {
       const authorResponse = await response.json();
 
       const managementApiToken = await this.getManagementApiToken();
-      const roleId = "rol_W1iELc1CHmzBtfE4"; 
+      const roleId = "[rol_W1iELc1CHmzBtfE4]"; 
       
       const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
          
-      await axios.post(
-        `https://${this.AUTH0_DOMAIN}/api/v2/users/${encodeAuthUserId}/roles`,
-        { roles: [roleId] }, // Body to specify roles
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${managementApiToken}`, // Management API token
-          },
-        }
-      );
+      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${managementApiToken}`,
+        },
+        body: JSON.stringify(roleId),
+      });
   
       return authorResponse;
     } catch (error) {

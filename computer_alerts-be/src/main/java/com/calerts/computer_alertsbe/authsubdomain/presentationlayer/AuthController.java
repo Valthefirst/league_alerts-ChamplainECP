@@ -8,6 +8,7 @@ import com.calerts.computer_alertsbe.authsubdomain.businessLayer.UserService;
 import com.calerts.computer_alertsbe.utils.HttpErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,12 +49,13 @@ public class AuthController {
                             .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
                 });
     }
-    @PostMapping("/roles/assign")
-    public Mono<Void> assignRole(@PathVariable String userId, @RequestHeader("Authorization") String managementToken) {
-        // Remove "Bearer " prefix if it exists
-        String token = managementToken.replace("Bearer ", "");
-        return userService.addRoles(userId, token);
+    @PostMapping("/create/{userId}/assign-role")
+    public Mono<Void> assignAuthorRole (@PathVariable String userId, @RequestBody RoleRequest roleRequest) {
+        return userService.assignRoleToUser(userId, roleRequest);
     }
+
+
+
 
 
 //    @PostMapping("/addRoles/{auth0UserId}")

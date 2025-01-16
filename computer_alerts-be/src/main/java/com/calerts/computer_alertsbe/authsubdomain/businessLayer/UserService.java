@@ -4,6 +4,7 @@ import com.calerts.computer_alertsbe.authorsubdomain.datalayer.*;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRequestDTO;
 
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModelAuth;
+import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.RoleRequest;
 import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserRequestDTO;
 import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserResponseModel;
 import kong.unirest.HttpResponse;
@@ -14,6 +15,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,6 +25,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Service
 public class UserService {
@@ -175,35 +179,16 @@ public class UserService {
         }
     }
 
-    public Mono<Void> addRoles(String auth0UserId, String managementApiToken) {
-        // Only encode '|' if it's necessary
-        String urlCompliantUserId = auth0UserId.contains("|") ? auth0UserId.replace("|", "%7C") : auth0UserId;
 
-        String url = "https://" + AUTH0_DOMAIN + "/api/v2/users/" + urlCompliantUserId + "/roles";
-
-        if (managementApiToken == null || managementApiToken.isEmpty()) {
-            return Mono.error(new RuntimeException("Management API token is missing or invalid"));
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + managementApiToken);
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("roles", new String[] { "rol_W1iELc1CHmzBtfE4" });
-
-        try {
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-
-            if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-                return Mono.empty();
-            } else {
-                return Mono.error(new RuntimeException("Failed to add roles: " + response.getBody()));
-            }
-        } catch (RestClientException e) {
-            return Mono.error(new RuntimeException("Error assigning roles to user: " + e.getMessage(), e));
-        }
+    public Mono<Void> assignRoleToUser(@PathVariable String userId, @RequestBody RoleRequest request) {
+//        String goodID = userId.replace("|", "%7C");
+        return webClient.post()
+                .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + getManagementApiToken())
+                .bodyValue(Map.of("roles", List.of("rol_W1iELc1CHmzBtfE4")))
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
 //    public Mono<Void> assignRoleToUser(String auth0UserId, String manegmenttoken) {
