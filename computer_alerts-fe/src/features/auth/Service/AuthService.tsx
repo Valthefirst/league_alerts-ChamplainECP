@@ -11,7 +11,7 @@ export class AuthService {
 
   private AUTH0_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-  private AUTH0_DOMAIN2 = "dev-im24qkb6l7t2yhha.ca.auth0.com";
+
 
   
 
@@ -22,7 +22,7 @@ export class AuthService {
   private async initializeAuth0() {
     console.log("Initializing Auth0...");
     this.auth0Client = await createAuth0Client({
-      domain: this.AUTH0_DOMAIN,
+      domain: "dev-im24qkb6l7t2yhha.ca.auth0.com",
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
       authorizationParams: {
         redirect_uri: "http://localhost:3000",
