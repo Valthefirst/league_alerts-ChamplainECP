@@ -12,7 +12,8 @@ services:
       - mongo
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
-
+      #CLOUDINARY_URL: cloudinary://774976436626872:5PuaO04mxzwACVBnxmwrYxOBT0A@ddihej6gw  # Add Cloudinary credentials here
+      DOTENV_PATH: .env
   frontend:
     build:
       context: ./computer_alerts-fe

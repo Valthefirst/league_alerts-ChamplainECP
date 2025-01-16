@@ -7,12 +7,15 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleSta
 
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
+import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -26,8 +29,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-//    @Autowired
-//    private Cloudinary cloudinary;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Override
     public Flux<ArticleResponseModel> getAllArticles() {
@@ -146,6 +149,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+
+
     @Override
     public Mono<List<ArticleResponseModel>> searchArticles(String category, String query) {
         return articleRepository
@@ -153,6 +158,25 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(EntityModelUtil::toArticleResponseModel)
                 .collectList();
 
+    }
+
+
+    @Override
+    public Mono<String> updateArticleImage(String articleId, FilePart filePart) {
+        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+                .switchIfEmpty(Mono.error(new NotFoundException("No article found with ID: " + articleId)))
+                .flatMap(article -> cloudinaryService.uploadImage(filePart)
+                        .flatMap(imageUrl -> {
+                            article.setPhotoUrl(imageUrl); // Update the article's photo URL
+                            return articleRepository.save(article).thenReturn(imageUrl); // Save and return the URL
+                        })
+                );
+    }
+
+    @Override
+    public Mono<String> uploadImage(FilePart filePart) {
+        return cloudinaryService.uploadImage(filePart)
+                .switchIfEmpty(Mono.error(new NotFoundException("No image found")));
     }
 
     public static int calculateWordCount(String body) {

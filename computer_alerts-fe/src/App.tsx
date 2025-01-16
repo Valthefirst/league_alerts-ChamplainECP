@@ -22,7 +22,7 @@ import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
-import EditArticlePage from "pages/ArticlePages/EditArticle/EditArticlePage";
+
 import Footer from "assets/Footer/Footer";
 
 const Navbar = () => {
@@ -67,10 +67,7 @@ function App(): JSX.Element {
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-          <Route
-            path={AppRoutePaths.EditArticle}
-            element={<EditArticlePage />}
-          />
+         
 
          
 

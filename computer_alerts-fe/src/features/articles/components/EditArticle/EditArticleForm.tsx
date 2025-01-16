@@ -1,20 +1,32 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { editArticle } from "features/articles/api/editArticle";
 import { useNavigate } from "react-router-dom";
+import { editArticleImage } from "features/articles/api/updateArticleImage";
+import "./EditArticleForm.css"; // Adjust the path based on your file structure
+
 
 interface EditArticlePageProps {
   article: ArticleRequestModel;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function EditArticle({
   article,
+  setIsEditing,
 }: EditArticlePageProps): JSX.Element {
   const [formData, setFormData] = useState<ArticleRequestModel>(article);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState<boolean>(false); // For showing a loading state
+  const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [fileName, setFileName] = useState<string>("") //temporary file
   const navigate = useNavigate();
 
+  
+ 
+    
   const handleChanges = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
@@ -22,29 +34,66 @@ export default function EditArticle({
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleImageChanges = async (
+    e: ChangeEvent<HTMLInputElement>,
+    ) => {
+    const file = e.target.files?.[0];
+      if  (file) {
+        setImageFile(file);
+        setFileName(file.name);
+        alert("Image file selected:" + file.name);
+      } else if (!file){
+        setImageFile(null);
+       
+        alert("File could not be uploaded:");
+      };
+    };
+
   const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = e.target; // Get the selected value
     setFormData({ ...formData, tagsTag: value }); // Update tagsTag in formData
   };
 
+
+     // Ensure the formData is updated whenever the article prop changes
+     useEffect(() => {
+      setFormData(article);
+    }, [article]);
+
+    const handleCancel = () => {
+      setIsEditing(false);
+      navigate(`/articles/${article.articleId}`); // Adjust the path if needed
+    };
+
   const handleSubmit = async (e: FormEvent) => {
+
     e.preventDefault();
-    console.log("Submit button clicked");
+    
     if (!validate()) {
-      console.log("Validation failed");
       return;
     }
 
-    try {
-      console.log("Sending request to editArticle");
-      await editArticle(article.articleId, formData);
-      alert("Article updated successfully");
-      navigate(`/articles/${article.articleId}`);
-    } catch (err) {
-      console.error("Error updating article:", err);
-      setError("Failed to update article. Please try again later.");
+    setLoading(true);
+
+   try{
+    if(imageFile){
+      const response = await editArticleImage(article.articleId, imageFile);
+      const photoUrl = response.data;
+      formData.photoUrl = photoUrl;
     }
-  };
+
+    await editArticle(article.articleId, formData);
+    alert("Article updated successfully");
+    navigate(`/articles/${article.articleId}`);
+    setIsEditing(false); // Close the edit form after successful update
+    window.location.reload();
+   }catch(err){
+     console.error("Error updating article:", err);
+     setError("Failed to update article. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const validate = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -66,117 +115,107 @@ export default function EditArticle({
   };
 
   return (
-    <div className="con-color">
-      <div className="container">
-        <h1 className="center">Edit Article</h1>
+ 
+   
+      <div className="edit-container">
 
-        {/* Title and Tags Fields */}
-        <div className="sameLine">
-          <div className="field" style={{ flex: 1, marginRight: "10px" }}>
-            <label>Title</label>
+        <form onSubmit={handleSubmit} className="article-form">
+          <h1 className="form-title">Edit Article</h1>
+          {/* Title and Categories Fields */}
+          <div className="article-fields-box sameLine">
+            <div className="title-field" style={{ flex: 1, marginRight: "60px" }}>
+              <label className="field-title">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChanges}
+              />
+            </div>
+  
+            <div className="article-field-box" style={{ flex: 0.5, marginLeft: "60px"}}>
+              <label className="field-title">Categories</label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChanges}
+              />
+            </div>
+          </div>
+  
+          {/* Tags Select Field */}
+          <div className="article-field-box">
+            <label className="field-title">Tags</label>
+            <select
+              name="tagsTag"
+              value={formData.tagsTag}
+              onChange={handleTagChanges}
+            >
+              <option value="NBA">NBA</option>
+              <option value="NHL">NHL</option>
+              <option value="UFC">UFC</option>
+              <option value="NFL">NFL</option>
+              <option value="MLB">MLB</option>
+            </select>
+          </div>
+  
+          {/* New File Name Field */}
+          <div className="article-field-box">
+            <label className="field-title">New File Name</label>
+            <input type="text" name="author" value={fileName} readOnly />
+          </div>
+  
+          {/* Photo Upload Button */}
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => document.getElementById("fileInput")?.click()}
+              className="upload-button"
+            >
+              Upload Image
+            </button>
+  
+            {/* Hidden File Input */}
             <input
-              type="text"
-              name="title"
-              value={formData.title}
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChanges}
+              style={{ display: "none" }}
+            />
+          </div>
+  
+          {/* Body Field */}
+          <div className="article-field-box">
+            <label className="field-title">Body</label>
+            <textarea
+              name="body"
+              value={formData.body}
               onChange={handleChanges}
             />
           </div>
-
-          <div className="field" style={{ flex: 1 }}>
-            <label>Categories</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChanges}
-            />
+  
+          {/* Submit and Cancel Buttons */}
+          <div className="button-container">
+            <button
+              className="submit-Update-button"
+              type="submit"
+            >
+              Update Article
+            </button>
+            <button
+              className="cancel-update-button"
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
           </div>
-        </div>
-
-        {/* Tags Select Field */}
-        <div className="field">
-          <label>Tags</label>
-          <select
-            name="tagsTag"
-            value={formData.tagsTag}
-            onChange={handleTagChanges}
-          >
-            <option value="NBA">NBA</option>
-            <option value="NHL">NHL</option>
-            <option value="UFC">UFC</option>
-            <option value="NFL">NFL</option>
-            <option value="MLB">MLB</option>
-          </select>
-        </div>
-
-        {/* Description Field
-                <div className="field">
-                    <label>Description</label>
-                    <textarea
-                        name="descitpion"
-                        value={formData.articleDescpition}
-                        onChange={handleChanges}
-                    />
-                </div> */}
-
-        {/* Photo URL Field */}
-        <div className="field">
-          <label>Photo URL</label>
-          <input
-            type="text"
-            name="photoUrl"
-            value={formData.photoUrl}
-            onChange={handleChanges}
-          />
-        </div>
-
-        {/* Body Field */}
-        <div className="field">
-          <label>Body</label>
-          <textarea
-            name="body"
-            value={formData.body}
-            onChange={handleChanges}
-          />
-        </div>
-
-        <button
-          className="submit-Update"
-          type="submit"
-          onClick={handleSubmit}
-          style={{
-            backgroundColor: "#CDA09F", // Set button color
-            color: "white", // Text color
-            padding: "10px 20px", // Button padding
-            borderRadius: "8px", // Rounded corners
-            border: "none", // Remove default border
-            fontSize: "16px", // Adjust font size
-            fontWeight: "bold", // Make text bold
-            cursor: "pointer", // Change cursor to pointer on hover
-            transition: "all 0.3s ease", // Smooth transition
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = "#A67C6D"; // Darken the color on hover
-            e.currentTarget.style.transform = "translateY(-3px)"; // Lift the button slightly
-            e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.2)"; // Darker shadow on hover
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = "#CDA09F"; // Reset button color
-            e.currentTarget.style.transform = "translateY(0)"; // Reset transform
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Reset shadow
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.outline = "none"; // Remove focus outline
-            e.currentTarget.style.boxShadow = "0 0 0 4px #A67C6D"; // Add a glowing effect when focused
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Reset shadow after focus
-          }}
-        >
-          Update Article
-        </button>
+        </form>
       </div>
-    </div>
+
+  
+  
   );
 }

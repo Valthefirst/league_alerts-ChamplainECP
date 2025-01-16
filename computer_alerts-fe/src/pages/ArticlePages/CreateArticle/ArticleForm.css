@@ -1,74 +1,89 @@
+/* Full height container for the content */
 .article-form {
-  display: flex;
-  flex-direction: column;
-  width: 70%; /* Adjust width as needed */
-  margin: 0 auto; /* Center the form horizontally */
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  width: 100%; /* Ensures it uses full available width */
+  max-width: 1000px; /* Increase the max-width to make the form larger */
+  min-width: 600px; /* Optional: Prevent it from becoming too small */
   background-color: #fff;
+  padding: 30px; /* Increase padding for more spacing inside the form */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keeps the subtle shadow */
+  margin: auto; /* Center the form horizontally */
 }
 
-.article-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.article-field-box {
+  margin-bottom: 20px;
 }
 
-.article-form input[type="text"],
-.article-form textarea,
-.article-form select {
+.article-field-box input,
+.article-field-box select,
+.article-field-box textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 10px;
+  margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 5px;
+}
+
+.article-field-box textarea {
+  height: 150px;
+}
+
+/* Style for labels */
+.field-title {
   font-size: 16px;
-  margin-bottom: 14px;
-}
-
-.article-form textarea {
-  height: 550px; /* Adjust height as needed */
-  resize: vertical; /* Allow users to resize the textarea */
-}
-
-.article-form select {
-  appearance: none; /* Remove default select styles */
-  background-image: url("data:image/svg+xml;base64,phN2ZyB4bWxucz0iaHR0cDovL3d3dy533cudG9vL20vMTcwMC9zdmciIHZpZXdCbG9jay0neD0iMTAiIHZpZXdCbG9jay0teT0iMTAiIHdpZHRoPSIxNiIgIGhlaWdodD0iMTciIGZpbGw9IiNjY2NjY2MiIgIHN0cm9rZT0ibm9uZSIgIHN0cm9rZS13aWR0aD0iMiIgIHN0cm9rZS1saW5lY2FwPSJvZmZiIj48cGF0aCBkPSJNNSAyOSB2LTExLjE3bDYuNS02LjUgNC45NiA0Ljk2VjI5eiIvPjwvc3ZnPg"); /* Add a down arrow icon */
-  background-repeat: no-repeat;
-  background-position: calc(100% - 10px) center; /* Position the icon at the right end */
-  padding-right: 30px; /* Adjust padding to accommodate the icon */
-}
-
-.article-form select:hover {
-  cursor: pointer; /* Change cursor to pointer on hover */
-}
-
-.article-form button[type="submit"] {
-  background-color: #4caf50; /* Green color */
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 1rem;
-}
-
-.article-form-draft {
-  background-color: rosybrown; /* Green color */
-  color: white;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 1rem;
-}
-.article-form label {
   font-weight: bold;
-  font-style: italic;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
 }
 
-.article-form button[type="submit"]:hover {
-  background-color: #45a049; /* Darker green on hover */
+/* Button container for alignment */
+.button-container {
+  text-align: left; /* Align buttons to the left */
+  margin-top: 20px; /* Add space above buttons */
+}
+
+/* Consistent button styling */
+.submit-button,
+.upload-button,
+.cancel-button {
+  background-color: #cda09f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-right: 10px; /* Spacing between buttons */
+}
+
+/* Hover and focus states */
+.submit-button:hover,
+.upload-button:hover,
+.cancel-button:hover {
+  background-color: #a67c6d;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:focus,
+.upload-button:focus,
+.cancel-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #a67c6d;
+}
+
+/* Header Title Styling */
+.form-title {
+  font-weight: 700; /* Bold font for emphasis */
+  font-size: 36px; /* Larger font size for the title */
+  color: #5d4037; /* Deep brown color for contrast */
+  text-align: center; /* Center aligns the title */
+  margin-bottom: 40px; /* Adds space below the title */
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
