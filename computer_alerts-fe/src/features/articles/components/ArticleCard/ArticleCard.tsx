@@ -26,19 +26,25 @@ interface ArticleCardProps {
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   const navigate = useNavigate();
-  const [likedArticles, setLikedArticles] = useState<{ [articleId: string]: boolean }>({});
+  const [likedArticles, setLikedArticles] = useState<{
+    [articleId: string]: boolean;
+  }>({});
   const heartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const initializeLikedState = () => {
-      const initialLikedState = articles.reduce((acc, article) => {
-        if (article.articleId) {
-          acc[article.articleId] =
-            localStorage.getItem(`article-${article.articleId}-liked`) === "true";
-        }
-        return acc;
-      }, {} as { [articleId: string]: boolean });
+      const initialLikedState = articles.reduce(
+        (acc, article) => {
+          if (article.articleId) {
+            acc[article.articleId] =
+              localStorage.getItem(`article-${article.articleId}-liked`) ===
+              "true";
+          }
+          return acc;
+        },
+        {} as { [articleId: string]: boolean },
+      );
       setLikedArticles(initialLikedState);
     };
 
@@ -82,7 +88,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   const handleShareClick = async (articleId: string | undefined) => {
     if (articleId) {
       try {
-        await navigator.clipboard.writeText(window.location.origin + `/articles/${articleId}`);
+        await navigator.clipboard.writeText(
+          window.location.origin + `/articles/${articleId}`,
+        );
         await shareArticle(articleId, "READER_ID"); // Replace with actual reader ID
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
@@ -135,7 +143,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                 <div className="like-share-section">
                   <div
                     id="heart"
-                    ref={(el) => (heartRefs.current[article.articleId || ""] = el)}
+                    ref={(el) =>
+                      (heartRefs.current[article.articleId || ""] = el)
+                    }
                     className={`button ${
                       likedArticles[article.articleId || ""] ? "active" : ""
                     }`}
@@ -158,7 +168,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
           ))}
       </div>
 
-      {showToast && <div className="toast">Link copied and share registered!</div>}
+      {showToast && (
+        <div className="toast">Link copied and share registered!</div>
+      )}
     </>
   );
 };

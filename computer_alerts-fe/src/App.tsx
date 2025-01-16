@@ -22,8 +22,11 @@ import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
+import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
 
 import Footer from "assets/Footer/Footer";
+import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
+import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
 
 const Navbar = () => {
   const location = useLocation();
@@ -38,7 +41,8 @@ const Navbar = () => {
     return <AuthorNavBar />;
   } else if (
     location.pathname.startsWith("/adminHomePage") ||
-    location.pathname.startsWith("/adminReviewArticles")
+    location.pathname.startsWith("/adminReviewArticles") ||
+    location.pathname.startsWith("/adminAuthors")
   ) {
     return <AdminNavBar />;
   }
@@ -67,7 +71,7 @@ function App(): JSX.Element {
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-         
+
 
          
 
@@ -86,18 +90,28 @@ function App(): JSX.Element {
             element={<AdminHomePage />}
           />
           <Route
+            path={AppRoutePaths.AdminAuthors}
+            element={<AdminAuthorsPage />}
+          />
+          <Route
             path={AppRoutePaths.AdminReviewArticles}
             element={<AdminReviewArticles />}
           />
+          <Route
+            path={AppRoutePaths.AdminCreateAuthor}
+            element={<AdminCreateAuthor />}
+          />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
-        
           <Route
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
+          <Route
+            path="/unauthorized"
+            element={<UnAuthorized />}
+          />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
-      
         </Routes>
       </Router>
 

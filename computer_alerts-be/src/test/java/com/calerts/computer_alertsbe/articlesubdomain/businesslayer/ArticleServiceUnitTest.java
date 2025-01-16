@@ -3,7 +3,7 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
-import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
@@ -45,8 +45,8 @@ class ArticleServiceUnitTest {
     @Autowired
     private ArticleService articleService;
 
-    @Autowired
-    private CloudinaryService cloudinaryService;
+//    @Autowired
+//    private CloudinaryService cloudinaryService;
 
     @MockBean
     private ArticleRepository articleRepository;
@@ -187,7 +187,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(5)
                 .build();
 
@@ -215,7 +215,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(null) // No initial request count
                 .build();
 

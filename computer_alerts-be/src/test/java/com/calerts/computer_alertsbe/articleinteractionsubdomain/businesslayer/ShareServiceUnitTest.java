@@ -141,7 +141,7 @@ class ShareServiceUnitTest {
     //@Test
     //    void whenValidArticleId_thenReturnAllLikes() {
     //        // Arrange
-    //        ArticleIdentifier articleIdentifier = new ArticleIdentifier("12345");
+    //        ReaderIdentifier articleIdentifier = new ReaderIdentifier("12345");
     //
     //        Like like1 = Like.builder()
     //                .likeIdentifier(new LikeIdentifier())
@@ -170,7 +170,7 @@ class ShareServiceUnitTest {
 //    @Test
 //    void whenValidArticleIdAndReaderId_thenSaveLike() {
 //        // Arrange
-//        ArticleIdentifier articleIdentifier = new ArticleIdentifier("12345");
+//        ReaderIdentifier articleIdentifier = new ReaderIdentifier("12345");
 //        String readerId = "reader-001";
 //
 //        Article existingArticle = Article.builder()

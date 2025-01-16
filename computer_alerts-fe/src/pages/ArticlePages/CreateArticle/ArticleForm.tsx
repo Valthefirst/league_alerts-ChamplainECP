@@ -29,7 +29,7 @@ const ArticleForm = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessageText, setSuccessMessageText] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("")
 
   enum TagsTagEnum {
@@ -59,7 +59,7 @@ const ArticleForm = () => {
         alert("Image file selected:" + file.name);
       } else if (!file){
         setImageFile(null);
-       
+
         alert("File could not be uploaded:");
       };
   }
@@ -67,6 +67,7 @@ const ArticleForm = () => {
 
   const handleSubmit = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       if(imageFile){
         const response = await uploadImage(imageFile)
         const photoUrl = response.data;
@@ -77,7 +78,15 @@ const ArticleForm = () => {
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles",
         formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+
+
       );
+
       console.log("Article created:", response.data);
       setSuccessMessageText("You have successfully created an article.");
       setShowSuccessMessage(true);
@@ -86,18 +95,33 @@ const ArticleForm = () => {
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
-      
-    } catch (error) {
-      console.error("Error creating article:", formData.wordCount);
-      console.error("Error creating article:", error);
+
+    } catch (error: any) {
+
+      if (error.response && error.response.status === 403) {
+
+
+        window.location.href = "/unauthorized";
+      } else {
+        console.error("Error in unlikeArticle API call:", error);
+      }
+      throw error;
     }
   };
 
   const handleDraftSubmit = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
         "http://localhost:8080/api/v1/articles/acceptDraft",
         formData,
+        {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+
+      }
+
       );
       console.log("Article saved:", response.data);
       setSuccessMessageText(
@@ -109,8 +133,16 @@ const ArticleForm = () => {
       // setTimeout(() => {
       //   setShowSuccessMessage(false);
       // }, 3000);
-    } catch (error) {
-      console.error("Error creating article:", error);
+    } catch (error: any) {
+
+      if (error.response && error.response.status === 403) {
+
+
+        window.location.href = "/unauthorized";
+      } else {
+        console.error("Error in unlikeArticle API call:", error);
+      }
+      throw error;
     }
   };
 
@@ -142,7 +174,7 @@ const ArticleForm = () => {
           className="article-form__input"
         />
       </div>
-  
+
       {/* Category Section */}
       <div className="article-field-box">
         <label htmlFor="category" className="field-title">Category</label>
@@ -155,7 +187,7 @@ const ArticleForm = () => {
           className="article-form__input"
         />
       </div>
-  
+
       {/* File Upload Section */}
       <div className="article-field-box">
         <label className="field-title">New File Name</label>
@@ -183,7 +215,7 @@ const ArticleForm = () => {
           />
         </div>
       </div>
-  
+
       {/* Body Section */}
       <div className="article-field-box">
         <label htmlFor="body" className="field-title">Body</label>
@@ -195,7 +227,7 @@ const ArticleForm = () => {
           className="article-form__textarea"
         />
       </div>
-  
+
       {/* Tags Section */}
       <div className="article-field-box">
         <label htmlFor="tags" className="field-title">Tags</label>
@@ -212,7 +244,7 @@ const ArticleForm = () => {
           <option value={TagsTagEnum.Tag5}>MLB</option>
         </select>
       </div>
-  
+
       {/* Submit Buttons */}
       <div className="row">
         <div className="col-6">
@@ -228,7 +260,7 @@ const ArticleForm = () => {
       </div>
     </form>
 
-  
+
 
       {showPopup && (
         <ConfirmationPopup

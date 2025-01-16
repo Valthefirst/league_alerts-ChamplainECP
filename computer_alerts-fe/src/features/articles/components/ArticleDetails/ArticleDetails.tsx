@@ -47,7 +47,7 @@ const ArticleDetails: React.FC = () => {
 
           const authorsData = await getAllAuthors();
           const foundAuthor = authorsData.find((author) =>
-            author.articles.articleList?.some((a) => a.articleId === id)
+            author.articles.articleList?.some((a) => a.articleId === id),
           );
           setAuthor(foundAuthor || null);
 
@@ -145,11 +145,15 @@ const ArticleDetails: React.FC = () => {
 
   return (
     <>
-     
+
       <div className="article-container">
         <div className="article-image">
           {article?.photoUrl ? (
-            <img src={article.photoUrl} alt={article.title} className="article-image" />
+            <img
+              src={article.photoUrl}
+              alt={article.title}
+              className="article-image"
+            />
           ) : (
             <div className="image-placeholder">
               <p>No Image Available</p>
@@ -206,8 +210,8 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
-     
-      
+
+
       {showSharePopup && (
         <>
           <div className="modal-backdrop" onClick={toggleSharePopup}></div>

@@ -16,9 +16,7 @@ export default function ArticlesPage(): JSX.Element {
 
   // Load all articles for the given tag when the page loads
   useEffect(() => {
-   
-    const loadArticles = 
-    async () => {
+    const loadArticles = async () => {
       try {
         setLoading(true);
         if (category) {
@@ -46,7 +44,10 @@ export default function ArticlesPage(): JSX.Element {
           setArticles(data);
         } else {
           // Otherwise, fetch articles that match the search query
-          const data = await searchArticlesByCategoryAndQuery(category!, searchQuery);
+          const data = await searchArticlesByCategoryAndQuery(
+            category!,
+            searchQuery,
+          );
           setArticles(data);
         }
       } catch (err) {

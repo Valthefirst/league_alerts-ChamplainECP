@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import UserRequestDTO from "../models/UserRequestDTO";
+import React, {useState } from "react";
 import { AuthService } from "features/auth/Service/AuthService";
-import styles from "../components/CreateUser.module.css";
-import Loging from "../../../features/auth/Login-Logout/Login";
-import LeagueImage from "assets/LeagueAlertsImg.jpg";
+import AuthorRequestDTO from "features/authors/model/AuthorRequestDTO";
+import styles from "./AdminCreateAuthor.module.css";
+import LeagueImage from "../../../../assets/LeagueAlertsImg.jpg";
 
-const CreateUserForm: React.FC = () => {
-  const [formData, setFormData] = useState<UserRequestDTO>({
+const AdminCreateAuthor: React.FC = () => {
+  const [formData, setFormData] = useState<AuthorRequestDTO>({
     emailAddress: "",
     firstName: "",
     lastName: "",
     password: "",
+    // biography: "",
     connection: "Username-Password-Authentication",
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -27,7 +27,7 @@ const CreateUserForm: React.FC = () => {
     setSuccessMessage(null);
     setErrorMessage(null);
     try {
-      const response = await authService.createUser(formData);
+      const response = await authService.createAuthor(formData);
       setSuccessMessage(`User created successfully! ID: ${response.user_id}`);
     } catch (error: any) {
       setErrorMessage(error.message || "Failed to create user");
@@ -36,7 +36,7 @@ const CreateUserForm: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Sign Up</h1>
+      <h1 className={styles.heading}>Create Author</h1>
       <div className={styles.formContainer}>
         <div className={styles.imgContainer}>
           <img src={LeagueImage} alt="League Alerts" className={styles.img} />
@@ -90,8 +90,20 @@ const CreateUserForm: React.FC = () => {
               required
             />
           </div>
+          {/* <div className={styles.inputGroup}>
+                <label className={styles.label}></label>
+                <input
+                  placeholder="Enter the authors Biography"
+                  className={styles.input}
+                  type="biography"
+                  name="biography"
+                  value={formData.biography}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div> */}
           <button className={styles.button} type="submit">
-            Create User
+            Create Author
           </button>
         </form>
       </div>
@@ -99,10 +111,7 @@ const CreateUserForm: React.FC = () => {
         <p className={styles.successMessage}>{successMessage}</p>
       )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-
-      <Loging />
     </div>
   );
 };
-
-export default CreateUserForm;
+export default AdminCreateAuthor;

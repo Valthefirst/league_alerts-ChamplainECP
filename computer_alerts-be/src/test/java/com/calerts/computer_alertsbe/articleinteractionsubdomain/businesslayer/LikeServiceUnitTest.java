@@ -236,7 +236,7 @@ class LikeServiceUnitTest {
         String articleId = "article-1";
         String readerId = "reader-001";
 
-        // Create an ArticleIdentifier and Article mock object
+        // Create an ReaderIdentifier and Article mock object
         ArticleIdentifier articleIdentifier = new ArticleIdentifier(articleId);
         Article article = Article.builder()
                 .articleIdentifier(articleIdentifier)

@@ -38,6 +38,7 @@ dependencies {
     implementation("com.cloudinary:cloudinary-http5:2.0.0")
     implementation("com.cloudinary:cloudinary-taglib:2.0.0")
     implementation("io.github.cdimascio:dotenv-java:2.2.4")
+    implementation 'com.konghq:unirest-java:3.11.11'  // Use the latest version
 
     // Google API
     implementation("com.google.api-client:google-api-client-jackson2:1.20.0")
