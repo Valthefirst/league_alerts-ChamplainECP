@@ -37,7 +37,6 @@ public class AuthController {
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody UserRequestDTO userRequest) {
         try {
-            // Create the user
             UserResponseModel userResponse = userService.createUser(userRequest);
 
             // Send a welcome email
