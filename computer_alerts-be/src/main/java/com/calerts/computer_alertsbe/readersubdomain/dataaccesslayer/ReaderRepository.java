@@ -4,5 +4,5 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
 public interface ReaderRepository extends ReactiveMongoRepository<Reader, String> {
-    Mono<Reader> findReaderByReaderId(String readerId);
+    Mono<Reader> findReaderByReaderIdentifier_ReaderId(String readerId);
 }

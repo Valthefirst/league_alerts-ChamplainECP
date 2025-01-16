@@ -241,7 +241,7 @@ class InteractionControllerIntegrationTest {
 //    @WithMockUser(username = "testuser", roles = {"USER"})
 //    public void whenGetAllComments_thenReturnAllComments() {
 //        // Arrange
-//        var articleId = new ArticleIdentifier("article-1");
+//        var articleId = new ReaderIdentifier("article-1");
 //
 //        var comment1 = Comment.builder()
 //                .commentId(new CommentIdentifier())

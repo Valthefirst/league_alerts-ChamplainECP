@@ -26,16 +26,19 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody UserRequestDTO userRequest) {
-        try {
-            UserResponseModel userResponse = userService.createUser(userRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
-        }
+    @PostMapping("/create/Reader")
+    public Mono<ResponseEntity<AuthorResponseModelAuth>> createUser(@RequestBody AuthorRequestDTO userRequest) {
+        return userService.createReader(userRequest)
+                .map(authorResponse -> ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(authorResponse))
+                .onErrorResume(e -> {
+                    System.out.println("Did Not create user" +e.getMessage());
+                    return Mono.just(ResponseEntity
+                            .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
+                });
+
+
     }
     @PostMapping("/create/Author")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createAuthor(@RequestBody AuthorRequestDTO authorRequest) {
@@ -49,9 +52,13 @@ public class AuthController {
                             .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
                 });
     }
-    @PostMapping("/create/{userId}/assign-role")
+    @PostMapping("/create/{userId}/assign-role/Author")
     public Mono<Void> assignAuthorRole (@PathVariable String userId, @RequestBody RoleRequest roleRequest) {
-        return userService.assignRoleToUser(userId, roleRequest);
+        return userService.assignRoleToAuthor(userId, roleRequest);
+    }
+    @PostMapping("/create/{userId}/assign-role/Reader")
+    public Mono<Void> assignReaderRole (@PathVariable String userId, @RequestBody RoleRequest roleRequest) {
+        return userService.assignRoleToReader(userId, roleRequest);
     }
 
 

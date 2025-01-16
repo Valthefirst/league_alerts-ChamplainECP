@@ -92,7 +92,7 @@ export class AuthService {
   private async getManagementApiToken(): Promise<string> {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_DOMAIN}`,
+        `https://${process.env.REACT_APP_API_DOMAIN}/oauth/token`,
         {
           client_id: process.env.REACT_APP_API_ClIENT_ID,
           client_secret: process.env.REACT_APP_API_SECREAT,
@@ -114,18 +114,39 @@ export class AuthService {
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
-      // Get the Management API token before making the request
-      const managementApiToken = await this.getManagementApiToken();
-  
-      const response = await axios.post(this.URL + "create", userRequest, {
+      // First create the author
+      const response = await fetch(this.URL + "create/Reader", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${managementApiToken}`, // Add the Management API token
         },
-        withCredentials: true,
+        body: JSON.stringify(userRequest),
       });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create author");
+      }
+
+      const readerResponse = await response.json();
+
+      const managementApiToken = await this.getManagementApiToken();
+      const roleId = "[rol_LOREG4N5742ObYCz]"; 
+      
+      const encodeAuthUserId = readerResponse.auth0UserId.replace("|","%7C") 
+         
+      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Reader`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${managementApiToken}`,
+        },
+        body: JSON.stringify(roleId),
+      });
+
+
   
-      return response.data;
+      return readerResponse;
     } catch (error: any) {
       console.error("Full error:", error);
       throw new Error(error.response?.data || "Failed to create user or assign roles");
@@ -156,7 +177,7 @@ export class AuthService {
       
       const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
          
-      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role`, {
+      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Author`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

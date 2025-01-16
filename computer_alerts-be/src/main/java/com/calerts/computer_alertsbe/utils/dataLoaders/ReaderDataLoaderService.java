@@ -2,6 +2,7 @@ package com.calerts.computer_alertsbe.utils.dataLoaders;
 
 
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,8 +19,10 @@ public class ReaderDataLoaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Reader reader1 = Reader.builder()
-                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+                .readerIdentifier(new ReaderIdentifier())
                 .firstName("James")
+                .emailAddress("james@gmail.com")
+                .auth0userId("auth|223232312")
                 .lastName("Jordan")
                 .build();
 

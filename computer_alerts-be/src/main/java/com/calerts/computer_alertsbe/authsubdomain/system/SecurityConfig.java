@@ -58,16 +58,27 @@ public class SecurityConfig {
                         //---------------ReaderEndpoints
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
+                                .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
+
+
+
+                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").authenticated()
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").authenticated()
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").authenticated()
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").authenticated()
+
+
+                                .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").authenticated()
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").authenticated()
 
 
 
 
                         //---------------AuthorEndpoints
-                        .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").permitAll()
-                        .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/articles/**").authenticated()
+
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
+
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "api/create/Author").permitAll()
 
@@ -76,13 +87,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/create/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
-                        .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").permitAll()
-                        .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").permitAll()
 
-                        
-                        .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").authenticated()
-                        .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").authenticated()
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").authenticated()
 //                        .pathMatchers(HttpMethod.POST, "/api/rules/").permitAll()
 //                        .pathMatchers(HttpMethod.OPTIONS, "/api/rules/").permitAll()
@@ -129,8 +134,8 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(frontendDomain)); // Set frontend origin
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedOrigins(List.of(frontendDomain));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

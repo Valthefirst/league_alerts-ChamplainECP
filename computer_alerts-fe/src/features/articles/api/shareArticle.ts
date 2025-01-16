@@ -11,7 +11,11 @@ export const shareArticle = async (
 ): Promise<void> => {
   console.log("Sending share request:", { articleId, readerId }); // Debugging log
   try {
+    const accessToken = localStorage.getItem("accessToken");
     await axiosInstance.post(`/interactions/share`, null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       params: {
         articleId,
         readerId,

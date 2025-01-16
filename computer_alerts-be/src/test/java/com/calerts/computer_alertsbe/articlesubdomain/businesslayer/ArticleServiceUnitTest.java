@@ -173,7 +173,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(5)
                 .build();
 
@@ -201,7 +201,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(null) // No initial request count
                 .build();
 

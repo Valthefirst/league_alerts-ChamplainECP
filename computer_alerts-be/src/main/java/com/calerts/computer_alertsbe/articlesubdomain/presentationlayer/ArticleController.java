@@ -31,7 +31,6 @@ public class ArticleController {
 
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('like:articles')")
     public Flux<ArticleResponseModel> getAllArticles() {
         return articleService.getAllArticles();
 

@@ -7,7 +7,7 @@ import LeagueImage from "assets/LeagueAlertsImg.jpg";
 
 const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
-    email: "",
+    emailAddress: "",
     firstName: "",
     lastName: "",
     password: "",
@@ -47,9 +47,9 @@ const CreateUserForm: React.FC = () => {
             <input
               placeholder="Enter your email"
               className={styles.input}
-              type="email"
-              name="email"
-              value={formData.email}
+              type="emailAddress"
+              name="emailAddress"
+              value={formData.emailAddress}
               onChange={handleInputChange}
               required
             />

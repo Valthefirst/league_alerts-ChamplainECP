@@ -47,7 +47,7 @@ class ArticleControllerIntegrationTest {
 //        articleRepository.deleteAll().block();
 //
 //        var article1 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 1")
 //                .body("This is the body of article 1")
 //                .wordCount(7)
@@ -59,7 +59,7 @@ class ArticleControllerIntegrationTest {
 //                .build();
 //
 //        var article2 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 2")
 //                .body("This is the body of article 2")
 //                .wordCount(7)
@@ -71,7 +71,7 @@ class ArticleControllerIntegrationTest {
 //                .build();
 //
 //        var article3 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 3")
 //                .body("This is the body of article 3")
 //                .wordCount(7)
@@ -353,7 +353,7 @@ class ArticleControllerIntegrationTest {
 //
 //        //arrange
 //        var article1 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 1")
 //                .body("This is the body of article 1")
 //                .wordCount(7)
@@ -365,7 +365,7 @@ class ArticleControllerIntegrationTest {
 //                .build();
 //
 //        var article2 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 2")
 //                .body("This is the body of article 2")
 //                .wordCount(7)
@@ -377,7 +377,7 @@ class ArticleControllerIntegrationTest {
 //                .build();
 //
 //        var article3 = Article.builder()
-//                .articleIdentifier(new ArticleIdentifier())
+//                .articleIdentifier(new ReaderIdentifier())
 //                .title("Article 3")
 //                .body("This is the body of article 3")
 //                .wordCount(7)
