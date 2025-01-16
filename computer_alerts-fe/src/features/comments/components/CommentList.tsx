@@ -18,7 +18,7 @@ const CommentList: React.FC<CommentListProps> = ({
 
     const connectToSSE = () => {
       eventSource = new EventSource(
-        "http://localhost:8080/api/v1/interactions/comments",
+        "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/interactions/comments",
       );
 
       eventSource.onopen = () => {
