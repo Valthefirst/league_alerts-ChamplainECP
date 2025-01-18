@@ -72,7 +72,8 @@ public class SecurityConfig {
 
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
-                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").hasAuthority("create:articles")
+                        //.pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").hasAuthority("create:articles")
+                                .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
 
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/acceptArticle/").hasAuthority("admin:articles")
 
