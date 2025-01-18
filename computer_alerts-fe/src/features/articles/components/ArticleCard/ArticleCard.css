@@ -90,6 +90,7 @@
 .article-card-like-count {
   font-size: 14px;
   color: #fff;
+  padding-top: 10px;
 }
 
 .heart-animation {
@@ -122,4 +123,18 @@
   font-size: 1.5rem;
   color: #6c757d;
   margin-top: 1rem;
+}
+
+.share-icon-card {
+  width: 45px; /* Adjust to match the size of the heart */
+  height: 45px; /* Ensure it's a perfect square */
+  cursor: pointer;
+  border: 2px solid red; /* Add the red circular border */
+  border-radius: 50%; /* Make the border circular */
+  padding: 5px; /* Space between the icon and the border */
+  box-sizing: border-box; /* Include padding in size calculation */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Add hover effect */
+  margin-left: 0px;
 }

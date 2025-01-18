@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,9 +39,9 @@ public class ArticleController {
     }
 
     //Get all articles for specific sport
-    @GetMapping("/tag/{tagName}")
-    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String tagName) {
-        return articleService.getAllArticleForSpecificSport(tagName);
+    @GetMapping("/categories/{category}")
+    public Flux<ArticleResponseModel>getAllArticleForASpecificSport(@PathVariable String category) {
+        return articleService.getAllArticleForSpecificSport(category);
 
 
     }
@@ -54,6 +57,7 @@ public class ArticleController {
 
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> createArticle(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticle(Mono.just(articleRequestModel))
                 .map(articleResponseModel -> ResponseEntity
@@ -77,17 +81,18 @@ public class ArticleController {
 //        return articleService.searchArticles(query);
 //    }
 
-    @GetMapping(value = "/tag/{tagName}/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/categories/{category}/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<List<ArticleResponseModel>> searchArticles(
-            @PathVariable String tagName,
+            @PathVariable String category,
             @RequestParam String query
     ) {
-        return articleService.searchArticles(tagName, query);
+        return articleService.searchArticles(category, query);
     }
 
 
     @PermitAll
     @PatchMapping(value = "acceptArticle/{articleId}")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<Void>> acceptArticle(@PathVariable String articleId) {
         return articleService.acceptArticle(articleId).then(Mono.just(ResponseEntity.noContent().build()));
     }
@@ -95,6 +100,7 @@ public class ArticleController {
 
 
     @PostMapping(value = "/acceptDraft" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> createArticleDraft(@RequestBody ArticleRequestModel articleRequestModel) {
         return articleService.createArticleDraft(Mono.just(articleRequestModel))
                 .map(articleResponseModel -> ResponseEntity
@@ -109,6 +115,7 @@ public class ArticleController {
     @PutMapping(value = "/{articleId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('create:articles')")
     public Mono<ResponseEntity<ArticleResponseModel>> editArticle
             (@PathVariable String articleId,
              @RequestBody Mono<ArticleRequestModel> articleRequestModel) {
@@ -120,5 +127,23 @@ public class ArticleController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
 
     }
+
+//    @PutMapping(value = "/{articleId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Mono<ResponseEntity<String>> updateArticleImage(
+//            @PathVariable String articleId,
+//            @RequestPart("file") FilePart filePart) {
+//
+//        System.out.println("cloudinary service" + filePart);
+//        return articleService.updateArticleImage(articleId, filePart)
+//                .map(ResponseEntity::ok)
+//                .defaultIfEmpty(ResponseEntity.notFound().build());
+//    }
+//
+//    @PostMapping(value="/uploadImage",produces = MediaType.MULTIPART_FORM_DATA_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public Mono<ResponseEntity<String>> uploadImage(@RequestPart("file") FilePart filePart) {
+//        return articleService.uploadImage(filePart)
+//                .map(ResponseEntity::ok)
+//                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image")));
+//    }
 
 }

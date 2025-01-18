@@ -1,0 +1,66 @@
+@startuml
+title Design Level Class Diagram for Searching Articles
+
+package "Article Subdomain" {
+    class ArticleController {
+        + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>
+    }
+
+    interface ArticleService {
+        + searchArticles(keyword: String) : List<ArticleResponseModel>
+    }
+
+    class ArticleServiceImpl {
+        - articleRepository: ArticleRepository
+        - articleResponseMapper: ArticleResponseMapper
+        + searchArticles(keyword: String) : List<ArticleResponseModel>
+    }
+
+    interface ArticleRepository {
+        + findByTitleContainingOrTags_TagNameContaining(keyword: String) : List<Article>
+    }
+
+    class Article {
+        - articleId : String
+        - title : String
+        - content : String
+        - tags : List<Tags>
+        - authorId : String
+        - createdAt : LocalDateTime
+        - status : ArticleStatus
+    }
+
+    class Tags {
+        - tagName : String
+    }
+
+    class ArticleResponseModel {
+        - articleId : String
+        - title : String
+        - summary : String
+        - tags : List<String>
+        - createdAt : LocalDateTime
+    }
+
+    interface ArticleResponseMapper {
+        + toResponseModel(article: Article) : ArticleResponseModel
+        + toResponseModelList(articles: List<Article>) : List<ArticleResponseModel>
+    }
+
+    enum ArticleStatus {
+        DRAFT
+        PUBLISHED
+        ARCHIVED
+    }
+
+    ArticleController --> ArticleService : calls
+    ArticleServiceImpl -up-|> ArticleService : implements
+    ArticleServiceImpl --> ArticleRepository : uses
+    ArticleRepository --> Article : queries
+    Article --> Tags : has
+    Article --> ArticleStatus : has status
+    ArticleServiceImpl --> ArticleResponseMapper : uses
+    ArticleResponseMapper --> ArticleResponseModel : converts to
+}
+
+@enduml

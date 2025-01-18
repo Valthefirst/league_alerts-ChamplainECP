@@ -2,7 +2,7 @@ export enum AppRoutePaths {
   Default = "/",
   HomePage = "/home",
   Authors = "/authors",
-  ArticlesByTag = "/articles/tag/:tagName",
+  ArticlesByCategory = "/articles/categories/:category",
   SpecificArticle = "/articles/:id",
   EditArticle = "/articles/edit/:id",
   NBA = "/nba",
@@ -24,5 +24,7 @@ export enum AppRoutePaths {
   //
 
   AdminHomePage = "/adminHomePage",
+  AdminAuthors = "/adminAuthors",
+  AdminCreateAuthor = "/admin/createAuthor",
   AdminReviewArticles = "/adminReviewArticles",
 }

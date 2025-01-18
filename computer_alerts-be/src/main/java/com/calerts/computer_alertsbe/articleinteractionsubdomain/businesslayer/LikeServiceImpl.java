@@ -43,7 +43,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Flux<Like> getLikesByArticle(ArticleIdentifier articleIdentifier) {
-        // Find all Likes associated with a specific ArticleIdentifier
+        // Find all Likes associated with a specific ReaderIdentifier
         return likeRepository.findByArticleIdentifier(articleIdentifier);
     }
 

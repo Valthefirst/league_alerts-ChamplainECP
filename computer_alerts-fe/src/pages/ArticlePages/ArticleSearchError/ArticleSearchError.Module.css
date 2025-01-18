@@ -1,0 +1,12 @@
+.Image {
+  margin-left: 100%px;
+  height: 500px;
+  width: 700px;
+}
+.centered {
+  text-align: center;
+}
+.header {
+  font-weight: bold;
+  font-style: oblique;
+}

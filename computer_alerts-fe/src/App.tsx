@@ -23,7 +23,11 @@ import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
 import SavedArticlesPage from "pages/SavedArticlesPage/SavedArticlesPage";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
-import EditArticlePage from "pages/ArticlePages/EditArticle/EditArticlePage";
+import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
+
+import Footer from "assets/Footer/Footer";
+import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
+import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
 
 const Navbar = () => {
   const location = useLocation();
@@ -38,7 +42,8 @@ const Navbar = () => {
     return <AuthorNavBar />;
   } else if (
     location.pathname.startsWith("/adminHomePage") ||
-    location.pathname.startsWith("/adminReviewArticles")
+    location.pathname.startsWith("/adminReviewArticles") ||
+    location.pathname.startsWith("/adminAuthors")
   ) {
     return <AdminNavBar />;
   }
@@ -58,15 +63,18 @@ function App(): JSX.Element {
             path={AppRoutePaths.CREATE_ACCOUNT}
             element={<CreateUserForm />}
           />
+
+          <Route
+            path={AppRoutePaths.ArticlesByCategory}
+            element={<ArticlesPage />}
+          />
+
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-          <Route path={AppRoutePaths.EditArticle} element={<EditArticlePage />} />
-          
-          <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
+
+
+         
 
           <Route
             path={AppRoutePaths.AuthorHomePage}
@@ -83,27 +91,33 @@ function App(): JSX.Element {
             element={<AdminHomePage />}
           />
           <Route
+            path={AppRoutePaths.AdminAuthors}
+            element={<AdminAuthorsPage />}
+          />
+          <Route
             path={AppRoutePaths.AdminReviewArticles}
             element={<AdminReviewArticles />}
+          />
+          <Route
+            path={AppRoutePaths.AdminCreateAuthor}
+            element={<AdminCreateAuthor />}
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
           <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
-          />
-          <Route
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
-          <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
           <Route
-            path={AppRoutePaths.ArticlesByTag}
-            element={<ArticlesPage />}
+            path="/unauthorized"
+            element={<UnAuthorized />}
           />
           <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
+          <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
         </Routes>
       </Router>
+
+      <Footer />
     </div>
   );
 }

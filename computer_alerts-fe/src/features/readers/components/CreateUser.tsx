@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import UserRequestDTO from "../models/UserRequestDTO";
 import { AuthService } from "features/auth/Service/AuthService";
 import styles from "../components/CreateUser.module.css";
-// import Footer from "assets/Footer";
+import Loging from "../../../features/auth/Login-Logout/Login";
 import LeagueImage from "assets/LeagueAlertsImg.jpg";
 
 const CreateUserForm: React.FC = () => {
   const [formData, setFormData] = useState<UserRequestDTO>({
-    email: "",
+    emailAddress: "",
     firstName: "",
     lastName: "",
     password: "",
@@ -47,9 +47,9 @@ const CreateUserForm: React.FC = () => {
             <input
               placeholder="Enter your email"
               className={styles.input}
-              type="email"
-              name="email"
-              value={formData.email}
+              type="emailAddress"
+              name="emailAddress"
+              value={formData.emailAddress}
               onChange={handleInputChange}
               required
             />
@@ -99,7 +99,8 @@ const CreateUserForm: React.FC = () => {
         <p className={styles.successMessage}>{successMessage}</p>
       )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-      {/* <Footer/> */}
+
+      <Loging />
     </div>
   );
 };

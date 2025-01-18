@@ -1,0 +1,12 @@
+/* Container styling for the page */
+.articleFormContainer {
+  background-color: #ffffff; /* Same background as edit-article-container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the container fills the entire height of the viewport */
+  padding: 20px;
+}
+
+

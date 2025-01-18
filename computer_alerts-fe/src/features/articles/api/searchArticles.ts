@@ -3,19 +3,19 @@ import { ArticleRequestModel } from "../models/ArticleRequestModel";
 
 /**
  * Search articles by a query (in title or body) within a specific tag.
- * @param {string} tagName - Tag to filter articles by.
+ * @param {string} category - Category to filter articles by.
  * @param {string} query - Search query for title or body.
  * @returns {Promise<ArticleRequestModel[]>} List of articles matching the query within the tag.
  */
-export const searchArticlesByTagAndQuery = async (
-  tagName: string,
-  query: string
+export const searchArticlesByCategoryAndQuery = async (
+  category: string,
+  query: string,
 ): Promise<ArticleRequestModel[]> => {
   const response = await axiosInstance.get<ArticleRequestModel[]>(
-    `/articles/tag/${tagName}/search`,
+    `/articles/categories/${category}/search`,
     {
       params: { query },
-    }
+    },
   );
   return response.data;
 };

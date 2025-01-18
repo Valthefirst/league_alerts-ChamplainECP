@@ -1,69 +1,104 @@
-.con-color {
-    background-color: #fadbd8;
-    display: flex;
-    justify-content: center; /* Centers the content horizontally */
-    padding: 20px;
+/* Edit Article Form */
+.edit-container {
+  text-align: center;
+  margin: 20px auto; /* Center the form container with some top/bottom margin */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent the entire container from overflowing */
 }
 
-.container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px; /* Set a max width for the form container */
+.article-form {
+  background-color: #fadbd8 !important; /* Background color for the form */
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Fixed smaller width */
+  max-height: 650px; /* Limit the height of the form */
+  overflow-y: auto; /* Add vertical scrolling if content overflows */
+  box-sizing: border-box; /* Include padding in width/height calculations */
+  display: flex;
+  flex-direction: column;
 }
 
-.center {
-    text-align: center;
+/* Title */
+.form-title {
+  font-weight: bold;
+  font-size: 30px;
+  color: #5d4037;
+  text-align: center;
+  margin-bottom: 20px; /* Space below the title */
 }
 
-.field {
-    margin-bottom: 20px;
+/* Form Fields */
+.article-field-box input,
+.article-field-box select,
+.article-field-box textarea,
+.title-field input {
+  width: 100%; /* Full width of the form */
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.article-field-box textarea {
+  height: 250px !important; /* Fixed height for text area */
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.submit-Update-button,
+.upload-button,
+.cancel-update-button {
+  background-color: #cda09f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+.submit-Update-button:hover,
+.upload-button:hover,
+.cancel-update-button:hover {
+  background-color: #a67c6d;
+  transform: translateY(-3px);
+}
+
+.article-field-box,
+.article-fields-box {
+  margin-bottom: 20px;
+}
+
+.article-fields-box {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Allows fields to wrap if space is limited */
 }
 
 .sameLine {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Spaces the child elements equally */
-    gap: 10px; /* Adds space between the elements */
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.sameLine .field {
-    flex: 1; /* Ensures the fields take equal space */
+.file-preview {
+  margin-top: 10px;
 }
 
-.field input, .field select, .field textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
 }
-
-.field textarea {
-    height: 150px;
-}
-
-.submit-Update {
-    background-color: #CDA09F; /* Set button color */
-    color: white; /* Text color */
-    padding: 10px 20px; /* Button padding */
-    border-radius: 8px; /* Rounded corners */
-    border: none; /* Remove default border */
-    font-size: 16px; /* Adjust font size */
-    font-weight: bold; /* Make text bold */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    transition: all 0.3s ease; /* Smooth transition */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  .submit-Update:hover {
-    background-color: #A67C6D; /* Darken the color on hover */
-    transform: translateY(-3px); /* Lift the button slightly */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
-  }
-  
-  .submit-Update:focus {
-    outline: none; /* Remove focus outline */
-    box-shadow: 0 0 0 4px #A67C6D; /* Add a glowing effect when focused */
-  }

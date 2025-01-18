@@ -1,184 +1,221 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { ArticleRequestModel } from "../../models/ArticleRequestModel"; 
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { editArticle } from "features/articles/api/editArticle";
 import { useNavigate } from "react-router-dom";
+import { editArticleImage } from "features/articles/api/updateArticleImage";
+import "./EditArticleForm.css"; // Adjust the path based on your file structure
+
 
 interface EditArticlePageProps {
-    article: ArticleRequestModel;
+  article: ArticleRequestModel;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function EditArticle({ article }: EditArticlePageProps): JSX.Element {
+export default function EditArticle({
+  article,
+  setIsEditing,
+}: EditArticlePageProps): JSX.Element {
+  const [formData, setFormData] = useState<ArticleRequestModel>(article);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [error, setError] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState<boolean>(false); // For showing a loading state
+  const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [fileName, setFileName] = useState<string>("") //temporary file
+  const navigate = useNavigate();
 
-    const [formData, setFormData] = useState<ArticleRequestModel>(article);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
+  
+ 
+    
+  const handleChanges = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleChanges = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ): void => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    }
-
-    const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-        const { value } = e.target; // Get the selected value
-        setFormData({ ...formData, tagsTag: value }); // Update tagsTag in formData
+  const handleImageChanges = async (
+    e: ChangeEvent<HTMLInputElement>,
+    ) => {
+    const file = e.target.files?.[0];
+      if  (file) {
+        setImageFile(file);
+        setFileName(file.name);
+        alert("Image file selected:" + file.name);
+      } else if (!file){
+        setImageFile(null);
+       
+        alert("File could not be uploaded:");
+      };
     };
 
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        console.log("Submit button clicked");
-        if (!validate()) {
-            console.log("Validation failed");
-            return;
-        }
+  const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { value } = e.target; // Get the selected value
+    setFormData({ ...formData, tagsTag: value }); // Update tagsTag in formData
+  };
 
-        try {
-            console.log("Sending request to editArticle");
-            await editArticle(article.articleId, formData);
-            alert("Article updated successfully");
-            navigate(`/articles/${article.articleId}`);
-        } catch (err) {
-            console.error("Error updating article:", err);
-            setError('Failed to update article. Please try again later.');
-        }
-    }
 
-    const validate = (): boolean => {
-        const newErrors: { [key: string]: string } = {};
+     // Ensure the formData is updated whenever the article prop changes
+     useEffect(() => {
+      setFormData(article);
+    }, [article]);
 
-        if (!formData.title) newErrors.title = 'Title is required';
-        if (!formData.tags) newErrors.tags = 'Categories are required';
-        if (!formData.tagsTag) newErrors.tagsTag = 'Tags are required';
-        if (!formData.body) newErrors.body = 'Body is required';
-        if (!formData.photoUrl) newErrors.photoUrl = 'Photo URL is required';
-
-        if (Object.keys(newErrors).length > 0) {
-            console.error("Validation errors:", newErrors);
-            setError('Please fix the errors above.');
-            return false;
-        }
-
-        setError(null);
-        return true;
+    const handleCancel = () => {
+      setIsEditing(false);
+      navigate(`/articles/${article.articleId}`); // Adjust the path if needed
     };
 
-    return (
-        <div className="con-color">
-            <div className="container">
-                <h1 className="center">Edit Article</h1>
+  const handleSubmit = async (e: FormEvent) => {
 
-                {/* Title and Tags Fields */}
-                <div className="sameLine">
-                    <div className="field" style={{ flex: 1, marginRight: '10px' }}>
-                        <label>Title</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChanges}
-                        />
-                    </div>
-                    
-                    <div className="field" style={{ flex: 1 }}>
-                        <label>Categories</label>
-                        <input
-                            type="text"
-                            name="tags"
-                            value={formData.tags}
-                            onChange={handleChanges}
-                        />
-                    </div>
-                </div>
+    e.preventDefault();
+    
+    if (!validate()) {
+      return;
+    }
 
-                {/* Tags Select Field */}
-                <div className="field">
-                    <label>Tags</label>
-                    <select
-                        name="tagsTag"
-                        value={formData.tagsTag}
-                        onChange={handleTagChanges}
-                    >
-                        <option value="NBA">NBA</option>
-                        <option value="NHL">NHL</option>
-                        <option value="UFC">UFC</option>
-                        <option value="NFL">NFL</option>
-                        <option value="MLB">MLB</option>
-                    </select>
-                </div>
+    setLoading(true);
 
-                {/* Description Field
-                <div className="field">
-                    <label>Description</label>
-                    <textarea
-                        name="descitpion"
-                        value={formData.articleDescpition}
-                        onChange={handleChanges}
-                    />
-                </div> */}
+   try{
+    if(imageFile){
+      const response = await editArticleImage(article.articleId, imageFile);
+      const photoUrl = response.data;
+      formData.photoUrl = photoUrl;
+    }
 
-                {/* Photo URL Field */}
-                <div className="field">
-                    <label>Photo URL</label>
-                    <input
-                        type="text"
-                        name="photoUrl"
-                        value={formData.photoUrl}
-                        onChange={handleChanges}
-                    />
-                </div>
+    await editArticle(article.articleId, formData);
+    alert("Article updated successfully");
+    navigate(`/articles/${article.articleId}`);
+    setIsEditing(false); // Close the edit form after successful update
+    window.location.reload();
+   }catch(err){
+     console.error("Error updating article:", err);
+     setError("Failed to update article. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-                {/* Body Field */}
-                <div className="field">
-                    <label>Body</label>
-                    <textarea
-                        name="body"
-                        value={formData.body}
-                        onChange={handleChanges}
-                    />
-                </div>
-                    
-                <button
-                    className="submit-Update"
-                    type="submit"
-                    onClick={handleSubmit}
-                    style={{
-                      backgroundColor: '#CDA09F', // Set button color
-                      color: 'white', // Text color
-                      padding: '10px 20px', // Button padding
-                      borderRadius: '8px', // Rounded corners
-                      border: 'none', // Remove default border
-                      fontSize: '16px', // Adjust font size
-                      fontWeight: 'bold', // Make text bold
-                      cursor: 'pointer', // Change cursor to pointer on hover
-                      transition: 'all 0.3s ease', // Smooth transition
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#A67C6D'; // Darken the color on hover
-                      e.currentTarget.style.transform = 'translateY(-3px)'; // Lift the button slightly
-                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)'; // Darker shadow on hover
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = '#CDA09F'; // Reset button color
-                      e.currentTarget.style.transform = 'translateY(0)'; // Reset transform
-                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)'; // Reset shadow
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.outline = 'none'; // Remove focus outline
-                      e.currentTarget.style.boxShadow = '0 0 0 4px #A67C6D'; // Add a glowing effect when focused
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)'; // Reset shadow after focus
-                    }}
-                  >
-                    Update Article
-              </button>
+  const validate = (): boolean => {
+    const newErrors: { [key: string]: string } = {};
 
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.category) newErrors.category = "Categories are required";
+    if (!formData.tagsTag) newErrors.tagsTag = "Tags are required";
+    if (!formData.body) newErrors.body = "Body is required";
+    if (!formData.photoUrl) newErrors.photoUrl = "Photo URL is required";
 
-                    
+    if (Object.keys(newErrors).length > 0) {
+      console.error("Validation errors:", newErrors);
+      setError("Please fix the errors above.");
+      return false;
+    }
+
+    setError(null);
+    return true;
+  };
+
+  return (
+ 
+   
+      <div className="edit-container">
+
+        <form onSubmit={handleSubmit} className="article-form">
+          <h1 className="form-title">Edit Article</h1>
+          {/* Title and Categories Fields */}
+          <div className="article-fields-box sameLine">
+            <div className="title-field" style={{ flex: 1, marginRight: "60px" }}>
+              <label className="field-title">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChanges}
+              />
             </div>
-        </div>
-    );
+  
+            <div className="article-field-box" style={{ flex: 0.5, marginLeft: "60px"}}>
+              <label className="field-title">Categories</label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChanges}
+              />
+            </div>
+          </div>
+  
+          {/* Tags Select Field */}
+          <div className="article-field-box">
+            <label className="field-title">Tags</label>
+            <select
+              name="tagsTag"
+              value={formData.tagsTag}
+              onChange={handleTagChanges}
+            >
+              <option value="NBA">NBA</option>
+              <option value="NHL">NHL</option>
+              <option value="UFC">UFC</option>
+              <option value="NFL">NFL</option>
+              <option value="MLB">MLB</option>
+            </select>
+          </div>
+  
+          {/* New File Name Field */}
+          <div className="article-field-box">
+            <label className="field-title">New File Name</label>
+            <input type="text" name="author" value={fileName} readOnly />
+          </div>
+  
+          {/* Photo Upload Button */}
+          <div className="button-container">
+            <button
+              type="button"
+              onClick={() => document.getElementById("fileInput")?.click()}
+              className="upload-button"
+            >
+              Upload Image
+            </button>
+  
+            {/* Hidden File Input */}
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChanges}
+              style={{ display: "none" }}
+            />
+          </div>
+  
+          {/* Body Field */}
+          <div className="article-field-box">
+            <label className="field-title">Body</label>
+            <textarea
+              name="body"
+              value={formData.body}
+              onChange={handleChanges}
+            />
+          </div>
+  
+          {/* Submit and Cancel Buttons */}
+          <div className="button-container">
+            <button
+              className="submit-Update-button"
+              type="submit"
+            >
+              Update Article
+            </button>
+            <button
+              className="cancel-update-button"
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+  
+  
+  );
 }

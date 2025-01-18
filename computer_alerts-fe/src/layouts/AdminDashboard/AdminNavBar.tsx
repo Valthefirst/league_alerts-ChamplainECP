@@ -22,6 +22,13 @@ export default function AuthorNavBar(): JSX.Element {
           <Nav className="ms-auto">
             <Nav.Link
               as={Link}
+              to={AppRoutePaths.AdminAuthors}
+              className="nav-link"
+            >
+              AdminAuthors
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
               to={AppRoutePaths.AdminReviewArticles}
               className="nav-link"
             >

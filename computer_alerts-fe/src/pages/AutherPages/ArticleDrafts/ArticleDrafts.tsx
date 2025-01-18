@@ -6,7 +6,7 @@ import ArticleMainComponent from "../../ArticlePages/ArticleMainComponent";
 import "./ArticleDrafts.css";
 
 const ArtifleDrafts: React.FC = () => {
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const [articles, setArticles] = useState<ArticleRequestModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +45,7 @@ const ArtifleDrafts: React.FC = () => {
               imageURL={article.photoUrl}
               title={article.title}
               description={`Word Count: ${article.wordCount}`}
-              tags={article.tags}
+              category={article.category}
               onClick={() => handleArticleClick(article.articleId)}
             />
           ))}
