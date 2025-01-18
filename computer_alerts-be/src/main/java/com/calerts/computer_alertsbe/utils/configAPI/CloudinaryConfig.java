@@ -13,6 +13,7 @@ public class CloudinaryConfig {
 
     @Value("${cloudinary.url}")
     private String CLOUDINARY_SECRET_URL;
+
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(CLOUDINARY_SECRET_URL);
