@@ -5,23 +5,26 @@ package "ArticleSubdomain" {
 
     class ArticleController {
         -articleService: ArticleService
-       + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+       + updateArticleImage(articleId : String, file: FilePart): Mono<String>
     }
 
     class ArticleResponseModel {
         - String title;
         - String body;
+        - String category;
         - int wordCount;
         - ArticleStatus articleStatus;
         - String tags;
         - LocalDateTime timePosted;
         - String photoUrl;
         - String articleDescription;
+        - ArticleIdentifer articleIdentifer;
     }
 
     class ArticleRequestModel {
         - String articleId;
         - String title;
+        - String category;
         - String body;
         - int wordCount;
         - ArticleStatus articleStatus;
@@ -32,12 +35,12 @@ package "ArticleSubdomain" {
     }
 
     interface ArticleService {
-         + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+         + updateArticleImage(articleId : String, file: FilePart): Mono<String>
     }
 
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
-        + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+        + updateArticleImage(articleId : String, file: FilePart): Mono<String>
     }
 
     interface ArticleRepository {
@@ -61,6 +64,14 @@ package "ArticleSubdomain" {
         - title: String;
         - body: String;
         - wordCount: Integer;
+    }
+
+    enum Tags {
+        NFL
+        NBA
+        NHL
+        MLB
+        UFC
     }
 
     enum ArticleStatus {
@@ -90,10 +101,8 @@ package "ArticleSubdomain" {
     Article --> ArticleIdentifer
     Article --> Content
     Article --> ArticleStatus
+    Article --> Tags
+
 }
-
-
-  
-  
 
 @enduml
