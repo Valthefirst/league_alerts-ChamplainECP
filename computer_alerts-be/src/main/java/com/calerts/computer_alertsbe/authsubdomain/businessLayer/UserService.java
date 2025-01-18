@@ -74,7 +74,7 @@ public class UserService {
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
             ResponseEntity<Map> response = restTemplate.postForEntity(
-                    "https://" + AUTH0_DOMAIN + "/oauth/token",
+                    "https://" + "dev-im24qkb6l7t2yhha.ca.auth0.com" + "/oauth/token",
                     request,
                     Map.class
             );

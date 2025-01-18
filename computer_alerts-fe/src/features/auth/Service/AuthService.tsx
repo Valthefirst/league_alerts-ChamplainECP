@@ -3,7 +3,7 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "http://https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
 
   
 
@@ -92,7 +92,7 @@ export class AuthService {
   private async getManagementApiToken(): Promise<string> {
     try {
       const response = await axios.post(
-        `https://${process.env.REACT_APP_API_DOMAIN}/oauth/token`,
+        `https://dev-im24qkb6l7t2yhha.ca.auth0.com/oauth/token`,
         {
           client_id: process.env.REACT_APP_API_ClIENT_ID,
           client_secret: process.env.REACT_APP_API_SECREAT,
