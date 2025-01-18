@@ -25,10 +25,10 @@ public interface ArticleService {
     Mono<ArticleResponseModel> createArticle(Mono<ArticleRequestModel> articleRequestModel);
     Mono<Void> acceptArticle(String articleId);
     Mono<ArticleResponseModel> createArticleDraft(Mono<ArticleRequestModel> articleRequestModel);
-//
-//    Mono<String> updateArticleImage(String articleId, FilePart file);
-//
-//    Mono<String> uploadImage(FilePart file);
+
+    Mono<String> updateArticleImage(String articleId, FilePart file);
+
+    Mono<String> uploadImage(FilePart file);
 
 
 }
