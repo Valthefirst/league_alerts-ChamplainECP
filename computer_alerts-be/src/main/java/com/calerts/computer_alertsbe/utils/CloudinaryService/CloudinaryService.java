@@ -18,7 +18,7 @@ public class CloudinaryService {
     // Constructor injection to use the Cloudinary bean configured in CloudinaryConfig
     public CloudinaryService(Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
-    }
+        }
 
 
     public Mono<String> uploadImage(FilePart filePart) {

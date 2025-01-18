@@ -1,0 +1,99 @@
+@startuml editArticles
+skinparam packageStyle rectangle
+
+package "ArticleSubdomain" {
+
+    class ArticleController {
+        -articleService: ArticleService
+       + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+    }
+
+    class ArticleResponseModel {
+        - String title;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
+    class ArticleRequestModel {
+        - String articleId;
+        - String title;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
+    interface ArticleService {
+         + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+    }
+
+    class ArticleServiceImpl {
+        - articleRepository: ArticleRepository
+        + editArticle(articleId : String, articleRequestModel : Mono<ArticleRequestModel>): Mono<Void>
+    }
+
+    interface ArticleRepository {
+        + findArticleByArticleIdentifier_ArticleId(articleId : String): Mono<Article>
+    }
+
+    class Article {
+        - String id;
+        - articleIdentifer: ArticleIdentifer;
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+        - articleStatus: ArticleStatus;
+        - tags: String;
+        - timePosted: LocalDateTime;
+        - photoUrl: String;
+        - articleDescription: String;
+    }
+
+    class Content {
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+    }
+
+    enum ArticleStatus {
+        PUBLISHED
+        DRAFT
+        ARCHIVED
+    }
+
+    class ArticleIdentifer {
+        - articleId: String;
+        + ArticleIdentifer(articleId: String);
+    }
+
+
+  class CloudinaryService{
+        + uploadImage(file: FilePart): String
+        
+    }
+
+    ArticleService --> CloudinaryService : uses
+    ArticleResponseModel <-- Article
+    ArticleRequestModel --> Article
+    ArticleController --> ArticleService : uses
+    ArticleServiceImpl --> ArticleService : implements
+    ArticleServiceImpl --> ArticleRepository : uses
+    ArticleRepository --> Article : queries
+    Article --> ArticleIdentifer
+    Article --> Content
+    Article --> ArticleStatus
+}
+
+
+  
+  
+
+@enduml
