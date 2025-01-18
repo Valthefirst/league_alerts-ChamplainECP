@@ -3,7 +3,7 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "http://https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
 
   
 
