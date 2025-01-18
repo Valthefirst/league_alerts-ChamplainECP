@@ -79,6 +79,7 @@ public class SecurityConfig {
 
 
                         //--------------AdminEndpoints
+                                .pathMatchers(HttpMethod.POST, "api/create/**").hasAuthority("admin:articles")
                                 .pathMatchers(HttpMethod.POST, "api/create/Author").hasAuthority("admin:articles")
                                 .pathMatchers(HttpMethod.POST, "api/create/Reader").authenticated()
 

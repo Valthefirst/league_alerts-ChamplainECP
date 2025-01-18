@@ -116,8 +116,6 @@ export class AuthService {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
-
-
       // First create the author
       const response = await fetch(this.URL + "create/Reader", {
         method: "POST",
