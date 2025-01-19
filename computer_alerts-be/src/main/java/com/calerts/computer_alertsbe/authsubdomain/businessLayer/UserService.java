@@ -74,7 +74,7 @@ public class UserService {
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
             ResponseEntity<Map> response = restTemplate.postForEntity(
-                    "https://" + AUTH0_DOMAIN + "/oauth/token",
+                    "https://" + "dev-im24qkb6l7t2yhha.ca.auth0.com" + "/oauth/token",
                     request,
                     Map.class
             );
@@ -83,46 +83,6 @@ public class UserService {
         } catch (Exception e) {
             System.err.println("Failed to retrieve Management API token: " + e.getMessage());
             throw new RuntimeException("Could not obtain Management API token", e);
-        }
-    }
-
-
-    public UserResponseModel createUser(UserRequestDTO request) {
-        String url = "https://" + AUTH0_DOMAIN + "/api/v2/users";
-
-        String managementApiToken = getManagementApiToken();
-        if (managementApiToken == null || managementApiToken.isEmpty()) {
-            throw new RuntimeException("Management API token is missing or invalid");
-        }
-
-        // Add headers with Management API token
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + managementApiToken);
-
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("email", request.getEmail());
-        requestBody.put("password", request.getPassword());
-        requestBody.put("connection", "Username-Password-Authentication");
-
-        try {
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
-
-            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
-
-            if (response.getStatusCode() == HttpStatus.CREATED) {
-                Map<String, Object> responseBody = response.getBody();
-                String userId = (String) responseBody.get("user_id");
-
-                return new UserResponseModel(
-                        request.getEmail(),
-                        userId // Include user ID in response model
-                );
-            } else {
-                throw new RuntimeException("Failed to create user: " + response.getBody());
-            }
-        } catch (RestClientException e) {
-            throw new RuntimeException("Error communicating with Auth0: " + e.getMessage(), e);
         }
     }
 

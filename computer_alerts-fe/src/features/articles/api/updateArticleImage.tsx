@@ -10,12 +10,14 @@ export const editArticleImage = async (
   formData.append("file", imageFile);
 
   try {
+    const accessToken = localStorage.getItem("accessToken");
     
     const response = await axiosInstance.put<string>(
       `/articles/${articleId}/image`,
       formData,
       {
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
         },
       }

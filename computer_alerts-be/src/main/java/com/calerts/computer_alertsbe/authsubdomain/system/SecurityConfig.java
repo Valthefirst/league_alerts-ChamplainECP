@@ -72,13 +72,15 @@ public class SecurityConfig {
 
                         .pathMatchers(HttpMethod.GET, "/api/v1/authors/**").permitAll()
 
-                        .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").hasAuthority("create:articles")
+                        //.pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").hasAuthority("create:articles")
+                                .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
 
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/acceptArticle/").hasAuthority("admin:articles")
 
 
                         //--------------AdminEndpoints
                                 .pathMatchers(HttpMethod.POST, "api/create/Author").hasAuthority("admin:articles")
+                                .pathMatchers(HttpMethod.POST, "api/create/**").hasAuthority("admin:articles")
                                 .pathMatchers(HttpMethod.POST, "api/create/Reader").authenticated()
 
                                 .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
