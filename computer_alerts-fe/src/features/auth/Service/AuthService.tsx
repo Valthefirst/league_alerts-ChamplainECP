@@ -189,7 +189,9 @@ export class AuthService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+
            Authorization: `Bearer ${accessToken}`,
+          //  Authorization: `Bearer ${managementApiToken}`,
         },
         body: JSON.stringify(roleId),
       });
