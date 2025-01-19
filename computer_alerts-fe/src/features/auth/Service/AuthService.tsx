@@ -179,16 +179,17 @@ export class AuthService {
       
       const authorResponse = await response.json();
 
-      const managementApiToken = await this.getManagementApiToken();
+      // const managementApiToken = await this.getManagementApiToken();
       const roleId = "[rol_W1iELc1CHmzBtfE4]"; 
       
       const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
+      
          
       await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Author`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${managementApiToken}`,
+           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(roleId),
       });
