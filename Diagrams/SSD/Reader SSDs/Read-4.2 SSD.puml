@@ -1,0 +1,14 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+ref over Admin, LAS : Create Author Account
+
+opt Modify Admin Account
+    Admin -> LAS: updateAccount(readerIdentifier, updatedAccountData)
+    activate LAS
+        LAS -> LAS: Save Updated Data
+        LAS --> Admin: returnSuccessMessage(HttpStatusCode.OK)
+    deactivate LAS
+end opt
+@enduml
