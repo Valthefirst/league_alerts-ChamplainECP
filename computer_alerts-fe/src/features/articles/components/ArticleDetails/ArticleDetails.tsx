@@ -14,12 +14,6 @@ import { CommentModel } from "features/comments/model/CommentModel";
 import { shareArticle } from "../../api/shareArticle";
 import shareIcon from "../../../../assets/share-icon.png"; // Import the share icon image
 import EditArticle from "../EditArticle/EditArticleForm";
-import { getAllSaves } from "features/savedArticles/api/getAllSaves";
-import { SaveModel } from "features/savedArticles/model/SaveModel";
-import { deleteSave } from "features/savedArticles/api/deleteSave";
-import { addSave } from "features/savedArticles/api/addSave";
-import saveIcon from "../../../../assets/saveIcon.png";
-import savedIcon from "../../../../assets/savedIcon.png";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -41,40 +35,36 @@ const ArticleDetails: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const heartRef = useRef<HTMLDivElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [isSaved, setIsSaved] = useState<SaveModel | null>(null);
-  const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
   //const navigate = useNavigate();
 
   useEffect(() => {
-    const loadArticleDetails = async () => {
+    const loadArticleAndAuthor = async () => {
       try {
         if (id) {
           const articleData = await fetchArticleByArticleId(id);
           setArticle(articleData);
           setLikeCount(articleData.likeCount);
 
+          const authorsData = await getAllAuthors();
+          const foundAuthor = authorsData.find((author) =>
+            author.articles.articleList?.some((a) => a.articleId === id),
+          );
+          setAuthor(foundAuthor || null);
+
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
-
-          // Check if the article is saved
-          const response = await getAllSaves(readerId); // To fetch with real readerId
-          const data = await response;
-          const savedState = data.find(
-            (save: SaveModel) => save.articleId === id
-          );
-          setIsSaved(savedState || null);
         } else {
           setError("Invalid article ID");
         }
       } catch (err) {
-        console.error("Error fetching article or save state:", err);
+        console.error("Error fetching article or author:", err);
         setError("Failed to fetch the article");
       } finally {
         setLoading(false);
       }
     };
 
-    loadArticleDetails();
+    loadArticleAndAuthor();
   }, [id]);
 
   useEffect(() => {
@@ -107,22 +97,6 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  const handleSaveToggle = async () => {
-    try {
-      if (isSaved) {
-        // Remove save
-        await deleteSave(isSaved.saveId);
-        setIsSaved(null);
-      } else if (id) {
-        // Add save
-        const newSave = await addSave({ articleId: id, readerId });
-        setIsSaved(newSave);
-      }
-    } catch (err) {
-      console.error("Error toggling save:", err);
-    }
-  };
-
   const postComment = () => {
     if (newComment.trim().split(/\s+/).length > 50) {
       alert("Comment is too long. Please keep it under 50 words.");
@@ -147,6 +121,7 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
+
   const toggleSharePopup = () => setShowSharePopup(!showSharePopup);
 
   const copyToClipboard = async (text: string) => {
@@ -170,6 +145,7 @@ const ArticleDetails: React.FC = () => {
 
   return (
     <>
+
       <div className="article-container">
         <div className="article-image">
           {article?.photoUrl ? (
@@ -201,19 +177,6 @@ const ArticleDetails: React.FC = () => {
               onClick={toggleSharePopup}
             />
           </div>
-          <img
-            src={isSaved ? savedIcon : saveIcon}
-            alt={isSaved ? "Unsave" : "Save"}
-            className="save-icon"
-            onClick={handleSaveToggle}
-            style={{
-              cursor: "pointer",
-              width: "40px",
-              height: "40px",
-              margin: "0 0 0 -475px",
-            }}
-            title={isSaved ? "Unsave" : "Save"}
-          />
           <button className="edit-button" onClick={openEditPage}>
             Edit Article
           </button>
@@ -247,6 +210,8 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
+
+
       {showSharePopup && (
         <>
           <div className="modal-backdrop" onClick={toggleSharePopup}></div>
@@ -267,22 +232,20 @@ const ArticleDetails: React.FC = () => {
           </div>
         </>
       )}
-      {isEditing && article && (
-        <div
-          className="edit-article-overlay"
-          onClick={() => setIsEditing(false)} // Close form on overlay click
-        >
+       {isEditing && article && (
           <div
-            className="edit-article-container"
-            onClick={(e) => e.stopPropagation()} // Prevent overlay click when interacting with the form
+            className="edit-article-overlay"
+            onClick={() => setIsEditing(false)} // Close form on overlay click
           >
-            <EditArticle article={article} setIsEditing={setIsEditing} />
+            <div
+              className="edit-article-container"
+              onClick={(e) => e.stopPropagation()} // Prevent overlay click when interacting with the form
+            >
+              <EditArticle article={article} setIsEditing={setIsEditing} />
+            </div>
           </div>
-        </div>
-      )}
-      {showToast && (
-        <div className="toast">Link copied and share registered!</div>
-      )}
+        )}
+      {showToast && <div className="toast">Link copied and share registered!</div>}
     </>
   );
 };

@@ -1,6 +1,9 @@
 package com.calerts.computer_alertsbe.utils;
 
-import com.calerts.computer_alertsbe.utils.exceptions.*;
+import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
+import com.calerts.computer_alertsbe.utils.exceptions.InvalidCommentException;
+import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
+import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,12 +28,6 @@ public class GlobalControllerExceptionHandler {
     public ResponseEntity<Object> handleInvalidCommentException(InvalidCommentException ex) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(new HttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Comment Input", ex.getMessage()));
-    }
-
-    @ExceptionHandler(DuplicateSaveException.class)
-    public ResponseEntity<Object> handleDuplicateSaveException(DuplicateSaveException ex) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(new HttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Save", ex.getMessage()));
     }
 
     //same structure for bad request
