@@ -1,8 +1,8 @@
 package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.LikeService;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.SaveService;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.ShareService;
+import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.http.HttpStatus;
@@ -22,15 +22,15 @@ public class InteractionController {
 
     private final LikeService likeService;
     private final CommentService commentService;
-    private final SaveService saveService;
+
     private final ShareService shareService;
 
-    public InteractionController(LikeService likeService, CommentService commentService, SaveService saveService, ShareService shareService) {
+    public InteractionController(LikeService likeService, CommentService commentService, ShareService shareService) {
         this.likeService = likeService;
         this.commentService = commentService;
-        this.saveService = saveService;
         this.shareService = shareService;
     }
+
 
     @PostMapping("/like")
     @PreAuthorize("hasAuthority('like:articles')")
@@ -101,24 +101,6 @@ public class InteractionController {
                 .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
     }
 
-    @GetMapping(value = "/saves/{readerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasAuthority('save:articles')")
-    public Flux<SaveResponseModel> getAllSaves(@PathVariable String readerId) {
-        return saveService.getAllSaves(readerId);
-    }
-
-    @PostMapping(value = "/saves", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<SaveResponseModel>> addSave(@RequestBody Mono<SaveRequestModel> saveRequestModel) {
-        return saveService.addSave(saveRequestModel)
-                .map(c -> ResponseEntity.status(HttpStatus.CREATED).body(c))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
-    }
-
-    @DeleteMapping("/saves/{saveId}")
-    public Mono<ResponseEntity<Void>> deleteSave(@PathVariable String saveId) {
-        return saveService.deleteSave(saveId)
-                .then(Mono.just(ResponseEntity.noContent().build()));
-    }
 //    @PostMapping("/share")
 //    public Mono<String> generateShareLink(@RequestParam String articleId, @RequestParam String readerId) {
 //        ReaderIdentifier articleIdentifier = new ReaderIdentifier(articleId);

@@ -1,8 +1,6 @@
 package com.calerts.computer_alertsbe.utils;
 
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Like;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Save;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.*;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
@@ -19,8 +17,10 @@ import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class EntityModelUtil {
@@ -94,22 +94,6 @@ public class EntityModelUtil {
         BeanUtils.copyProperties(commentRequestModel, comment);
         comment.setArticleId(new ArticleIdentifier(commentRequestModel.getArticleId()));
         return comment;
-    }
-
-    public static SaveResponseModel toSaveResponseModel(Save save) {
-        SaveResponseModel saveResponseModel = new SaveResponseModel();
-//        BeanUtils.copyProperties(save, saveResponseModel);
-        saveResponseModel.setSaveId(save.getSaveId().getSaveId());
-        saveResponseModel.setArticleId(save.getArticleId().getArticleId());
-        saveResponseModel.setReaderId(save.getReaderId());
-        return saveResponseModel;
-    }
-
-    public static Save toSaveEntity(SaveRequestModel saveRequestModel) {
-        Save save = new Save();
-        BeanUtils.copyProperties(saveRequestModel, save);
-        save.setArticleId(new ArticleIdentifier(saveRequestModel.getArticleId()));
-        return save;
     }
 
     public static String generateUUIDString(){
