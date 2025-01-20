@@ -11,8 +11,7 @@ services:
 #      - mongo
     environment:
 #      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
-      SPRING_DATA_MONGODB_URI: ${MONGO_CONNECTION_STRING} # to replace with actual connection string
-#
+      SPRING_DATA_MONGODB_URI: ${MONGO_CONNECTION_STRING}
 #  mongo:
 #    restart: always
 #    image: mongo:6.0

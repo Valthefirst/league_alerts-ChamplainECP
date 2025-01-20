@@ -92,7 +92,9 @@ const TrendingArticles: React.FC = () => {
   const handleShareClick = async (articleId: string | undefined) => {
     if (articleId) {
       try {
-        await navigator.clipboard.writeText(window.location.origin + `/articles/${articleId}`);
+        await navigator.clipboard.writeText(
+          window.location.origin + `/articles/${articleId}`,
+        );
         await shareArticle(articleId, "06a7d573-bcab-4db3-956f-773324b92a80");
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
@@ -237,7 +239,9 @@ const TrendingArticles: React.FC = () => {
         </div>
       </div>
 
-      {showToast && <div className="toast">Link copied and share registered!</div>}
+      {showToast && (
+        <div className="toast">Link copied and share registered!</div>
+      )}
     </>
   );
 };

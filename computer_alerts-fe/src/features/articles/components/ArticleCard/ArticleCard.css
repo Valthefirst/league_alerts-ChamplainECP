@@ -133,6 +133,8 @@
   border-radius: 50%; /* Make the border circular */
   padding: 5px; /* Space between the icon and the border */
   box-sizing: border-box; /* Include padding in size calculation */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Add hover effect */
   margin-left: 0px;
 }

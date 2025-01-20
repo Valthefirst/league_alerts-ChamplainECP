@@ -3,22 +3,33 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Uploader;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.awt.image.DataBuffer;
+import java.nio.ByteBuffer;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -33,6 +44,9 @@ class ArticleServiceUnitTest {
 
     @Autowired
     private ArticleService articleService;
+
+//    @Autowired
+//    private CloudinaryService cloudinaryService;
 
     @MockBean
     private ArticleRepository articleRepository;
@@ -173,7 +187,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(5)
                 .build();
 
@@ -201,7 +215,7 @@ class ArticleServiceUnitTest {
         // Arrange
         String articleId = "testArticleId";
         Article article = Article.builder()
-                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ArticleIdentifier is part of Article
+                .articleIdentifier(new ArticleIdentifier(articleId)) // Assuming ReaderIdentifier is part of Article
                 .requestCount(null) // No initial request count
                 .build();
 
@@ -535,5 +549,15 @@ class ArticleServiceUnitTest {
                 )
                 .verify();
     }
+
+
+//    @Test
+//    void whenUpdateArticlePicture_validArticle_shouldUpdateAndReturnPhotoUrl(){
+//
+//
+//    }
+
+
+
 
 }

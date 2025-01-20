@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchArticleByArticleId } from "../../api/getSpecificArticle";
 import { likeArticle } from "../../api/likeArticle";
 import { unlikeArticle } from "../../api/unlikeArticle";
@@ -13,6 +13,7 @@ import { addComment } from "features/comments/api/addComment";
 import { CommentModel } from "features/comments/model/CommentModel";
 import { shareArticle } from "../../api/shareArticle";
 import shareIcon from "../../../../assets/share-icon.png"; // Import the share icon image
+import EditArticle from "../EditArticle/EditArticleForm";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -33,7 +34,8 @@ const ArticleDetails: React.FC = () => {
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const heartRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const loadArticleAndAuthor = async () => {
@@ -45,7 +47,7 @@ const ArticleDetails: React.FC = () => {
 
           const authorsData = await getAllAuthors();
           const foundAuthor = authorsData.find((author) =>
-            author.articles.articleList?.some((a) => a.articleId === id)
+            author.articles.articleList?.some((a) => a.articleId === id),
           );
           setAuthor(foundAuthor || null);
 
@@ -113,9 +115,12 @@ const ArticleDetails: React.FC = () => {
 
   const openEditPage = () => {
     if (article) {
-      navigate(`/articles/edit/${article.articleId}`, { state: { article } });
+      //navigate(`/articles/edit/${article.articleId}`, { state: { article } });
+      setIsEditing(true);
+      setShowSharePopup(false);
     }
   };
+
 
   const toggleSharePopup = () => setShowSharePopup(!showSharePopup);
 
@@ -140,10 +145,15 @@ const ArticleDetails: React.FC = () => {
 
   return (
     <>
+
       <div className="article-container">
         <div className="article-image">
           {article?.photoUrl ? (
-            <img src={article.photoUrl} alt={article.title} className="article-image" />
+            <img
+              src={article.photoUrl}
+              alt={article.title}
+              className="article-image"
+            />
           ) : (
             <div className="image-placeholder">
               <p>No Image Available</p>
@@ -200,6 +210,8 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
+
+
       {showSharePopup && (
         <>
           <div className="modal-backdrop" onClick={toggleSharePopup}></div>
@@ -220,6 +232,19 @@ const ArticleDetails: React.FC = () => {
           </div>
         </>
       )}
+       {isEditing && article && (
+          <div
+            className="edit-article-overlay"
+            onClick={() => setIsEditing(false)} // Close form on overlay click
+          >
+            <div
+              className="edit-article-container"
+              onClick={(e) => e.stopPropagation()} // Prevent overlay click when interacting with the form
+            >
+              <EditArticle article={article} setIsEditing={setIsEditing} />
+            </div>
+          </div>
+        )}
       {showToast && <div className="toast">Link copied and share registered!</div>}
     </>
   );

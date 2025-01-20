@@ -1,17 +1,19 @@
 import { createAuth0Client, Auth0Client } from "@auth0/auth0-spa-js";
 import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
-
+import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "http://localhost:8080/api/"; // Your backend URL
+  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+
+  
 
   private auth0Client: Auth0Client | null = null;
 
-  // Auth0 configuration for the Management API
-  private AUTH0_DOMAIN = "dev-im24qkb6l7t2yhha.ca.auth0.com";
-  private CLIENT_ID = "YOUR_MANAGEMENT_API_CLIENT_ID";
-  private CLIENT_SECRET = "YOUR_MANAGEMENT_API_CLIENT_SECRET";
-  private AUDIENCE = `https://${this.AUTH0_DOMAIN}/api/v2/`; // Auth0 Management API audience
+  private AUTH0_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
+
+
+  
 
   constructor() {
     this.initializeAuth0();
@@ -20,15 +22,14 @@ export class AuthService {
   private async initializeAuth0() {
     console.log("Initializing Auth0...");
     this.auth0Client = await createAuth0Client({
-      domain: this.AUTH0_DOMAIN,
+      domain: "dev-im24qkb6l7t2yhha.ca.auth0.com",
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
       authorizationParams: {
-        redirect_uri: "http://localhost:3000",
-        audience: "http://localhost:8080/api/userInfo",
+        redirect_uri: "https://league-alerts.web.app",
+        audience: "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
         scope: "openid profile email roles",
       },
     });
-    console.log("Auth0 initialized.");
   }
 
   private async ensureAuth0Client(): Promise<void> {
@@ -51,7 +52,9 @@ export class AuthService {
     if (isAuthenticated) {
       console.log("Logged in successfully.");
       const token = await this.getToken();
-      console.log("Access token:", token);
+
+      localStorage.setItem("accessToken", token);
+      
     } else {
       console.log("Login failed.");
     }
@@ -91,16 +94,14 @@ export class AuthService {
       const response = await axios.post(
         `https://dev-im24qkb6l7t2yhha.ca.auth0.com/oauth/token`,
         {
-          client_id: "dErtDK4v3hzp0FoM26aX9qGDayGobMIs",
-          client_secret:
-            "hzlT0vFjt6RvkYIT9Y5mZcB6Vl_vAA3McVxf_2yMsmI4E074pQqbGn3G4ZpTxMXI",
-          audience: "https://dev-im24qkb6l7t2yhha.ca.auth0.com/api/v2/",
+          client_id: process.env.REACT_APP_API_ClIENT_ID,
+          client_secret: process.env.REACT_APP_API_SECREAT,
+          audience: process.env.REACT_APP_API_AUDIENCE,
           grant_type: "client_credentials",
         },
       );
 
       const token = response.data.access_token;
-      console.log("Management API token:", token);
       return token;
     } catch (error: any) {
       console.error(
@@ -110,38 +111,98 @@ export class AuthService {
       throw new Error("Failed to fetch Management API token");
     }
   }
-  /////////////////////////////////////THIS WORKS NOW WE ARE CONNECTIN
-
-  // Create user using the Management API token
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
-      // Get the Management API token before making the request
-      const managementApiToken = await this.getManagementApiToken();
+      const accessToken = localStorage.getItem("accessToken");
 
-      // Log the token to verify it's correct
-      console.log("Management API Token:", managementApiToken);
 
-      // Check if the token is valid (you can enhance this validation if needed)
-      const isValidToken = managementApiToken && managementApiToken.length > 0;
-      console.log("Is Bearer Token Valid:", isValidToken);
 
-      const response = await axios.post(this.URL + "create", userRequest, {
+      // First create the author
+      const response = await fetch(this.URL + "create/Reader", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${managementApiToken}`, // Add the Management API token
+          Authorization: `Bearer ${accessToken}`,
         },
-        withCredentials: true,
+        body: JSON.stringify(userRequest),
       });
 
-      return response.data;
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create author");
+      }
+
+      const readerResponse = await response.json();
+
+      const managementApiToken = await this.getManagementApiToken();
+      const roleId = "[rol_LOREG4N5742ObYCz]"; 
+      
+      const encodeAuthUserId = readerResponse.auth0UserId.replace("|","%7C") 
+         
+      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Reader`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${managementApiToken}`,
+        },
+        body: JSON.stringify(roleId),
+      });
+
+
+  
+      return readerResponse;
     } catch (error: any) {
       console.error("Full error:", error);
-      console.error("Response:", error.response);
-      console.error("Request:", error.request);
-      throw new Error(error.response?.data || "Failed to create user");
+      throw new Error(error.response?.data || "Failed to create user or assign roles");
     }
   }
+
+  async createAuthor(authorData: AuthorRequestDTO): Promise<any> {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      // First create the author
+      const response = await fetch(this.URL + "create/Author", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(authorData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create author");
+      }
+
+      
+      const authorResponse = await response.json();
+
+      // const managementApiToken = await this.getManagementApiToken();
+      const roleId = "[rol_W1iELc1CHmzBtfE4]"; 
+      
+      const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
+      
+         
+      await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Author`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+
+           Authorization: `Bearer ${accessToken}`,
+          //  Authorization: `Bearer ${managementApiToken}`,
+        },
+        body: JSON.stringify(roleId),
+      });
+  
+      return authorResponse;
+    } catch (error) {
+      console.error("Error in createAuthor:", error);
+      throw error;
+    }
+  }
+
 }
 
 const authTokenService = new AuthService();

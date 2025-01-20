@@ -17,7 +17,6 @@
   object-fit: cover;
 }
 
-
 .trending-articles .card-body {
   display: flex;
   flex-direction: column;
@@ -148,13 +147,11 @@
   margin-left: 0px;
 }
 
-
 .like-count-trending {
   font-size: 16px;
   color: white;
   padding-top: 8px;
 }
-
 
 /* Share Icon */
 .share-icon-trending {
@@ -165,7 +162,9 @@
   border-radius: 50%; /* Make the border circular */
   padding: 5px; /* Adjust padding for spacing */
   box-sizing: border-box; /* Include padding in size calculation */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Hover effect for the share icon */

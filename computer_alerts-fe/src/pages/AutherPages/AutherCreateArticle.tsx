@@ -5,9 +5,9 @@ import styles from "./AutherCreateArticle.module.css";
 
 const AutherCreateArticle: React.FC = () => {
   return (
-    <div className="container">
+    <div className={styles.articleFormContainer}>
       <div className="row">
-        <h1 className={styles.headerTitle}>Create an Article</h1>
+      
         <ArticleForm />
       </div>
     </div>

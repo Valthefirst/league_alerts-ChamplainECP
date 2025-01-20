@@ -11,14 +11,25 @@ export const unlikeArticle = async (
 ): Promise<void> => {
   console.log("Sending unlike request:", { articleId, readerId }); // Debugging log
   try {
+    const accessToken = localStorage.getItem("accessToken");
     await axiosInstance.delete(`/interactions/unlike`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       params: {
         articleId,
         readerId,
       },
     });
-  } catch (error) {
-    console.error("Error in unlikeArticle API call:", error);
-    throw error;
+  } catch (error: any) {
+    
+    if (error.response && error.response.status === 401) {
+      
+      
+      window.location.href = "/unauthorized"; 
+    } else {
+      console.error("Error in unlikeArticle API call:", error);
+    }
+    throw error; 
   }
 };

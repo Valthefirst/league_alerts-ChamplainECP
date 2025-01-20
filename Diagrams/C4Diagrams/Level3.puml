@@ -44,6 +44,7 @@ Container_Boundary(api, "API Application") {
         Component(article_save_later, "Article Save for Later", "Spring Java", "Author saved article to write later.")
         Component(article_related, "Article with Tags", "Spring Java", "Articles sorted by tags")
         Component(article_trending, "Article Trending", "TypeScript", "Articles with most viewed")
+        
     
 
         
