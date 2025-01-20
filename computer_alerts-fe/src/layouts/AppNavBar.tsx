@@ -88,6 +88,12 @@ export default function AppNavBar(): JSX.Element {
               >
                 Your Authors
               </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to={AppRoutePaths.SavedArticles}
+              className="nav-link">
+              Saved Articles
+            </Nav.Link>
               <NavDropdown title="Language" id="language-dropdown">
                 <NavDropdown.Item onClick={() => handleLanguageChange("en")}>
                   English

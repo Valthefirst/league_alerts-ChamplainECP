@@ -29,13 +29,3 @@ export async function addComment(
       throw error; 
     }
 }
-
-// export const addComment = async (): Promise<void> => {
-//   try {
-//     const response = await axiosInstance.post<void>('');
-//     return response.data;
-//   } catch (err) {
-//     console.error("Error posting comments", err);
-//     throw err;
-//   }
-// };

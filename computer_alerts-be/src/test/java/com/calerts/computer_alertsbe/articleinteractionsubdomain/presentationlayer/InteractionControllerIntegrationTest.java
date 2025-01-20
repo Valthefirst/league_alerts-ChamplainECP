@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -49,10 +48,12 @@ class InteractionControllerIntegrationTest {
     public void setUp() {
         likeRepository.deleteAll().block();
         commentRepository.deleteAll().block();
+        articleRepository.deleteAll().block();
         articleRepository.save(Article.builder()
                 .articleIdentifier(new ArticleIdentifier("article-1"))
                 .title("Article 1")
                 .build()).block();
+//        saveRepository.deleteAll().block();
     }
 
     @Test
@@ -200,7 +201,6 @@ class InteractionControllerIntegrationTest {
 
     }
 
-
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetLikeByIdentifier_thenReturnLike() {
@@ -236,7 +236,6 @@ class InteractionControllerIntegrationTest {
     }
 
     // Positive test case for getAllComments
-
 //    @Test
 //    @WithMockUser(username = "testuser", roles = {"USER"})
 //    public void whenGetAllComments_thenReturnAllComments() {
@@ -296,37 +295,37 @@ class InteractionControllerIntegrationTest {
 //                    assertNotNull(response);
 //                    assertEquals(3, response.size());
 //                    response.forEach(comment -> assertEquals(articleId.getArticleId(), comment.getArticleId()));
-//                });
-//    }
+//                 });
+//     }
 
 //     //Positive test case for addComment
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    public void whenAddComment_thenReturnNothing() {
-//        // Arrange
-//        CommentRequestModel commentRequestModel = CommentRequestModel.builder()
-//                .content("This is a comment")
-//                .articleId("article-1")
-//
-//                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
-//
-//                .readerId("reader-001")
-//
-//                .build();
-//
-//        String url = BASE_URL + "/comments";
-//
-//        // Act & Assert
-//        webTestClient
-//                .post()
-//                .uri(url)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(Mono.just(commentRequestModel), CommentRequestModel.class)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isCreated()
-//                .expectHeader();
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenAddComment_thenReturnNothing() {
+        // Arrange
+        CommentRequestModel commentRequestModel = CommentRequestModel.builder()
+                .content("This is a comment")
+                .articleId("article-1")
+
+                .readerId("06a7d573-bcab-4db3-956f-773324b92a80")
+
+                .readerId("reader-001")
+
+                .build();
+
+        String url = BASE_URL + "/comments";
+
+        // Act & Assert
+        webTestClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(commentRequestModel), CommentRequestModel.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader();
+    }
 
 
     // Negative test case for addComment
@@ -466,6 +465,30 @@ class InteractionControllerIntegrationTest {
                 });
     }
 
+    // Positive test case for addSave
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenAddSave_thenReturnNothing() {
+        // Arrange
+        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
+                .articleId("article-1")
+                .readerId("reader-001")
+                .build();
+
+        String url = BASE_URL + "/saves";
+
+        // Act & Assert
+        webTestClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader();
+    }
+
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenShareArticle_thenReturnCreatedShare() {
@@ -488,6 +511,4 @@ class InteractionControllerIntegrationTest {
                     assertEquals(readerId, response.getReaderId());
                 });
     }
-
-
 }
