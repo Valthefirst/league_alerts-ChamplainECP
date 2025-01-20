@@ -1,0 +1,48 @@
+@startuml
+actor Reader
+participant Frontend as "<<UI>>\nFrontend"
+participant ArticleController as "<<Controller>>\nArticleController"
+participant ArticleService as "<<Service>>\nArticleService"
+participant ArticleRepository as "<<Repository>>\nArticleRepository"
+participant ShareService as "<<Service>>\nShareService"
+participant ShareResponseModel as "<<Model>>\nShareResponseModel"
+
+== Sharing the Article ==
+Reader -> Frontend : Click "Share" Button
+activate Frontend
+
+Frontend -> ArticleController : POST /interactions/share/{articleId}/{readerId}
+activate ArticleController
+
+ArticleController -> ArticleService : validateArticle(articleId)
+activate ArticleService
+ArticleService -> ArticleRepository : findArticleById(articleId)
+activate ArticleRepository
+ArticleRepository --> ArticleService : Article Entity
+
+deactivate ArticleRepository
+ArticleService --> ArticleController : Validation Success
+
+deactivate ArticleService
+
+ArticleController -> ShareService : generateShareLink(articleId, readerId)
+activate ShareService
+
+ShareService -> ShareResponseModel : Create Share Link
+activate ShareResponseModel
+ShareResponseModel --> ShareService : Share Link Created
+
+deactivate ShareResponseModel
+
+ShareService --> ArticleController : ShareResponseModel
+
+deactivate ShareService
+
+ArticleController --> Frontend : ShareResponseModel (share link)
+
+deactivate ArticleController
+
+Frontend --> Reader : Display Share Link
+
+deactivate Frontend
+@enduml

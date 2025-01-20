@@ -1,0 +1,53 @@
+@startuml EmailSubscription
+skinparam packageStyle rectangle
+
+package "EmailSubscriptionSubdomain" {
+
+    class EmailController {
+        - gmailService: GmailService
+        - subscriberRepository: SubscriberRepository
+        + subscribe(email: String): ResponseEntity<String>
+        + unsubscribe(email: String): ResponseEntity<String>
+        + notifySubscribers(subject: String, message: String): ResponseEntity<String>
+    }
+
+    class GmailService {
+        + sendMail(to: String, subject: String, body: String): void
+    }
+
+    class Subscriber {
+        - Long id
+        - String email
+        + Subscriber(email: String)
+    }
+
+    interface SubscriberRepository {
+        + existsByEmail(email: String): boolean
+        + deleteByEmail(email: String): void
+        + findAll(): List<Subscriber>
+    }
+
+    class Auth0Service {
+        + createAuth0User(userRequest: UserRequestDTO): Auth0UserResponse
+    }
+
+    class UserRequestDTO {
+        - String name
+        - String email
+        - String password
+    }
+
+    class Auth0UserResponse {
+        - String userId
+        - String email
+        - String message
+    }
+
+    EmailController --> GmailService : uses
+    EmailController --> SubscriberRepository : uses
+    EmailController --> Auth0Service : uses
+    SubscriberRepository ..|> Subscriber
+    Auth0Service --> UserRequestDTO
+    Auth0Service --> Auth0UserResponse : returns
+}
+@enduml

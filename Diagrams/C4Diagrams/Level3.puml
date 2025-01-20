@@ -25,13 +25,6 @@ Container_Boundary(api, "API Application") {
         Component(account_suspend, "Suspend Articles","If reader is violent in comments suspend account")   
     }
 
-
-     /'
-        ##############     Auth Subdmain
-    '/
-
-'###############################################################################################################'
-
     /'
         ##############     Article Subdmain
     '/
@@ -44,22 +37,13 @@ Container_Boundary(api, "API Application") {
         Component(article_save_later, "Article Save for Later", "Spring Java", "Author saved article to write later.")
         Component(article_related, "Article with Tags", "Spring Java", "Articles sorted by tags")
         Component(article_trending, "Article Trending", "TypeScript", "Articles with most viewed")
-        
-    
 
-        
+
+
+
     }
 
-
-     /'
-        ##############     Article Subdmain
-    '/
-
-
-    '###############################################################################################################'
-
-
-     /'
+    /'
         ##############     Reader/Author Subdmain
     '/
 
@@ -67,8 +51,6 @@ Container_Boundary(api, "API Application") {
         Component(reader_controller, "Reader Controller", "Spring Java", "Handles user redirect and login. Initial step")
         Component(reader_repository, "Reader Repository", "Spring Java", "Handles user redirect and login. Initial step")
         Component(reader_service, "Reader Service", "Spring Java", "Handles user redirect and login. Initial step")
-
-        
     }
 
     Container_Boundary(author_container, "Author Container") {
@@ -76,19 +58,10 @@ Container_Boundary(api, "API Application") {
         Component(author_repository, "Author Repository", "Spring Java", "Handles user redirect and login. Initial step.")
         Component(author_service, "Author Service", "Spring Java", "Handles user redirect and login. Initial step.")
         Component(author_profile, "Author Profile", "Spring Java", "Language, short bio for each author.")
-        
-
-        
     }
 
-     /'
-        ##############     Reader/Author Subdmain
-    '/
-
-    '###############################################################################################################'
-
-     /'
-        ##############     Comment Subdmain
+    /'
+        ##############     Interaction Subdomain
     '/
 
     Container_Boundary(interaction_container, "Interaction Container") {
@@ -99,38 +72,28 @@ Container_Boundary(api, "API Application") {
         Component(comment_moderation, "Comment Moderation", "Spring Java", "Check all comments per user for moderation")
 
         Component(like_controller, "Like Controller", "Spring Java", "Handles user redirect and login. Initial step")
-        Component(like_service,"Like Service", "Spring Java", "Instructions for controller")/'Link with article and reader'/
+        Component(like_service,"Like Service", "Spring Java", "Instructions for controller")
         Component(like_repository, "Like Repository","Spring Java", "CRUD operations")
         Component(like_counter, "Like Counter", "Spring Java", "Count the number of likes a GETID article has")
-        
 
+        Component(share_controller, "Share Controller", "Spring Java", "Handles sharing of articles.")
+        Component(share_service, "Share Service", "Spring Java", "Instructions for controller")
+        Component(share_repository, "Share Repository", "Spring Java", "CRUD operations")
+        Component(share_counter, "Share Counter", "Spring Java", "Count the number of shares a GETID article has")
 
         Component(save_controller, "Save Controller", "Spring Java", "Add articles to saved list. GETALL, POST, PATCH")
         Component(save_service, "Save Service", "Spring Java", "Instructions for controller")
-        Component(save_repository,"Comment Service", "Spring Java", "Handles CRUD operations for Saving articles")
-
-        
+        Component(save_repository,"Save Repository", "Spring Java", "Handles CRUD operations for Saving articles")
     }
-
-     /'
-        ##############     Comment Subdmain
-    '/
-    
 }
-
 
 ContainerDb(db, "MongoDB Database", "MongoDB", "Stores information about articles, readers, and alerts")
 
-
-Rel(author_service,article_repository, "Author connects with specific article")
-Rel(author_repository,auth_service, "Have connection with auth")
-
-Rel(web_app, auth_controller, "Makes API calls to", "REST JSON/HTTPS")
-Rel(web_app, article_controller, "Makes API calls to", "REST JSON/HTTPS")
-Rel(web_app, reader_controller, "Makes API calls to", "REST JSON/HTTPS")
-Rel(web_app, comment_controller, "Makes API calls to", "REST JSON/HTTPS")
-Rel(web_app, like_controller, "Makes API calls to", "REST JSON/HTTPS")
-Rel(web_app, save_controller, "Makes API calls to", "REST JSON/HTTPS")
+Rel(web_app, share_controller, "Makes API calls to", "REST JSON/HTTPS")
+Rel(share_controller, share_service, "Calls")
+Rel(share_service, share_repository, "Uses")
+Rel(share_service, share_counter, "Uses")
+Rel(share_repository, db, "Commands")
 
 Rel(auth_controller, auth_service_back, "Calls")
 Rel(auth_controller, auth_service, "uses")
@@ -180,7 +143,5 @@ Rel(article_repository,db,"Commands")
 Rel(comment_repository,db,"Commands")
 Rel(like_repository,db,"Commands")
 Rel(save_repository,db,"Commands")
-
-
 
 @enduml
