@@ -8,11 +8,13 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRep
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.DuplicateSaveException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 public class SaveServiceImpl implements SaveService{
 
     private final SaveRepository saveRepository;
@@ -30,18 +32,18 @@ public class SaveServiceImpl implements SaveService{
     }
 
     @Override
-    public Mono<Void> addSave(Mono<SaveRequestModel> saveRequestModel) {
+    public Mono<SaveResponseModel> addSave(Mono<SaveRequestModel> saveRequestModel) {
         return saveRequestModel
-                .flatMap(requestModel -> saveRepository.findSaveByArticleId_ArticleIdAndReaderId(requestModel.getArticleId(), requestModel.getReaderId())
-                        .flatMap(save -> Mono.error(new DuplicateSaveException("Article is already saved. Article id: " + requestModel.getArticleId())))
-                        .map(save -> requestModel))
-                .flatMap(requestModel -> articleRepository.findArticleByArticleIdentifier_ArticleId(requestModel.getArticleId())
-                        .switchIfEmpty(Mono.error(new NotFoundException("Article id not found: " + requestModel.getArticleId())))
-                        .thenReturn(requestModel))
+//                .flatMap(requestModel -> saveRepository.findSaveByArticleId_ArticleIdAndReaderId(requestModel.getArticleId(), requestModel.getReaderId())
+//                        .flatMap(save -> Mono.error(new DuplicateSaveException("Article is already saved. Article id: " + requestModel.getArticleId())))
+//                        .map(save -> requestModel))
+//                .flatMap(requestModel -> articleRepository.findArticleByArticleIdentifier_ArticleId(requestModel.getArticleId())
+//                        .switchIfEmpty(Mono.error(new NotFoundException("Article id not found: " + requestModel.getArticleId())))
+//                        .thenReturn(requestModel))
                 .map(EntityModelUtil::toSaveEntity)
                 .doOnNext(save -> save.setSaveId(new SaveIdentifier()))
                 .flatMap(saveRepository::save)
-                .then();
+                .map(EntityModelUtil::toSaveResponseModel);
     }
 
     @Override

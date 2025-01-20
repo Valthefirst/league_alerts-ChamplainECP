@@ -1,20 +1,20 @@
 import { SaveModel } from "../model/SaveModel";
 import axiosInstance from "../model/savesAxiosInstance";
 
-// export async function addSave(save: Partial<SaveModel>): Promise<SaveModel> {
+// export const getAllSaves = async (readerId: string): Promise<SaveModel[]> => {
 //     try {
-//         const response = await axiosInstance.post<SaveModel>('', save);
+//         const response = await axiosInstance.get<SaveModel[]>(`/${readerId}`);
 //         return response.data;
 //     } catch (err) {
-//         console.error("Error saving article", err);
+//         console.error("Error fetching saves", err);
 //         throw err;
 //     }
 // }
 
-export const addSave = async (save: Partial<SaveModel>): Promise<SaveModel> => {
+export const getAllSaves = async (readerId: string): Promise<SaveModel[]> => {
     try {
         const accessToken = localStorage.getItem("accessToken");
-        const response = await axiosInstance.post<SaveModel>('', save, {
+        const response = await axiosInstance.get<SaveModel[]>(`/${readerId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -25,7 +25,7 @@ export const addSave = async (save: Partial<SaveModel>): Promise<SaveModel> => {
           // Redirect to unauthorized page if status is 401
           window.location.href = "/unauthorized";
         } else {
-          console.error("Error in addSave API call:", error);
+          console.error("Error in getAllSaves API call:", error);
         }
         throw error;
       }

@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { fetchArticleByArticleIdWithNoPatch } from "../../articles/api/getSpecificArticle";
 import { ArticleRequestModel } from "../../articles/models/ArticleRequestModel";
 import { SaveModel } from "../model/SaveModel";
-import { Button } from "react-bootstrap";
 import { deleteSave } from "../api/deleteSave";
 import "./SavedArticlesList.css";
 import { unlikeArticle } from "features/articles/api/unlikeArticle";
 import { HeartAnimation } from "features/articles/components/animations/HeartAnimation";
 import { likeArticle } from "features/articles/api/likeArticle";
 import { Link } from "react-router-dom";
+import { getAllSaves } from "../api/getAllSaves";
+import savedIcon from "../../../assets/savedIcon.png";
 
 interface SavedArticlesListProps {
   readerId: string;
@@ -27,18 +28,12 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   }>({});
   const heartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  // useEffect for SSE connection
+  // useEffect getAllSaves
   useEffect(() => {
     const fetchSaves = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/v1/interactions/saves/${readerId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch saves");
-        }
-        const data: SaveModel[] = await response.json();
-        setSaves(data);
+        const data = await getAllSaves(readerId);
+        setSaves(Array.isArray(data) ? data : [data]);
       } catch (err) {
         setError("Failed to fetch saves");
         console.error("Error fetching saves:", err);
@@ -199,7 +194,10 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
                   {likedArticles[article.articleId] ? 1 : 0}
                 </p>
               </div>
-              <Button
+              <img
+                src={savedIcon}
+                alt="Unsave"
+                className="unsave-icon"
                 onClick={() => {
                   const saveToDelete = saves.find(
                     (save) => save.articleId === article.articleId
@@ -208,9 +206,9 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
                     handleUnsave(article.articleId, saveToDelete.saveId);
                   }
                 }}
-              >
-                <i className="bi bi-bookmark"></i> Unsave
-              </Button>
+                style={{ cursor: "pointer", width: "40px", height: "40px", margin: "0 0 0 -5px" }}
+                title="Unsave"
+              />
             </div>
             {index < articles.length - 1 && <hr className="separator" />}
           </div>

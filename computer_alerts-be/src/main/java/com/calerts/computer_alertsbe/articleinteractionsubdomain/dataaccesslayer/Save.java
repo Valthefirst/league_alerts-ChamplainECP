@@ -23,7 +23,7 @@ public class Save {
 
     @Embedded
     private SaveIdentifier saveId;
-    private LocalDateTime timestamp;
+//    private LocalDateTime timestamp;
     private ArticleIdentifier articleId;
     private String readerId;
 }

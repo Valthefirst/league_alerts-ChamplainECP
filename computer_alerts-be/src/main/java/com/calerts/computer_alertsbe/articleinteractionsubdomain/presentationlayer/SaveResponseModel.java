@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class SaveResponseModel {
 
     private String saveId;
-    private LocalDateTime timestamp;
+//    private LocalDateTime timestamp;
     private String articleId;
     private String readerId;
 }

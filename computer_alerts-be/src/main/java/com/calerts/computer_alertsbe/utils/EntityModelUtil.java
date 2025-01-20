@@ -98,7 +98,7 @@ public class EntityModelUtil {
 
     public static SaveResponseModel toSaveResponseModel(Save save) {
         SaveResponseModel saveResponseModel = new SaveResponseModel();
-        BeanUtils.copyProperties(save, saveResponseModel);
+//        BeanUtils.copyProperties(save, saveResponseModel);
         saveResponseModel.setSaveId(save.getSaveId().getSaveId());
         saveResponseModel.setArticleId(save.getArticleId().getArticleId());
         saveResponseModel.setReaderId(save.getReaderId());

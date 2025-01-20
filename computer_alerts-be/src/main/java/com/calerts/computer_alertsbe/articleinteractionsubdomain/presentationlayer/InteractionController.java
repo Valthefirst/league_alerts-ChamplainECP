@@ -107,10 +107,11 @@ public class InteractionController {
         return saveService.getAllSaves(readerId);
     }
 
-    @PostMapping(value = "/saves", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<Void>> addSave(@RequestBody Mono<SaveRequestModel> saveRequestModel) {
+    @PostMapping(value = "/saves", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<SaveResponseModel>> addSave(@RequestBody Mono<SaveRequestModel> saveRequestModel) {
         return saveService.addSave(saveRequestModel)
-                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
+                .map(c -> ResponseEntity.status(HttpStatus.CREATED).body(c))
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/saves/{saveId}")

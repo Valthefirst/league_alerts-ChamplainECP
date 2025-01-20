@@ -1,6 +1,6 @@
 export interface SaveModel {
     saveId: string;
-    timestamp: Date;
+    // timestamp: Date;
     articleId: string;
     readerId: string;
 }

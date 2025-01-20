@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 public interface SaveService {
 
     Flux<SaveResponseModel> getAllSaves(String readerId);
-    Mono<Void> addSave(Mono<SaveRequestModel> saveRequestModel);
+    Mono<SaveResponseModel> addSave(Mono<SaveRequestModel> saveRequestModel);
     Mono<Void> deleteSave(String saveId);
 }

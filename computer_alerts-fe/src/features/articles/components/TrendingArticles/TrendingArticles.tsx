@@ -9,6 +9,9 @@ import { shareArticle } from "../../api/shareArticle";
 import axios from "axios";
 import shareIcon from "../../../../assets/share-icon.png"; // Import share icon
 import "./TrendingArticles.css";
+// import { getAllSaves } from "features/savedArticles/api/getAllSaves";
+// import { addSave } from "features/savedArticles/api/addSave";
+// import { deleteSave } from "features/savedArticles/api/deleteSave";
 
 const TrendingArticles: React.FC = () => {
   const [trendingArticles, setTrendingArticles] = useState<
@@ -19,31 +22,47 @@ const TrendingArticles: React.FC = () => {
   const [likedArticles, setLikedArticles] = useState<{
     [articleId: string]: boolean;
   }>({});
+  // const [savedArticles, setSavedArticles] = useState<{
+  //   [articleId: string]: boolean;
+  // }>({});
   const heartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
 
   const refreshLikedState = (articles: ArticleRequestModel[]) => {
-    const initialLikedState = articles.reduce(
-      (acc, article) => {
-        if (article.articleId) {
-          acc[article.articleId] =
-            localStorage.getItem(`article-${article.articleId}-liked`) ===
-            "true";
-        }
-        return acc;
-      },
-      {} as { [articleId: string]: boolean },
-    );
+    const initialLikedState = articles.reduce((acc, article) => {
+      if (article.articleId) {
+        acc[article.articleId] =
+          localStorage.getItem(`article-${article.articleId}-liked`) === "true";
+      }
+      return acc;
+    }, {} as { [articleId: string]: boolean });
     setLikedArticles(initialLikedState);
   };
+
+  // useEffect(() => {
+  //   const initializeSavedState = async () => {
+  //     try {
+  //       const saves = await getAllSaves("06a7d573-bcab-4db3-956f-773324b92a80");
+  //       const savedState = saves.reduce((acc, save) => {
+  //         acc[save.articleId] = true;
+  //         return acc;
+  //       }, {} as { [articleId: string]: boolean });
+  //       setSavedArticles(savedState);
+  //     } catch (err) {
+  //       console.error("Error fetching saved articles:", err);
+  //     }
+  //   };
+
+  //   initializeSavedState();
+  // }, []);
 
   useEffect(() => {
     const fetchTrendingArticles = async () => {
       try {
         const data = await fetchAllsArticles();
         const sortedArticles = data.sort(
-          (a, b) => b.requestCount - a.requestCount,
+          (a, b) => b.requestCount - a.requestCount
         );
         const topArticles = sortedArticles.slice(0, 3);
         setTrendingArticles(topArticles);
@@ -68,7 +87,7 @@ const TrendingArticles: React.FC = () => {
         if (isLiked) {
           await unlikeArticle(
             articleId,
-            "06a7d573-bcab-4db3-956f-773324b92a80",
+            "06a7d573-bcab-4db3-956f-773324b92a80"
           );
           localStorage.setItem(`article-${articleId}-liked`, "false");
         } else {
@@ -89,11 +108,41 @@ const TrendingArticles: React.FC = () => {
     }
   };
 
+  // const handleSaveToggle = async (articleId: string) => {
+  //   try {
+  //     const isSaved = savedArticles[articleId];
+
+  //     if (isSaved) {
+  //       const saveId = Object.keys(savedArticles).find(
+  //         (key) => key === articleId
+  //       );
+  //       if (saveId) {
+  //         await deleteSave(saveId);
+  //       }
+  //       setSavedArticles((prev) => {
+  //         const { [articleId]: _, ...rest } = prev;
+  //         return rest;
+  //       });
+  //     } else {
+  //       const newSave = await addSave({
+  //         articleId,
+  //         readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
+  //       });
+  //       setSavedArticles((prev) => ({
+  //         ...prev,
+  //         [articleId]: true,
+  //       }));
+  //     }
+  //   } catch (err) {
+  //     console.error("Error toggling save:", err);
+  //   }
+  // };
+
   const handleShareClick = async (articleId: string | undefined) => {
     if (articleId) {
       try {
         await navigator.clipboard.writeText(
-          window.location.origin + `/articles/${articleId}`,
+          window.location.origin + `/articles/${articleId}`
         );
         await shareArticle(articleId, "06a7d573-bcab-4db3-956f-773324b92a80");
         setShowToast(true);
@@ -174,6 +223,12 @@ const TrendingArticles: React.FC = () => {
                             ? 1
                             : 0}
                         </p>
+                        {/* <img
+  src={savedArticles[trendingArticles[0].articleId || ""] ? savedIcon : saveIcon}
+  alt="Save"
+  className="save-icon-trending"
+  onClick={() => trendingArticles[0].articleId && handleSaveToggle(trendingArticles[0].articleId)}
+/> */}
                         <img
                           src={shareIcon}
                           alt="Share"
@@ -223,6 +278,18 @@ const TrendingArticles: React.FC = () => {
                         <p className="like-count-trending">
                           {likedArticles[article.articleId || ""] ? 1 : 0}
                         </p>
+                        {/* <img
+                          src={
+                            savedArticles[trendingArticles[0].articleId || ""]
+                              ? savedIcon
+                              : saveIcon
+                          }
+                          alt="Save"
+                          className="save-icon-trending"
+                          onClick={() =>
+                            handleSaveToggle(trendingArticles[0].articleId || "")
+                          }
+                        /> */}
                         <img
                           src={shareIcon}
                           alt="Share"

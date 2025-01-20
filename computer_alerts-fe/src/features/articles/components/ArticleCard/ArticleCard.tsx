@@ -12,6 +12,7 @@ import { SaveModel } from "../../../savedArticles/model/SaveModel";
 import { addSave } from "../../../savedArticles/api/addSave";
 import { deleteSave } from "../../../savedArticles/api/deleteSave";
 import { Button } from "react-bootstrap";
+import { getAllSaves } from "features/savedArticles/api/getAllSaves";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -64,8 +65,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
       // Fetch saved states from API instead
       const fetchSavedStates = async () => {
         try {
-          const response = await fetch(`/api/v1/interactions/saves/${readerId}`);
-          const data = await response.json();
+          const response = await getAllSaves(readerId);
+          const data = response;
           const savedStates = data.reduce((acc: { [key: string]: SaveModel }, save: SaveModel) => {
             acc[save.articleId] = save;
             return acc;
@@ -114,42 +115,27 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
       if (isSaved) {
         // Remove the save
         await deleteSave(isSaved.saveId);
-        localStorage.removeItem(`article-${articleId}-saved`);
         setSavedArticles((prev) => ({
           ...prev,
-          [articleId]: null, // Set to null to indicate unsaved
+          [articleId]: null,
         }));
       } else {
         // Add a new save
-        const saveModel: Partial<SaveModel> = {
+        const newSave: SaveModel = await addSave({
           articleId,
           readerId,
-          timestamp: new Date(), // Add the timestamp locally
-        };
-  
-        await addSave(saveModel); // Call the API
-  
-        const newSave: SaveModel = {
-          saveId: crypto.randomUUID(), // Generate a local ID (if needed)
-          ...saveModel,
-        } as SaveModel;
-  
-        localStorage.setItem(
-          `article-${articleId}-saved`,
-          JSON.stringify(newSave)
-        );
-  
-        setSavedArticles((prev) => ({
-          ...prev,
-          [articleId]: newSave, // Use the locally constructed SaveModel
-        }));
+        });
+        setSavedArticles((prev) => {
+          const updated = { ...prev };
+          updated[articleId] = newSave;
+          return updated;
+        });
       }
     } catch (err) {
       console.error("Error toggling save:", err);
     }
   };
   
-
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
       navigate(`/articles/${articleId}`);
