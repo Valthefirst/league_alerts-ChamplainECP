@@ -233,26 +233,36 @@ package "Reader Subdomain" {
     }
 
     class ReaderRepository {
-        + findById(readerId: String) : Optional<Reader>
+        + findByReaderId(readerId: String) : Optional<Reader>
         + save(reader: Reader) : Reader
-        + deleteById(readerId: String) : void
+        + deleteByReaderId(readerId: String) : void
     }
 
     class Reader {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     class ReaderRequestModel {
-        - name: String
+        - readerId: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
         - email: String
     }
 
     class ReaderResponseModel {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     ReaderController --> ReaderService
