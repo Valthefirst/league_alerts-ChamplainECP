@@ -3,19 +3,25 @@
 
 title System Context Diagram for League Alerts
 
-Person(employee, "Author", "An employee who writes articles abouts the latest news in sports.")
+Person(employee, "Author", "An employee who writes articles about the latest news in sports.")
 Person(user, "Reader", "A person who reads articles on the web application and interacts with them.")
 Person(admin, "Admin", "A person who administers the whole system.")
 
 System_Boundary(computerAlerts, "Computer Alerts") {
-    System(sys, "Computer Alerts", "A web application has articles about the latest sports news.")
+    System(sys, "Computer Alerts", "A web application that has articles about the latest sports news.")
 }
-    System(mailing, "Google API", "The external e-mail system.")
+
+System(mailing, "Google API", "The external e-mail system.")
+System(auth, "Auth0", "The external authentication service.")
+System(cloudinary, "Cloudinary API", "The external media management system.")
 
 Rel(employee, sys, "Writes articles", "Uses")
 Rel(user, sys, "Reads articles and interacts with them", "Uses")
 Rel(admin, sys, "Generates reports and creates author accounts", "Uses")
 Rel(sys, mailing, "Sends e-mail using")
+Rel(sys, auth, "Handles user authentication via")
+Rel(sys, cloudinary, "Uploads and retrieves media using")
+
 employee -[hidden]> admin
 user -[hidden]> admin
 
