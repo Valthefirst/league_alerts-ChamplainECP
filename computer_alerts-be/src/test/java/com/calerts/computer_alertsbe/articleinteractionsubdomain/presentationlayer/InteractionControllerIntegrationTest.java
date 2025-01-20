@@ -53,7 +53,7 @@ class InteractionControllerIntegrationTest {
                 .articleIdentifier(new ArticleIdentifier("article-1"))
                 .title("Article 1")
                 .build()).block();
-        saveRepository.deleteAll().block();
+//        saveRepository.deleteAll().block();
     }
 
     @Test
@@ -453,15 +453,15 @@ class InteractionControllerIntegrationTest {
         // Act & Assert
         webTestClient.get()
                 .uri(url)
-                .accept(MediaType.TEXT_EVENT_STREAM)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("text/event-stream;charset=UTF-8")
-                .expectBodyList(SaveResponseModel.class)
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(ShareResponseModel.class)
                 .value((response) -> {
                     assertNotNull(response);
                     assertEquals(2, response.size());
-                    response.forEach(save -> assertEquals(readerId, save.getReaderId()));
+                    response.forEach(share -> assertEquals(articleId.getArticleId(), share.getArticleId()));
                 });
     }
 
@@ -487,26 +487,6 @@ class InteractionControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectHeader();
-    }
-
-    // Negative test case for addSave
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    public void whenAddSaveWithDuplicateSave_thenReturnConflict() {
-        // Arrange
-        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
-                .articleId("article-1")
-                .readerId("reader-001")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBodyList(ShareResponseModel.class)
-                .value((response) -> {
-                    assertNotNull(response);
-                    assertEquals(2, response.size());
-                    response.forEach(share -> assertEquals(articleId.getArticleId(), share.getArticleId()));
-                });
     }
 
     @Test

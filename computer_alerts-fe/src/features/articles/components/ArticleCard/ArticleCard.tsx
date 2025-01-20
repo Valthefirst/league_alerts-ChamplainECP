@@ -8,6 +8,10 @@ import { unlikeArticle } from "features/articles/api/unlikeArticle";
 import { shareArticle } from "../../api/shareArticle";
 import { HeartAnimation } from "../../components/animations/HeartAnimation";
 import shareIcon from "../../../../assets/share-icon.png"; // Import the share icon image
+import { SaveModel } from "../../../savedArticles/model/SaveModel";
+import { addSave } from "../../../savedArticles/api/addSave";
+import { deleteSave } from "../../../savedArticles/api/deleteSave";
+import { Button } from "react-bootstrap";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -31,6 +35,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   }>({});
   const heartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [showToast, setShowToast] = useState(false);
+  const [savedArticles, setSavedArticles] = useState<{
+    [articleId: string]: SaveModel | null;
+  }>({});
+  const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
 
   useEffect(() => {
     const initializeLikedState = () => {
@@ -50,6 +58,28 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
 
     initializeLikedState();
   }, [articles]);
+
+  useEffect(() => {
+    const initializeSavedState = () => {
+      // Fetch saved states from API instead
+      const fetchSavedStates = async () => {
+        try {
+          const response = await fetch(`/api/v1/interactions/saves/${readerId}`);
+          const data = await response.json();
+          const savedStates = data.reduce((acc: { [key: string]: SaveModel }, save: SaveModel) => {
+            acc[save.articleId] = save;
+            return acc;
+          }, {});
+          setSavedArticles(savedStates);
+        } catch (err) {
+          console.error("Error fetching saved states:", err);
+        }
+      };
+      fetchSavedStates();
+    };
+  
+    initializeSavedState();
+  }, [readerId]);
 
   const handleLikeToggle = async (articleId: string) => {
     try {
@@ -76,6 +106,49 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
       console.error("Error toggling like:", err);
     }
   };
+
+  const handleSaveToggle = async (articleId: string) => {
+    try {
+      const isSaved = savedArticles[articleId];
+  
+      if (isSaved) {
+        // Remove the save
+        await deleteSave(isSaved.saveId);
+        localStorage.removeItem(`article-${articleId}-saved`);
+        setSavedArticles((prev) => ({
+          ...prev,
+          [articleId]: null, // Set to null to indicate unsaved
+        }));
+      } else {
+        // Add a new save
+        const saveModel: Partial<SaveModel> = {
+          articleId,
+          readerId,
+          timestamp: new Date(), // Add the timestamp locally
+        };
+  
+        await addSave(saveModel); // Call the API
+  
+        const newSave: SaveModel = {
+          saveId: crypto.randomUUID(), // Generate a local ID (if needed)
+          ...saveModel,
+        } as SaveModel;
+  
+        localStorage.setItem(
+          `article-${articleId}-saved`,
+          JSON.stringify(newSave)
+        );
+  
+        setSavedArticles((prev) => ({
+          ...prev,
+          [articleId]: newSave, // Use the locally constructed SaveModel
+        }));
+      }
+    } catch (err) {
+      console.error("Error toggling save:", err);
+    }
+  };
+  
 
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
@@ -156,6 +229,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                   <p className="article-card-like-count">
                     {likedArticles[article.articleId || ""] ? 1 : 0}
                   </p>
+                  <div>
+                  <Button
+  className="bookmark-btn"
+  onClick={() => article.articleId && handleSaveToggle(article.articleId)}
+>
+  <i className={`bi ${savedArticles[article.articleId] ? 'bi-bookmark-fill' : 'bi-bookmark'}`}></i>
+  {savedArticles[article.articleId] ? 'Unsave' : 'Save'}
+</Button>
+              </div>
                   <img
                     src={shareIcon}
                     alt="Share"

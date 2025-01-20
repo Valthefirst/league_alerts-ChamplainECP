@@ -55,10 +55,13 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
 
-                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/**").hasAuthority("like:articles")
-                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").hasAuthority("like:articles")
-                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/**").hasAuthority("like:articles")
-                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/likes/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/like/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/unlike/**").hasAuthority("like:articles")
+                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/saves/**").permitAll()
+//                                .pathMatchers(HttpMethod.GET, "/api/v1/interactions/saves/**").hasAuthority("save:articles")
+                                .pathMatchers(HttpMethod.POST, "/api/v1/interactions/saves/**").permitAll()
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/interactions/saves/**").permitAll()
 
 
                                 .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").hasAuthority("like:articles")

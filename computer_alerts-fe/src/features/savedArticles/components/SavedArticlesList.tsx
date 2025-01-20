@@ -29,41 +29,25 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
 
   // useEffect for SSE connection
   useEffect(() => {
-    let eventSource: EventSource;
-    const seenCommentIds = new Set<string>();
-
-    const connectToSSE = () => {
-      eventSource = new EventSource(
-        `http://localhost:8080/api/v1/interactions/saves/${readerId}`
-      );
-
-      eventSource.onopen = () => {
-        setIsLoading(false);
-      };
-
-      eventSource.onmessage = (event) => {
-        try {
-          const newSave: SaveModel = JSON.parse(event.data);
-          if (
-            newSave.readerId === readerId &&
-            !seenCommentIds.has(newSave.saveId)
-          ) {
-            seenCommentIds.add(newSave.saveId);
-            setSaves((prevSaves) => [...prevSaves, newSave]);
-          }
-        } catch (err) {
-          console.error("Error parsing SSE data:", err);
+    const fetchSaves = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/v1/interactions/saves/${readerId}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch saves");
         }
-      };
-    };
-
-    connectToSSE();
-
-    return () => {
-      if (eventSource) {
-        eventSource.close();
+        const data: SaveModel[] = await response.json();
+        setSaves(data);
+      } catch (err) {
+        setError("Failed to fetch saves");
+        console.error("Error fetching saves:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
+
+    fetchSaves();
   }, [readerId]);
 
   // useEffect to fetch articles when saves change

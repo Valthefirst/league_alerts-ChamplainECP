@@ -3,7 +3,6 @@ package com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationla
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.LikeService;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.SaveService;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer.ShareService;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,6 @@ public class InteractionController {
         this.saveService = saveService;
         this.shareService = shareService;
     }
-
 
     @PostMapping("/like")
     @PreAuthorize("hasAuthority('like:articles')")
@@ -103,7 +101,8 @@ public class InteractionController {
                 .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
     }
 
-    @GetMapping(value = "/saves/{readerId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/saves/{readerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasAuthority('save:articles')")
     public Flux<SaveResponseModel> getAllSaves(@PathVariable String readerId) {
         return saveService.getAllSaves(readerId);
     }
