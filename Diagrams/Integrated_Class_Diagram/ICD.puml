@@ -3,24 +3,31 @@
 package "Article Subdomain" {
     class ArticleController {
         + getArticleById(articleId: String) : ResponseEntity<ArticleResponseModel>
+        + getAllArticleForASpecificSport(category: String) : ResponseEntity<List<ArticleResponseModel>>
         + createArticle(articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
         + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
         + deleteArticle(articleId: String) : ResponseEntity<Void>
         + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>
         + saveArticle(readerId: String, articleId: String) : ResponseEntity<Void>
+        + updateArticleImage(articleId: String, image: FilePart) : ResponseEntity<String>
+        + uploadImage(image: FilePart) : ResponseEntity<String>
     }
 
     class ArticleService {
         + getArticleById(articleId: String) : ArticleResponseModel
+        + getAllArticleForASpecificSport(category: String) : List<ArticleResponseModel>
         + createArticle(articleRequest: ArticleRequestModel) : ArticleResponseModel
         + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
         + deleteArticle(articleId: String) : void
         + searchArticles(keyword: String) : List<ArticleResponseModel>
         + saveArticle(readerId: String, articleId: String) : void
+        + updateArticleImage(articleId: String, image: FilePart) : String
+        + uploadImage(image: FilePart) : String
     }
 
     class ArticleRepository {
         + findById(articleId: String) : Optional<Article>
+        + findAllArticleByCategory(category: String) : List<Article>
         + save(article: Article) : Article
         + deleteById(articleId: String) : void
         + findByTitleContainingOrTags_TagNameContaining(keyword: String) : List<Article>
@@ -36,24 +43,42 @@ package "Article Subdomain" {
     }
 
     class ArticleRequestModel {
-        - title: String
-        - content: String
-        - tags: List<String>
-    }
+        - articleId: String
+        - title: String 
+        - body: String
+        - wordCount: int
+        - articleStatus: ArticleStatus
+        -  category: String
+        - tagsTag: Tags
+        - timePosted: LocalDateTime
+        - photoUrl: String
+        - authorIdentifier: AuthorIdentifier
+        - articleDescription: String
+        }
 
     class ArticleResponseModel {
         - articleId: String
-        - title: String
-        - content: String
-        - tags: List<String>
-        - status: ArticleStatus
-        - authorName: String
+        - title: String 
+        - body: String
+        - wordCount: int
+        - articleStatus: ArticleStatus
+        - category: String
+        - tagsTag: Tags
+        - timePosted: LocalDateTime
+        - photoUrl: String
+        - authorIdentifier: AuthorIdentifier
+        - articleDescription: String
+        -articleIdentifier: ArticleIdentifier
     }
 
-    class Tags {
-        - tagId: String
-        - tagName: String
+   enum tags {
+        NBA
+        NFL
+        UFC
+        MLB
+        NHL
     }
+   
 
     enum ArticleStatus {
         DRAFT
@@ -65,7 +90,7 @@ package "Article Subdomain" {
     ArticleService --> ArticleRepository
     ArticleRepository --> Article
     Article --> ArticleResponseModel
-    Article --> Tags
+    Article --> tags
     Article --> ArticleStatus
     Article --> Author
     ArticleRequestModel --> Article
