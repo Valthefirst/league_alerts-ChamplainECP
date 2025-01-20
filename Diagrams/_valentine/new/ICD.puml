@@ -1,0 +1,422 @@
+@startuml
+
+package "Article Subdomain" {
+    class ArticleController {
+        + getArticleById(articleId: String) : ResponseEntity<ArticleResponseModel>
+        + getAllArticleForASpecificSport(category: String) : ResponseEntity<List<ArticleResponseModel>>
+        + createArticle(articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
+        + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ResponseEntity<ArticleResponseModel>
+        + deleteArticle(articleId: String) : ResponseEntity<Void>
+        + searchArticles(keyword: String) : ResponseEntity<List<ArticleResponseModel>>
+        + saveArticle(readerId: String, articleId: String) : ResponseEntity<Void>
+        + updateArticleImage(articleId: String, image: FilePart) : ResponseEntity<String>
+        + uploadImage(image: FilePart) : ResponseEntity<String>
+    }
+
+    class ArticleService {
+        + getArticleById(articleId: String) : ArticleResponseModel
+        + getAllArticleForASpecificSport(category: String) : List<ArticleResponseModel>
+        + createArticle(articleRequest: ArticleRequestModel) : ArticleResponseModel
+        + editArticle(articleId: String, articleRequest: ArticleRequestModel) : ArticleResponseModel
+        + deleteArticle(articleId: String) : void
+        + searchArticles(keyword: String) : List<ArticleResponseModel>
+        + saveArticle(readerId: String, articleId: String) : void
+        + updateArticleImage(articleId: String, image: FilePart) : String
+        + uploadImage(image: FilePart) : String
+    }
+
+    class ArticleRepository {
+        + findById(articleId: String) : Optional<Article>
+        + findAllArticleByCategory(category: String) : List<Article>
+        + save(article: Article) : Article
+        + deleteById(articleId: String) : void
+        + findByTitleContainingOrTags_TagNameContaining(keyword: String) : List<Article>
+    }
+
+    class Article {
+        - articleId: String
+        - title: String
+        - content: String
+        - tags: List<Tags>
+        - status: ArticleStatus
+        - author: Author
+        - likeCount: Integer
+        - commentCount: Integer
+        - shareCount: Integer
+    }
+
+    class ArticleRequestModel {
+        - articleId: String
+        - title: String
+        - body: String
+        - wordCount: int
+        - articleStatus: ArticleStatus
+        -  category: String
+        - tagsTag: Tags
+        - timePosted: LocalDateTime
+        - photoUrl: String
+        - authorIdentifier: AuthorIdentifier
+        - articleDescription: String
+        }
+
+    class ArticleResponseModel {
+        - articleId: String
+        - title: String
+        - body: String
+        - wordCount: int
+        - articleStatus: ArticleStatus
+        - category: String
+        - tagsTag: Tags
+        - timePosted: LocalDateTime
+        - photoUrl: String
+        - authorIdentifier: AuthorIdentifier
+        - articleDescription: String
+        - articleIdentifier: ArticleIdentifier
+        - authorName: String
+        - likeCount: Integer
+        - commentCount: Integer
+        - shareCount: Integer
+    }
+
+   enum tags {
+        NBA
+        NFL
+        UFC
+        MLB
+        NHL
+    }
+
+
+    enum ArticleStatus {
+        DRAFT
+        PUBLISHED
+        ARCHIVED
+    }
+
+    ArticleController --> ArticleService
+    ArticleService --> ArticleRepository
+    ArticleRepository --> Article
+    Article --> ArticleResponseModel
+    Article --> tags
+    Article --> ArticleStatus
+    Article --> Author
+    ArticleRequestModel --> Article
+}
+
+package "Interaction Subdomain" {
+    class InteractionController {
+        + likeArticle(articleId: String, userId: String) : ResponseEntity<LikeResponseModel>
+        + unlikeArticle(articleId: String, userId: String) : ResponseEntity<Void>
+        + addComment(articleId: String, commentRequest: CommentRequestModel) : ResponseEntity<CommentResponseModel>
+        + deleteComment(commentId: String) : ResponseEntity<Void>
+        + shareArticle(articleId: String, userId: String) : ResponseEntity<Void>
+        + getSharesByArticleId(articleId: String) : ResponseEntity<List<ShareResponseModel>>
+    }
+
+
+    class ShareService{
+        + shareArticle(articleId: String, userId: String) : void
+        + getSharesByArticleId(articleId: String) : List<ShareResponseModel>
+    }
+
+    class ShareRepository{
+        + save(share: Share) : Share
+        + findByArticleId(articleId: String) : List<Share>
+    }
+
+    class Share{
+        - shareId: String
+        - userId: String
+        - articleId: String
+        - timestamp: LocalDateTime
+    }
+
+    class ShareResponseModel{
+        - shareId: String
+        - userId: String
+        - articleId: String
+        - timestamp: LocalDateTime
+    }
+
+    class LikeService {
+        + likeArticle(articleId: String, userId: String) : LikeResponseModel
+        + unlikeArticle(articleId: String, userId: String) : void
+    }
+
+    class CommentService {
+        + addComment(articleId: String, commentRequest: CommentRequestModel) : CommentResponseModel
+        + deleteComment(commentId: String) : void
+    }
+
+    class LikeRepository {
+        + save(like: Like) : Like
+        + findByArticleIdAndUserId(articleId: String, userId: String) : Optional<Like>
+        + deleteByArticleIdAndUserId(articleId: String, userId: String) : void
+    }
+
+    class CommentRepository {
+        + save(comment: Comment) : Comment
+        + deleteById(commentId: String) : void
+        + findById(commentId: String) : Optional<Comment>
+    }
+
+    class Like {
+        - likeId: String
+        - userId: String
+        - articleId: String
+    }
+
+    class Comment {
+        - commentId: String
+        - userId: String
+        - articleId: String
+        - text: String
+        - timestamp: LocalDateTime
+    }
+
+    class LikeResponseModel {
+        - likeId: String
+        - userId: String
+        - articleId: String
+    }
+
+    class CommentResponseModel {
+        - commentId: String
+        - userId: String
+        - articleId: String
+        - text: String
+        - timestamp: LocalDateTime
+    }
+
+    class CommentRequestModel {
+        - userId: String
+        - articleId: String
+        - text: String
+    }
+
+        class SaveService {
+            + getAllSaves(readerId: String) : Flux<SaveResponseModel>
+            + addSave(commentRequestModel: Mono<SaveRequestModel>) : Mono<Void>
+            + deleteSave(saveId: String) : Mono<Void>
+        }
+
+        class SaveRepository {
+            + save(save: Save) : Save
+            + findSavesByReaderId(readerId: String) : Flux<Save>
+            + findSaveBySaveId_SaveId(saveId: String) : Mono<Save>
+            + findSaveByArticleId_ArticleIdAndReaderId(articleId: String, readerId: String) : Mono<Save>
+        }
+
+        class Save {
+            - id: String
+            - saveId: SaveIdentifier
+            - timestamp: LocalDateTime
+            - articleId: ArticleIdentifier
+            - readerId: String
+        }
+
+        class SaveResponseModel {
+            - saveId: String
+            - timestamp: LocalDateTime
+            - articleId: String
+            - readerId: String
+        }
+
+    InteractionController --> LikeService
+    InteractionController --> CommentService
+    LikeService --> LikeRepository
+    CommentService --> CommentRepository
+    LikeRepository --> Like
+    CommentRepository --> Comment
+    Like --> LikeResponseModel
+    Comment --> CommentResponseModel
+    CommentRequestModel --> Comment
+
+    InteractionController --> ShareService
+    ShareService --> ShareRepository
+    ShareRepository --> Share
+    Share --> ShareResponseModel
+
+    InteractionController --> SaveService
+        SaveService --> SaveRepository
+        SaveRepository --> Save
+        Save --> SaveResponseModel
+}
+
+package "Authentication Subdomain" {
+    class AuthController {
+        + authenticate(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+        + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+    }
+
+    class UserService {
+        + authenticate(userRequest: UserRequestDTO) : UserResponseModel
+        + registerUser(userRequest: UserRequestDTO) : UserResponseModel
+    }
+
+    class UserRepository {
+        + findByUsername(username: String) : Optional<User>
+        + save(user: User) : User
+    }
+
+    class UserResponseModel {
+        - userId: String
+        - token: String
+    }
+
+    class UserRequestDTO {
+        - username: String
+        - password: String
+    }
+
+    class User {
+        - userId: String
+        - username: String
+        - passwordHash: String
+    }
+
+    AuthController --> UserService
+    UserService --> UserRepository
+    UserRepository --> User
+    User --> UserResponseModel
+    UserRequestDTO --> User
+}
+
+package "Reader Subdomain" {
+    class ReaderController {
+        + getReaderById(readerId: String) : ResponseEntity<ReaderResponseModel>
+        + createReader(readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + deleteReader(readerId: String) : ResponseEntity<Void>
+    }
+
+    class ReaderService {
+        + getReaderById(readerId: String) : ReaderResponseModel
+        + createReader(readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + deleteReader(readerId: String) : void
+    }
+
+    class ReaderRepository {
+        + findById(readerId: String) : Optional<Reader>
+        + save(reader: Reader) : Reader
+        + deleteById(readerId: String) : void
+    }
+
+    class Reader {
+        - readerId: String
+        - name: String
+        - email: String
+    }
+
+    class ReaderRequestModel {
+        - name: String
+        - email: String
+    }
+
+    class ReaderResponseModel {
+        - readerId: String
+        - name: String
+        - email: String
+    }
+
+    ReaderController --> ReaderService
+    ReaderService --> ReaderRepository
+    ReaderRepository --> Reader
+    ReaderRequestModel --> Reader
+    Reader --> ReaderResponseModel
+}
+
+package "Author Subdomain" {
+    class AuthorController {
+        + getAuthorById(authorId: String) : ResponseEntity<AuthorResponseModel>
+        + createAuthor(authorRequest: AuthorRequestModel) : ResponseEntity<AuthorResponseModel>
+        + updateAuthor(authorId: String, authorRequest: AuthorRequestModel) : ResponseEntity<AuthorResponseModel>
+        + deleteAuthor(authorId: String) : ResponseEntity<Void>
+    }
+
+    class AuthorService {
+        + getAuthorById(authorId: String) : AuthorResponseModel
+        + createAuthor(authorRequest: AuthorRequestModel) : AuthorResponseModel
+        + updateAuthor(authorId: String, authorRequest: AuthorRequestModel) : AuthorResponseModel
+        + deleteAuthor(authorId: String) : void
+    }
+
+    class AuthorRepository {
+        + findById(authorId: String) : Optional<Author>
+        + save(author: Author) : Author
+        + deleteById(authorId: String) : void
+    }
+
+    class Author {
+        - authorId: String
+        - name: String
+        - biography: Biography
+        - articles: List<Article>
+    }
+
+    class Biography {
+        - text: String
+    }
+
+    class AuthorRequestModel {
+        - name: String
+        - biography: String
+    }
+
+    class AuthorResponseModel {
+        - authorId: String
+        - name: String
+        - biography: Biography
+    }
+
+    AuthorController --> AuthorService
+    AuthorService --> AuthorRepository
+    AuthorRepository --> Author
+    Author --> Biography
+    Author --> Article
+    AuthorRequestModel --> Author
+    Author --> AuthorResponseModel
+}
+
+' Subdomain Relationships
+Article --> Author : "written by"
+Reader --> Article : "reads"
+Interaction --> Article : "interacts with"
+Authentication --> Reader : "authenticates"
+Authentication --> Interaction : "validates"
+
+package "Email Subscription Subdomain" {
+    class EmailController {
+        + subscribe(email: String): ResponseEntity<String>
+        + unsubscribe(email: String): ResponseEntity<String>
+        + notifySubscribers(subject: String, message: String): ResponseEntity<String>
+    }
+
+    class GmailService {
+        + sendMail(to: String, subject: String, body: String): void
+    }
+
+    class Subscriber {
+        - Long id
+        - String email
+        + Subscriber(email: String)
+    }
+
+    interface SubscriberRepository {
+        + existsByEmail(email: String): boolean
+        + deleteByEmail(email: String): void
+        + findAll(): List<Subscriber>
+    }
+
+    EmailController --> GmailService
+    EmailController --> SubscriberRepository
+    SubscriberRepository ..|> Subscriber
+}
+
+' Subdomain Relationships
+Article --> Author : "written by"
+Reader --> Article : "reads"
+EmailController --> Reader : "subscribes"
+
+@enduml
