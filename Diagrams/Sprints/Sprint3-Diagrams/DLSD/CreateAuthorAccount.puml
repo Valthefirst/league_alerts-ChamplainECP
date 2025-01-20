@@ -1,0 +1,45 @@
+@startuml
+title Design Level Sequence Diagram for Creating Author Account
+
+actor Admin
+participant "ReactApplication" as RA
+participant "AuthorCreationPage" as AuthorPage
+participant "AdminController" as Controller
+participant "AuthorService" as Service
+participant "AuthorRepository" as Repository
+participant "AuthorRequestModel" as RequestModel
+participant "AuthorResponseModel" as ResponseModel
+database "MongoDB" as DB
+participant "Auth0Service" as Auth0
+
+Admin -> RA : Navigates to Create Author Page
+RA -> AuthorPage : Loads author creation form
+activate AuthorPage
+
+Admin -> AuthorPage : Submits new author details (name, email)
+AuthorPage -> Controller : POST /api/v1/create/Author with AuthorRequestModel
+activate Controller
+
+Controller -> Service : createAuthor(AuthorRequestModel)
+activate Service
+
+Service -> Auth0 : createUserInAuth0(email, defaultPassword)
+activate Auth0
+Auth0 --> Service : Auth0UserDetails (userId, roleAssignment)
+deactivate Auth0
+
+Service -> Repository : save(newAuthor)
+activate Repository
+Repository -> DB : INSERT INTO Authors (firstName,lastName, email, userId, password)
+DB --> Repository : Saved Author Entity
+deactivate Repository
+Repository --> Service : Author Entity
+
+Service --> Controller : AuthorResponseModel
+deactivate Service
+Controller --> AuthorPage : AuthorResponseModel
+deactivate Controller
+
+AuthorPage --> Admin : Displays success message ("Author created successfully!")
+
+@enduml
