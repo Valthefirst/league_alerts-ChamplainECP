@@ -20,7 +20,6 @@ package "Interaction Subdomain" {
         + save(save: Save) : Save
         + findSavesByReaderId(readerId: String) : Flux<Save>
         + findSaveBySaveId_SaveId(saveId: String) : Mono<Save>
-        + findSaveByArticleId_ArticleIdAndReaderId(articleId: String, readerId: String) : Mono<Save>
     }
 
     class Save {

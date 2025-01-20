@@ -1,5 +1,41 @@
 @startuml
 
+package "Report Subdomain" {
+
+    class ReportController {
+        + getAllReports() : Flux<ReportResponseModel>
+        + getReport(dateRange: Mono<String>) : Mono<ResponseEntity<ReportResponseModel>>
+    }
+
+    class ReportService {
+        + getAllReports(readerId: String) : Flux<SaveResponseModel>
+        + getReport(dateRange: Mono<String>) : Mono<ReportResponseModel>
+    }
+
+    class ReportRepository {
+        + save(report: Report) : Report
+        + findReportByReportId(reportId: String) : Mono<Report>
+    }
+
+    class Report {
+        - id: String
+        - reportId: ReportIdentifier
+        - timestamp: LocalDateTime
+        - content: ArticleIdentifier
+    }
+
+    class ReportResponseModel {
+        - reportId: ReportIdentifier
+        - timestamp: LocalDateTime
+        - content: ArticleIdentifier
+    }
+
+    ReportController --> ReportService
+    ReportService --> ReportRepository
+    ReportRepository --> Report
+    Report --> ReportResponseModel
+}
+
 package "Article Subdomain" {
     class ArticleController {
         + getArticleById(articleId: String) : ResponseEntity<ArticleResponseModel>
