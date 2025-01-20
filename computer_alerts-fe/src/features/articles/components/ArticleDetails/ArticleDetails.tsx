@@ -55,19 +55,11 @@ const ArticleDetails: React.FC = () => {
 
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
-
-          // Check if the article is saved
-          const response = await getAllSaves(readerId); // To fetch with real readerId
-          const data = await response;
-          const savedState = data.find(
-            (save: SaveModel) => save.articleId === id
-          );
-          setIsSaved(savedState || null);
         } else {
           setError("Invalid article ID");
         }
       } catch (err) {
-        console.error("Error fetching article or save state:", err);
+        console.error("Error fetching article:", err);
         setError("Failed to fetch the article");
       } finally {
         setLoading(false);
@@ -76,6 +68,25 @@ const ArticleDetails: React.FC = () => {
 
     loadArticleDetails();
   }, [id]);
+
+  useEffect(() => {
+    const loadSavedState = async () => {
+      try {
+        if (id) {
+          const response = await getAllSaves(readerId); // To fetch with real readerId
+          const data = await response;
+          const savedState = data.find(
+            (save: SaveModel) => save.articleId === id
+          );
+          setIsSaved(savedState || null);
+        }
+      } catch (err) {
+        console.error("Error fetching save state:", err);
+      }
+    };
+
+    loadSavedState();
+  }, [id, readerId]);
 
   useEffect(() => {
     if (heartRef.current) {
