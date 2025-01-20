@@ -11,6 +11,7 @@ package "Article Subdomain" {
         + saveArticle(readerId: String, articleId: String) : ResponseEntity<Void>
         + updateArticleImage(articleId: String, image: FilePart) : ResponseEntity<String>
         + uploadImage(image: FilePart) : ResponseEntity<String>
+        + addNewSportCategory(category: String) : ResponseEntity<String>
     }
 
     class ArticleService {
@@ -23,11 +24,12 @@ package "Article Subdomain" {
         + saveArticle(readerId: String, articleId: String) : void
         + updateArticleImage(articleId: String, image: FilePart) : String
         + uploadImage(image: FilePart) : String
+        + addNewSportCategory(category: String) : ResponseEntity<String>
     }
 
     class ArticleRepository {
         + findById(articleId: String) : Optional<Article>
-        + findAllArticleByCategory(category: String) : List<Article>
+        + findAllArticleByCategory(categoryName: String) : List<Article>
         + save(article: Article) : Article
         + deleteById(articleId: String) : void
         + findByTitleContainingOrTags_TagNameContaining(keyword: String) : List<Article>
@@ -38,6 +40,7 @@ package "Article Subdomain" {
         - title: String
         - content: String
         - tags: List<Tags>
+        - category: Categories
         - status: ArticleStatus
         - author: Author
         - likeCount: Integer
@@ -51,12 +54,13 @@ package "Article Subdomain" {
         - body: String
         - wordCount: int
         - articleStatus: ArticleStatus
-        -  category: String
+        - categoryName: String
         - tagsTag: Tags
         - timePosted: LocalDateTime
         - photoUrl: String
         - authorIdentifier: AuthorIdentifier
         - articleDescription: String
+        - 
         }
 
     class ArticleResponseModel {
@@ -65,7 +69,7 @@ package "Article Subdomain" {
         - body: String
         - wordCount: int
         - articleStatus: ArticleStatus
-        - category: String
+        - categoryName: String
         - tagsTag: Tags
         - timePosted: LocalDateTime
         - photoUrl: String
@@ -77,6 +81,13 @@ package "Article Subdomain" {
         - commentCount: Integer
         - shareCount: Integer
     }
+
+    class Categories{
+        String id
+        String categoryName
+    }
+
+    
 
    enum tags {
         NBA
@@ -101,6 +112,7 @@ package "Article Subdomain" {
     Article --> ArticleStatus
     Article --> Author
     ArticleRequestModel --> Article
+    Article --> Categories
 }
 
 package "Interaction Subdomain" {

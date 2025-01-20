@@ -76,7 +76,7 @@ const ArticleForm = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:8080/api/v1/articles",
+        "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/articles",
         formData,
         {
           headers: {

@@ -5,28 +5,28 @@ package "ArticleSubdomain" {
 
     class ArticleController {
         -articleService: ArticleService
-       + updateArticleImage(articleId : String, file: FilePart): Mono<String>
+       + addNewSportCategory(categoryName: String): Mono<String>
+
     }
 
     class ArticleResponseModel {
         - String title;
         - String body;
-        - String category;
         - int wordCount;
         - ArticleStatus articleStatus;
+        - String categoryName;
         - String tags;
         - LocalDateTime timePosted;
         - String photoUrl;
         - String articleDescription;
-        - ArticleIdentifer articleIdentifer;
     }
 
     class ArticleRequestModel {
         - String articleId;
         - String title;
-        - String category;
         - String body;
         - int wordCount;
+        - String categoryName;
         - ArticleStatus articleStatus;
         - String tags;
         - LocalDateTime timePosted;
@@ -35,17 +35,12 @@ package "ArticleSubdomain" {
     }
 
     interface ArticleService {
-         + updateArticleImage(articleId : String, file: FilePart): Mono<String>
+         + addNewSportCategory(categoryName: String): Mono<String>
     }
 
     class ArticleServiceImpl {
-        - articleRepository: ArticleRepository
-        - cloudinaryService: CloudinaryService
-        + updateArticleImage(articleId : String, file: FilePart): Mono<String>
-    }
+        + addNewSportCategory(categoryName: String): Mono<String>
 
-    interface ArticleRepository {
-        + findArticleByArticleIdentifier_ArticleId(articleId : String): Mono<Article>
     }
 
     class Article {
@@ -53,8 +48,8 @@ package "ArticleSubdomain" {
         - articleIdentifer: ArticleIdentifer;
         - title: String;
         - body: String;
-        - categories: String;
         - wordCount: Integer;
+        - Categories: categoryName;
         - articleStatus: ArticleStatus;
         - tags: String;
         - timePosted: LocalDateTime;
@@ -62,18 +57,15 @@ package "ArticleSubdomain" {
         - articleDescription: String;
     }
 
+    class Categories {
+        - id;
+        - categoryName: String;
+    }
+
     class Content {
         - title: String;
         - body: String;
         - wordCount: Integer;
-    }
-
-    enum Tags {
-        NFL
-        NBA
-        NHL
-        MLB
-        UFC
     }
 
     enum ArticleStatus {
@@ -88,23 +80,16 @@ package "ArticleSubdomain" {
     }
 
 
-  class CloudinaryService{
-        + uploadImage(file: FilePart): String
-        
-    }
-
-    ArticleService --> CloudinaryService : uses
     ArticleResponseModel <-- Article
     ArticleRequestModel --> Article
     ArticleController --> ArticleService : uses
     ArticleServiceImpl --> ArticleService : implements
-    ArticleServiceImpl --> ArticleRepository : uses
-    ArticleRepository --> Article : queries
+
+    ArticleRequestModel --> ArticleController
     Article --> ArticleIdentifer
     Article --> Content
     Article --> ArticleStatus
-    Article --> Tags
-
+    Article --> Categories
 }
 
 @enduml

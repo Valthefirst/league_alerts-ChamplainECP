@@ -41,7 +41,9 @@ package "ArticleSubdomain" {
 
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
-        uploadImage( file: FilePart): Mono<String>
+        -CloudinaryService: CloudinaryService
+        + uploadImage( file: FilePart): Mono<String>
+        
         }
 
     interface ArticleRepository {
@@ -53,6 +55,7 @@ package "ArticleSubdomain" {
         - articleIdentifer: ArticleIdentifer;
         - title: String;
         - body: String;
+        - categories: String;
         - wordCount: Integer;
         - articleStatus: ArticleStatus;
         - tags: String;
