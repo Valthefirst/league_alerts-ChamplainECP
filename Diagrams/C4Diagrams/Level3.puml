@@ -11,6 +11,8 @@ Container(web_app, "Single Page Application", "React, TypeScript", "Single Page 
 
 Container_Boundary(api, "API Application") {
 
+    Container(Cloudinary, "CloudinaryService", "Cloudinary", "Manages image and media storage")
+
     /'
         ##############     Auth Subdmain
     '/
@@ -88,6 +90,7 @@ Container_Boundary(api, "API Application") {
 }
 
 ContainerDb(db, "MongoDB Database", "MongoDB", "Stores information about articles, readers, and alerts")
+ContainerDb(CloudinaryDb, "Cloudinary API", "Cloudinary", "Stores information about images and media")
 
 Rel(web_app, share_controller, "Makes API calls to", "REST JSON/HTTPS")
 Rel(share_controller, share_service, "Calls")
@@ -108,6 +111,8 @@ Rel(article_search,article_repository,"Calls")
 Rel(article_save_later,article_service,"Calls")
 Rel(article_service,article_trending, "Uses")
 Rel(article_search,article_related, "Uses")
+Rel(article_service, Cloudinary, "Uses")
+Rel(Cloudinary, CloudinaryDb, "Commands")
 
 
 Rel(author_service,author_repository,"Uses")

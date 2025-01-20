@@ -47,7 +47,8 @@ deactivate Repository
 Repository --> Service : Article Entity
 
 Service -> Repository : save(updatedArticle)
-Service -> CloudinaryService: save image to cloudinary
+Service -> CloudinaryService: upload and send image to cloudinary
+CloudinaryService -> Cloudinary: Save Image
 Repository -> DB : UPDATE Article SET title, content WHERE id = {articleId}
 DB --> Repository : Updated Article Entity
 Repository --> Service : Updated Article Entity
