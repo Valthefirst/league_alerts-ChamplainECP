@@ -94,6 +94,7 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + title: string
             + body: string
             + wordCount: int
+            + category: string
             + tags: string
             + timePosted: DateTime
             + viewCount: int
@@ -105,23 +106,28 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + articleId: UUID
         }
 
+        VALUE_OBJECT(tags) #bisque {
+            + <<enum>>
+                NFL
+                NBA
+                NHL
+                UFC
+                MLB
+        }
+
         VALUE_OBJECT(ArticleStatus) #bisque {
             + <<enum>>
             PUBLISHED
             ARCHIVED
         }
 
-        VALUE_OBJECT(Content) #bisque {
-            + title: string
-            + body: string
-            + wordCount: int
-        }
-
+       
 
 
         Article "1" o--> "1" ArticleIdentifier
         Article "1" o--> "1" ArticleStatus
         ArticleList "1" o--> "*" ArticleIdentifier
+        Article "1" o--> "1" tags
 
 
     }

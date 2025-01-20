@@ -3,7 +3,7 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "http://localhost:8080/api/"; // Your backend URL
+  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
 
   
 
@@ -25,8 +25,8 @@ export class AuthService {
       domain: "dev-im24qkb6l7t2yhha.ca.auth0.com",
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
       authorizationParams: {
-        redirect_uri: "http://localhost:3000",
-        audience: "http://localhost:8080/api/userInfo",
+        redirect_uri: "https://league-alerts.web.app",
+        audience: "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
         scope: "openid profile email roles",
       },
     });
@@ -92,7 +92,7 @@ export class AuthService {
   private async getManagementApiToken(): Promise<string> {
     try {
       const response = await axios.post(
-        `https://${process.env.REACT_APP_API_DOMAIN}/oauth/token`,
+        `https://dev-im24qkb6l7t2yhha.ca.auth0.com/oauth/token`,
         {
           client_id: process.env.REACT_APP_API_ClIENT_ID,
           client_secret: process.env.REACT_APP_API_SECREAT,
@@ -179,16 +179,19 @@ export class AuthService {
       
       const authorResponse = await response.json();
 
-      const managementApiToken = await this.getManagementApiToken();
+      // const managementApiToken = await this.getManagementApiToken();
       const roleId = "[rol_W1iELc1CHmzBtfE4]"; 
       
       const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
+      
          
       await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Author`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${managementApiToken}`,
+
+           Authorization: `Bearer ${accessToken}`,
+          //  Authorization: `Bearer ${managementApiToken}`,
         },
         body: JSON.stringify(roleId),
       });

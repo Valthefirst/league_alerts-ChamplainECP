@@ -57,6 +57,7 @@ public class AuthController {
                 });
     }
     @PostMapping("/create/{userId}/assign-role/Author")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<Void> assignAuthorRole (@PathVariable String userId, @RequestBody RoleRequest roleRequest) {
         return userService.assignRoleToAuthor(userId, roleRequest);
     }

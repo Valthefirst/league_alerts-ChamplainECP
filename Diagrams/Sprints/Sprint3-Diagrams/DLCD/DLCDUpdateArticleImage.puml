@@ -1,0 +1,108 @@
+@startuml editArticles
+skinparam packageStyle rectangle
+
+package "ArticleSubdomain" {
+
+    class ArticleController {
+        -articleService: ArticleService
+       + updateArticleImage(articleId : String, file: FilePart): Mono<String>
+    }
+
+    class ArticleResponseModel {
+        - String title;
+        - String body;
+        - String category;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+        - ArticleIdentifer articleIdentifer;
+    }
+
+    class ArticleRequestModel {
+        - String articleId;
+        - String title;
+        - String category;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
+    interface ArticleService {
+         + updateArticleImage(articleId : String, file: FilePart): Mono<String>
+    }
+
+    class ArticleServiceImpl {
+        - articleRepository: ArticleRepository
+        + updateArticleImage(articleId : String, file: FilePart): Mono<String>
+    }
+
+    interface ArticleRepository {
+        + findArticleByArticleIdentifier_ArticleId(articleId : String): Mono<Article>
+    }
+
+    class Article {
+        - String id;
+        - articleIdentifer: ArticleIdentifer;
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+        - articleStatus: ArticleStatus;
+        - tags: String;
+        - timePosted: LocalDateTime;
+        - photoUrl: String;
+        - articleDescription: String;
+    }
+
+    class Content {
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+    }
+
+    enum Tags {
+        NFL
+        NBA
+        NHL
+        MLB
+        UFC
+    }
+
+    enum ArticleStatus {
+        PUBLISHED
+        DRAFT
+        ARCHIVED
+    }
+
+    class ArticleIdentifer {
+        - articleId: String;
+        + ArticleIdentifer(articleId: String);
+    }
+
+
+  class CloudinaryService{
+        + uploadImage(file: FilePart): String
+        
+    }
+
+    ArticleService --> CloudinaryService : uses
+    ArticleResponseModel <-- Article
+    ArticleRequestModel --> Article
+    ArticleController --> ArticleService : uses
+    ArticleServiceImpl --> ArticleService : implements
+    ArticleServiceImpl --> ArticleRepository : uses
+    ArticleRepository --> Article : queries
+    Article --> ArticleIdentifer
+    Article --> Content
+    Article --> ArticleStatus
+    Article --> Tags
+
+}
+
+@enduml
