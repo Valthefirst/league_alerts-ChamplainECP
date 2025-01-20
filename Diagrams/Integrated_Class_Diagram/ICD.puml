@@ -33,6 +33,9 @@ package "Article Subdomain" {
         - tags: List<Tags>
         - status: ArticleStatus
         - author: Author
+        - likeCount: Integer
+        - commentCount: Integer
+        - shareCount: Integer
     }
 
     class ArticleRequestModel {
@@ -48,6 +51,9 @@ package "Article Subdomain" {
         - tags: List<String>
         - status: ArticleStatus
         - authorName: String
+        - likeCount: Integer
+        - commentCount: Integer
+        - shareCount: Integer
     }
 
     class Tags {
@@ -77,6 +83,33 @@ package "Interaction Subdomain" {
         + unlikeArticle(articleId: String, userId: String) : ResponseEntity<Void>
         + addComment(articleId: String, commentRequest: CommentRequestModel) : ResponseEntity<CommentResponseModel>
         + deleteComment(commentId: String) : ResponseEntity<Void>
+        + shareArticle(articleId: String, userId: String) : ResponseEntity<Void>
+        + getSharesByArticleId(articleId: String) : ResponseEntity<List<ShareResponseModel>>
+    }
+
+
+    class ShareService{
+        + shareArticle(articleId: String, userId: String) : void
+        + getSharesByArticleId(articleId: String) : List<ShareResponseModel>
+    }
+
+    class ShareRepository{
+        + save(share: Share) : Share
+        + findByArticleId(articleId: String) : List<Share>
+    }
+
+    class Share{
+        - shareId: String
+        - userId: String
+        - articleId: String
+        - timestamp: LocalDateTime
+    }
+
+    class ShareResponseModel{
+        - shareId: String
+        - userId: String
+        - articleId: String
+        - timestamp: LocalDateTime
     }
 
     class LikeService {
@@ -144,6 +177,11 @@ package "Interaction Subdomain" {
     Like --> LikeResponseModel
     Comment --> CommentResponseModel
     CommentRequestModel --> Comment
+
+    InteractionController --> ShareService
+    ShareService --> ShareRepository
+    ShareRepository --> Share
+    Share --> ShareResponseModel
 }
 
 package "Authentication Subdomain" {
@@ -288,5 +326,38 @@ Reader --> Article : "reads"
 Interaction --> Article : "interacts with"
 Authentication --> Reader : "authenticates"
 Authentication --> Interaction : "validates"
+
+package "Email Subscription Subdomain" {
+    class EmailController {
+        + subscribe(email: String): ResponseEntity<String>
+        + unsubscribe(email: String): ResponseEntity<String>
+        + notifySubscribers(subject: String, message: String): ResponseEntity<String>
+    }
+
+    class GmailService {
+        + sendMail(to: String, subject: String, body: String): void
+    }
+
+    class Subscriber {
+        - Long id
+        - String email
+        + Subscriber(email: String)
+    }
+
+    interface SubscriberRepository {
+        + existsByEmail(email: String): boolean
+        + deleteByEmail(email: String): void
+        + findAll(): List<Subscriber>
+    }
+
+    EmailController --> GmailService
+    EmailController --> SubscriberRepository
+    SubscriberRepository ..|> Subscriber
+}
+
+' Subdomain Relationships
+Article --> Author : "written by"
+Reader --> Article : "reads"
+EmailController --> Reader : "subscribes"
 
 @enduml

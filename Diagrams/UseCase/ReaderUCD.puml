@@ -15,6 +15,7 @@ package "League Alerts (Readers)" {
     usecase "READ-1.1.2: Like Article" as UC1.2
     usecase "READ-1.1: Read Article" as UC1.1
     usecase "READ-2: Create Reader account" as UC2
+    usecase "READ-3.3: Receive Create Account Notification" as UC3.3
     usecase "READ-4: View Team" as UC4
     usecase "READ-4.1: View Team Analytics" as UC4.1
     usecase "READ-2.1: Modify Reader Account" as UC5
@@ -42,6 +43,8 @@ UC4 .> UC1 : <<extends>>
 UC4 ..> UC4.1 : <<includes>>
 UC3 <.. UC3.1 : <<extends>>
 UC3 <.. UC3.2 : <<extends>>
+
+UC2 <.. UC3.3 : <<includes>>
 
 
 @enduml
