@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -25,6 +26,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test") // Activates the test profile
 @AutoConfigureWebTestClient
+@TestPropertySource(properties = "CLOUDINARY_URL=your_cloudinary_url_here")
 class InteractionControllerIntegrationTest {
 
     @Autowired
@@ -41,6 +43,9 @@ class InteractionControllerIntegrationTest {
 
     @Autowired
     private ShareRepository shareRepository;
+
+    @Autowired
+    private SaveRepository saveRepository;
 
     private final String BASE_URL = "/api/v1/interactions";
 
@@ -465,6 +470,69 @@ class InteractionControllerIntegrationTest {
                 });
     }
 
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenShareArticle_thenReturnCreatedShare() {
+        // Arrange
+        var articleId = new ArticleIdentifier("article-1");
+        var readerId = "reader-001";
+
+        String url = BASE_URL + "/share?articleId=" + articleId + "&readerId=" + readerId;
+
+        // Act & Assert
+        webTestClient.post()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(ShareResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(articleId.toString(), response.getArticleId());
+                    assertEquals(readerId, response.getReaderId());
+                });
+    }
+
+    // Positive test case for getSavesByReader
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenGetSavesByReader_thenReturnAllSaves() {
+        // Arrange
+        var readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
+
+        var save1 = Save.builder()
+                .saveId(new SaveIdentifier())
+                .articleId(new ArticleIdentifier("article-1"))
+                .readerId(readerId)
+//                .timestamp(LocalDateTime.now())
+                .build();
+
+        var save2 = Save.builder()
+                .saveId(new SaveIdentifier())
+                .articleId(new ArticleIdentifier("article-2"))
+                .readerId(readerId)
+//                .timestamp(LocalDateTime.now())
+                .build();
+
+        saveRepository.saveAll(List.of(save1, save2)).blockLast();
+
+        String url = BASE_URL + "/saves/" + readerId;
+
+        // Act & Assert
+        webTestClient.get()
+                .uri(url)
+                .accept(MediaType.TEXT_EVENT_STREAM)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType("text/event-stream;charset=UTF-8")
+                .expectBodyList(SaveResponseModel.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertEquals(2, response.size());
+                    response.forEach(save -> assertEquals(readerId, save.getReaderId()));
+                });
+    }
+
     // Positive test case for addSave
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
@@ -489,26 +557,112 @@ class InteractionControllerIntegrationTest {
                 .expectHeader();
     }
 
+    // Negative test case for addSave
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    public void whenAddSaveWithDuplicateSave_thenReturnConflict() {
+//        // Arrange
+//        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
+//                .articleId("article-1")
+//                .readerId("reader-001")
+//                .build();
+//
+//        var save = Save.builder()
+//                .saveId(new SaveIdentifier())
+//                .articleId(new ArticleIdentifier("article-1"))
+//                .readerId("reader-001")
+////                .timestamp(LocalDateTime.now())
+//                .build();
+//
+//        saveRepository.save(save).block();
+//
+//        String url = BASE_URL + "/saves";
+//
+//        // Act & Assert
+//        webTestClient
+//                .post()
+//                .uri(url)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().is4xxClientError()
+//                .expectBody(String.class)
+//                .value((response) -> {
+//                    assertNotNull(response);
+//                    assertTrue(response.contains("Article is already saved. Article id: article-1"));
+//                });
+//    }
+
+    // Negative test case for addSave
+//    @Test
+//    @WithMockUser(username = "testuser", roles = {"USER"})
+//    public void whenAddSaveWithInvalidArticleId_thenReturnNotFound() {
+//        // Arrange
+//        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
+//                .articleId("xxx")
+//                .readerId("reader-001")
+//                .build();
+//
+//        String url = BASE_URL + "/saves";
+//
+//        // Act & Assert
+//        webTestClient
+//                .post()
+//                .uri(url)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isNotFound()
+//                .expectBody(String.class)
+//                .value((response) -> {
+//                    assertNotNull(response);
+//                    assertTrue(response.contains("Article id not found: xxx"));
+//                });
+//    }
+
+    // Positive test case for deleteSave
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
-    public void whenShareArticle_thenReturnCreatedShare() {
+    public void whenDeleteSave_thenReturnNoContent() {
         // Arrange
-        var articleId = new ArticleIdentifier("article-1");
-        var readerId = "reader-001";
+        var saveId = new SaveIdentifier();
 
-        String url = BASE_URL + "/share?articleId=" + articleId + "&readerId=" + readerId;
+        var save = Save.builder()
+                .saveId(saveId)
+                .articleId(new ArticleIdentifier("article-1"))
+                .readerId("reader-001")
+//                .timestamp(LocalDateTime.now())
+                .build();
+
+        saveRepository.save(save).block();
+
+        String url = BASE_URL + "/saves/" + saveId.getSaveId();
 
         // Act & Assert
-        webTestClient.post()
+        webTestClient.delete()
                 .uri(url)
-                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isCreated()
-                .expectBody(ShareResponseModel.class)
+                .expectStatus().isNoContent();
+    }
+
+    // Negative test case for deleteSave
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenDeleteSaveWithInvalidSaveId_thenReturnNotFound() {
+        // Arrange
+        String url = BASE_URL + "/saves/invalid-save-id";
+
+        // Act & Assert
+        webTestClient.delete()
+                .uri(url)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(String.class)
                 .value((response) -> {
                     assertNotNull(response);
-                    assertEquals(articleId.toString(), response.getArticleId());
-                    assertEquals(readerId, response.getReaderId());
+                    assertTrue(response.contains("Save id not found: invalid-save-id"));
                 });
     }
 }

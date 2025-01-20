@@ -1,0 +1,59 @@
+@startuml
+
+title Reader Save a Article
+
+actor Reader
+
+participant ArticlePage as "<<UI>>\nFrontend"
+'participant InteractionController as "<<Controller>>\nInteractionController"
+participant InteractionController as "<<Controller>>\ninteractionController: InteractionController"
+participant SaveRequestDTO as "<<DTO>>\nsaveRequestModel: SaveRequestModel"
+participant SaveResponseDTO as "<<DTO>>\nsaveResponseModel: SaveResponseModel"
+participant SaveServiceImpl as "<<Service>>\nsaveService: SaveServiceImpl"
+participant Save as "<<Document>>\nsave: Save"
+participant Repo as "saveRepository: SaveRepository"
+database "Database" as DB
+
+Reader -> ArticlePage : Click "Save" Icon
+activate ArticlePage
+
+ArticlePage -> InteractionController : POST /api/v1/interactions/saves\n(SaveRequestModelJSON)
+activate InteractionController
+
+InteractionController -> SaveRequestDTO : saveRequestModel:=\nSaveRequestModel(articleId, readerId)
+activate SaveRequestDTO
+
+InteractionController -> SaveServiceImpl : SaveRequestModel(articleId, readerId)
+
+deactivate SaveRequestDTO
+activate SaveServiceImpl
+SaveServiceImpl -> Save : save:=Save(saveId, timestamp, articleId, readerId)
+activate Save
+SaveServiceImpl -> Repo : save(Save)
+activate Repo
+
+Repo -> DB : db.save.insert({saveId, timestamp, articleId, readerId})
+activate DB
+
+DB -> Repo : Save
+deactivate DB
+
+Repo -> SaveServiceImpl : Save
+deactivate Repo
+deactivate Save
+
+
+SaveServiceImpl -> SaveResponseDTO : saveResponseModel:=SaveResponseModel\n(saveId, timestamp, articleId, readerId)
+activate SaveResponseDTO
+SaveServiceImpl -> InteractionController : SaveResponseModel(saveId, timestamp, articleId, readerId)
+deactivate SaveResponseDTO
+deactivate SaveServiceImpl
+
+InteractionController -> ArticlePage : SaveResponseModel(saveId, timestamp, articleId, readerId)
+deactivate InteractionController
+
+ArticlePage -> Reader : Displays "Unsave" Icon"
+deactivate ArticlePage
+
+
+@enduml

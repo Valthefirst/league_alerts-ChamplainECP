@@ -7,7 +7,6 @@ import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { HeartAnimation } from "../../components/animations/HeartAnimation";
 import "./ArticleDetails.css";
 import { Author } from "features/authors/model/Author";
-import { getAllAuthors } from "features/authors/api/getAllAuthors";
 import CommentList from "features/comments/components/CommentList";
 import { addComment } from "features/comments/api/addComment";
 import { CommentModel } from "features/comments/model/CommentModel";
@@ -31,6 +30,7 @@ const NotFound: React.FC = () => (
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [author, setAuthor] = useState<Author | null>(null);
   const [newComment, setNewComment] = useState<string>("");
   const [isLiked, setIsLiked] = useState<boolean>(false);
