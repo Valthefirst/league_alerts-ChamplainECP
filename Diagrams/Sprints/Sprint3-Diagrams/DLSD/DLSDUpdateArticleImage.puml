@@ -1,0 +1,61 @@
+@startuml
+title Design Level Sequence Diagram for Modifying Article Details
+
+actor Author
+participant "ReactApplication" as RA
+participant "ArticleEditPage" as EditPage
+participant "ArticleController" as Controller
+participant "ArticleService" as Service
+participant "CloudinaryService" as CloudinaryService
+participant "ArticleRepository" as Repository
+participant "ArticleRequestModel" as RequestModel
+participant "ArticleResponseModel" as ResponseModel
+participant "Cloudinary" as Cloudinary
+database "Database" as DB
+
+Author -> RA : Navigates to Article Edit Page
+RA -> EditPage : Loads article details
+activate EditPage
+
+EditPage -> Controller : GET /api/v1/articles/{articleId}
+activate Controller
+Controller -> Service : getArticleById(articleId)
+activate Service
+Service -> Repository : findById(articleId)
+activate Repository
+Repository -> DB : SELECT * FROM Article WHERE id = {articleId}
+DB --> Repository : Article Entity
+deactivate Repository
+Repository --> Service : Article Entity
+Service --> Controller : ArticleResponseModel
+Controller --> EditPage : ArticleResponseModel
+deactivate Controller
+
+EditPage --> Author : Displays article details
+Author -> EditPage : Submits updated article details (title, content)
+EditPage -> Controller : PUT /api/v1/articles/{articleId} with ArticleRequestModel
+activate Controller
+EditPage -> Controller : PUT /api/v1/articles/{articleId}/Image with FilePart
+Controller -> Service : updateArticle(articleId, ArticleRequestModel)
+Controller -> Service : updateArtilceImage(artilceId, FilePart)
+activate Service
+Service -> Repository : findById(articleId)
+activate Repository
+Repository -> DB : SELECT * FROM Article WHERE id = {articleId}
+DB --> Repository : Article Entity
+deactivate Repository
+Repository --> Service : Article Entity
+
+Service -> Repository : save(updatedArticle)
+Service -> CloudinaryService: save image to cloudinary
+Repository -> DB : UPDATE Article SET title, content WHERE id = {articleId}
+DB --> Repository : Updated Article Entity
+Repository --> Service : Updated Article Entity
+Service --> Controller : ArticleResponseModel
+deactivate Service
+Controller --> EditPage : ArticleResponseModel
+deactivate Controller
+
+EditPage --> Author : Displays updated article details
+
+@enduml
