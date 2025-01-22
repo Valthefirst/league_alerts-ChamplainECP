@@ -29,6 +29,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/create/Reader")
+    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createUser(@RequestBody AuthorRequestDTO userRequest) {
         return userService.createReader(userRequest)
                 .map(authorResponse -> ResponseEntity
