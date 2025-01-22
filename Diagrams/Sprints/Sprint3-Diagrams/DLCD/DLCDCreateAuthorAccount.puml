@@ -1,0 +1,43 @@
+@startuml
+title Design Level Class Diagram for Creating Author Account
+
+package "Author Subdomain" {
+    class AdminController {
+        + createAuthor(authorRequest: AuthorRequestModel) : ResponseEntity<AuthorResponseModel>
+    }
+
+    class AuthorService {
+        + createAuthor(authorRequest: AuthorRequestModel) : AuthorResponseModel
+        + assignAuthorRole(Stirng userId) : String
+    }
+
+    class AuthorRepository {
+        + save(author: Author) : Author
+        
+    }
+
+    class Author {
+        - authorId: String
+        - firstName: String
+        - lastName: String
+        - email: String
+        - userId: String  ' From Auth0
+    }
+
+    class AuthorRequestModel {
+        - firstName: String
+        - password: String
+        - lastName: String
+        - email: String
+    }
+
+    class AuthorResponseModel {
+        - authorId: String
+        - name: String
+        - email: String
+    }
+
+   
+
+    AdminController --> AuthorService
+    AuthorService --> AuthorRepository

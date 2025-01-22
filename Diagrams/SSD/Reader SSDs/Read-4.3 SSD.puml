@@ -1,0 +1,11 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+Reader -> LAS : resetPassword(email : String)
+activate LAS
+    LAS -> LAS : Validate Email Address
+    LAS -> LAS : Send Password Reset Email
+    LAS --> Reader : returnEmailConfirmationMessage(HttpStatusCode.OK)
+deactivate LAS
+@enduml

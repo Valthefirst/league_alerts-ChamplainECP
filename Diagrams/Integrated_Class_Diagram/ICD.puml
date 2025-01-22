@@ -226,11 +226,15 @@ package "Authentication Subdomain" {
     class AuthController {
         + authenticate(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
         + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+        + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
+        + assignRoleAuthor (userId: String) : Void
     }
 
     class UserService {
         + authenticate(userRequest: UserRequestDTO) : UserResponseModel
         + registerUser(userRequest: UserRequestDTO) : UserResponseModel
+        + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
+        + assignRoleAuthor (userId: String) : Void
     }
 
     class UserRepository {
@@ -238,13 +242,16 @@ package "Authentication Subdomain" {
         + save(user: User) : User
     }
 
-    class UserResponseModel {
-        - userId: String
-        - token: String
+    class AuthorResponseModel {
+         - firstName: String
+        - lastName: String
+        - email: String
     }
 
-    class UserRequestDTO {
-        - username: String
+    class AuthorRequestDTO {
+        - firstName: String
+        - lastName: String
+        - email: String
         - password: String
     }
 
@@ -277,26 +284,36 @@ package "Reader Subdomain" {
     }
 
     class ReaderRepository {
-        + findById(readerId: String) : Optional<Reader>
+        + findByReaderId(readerId: String) : Optional<Reader>
         + save(reader: Reader) : Reader
-        + deleteById(readerId: String) : void
+        + deleteByReaderId(readerId: String) : void
     }
 
     class Reader {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     class ReaderRequestModel {
-        - name: String
+        - readerId: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
         - email: String
     }
 
     class ReaderResponseModel {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - password: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     ReaderController --> ReaderService
