@@ -7,13 +7,18 @@ import { ArticleRequestModel } from "../../models/ArticleRequestModel";
 import { HeartAnimation } from "../../components/animations/HeartAnimation";
 import "./ArticleDetails.css";
 import { Author } from "features/authors/model/Author";
-import { getAllAuthors } from "features/authors/api/getAllAuthors";
 import CommentList from "features/comments/components/CommentList";
 import { addComment } from "features/comments/api/addComment";
 import { CommentModel } from "features/comments/model/CommentModel";
 import { shareArticle } from "../../api/shareArticle";
 import shareIcon from "../../../../assets/share-icon.png"; // Import the share icon image
 import EditArticle from "../EditArticle/EditArticleForm";
+import { getAllSaves } from "features/savedArticles/api/getAllSaves";
+import { SaveModel } from "features/savedArticles/model/SaveModel";
+import { deleteSave } from "features/savedArticles/api/deleteSave";
+import { addSave } from "features/savedArticles/api/addSave";
+import saveIcon from "../../../../assets/saveIcon.png";
+import savedIcon from "../../../../assets/savedIcon.png";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -25,6 +30,7 @@ const NotFound: React.FC = () => (
 const ArticleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [author, setAuthor] = useState<Author | null>(null);
   const [newComment, setNewComment] = useState<string>("");
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -35,21 +41,17 @@ const ArticleDetails: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const heartRef = useRef<HTMLDivElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaved, setIsSaved] = useState<SaveModel | null>(null);
+  const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
   //const navigate = useNavigate();
 
   useEffect(() => {
-    const loadArticleAndAuthor = async () => {
+    const loadArticleDetails = async () => {
       try {
         if (id) {
           const articleData = await fetchArticleByArticleId(id);
           setArticle(articleData);
           setLikeCount(articleData.likeCount);
-
-          const authorsData = await getAllAuthors();
-          const foundAuthor = authorsData.find((author) =>
-            author.articles.articleList?.some((a) => a.articleId === id),
-          );
-          setAuthor(foundAuthor || null);
 
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
@@ -57,15 +59,34 @@ const ArticleDetails: React.FC = () => {
           setError("Invalid article ID");
         }
       } catch (err) {
-        console.error("Error fetching article or author:", err);
+        console.error("Error fetching article:", err);
         setError("Failed to fetch the article");
       } finally {
         setLoading(false);
       }
     };
 
-    loadArticleAndAuthor();
+    loadArticleDetails();
   }, [id]);
+
+  useEffect(() => {
+    const loadSavedState = async () => {
+      try {
+        if (id) {
+          const response = await getAllSaves(readerId); // To fetch with real readerId
+          const data = await response;
+          const savedState = data.find(
+            (save: SaveModel) => save.articleId === id
+          );
+          setIsSaved(savedState || null);
+        }
+      } catch (err) {
+        console.error("Error fetching save state:", err);
+      }
+    };
+
+    loadSavedState();
+  }, [id, readerId]);
 
   useEffect(() => {
     if (heartRef.current) {
@@ -97,6 +118,22 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
+  const handleSaveToggle = async () => {
+    try {
+      if (isSaved) {
+        // Remove save
+        await deleteSave(isSaved.saveId);
+        setIsSaved(null);
+      } else if (id) {
+        // Add save
+        const newSave = await addSave({ articleId: id, readerId });
+        setIsSaved(newSave);
+      }
+    } catch (err) {
+      console.error("Error toggling save:", err);
+    }
+  };
+
   const postComment = () => {
     if (newComment.trim().split(/\s+/).length > 50) {
       alert("Comment is too long. Please keep it under 50 words.");
@@ -121,7 +158,6 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-
   const toggleSharePopup = () => setShowSharePopup(!showSharePopup);
 
   const copyToClipboard = async (text: string) => {
@@ -145,7 +181,6 @@ const ArticleDetails: React.FC = () => {
 
   return (
     <>
-
       <div className="article-container">
         <div className="article-image">
           {article?.photoUrl ? (
@@ -177,6 +212,19 @@ const ArticleDetails: React.FC = () => {
               onClick={toggleSharePopup}
             />
           </div>
+          <img
+            src={isSaved ? savedIcon : saveIcon}
+            alt={isSaved ? "Unsave" : "Save"}
+            className="save-icon"
+            onClick={handleSaveToggle}
+            style={{
+              cursor: "pointer",
+              width: "40px",
+              height: "40px",
+              margin: "0 0 0 -475px",
+            }}
+            title={isSaved ? "Unsave" : "Save"}
+          />
           <button className="edit-button" onClick={openEditPage}>
             Edit Article
           </button>
@@ -210,8 +258,6 @@ const ArticleDetails: React.FC = () => {
         </div>
       </div>
 
-
-
       {showSharePopup && (
         <>
           <div className="modal-backdrop" onClick={toggleSharePopup}></div>
@@ -232,20 +278,22 @@ const ArticleDetails: React.FC = () => {
           </div>
         </>
       )}
-       {isEditing && article && (
+      {isEditing && article && (
+        <div
+          className="edit-article-overlay"
+          onClick={() => setIsEditing(false)} // Close form on overlay click
+        >
           <div
-            className="edit-article-overlay"
-            onClick={() => setIsEditing(false)} // Close form on overlay click
+            className="edit-article-container"
+            onClick={(e) => e.stopPropagation()} // Prevent overlay click when interacting with the form
           >
-            <div
-              className="edit-article-container"
-              onClick={(e) => e.stopPropagation()} // Prevent overlay click when interacting with the form
-            >
-              <EditArticle article={article} setIsEditing={setIsEditing} />
-            </div>
+            <EditArticle article={article} setIsEditing={setIsEditing} />
           </div>
-        )}
-      {showToast && <div className="toast">Link copied and share registered!</div>}
+        </div>
+      )}
+      {showToast && (
+        <div className="toast">Link copied and share registered!</div>
+      )}
     </>
   );
 };

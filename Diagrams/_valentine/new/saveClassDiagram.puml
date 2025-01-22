@@ -1,0 +1,46 @@
+@startuml
+
+title Design Level Class Diagram for Interaction Subdomain
+
+package "Interaction Subdomain" {
+
+    class InteractionController {
+        + getAllSaves(readerId: String) : Flux<SaveResponseModel>
+        + addSave(saveRequestModel: Mono<SaveRequestModel>) : Mono<ResponseEntity<Void>>
+        + deleteSave(saveId: String) : Mono<ResponseEntity<Void>>
+    }
+
+    class SaveService {
+        + getAllSaves(readerId: String) : Flux<SaveResponseModel>
+        + addSave(commentRequestModel: Mono<SaveRequestModel>) : Mono<Void>
+        + deleteSave(saveId: String) : Mono<Void>
+    }
+
+    class SaveRepository {
+        + save(save: Save) : Save
+        + findSavesByReaderId(readerId: String) : Flux<Save>
+        + findSaveBySaveId_SaveId(saveId: String) : Mono<Save>
+    }
+
+    class Save {
+        - id: String
+        - saveId: SaveIdentifier
+        - timestamp: LocalDateTime
+        - articleId: ArticleIdentifier
+        - readerId: String
+    }
+
+    class SaveResponseModel {
+        - saveId: String
+        - timestamp: LocalDateTime
+        - articleId: String
+        - readerId: String
+    }
+
+    InteractionController --> SaveService
+    SaveService --> SaveRepository
+    SaveRepository --> Save
+    Save --> SaveResponseModel
+}
+
+@enduml

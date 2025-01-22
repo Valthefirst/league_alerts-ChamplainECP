@@ -21,9 +21,11 @@ import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
+import SavedArticlesPage from "pages/SavedArticlesPage/SavedArticlesPage";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
 import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
 
+import GoogleTranslateLoader from "utils/GoogleTranslateLoader";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
@@ -53,8 +55,10 @@ const Navbar = () => {
 function App(): JSX.Element {
   return (
     <div>
-      <Router>
-        <Navbar />
+      <GoogleTranslateLoader />
+        <Router>
+          <Navbar />
+      
 
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
@@ -111,6 +115,7 @@ function App(): JSX.Element {
             path="/unauthorized"
             element={<UnAuthorized />}
           />
+          <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
         </Routes>
       </Router>

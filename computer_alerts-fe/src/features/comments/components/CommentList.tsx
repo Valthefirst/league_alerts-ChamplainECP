@@ -19,6 +19,7 @@ const CommentList: React.FC<CommentListProps> = ({
     const connectToSSE = () => {
       eventSource = new EventSource(
         "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/interactions/comments",
+        // "http://localhost:8080/api/v1/interactions/comments",
       );
 
       eventSource.onopen = () => {
@@ -49,8 +50,6 @@ const CommentList: React.FC<CommentListProps> = ({
       }
     };
   }, [articleId]);
-
-  // const filteredComments = comments.filter(comment => comment.articleId === articleId);
 
   const filteredComments = comments
     .filter((comment) => comment.articleId === articleId)

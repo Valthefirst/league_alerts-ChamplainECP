@@ -1,0 +1,16 @@
+@startuml
+title Comment State Transition Diagram - Managed States
+
+skinparam shadowing false
+skinparam ArrowColor Black
+skinparam StateBackgroundColor PaleGreen
+skinparam StateBorderColor Black
+
+[*] --> NotCommented : User views article
+
+
+    NotCommented --> CommentProcessing : commentArticle(content, articleId, readerId)
+    CommentProcessing --> NotCommented : errorOccurred
+    CommentProcessing --> [*] : Comment Completed
+
+@enduml

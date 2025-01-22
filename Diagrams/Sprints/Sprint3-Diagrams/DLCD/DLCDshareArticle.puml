@@ -1,0 +1,44 @@
+@startuml
+
+title Design Level Class Diagram for Share Functionality
+
+package "Article Interaction Subdomain" {
+
+    class InteractionController {
+        + shareArticle(articleId: String, readerId: String) : ResponseEntity<ShareResponseModel>
+        + getSharesByArticle(articleId: String) : ResponseEntity<List<ShareResponseModel>>
+    }
+
+    class ShareService {
+        + shareArticle(articleIdentifier: ArticleIdentifier, readerId: String) : Mono<Share>
+        + getSharesByArticle(articleIdentifier: ArticleIdentifier) : Flux<Share>
+    }
+
+    class ShareRepository {
+        + save(share: Share) : Mono<Share>
+        + findByArticleIdentifier(articleIdentifier: ArticleIdentifier) : Flux<Share>
+    }
+
+    class Share {
+        - shareId: String
+        - articleId: String
+        - readerId: String
+        - timestamp: LocalDateTime
+        - shareLink: String
+    }
+
+    class ShareResponseModel {
+        - shareId: String
+        - articleId: String
+        - readerId: String
+        - timestamp: LocalDateTime
+        - shareLink: String
+    }
+
+    InteractionController --> ShareService
+    ShareService --> ShareRepository
+    ShareRepository --> Share
+    Share --> ShareResponseModel
+}
+
+@enduml

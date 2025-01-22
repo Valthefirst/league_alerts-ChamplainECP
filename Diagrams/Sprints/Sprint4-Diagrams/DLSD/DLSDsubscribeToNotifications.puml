@@ -1,0 +1,107 @@
+@startuml
+actor Reader
+participant Frontend as "<<UI>>\nFrontend"
+participant EmailController as "<<Controller>>\nEmailController"
+participant SubscriberService as "<<Service>>\nSubscriberService"
+participant SubscriberRepository as "<<Repository>>\nSubscriberRepository"
+participant GmailService as "<<Service>>\nGmailService"
+participant Subscriber as "<<Entity>>\nSubscriber"
+
+== Subscribing to Notifications ==
+Reader -> Frontend : Enter Email & Click "Subscribe"
+activate Frontend
+
+Frontend -> EmailController : POST /api/v1/email/subscribe?email={email}
+activate EmailController
+
+EmailController -> SubscriberService : subscribe(email)
+activate SubscriberService
+
+SubscriberService -> SubscriberRepository : existsByEmail(email)
+activate SubscriberRepository
+SubscriberRepository --> SubscriberService : Email Exists/Not Exists
+deactivate SubscriberRepository
+
+alt Email Exists
+    SubscriberService --> EmailController : "Already Subscribed"
+else Email Not Exists
+    SubscriberService -> SubscriberRepository : save(email)
+    activate SubscriberRepository
+    SubscriberRepository --> SubscriberService : Email Saved
+    deactivate SubscriberRepository
+    SubscriberService --> EmailController : "Subscription Successful"
+end
+
+deactivate SubscriberService
+EmailController --> Frontend : Subscription Confirmation Message
+
+deactivate EmailController
+Frontend --> Reader : Display Subscription Success/Error Message
+
+deactivate Frontend
+
+== Unsubscribing from Notifications ==
+Reader -> Frontend : Click "Unsubscribe"
+activate Frontend
+
+Frontend -> EmailController : POST /api/v1/email/unsubscribe?email={email}
+activate EmailController
+
+EmailController -> SubscriberService : unsubscribe(email)
+activate SubscriberService
+
+SubscriberService -> SubscriberRepository : existsByEmail(email)
+activate SubscriberRepository
+SubscriberRepository --> SubscriberService : Email Exists/Not Exists
+deactivate SubscriberRepository
+
+alt Email Exists
+    SubscriberService -> SubscriberRepository : delete(email)
+    activate SubscriberRepository
+    SubscriberRepository --> SubscriberService : Deletion Successful
+    deactivate SubscriberRepository
+    SubscriberService --> EmailController : "Unsubscribed Successfully"
+else Email Not Exists
+    SubscriberService --> EmailController : "Email Not Found"
+end
+
+deactivate SubscriberService
+EmailController --> Frontend : Unsubscribe Confirmation Message
+
+deactivate EmailController
+Frontend --> Reader : Display Unsubscribe Success/Error Message
+
+deactivate Frontend
+
+== Sending Notifications ==
+Reader -> Frontend : Click "Send Notifications"
+activate Frontend
+
+Frontend -> EmailController : GET /api/v1/email/notify?subject={subject}&message={message}
+activate EmailController
+
+EmailController -> SubscriberService : getAllSubscribers()
+activate SubscriberService
+
+SubscriberService -> SubscriberRepository : findAll()
+activate SubscriberRepository
+SubscriberRepository --> SubscriberService : List<Subscriber>
+deactivate SubscriberRepository
+
+SubscriberService --> EmailController : List<Subscriber>
+deactivate SubscriberService
+
+loop for each subscriber
+    EmailController -> GmailService : sendMail(email, subject, message)
+    activate GmailService
+    GmailService --> EmailController : Email Sent
+    deactivate GmailService
+end
+
+EmailController --> Frontend : Notification Status
+
+deactivate EmailController
+Frontend --> Reader : Display Notification Result
+
+deactivate Frontend
+@enduml

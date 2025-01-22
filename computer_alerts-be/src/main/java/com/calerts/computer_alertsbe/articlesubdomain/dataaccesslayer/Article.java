@@ -20,29 +20,20 @@ public class Article {
 
     @Id
     private String id;
-
     @Embedded
     private ArticleIdentifier articleIdentifier;
-
     private String title;
     private String body;
     private Integer wordCount;
-
     @Field("article_status")
     private ArticleStatus articleStatus;
-
     private String category;
-
 
     @Embedded
     AuthorIdentifier authorIdentifier;
-
-
     private Tags tagsTag;
     private LocalDateTime timePosted;
-
     private int likeCount;
-
     private int shareCount;
 
     public void setLikeCount(int likeCount) {

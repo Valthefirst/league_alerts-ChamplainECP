@@ -1,0 +1,57 @@
+@startuml
+
+title Admin Generate Reports
+
+actor Admin
+
+participant ArticlePage as "<<UI>>\nFrontend"
+participant InteractionController as "<<Controller>>\nreportController: ReportController"
+participant SaveResponseDTO as "<<DTO>>\nreportResponseModel: ReportResponseModel"
+participant SaveServiceImpl as "<<Service>>\nreportService: ReportServiceImpl"
+participant Save as "<<Document>>\nreport: Report"
+participant Repo as "reportRepository: ReportRepository"
+database "Database" as DB
+
+Admin -> ArticlePage : Click "Generate Reports" Button
+activate ArticlePage
+
+ArticlePage -> InteractionController : GET /api/v1/reports
+activate InteractionController
+
+InteractionController -> SaveServiceImpl : getAllReports()
+
+activate SaveServiceImpl
+'SaveServiceImpl -> Save : report:=Report(reportId, timestamp, content)
+SaveServiceImpl -> Repo : findAll()
+activate Repo
+
+Repo -> DB : db.collection.find()
+activate DB
+
+DB -> Repo : List<Report>
+deactivate DB
+
+Repo -> Save : reports:=List<Report>\n(reportId, timestamp, content)
+activate Save
+
+Repo -> SaveServiceImpl : List<Report>
+deactivate Repo
+
+
+deactivate Save
+
+
+SaveServiceImpl -> SaveResponseDTO : reportResponseModels:=List<ReportResponseModel>\n(saveId, timestamp, articleId, readerId)
+activate SaveResponseDTO
+SaveServiceImpl -> InteractionController : List<ReportResponseModel>\n(reportId, timestamp, content)
+deactivate SaveResponseDTO
+deactivate SaveServiceImpl
+
+InteractionController -> ArticlePage : List<ReportResponseModel>(reportId, timestamp, content)
+deactivate InteractionController
+
+ArticlePage -> Admin : Displays Reports
+deactivate ArticlePage
+
+
+@enduml

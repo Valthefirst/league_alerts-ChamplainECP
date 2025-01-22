@@ -1,0 +1,36 @@
+@startuml
+
+title Design Level Sequence Diagram for Modifying Article Details
+
+actor Admin
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant DashBoard as "<<View>>\nDashBoard"
+participant CreateCategoryPage as "<<View>>\nCreateCategoryPage"
+participant "ArticleController" as Controller
+participant "ArticleServiceImpl" as ServiceImpl
+participant "ArticleRepository" as Repository
+participant "ArticleRequestDTO" as RequestDTO
+participant "ArticleResponseDTO" as ResponseDTO
+participant "Article" as Article
+participant "AuthorIdentifier" as AuthorId
+participant "Database" as DB
+
+Admin -> ReactApplication : Open Application
+ReactApplication -> LandingPage : Display Landing Page
+LandingPage -> DashBoard : Navigate to admin dashboard
+DashBoard -> CreateCategoryPage : Navigate to Create new categories page
+
+CreateCategoryPage -> Controller : add new category
+Controller -> ServiceImpl : addNewCategory(string: categoryName)
+ServiceImpl -> RequestDTO : Create RequestDTO with category details
+ServiceImpl -> Repository : save new category(string: categoryName)
+Repository -> DB : store new category
+DB -> Article : Create new category object (string: categoryName)
+Article -> ResponseDTO : Generate Category Response
+ResponseDTO -> ServiceImpl : Return new category response
+ServiceImpl -> Controller : Return new category response
+Controller -> ReactApplication : return ResponseEntity<categoryName: String>
+ReactApplication -> CreateCategoryPage : Display confirmation/error message
+
+@enduml
