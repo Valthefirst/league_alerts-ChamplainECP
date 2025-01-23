@@ -22,6 +22,8 @@ public class ReaderDataLoaderService implements CommandLineRunner {
                 .readerIdentifier(new ReaderIdentifier())
                 .firstName("James")
                 .lastName("Jordan")
+                .auth0userId("auth0|678920c84d650d4d4b64cee4")
+                .emailAddress("reader2@gmail.com")
                 .build();
 
 

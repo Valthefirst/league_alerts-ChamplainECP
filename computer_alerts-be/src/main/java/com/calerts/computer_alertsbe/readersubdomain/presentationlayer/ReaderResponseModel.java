@@ -14,4 +14,6 @@ public class ReaderResponseModel {
 
     private String firstName;
     private String lastName;
+    private String emailAddress;
+    private String auth0UserId;
 }
