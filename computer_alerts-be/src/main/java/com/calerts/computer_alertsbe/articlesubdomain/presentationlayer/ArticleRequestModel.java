@@ -18,22 +18,15 @@ import java.time.LocalDateTime;
 public class ArticleRequestModel {
 
     private String articleId;
-
     private String title;
     private String body;
     private int wordCount;
-
     private ArticleStatus articleStatus;
-
     private String category;
     private Tags tagsTag;
     private LocalDateTime timePosted;
-
     private String photoUrl;
-
     private AuthorIdentifier authorIdentifier;
-
-
     private String articleDescription;
 
 }

@@ -1,0 +1,16 @@
+@startuml
+title Save State Transition Diagram - Managed States
+
+skinparam shadowing false
+skinparam ArrowColor Black
+skinparam StateBackgroundColor PaleGreen
+skinparam StateBorderColor Black
+
+[*] --> NotSaved : User views article
+
+
+    NotSaved --> SaveProcessing : commentArticle\n(content, articleId, readerId)
+    SaveProcessing --> NotSaved : errorOccurred \nOR unsaves article
+    SaveProcessing --> [*] : Save Completed
+
+@enduml

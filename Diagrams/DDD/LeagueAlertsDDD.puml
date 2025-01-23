@@ -91,7 +91,7 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + title: string
             + body: string
             + wordCount: int
-            + category: string
+            + category: Categories
             + tags: string
             + timePosted: DateTime
             + viewCount: int
@@ -101,6 +101,11 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
 
         VALUE_OBJECT(ArticleIdentifier) #bisque {
             + articleId: UUID
+        }
+
+        VALUE_OBJECT(Categories) #bisque{
+            + id
+            + categoryName: string
         }
 
         VALUE_OBJECT(tags) #bisque {
@@ -125,6 +130,7 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
         Article "1" o--> "1" ArticleStatus
         ArticleList "1" o--> "*" ArticleIdentifier
         Article "1" o--> "1" tags
+        Article "1" o--> "1" Categories
 
 
     }
