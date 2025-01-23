@@ -16,10 +16,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -34,7 +32,7 @@ public class GmailService {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String USER = "me";
-    private static final String TEST_EMAIL = "zystio@gmail.com";
+    private static final String TEST_EMAIL = "leaguealertsemailingtestecp@gmail.com";
     private static final java.util.List<String> SCOPES = Collections.singletonList(GMAIL_SEND);
     private final Gmail service;
 
@@ -55,7 +53,15 @@ public class GmailService {
 
     // Get credentials from the client secrets file
     private static Credential getCredentials() throws IOException, GeneralSecurityException {
-        InputStream in = GmailService.class.getResourceAsStream("/credentials.json");
+        // Read credentials from environment variable
+        String credentialsJson = System.getenv("EMAIL_CREDENTIALS");
+
+        if (credentialsJson == null || credentialsJson.isEmpty()) {
+            throw new IOException("EMAIL_CREDENTIALS environment variable is not set or empty.");
+        }
+
+        // Convert the JSON string to InputStream
+        InputStream in = new ByteArrayInputStream(credentialsJson.getBytes(StandardCharsets.UTF_8));
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -73,6 +79,7 @@ public class GmailService {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
+
 
     // Send email
     public void sendMail(String to, String subject, String messageBody) throws Exception {

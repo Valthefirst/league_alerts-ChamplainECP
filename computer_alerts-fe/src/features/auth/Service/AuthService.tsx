@@ -3,7 +3,7 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+  URL = "http://localhost:8080/api/"; // Your backend URL
 
   
 
@@ -26,7 +26,7 @@ export class AuthService {
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
       authorizationParams: {
         redirect_uri: "https://league-alerts.web.app",
-        audience: "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
+        audience: "http://localhost:8080/api/userInfo",
         scope: "openid profile email roles",
       },
     });
@@ -114,7 +114,6 @@ export class AuthService {
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
 
 
 
@@ -123,7 +122,6 @@ export class AuthService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(userRequest),
       });
@@ -135,7 +133,7 @@ export class AuthService {
 
       const readerResponse = await response.json();
 
-      const managementApiToken = await this.getManagementApiToken();
+      
       const roleId = "[rol_LOREG4N5742ObYCz]"; 
       
       const encodeAuthUserId = readerResponse.auth0UserId.replace("|","%7C") 
@@ -144,7 +142,7 @@ export class AuthService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${managementApiToken}`,
+          Authorization: `Bearer ${this.getManagementApiToken}`,
         },
         body: JSON.stringify(roleId),
       });
