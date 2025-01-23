@@ -1,0 +1,46 @@
+@startuml
+
+title Design Level Class Diagram for Interaction Subdomain
+
+package "Interaction Subdomain" {
+
+    class InteractionController {
+        + getAllComments() : Flux<CommentResponseModel>
+        + addComment(commentRequestModel: Mono<CommentRequestModel>) : ResponseEntity<Void>
+    }
+
+    class CommentService {
+        + getAllComments() : Flux<CommentResponseModel>
+        + addComment(commentRequestModel: Mono<CommentRequestModel>) : Mono<CommentResponseModel>
+    }
+
+    class CommentRepository {
+        + save(comment: Comment) : Comment
+    }
+
+    class Comment {
+        - id: String
+        - commentId: CommentIdentifier
+        - content: String
+        - wordCount: int
+        - timestamp: LocalDateTime
+        - articleId: ArticleIdentifier
+        - readerId: String
+    }
+
+    class CommentResponseModel {
+        - commentId: CommentIdentifier
+        - content: String
+        - wordCount: int
+        - timestamp: LocalDateTime
+        - articleId: ArticleIdentifier
+        - readerId: String
+    }
+
+    InteractionController --> CommentService
+    CommentService --> CommentRepository
+    CommentRepository --> Comment
+    Comment --> CommentResponseModel
+}
+
+@enduml

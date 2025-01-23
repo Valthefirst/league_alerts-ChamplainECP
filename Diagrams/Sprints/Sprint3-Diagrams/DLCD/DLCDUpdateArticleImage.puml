@@ -40,6 +40,7 @@ package "ArticleSubdomain" {
 
     class ArticleServiceImpl {
         - articleRepository: ArticleRepository
+        - cloudinaryService: CloudinaryService
         + updateArticleImage(articleId : String, file: FilePart): Mono<String>
     }
 
@@ -52,6 +53,7 @@ package "ArticleSubdomain" {
         - articleIdentifer: ArticleIdentifer;
         - title: String;
         - body: String;
+        - categories: String;
         - wordCount: Integer;
         - articleStatus: ArticleStatus;
         - tags: String;

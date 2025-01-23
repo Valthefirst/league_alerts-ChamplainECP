@@ -18,27 +18,20 @@ import java.time.LocalDateTime;
 public class ArticleResponseModel {
 
     private String articleId;
-
     private String title;
     private String body;
     private int wordCount;
-
     private ArticleStatus articleStatus;
-
     private String category;
     private Tags tagsTag;
     private LocalDateTime timePosted;
     private AuthorIdentifier authorIdentifier;
-
     private int likeCount;
     private int shareCount;
-
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
     }
     private Integer requestCount;
-
     private String photoUrl;
-
     private String articleDescription;
 }

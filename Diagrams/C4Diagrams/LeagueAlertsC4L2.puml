@@ -11,9 +11,9 @@ AddElementTag("emailingService", $shape=RoundedBoxShape(), $bgColor="grey", $fon
 AddElementTag("readerService", $shape=RoundedBoxShape(), $bgColor="lightcoral", $fontColor="white", $legendText="Reader Service")
 AddElementTag("authorService", $shape=RoundedBoxShape(), $bgColor="lightcoral", $fontColor="white", $legendText="Author Service")
 AddElementTag("articleService", $shape=RoundedBoxShape(), $bgColor="lightcoral", $fontColor="white", $legendText="Article Service")
-AddElementTag("authService", $shape=RoundedBoxShape(), $bgColor="lightcoral", $fontColor="white", $legendText="Auth Service")
 AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
-
+AddElementTag("cloudinary", $shape=RoundedBoxShape(), $bgColor="grey", $fontColor="white", $legendText="Cloudinary")
+AddElementTag("auth0", $shape=RoundedBoxShape(), $bgColor="grey", $fontColor="white", $legendText="Auth0")
 LAYOUT_TOP_DOWN()
 SHOW_PERSON_OUTLINE()
 
@@ -24,29 +24,32 @@ Person(author, "Author", "League Alerts employee, can write articles")
 Person(admin, "Admin", "Owners of League Alerts, monitor the web application")
 
 Container(emailing_service, "Google API", "Handles email notifications and communications", $tags="emailingService")
-Container(auth_service, "Auth0", "Java, Spring Boot", "Handles authentication and authorization", $tags="emailingService")
+Container(auth_service, "Auth0", "Java, Spring Boot", "Handles authentication and authorization", $tags="auth0")
+
+Container(media_service, "Cloudinary API", "Manages image and media storage", $tags="cloudinary")
 
 System_Boundary(league_alerts_system, "League Alerts System") {
     Container(webapp, "Web Application", "React, TypeScript", "Delivers the static content and League Alerts web application to the user's browser")
     Container(singlepageapp, "Single-Page Application", "React, TypeScript", "Provides League Alerts functionality to users via their browser")
-    
+
     Container(api_app, "API Application", "Java, Spring Boot", "Handles all operations for readers, authors, and articles in a single application")
-    
+
     ContainerDb(database, "League Alerts Database", "MongoDB", "Stores information about articles, readers, and authors", $tags="storage")
 
     webapp --> singlepageapp : "Delivers to the user's web browser"
-    
+
     reader --> singlepageapp : "Views articles and personal info using\n(HTTPS)"
     author --> singlepageapp : "Writes articles and manages content using\n(HTTPS)"
     admin --> singlepageapp : "Manage application, generate and view reports\n(HTTPS)"
-    
+
     reader -[#red]-> webapp : "Visit leaguealerts.com\n(HTTPS)"
     author -[#red]-> webapp : "Visit leaguealerts.com\n(HTTPS)"
     admin -[#red]-> webapp : "Visit leaguealerts.com\n(HTTPS)"
 
     singlepageapp --> api_app : "Makes API calls to\n(JSON/REST/HTTPS)"
     api_app --> emailing_service : "Sends notifications using\n(JSON/REST/HTTPS)"
-    api_app --> auth_service: "Creates and handle using\n (JSON/REST/HTTPS)"
+    api_app --> auth_service: "Creates and handles users using\n(JSON/REST/HTTPS)"
+    api_app --> media_service: "Uploads and retrieves media using\n(JSON/REST/HTTPS)"
     api_app -down-> database : "Reads from and writes to\n(MongoDB)"
 }
 

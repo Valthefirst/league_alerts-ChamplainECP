@@ -1,27 +1,26 @@
 @startuml
 
-actor Reader
+actor Author
 
 participant ReactApplication as "<<View>>\nReactApplication"
 participant LandingPage as "<<View>>\nLandingPage"
-participant CreateAccountPage as "<<View>>\nCreateAccountPage"
+participant CreateArticlePage as "<<View>>\nCreateArticlePage"
 participant "ArticleController" as Controller
 participant "ArticleServiceImpl" as ServiceImpl
 participant "ArticleRepository" as Repository
 participant "ArticleRequestDTO" as RequestDTO
 participant "ArticleResponseDTO" as ResponseDTO
 participant "Article" as Article
-participant "Author" as Author
 participant "AuthorIdentifier" as AuthorId
 participant "Database" as DB
 
-Reader -> ReactApplication : Open Application
+Author -> ReactApplication : Open Application
 ReactApplication -> LandingPage : Display Landing Page
-Reader -> LandingPage : Click "Create Account"
+Author -> LandingPage : Click "Create Account"
 LandingPage -> CreateAccountPage : Navigate to Create Account Page
-Reader -> CreateAccountPage : Submit Article Form
+Author -> CreateArticlePage : Submit Article Form
 
-CreateAccountPage -> Controller : createArticle(request)
+CreateArticlePage -> Controller : createArticle(request)
 Controller -> ServiceImpl : createArticle(requestDTO)
 ServiceImpl -> RequestDTO : createArticle(requestDTO)
 RequestDTO -> AuthorId : references authorId

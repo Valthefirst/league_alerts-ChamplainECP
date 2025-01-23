@@ -1,0 +1,42 @@
+@startuml
+
+actor Author
+
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant CreateArticlePage as "<<View>>\nCreateArticlePage"
+participant "ArticleController" as Controller
+participant "ArticleServiceImpl" as ServiceImpl
+participant "CloudinaryService" as CloudinaryService
+participant "ArticleRepository" as Repository
+participant "ArticleRequestDTO" as RequestDTO
+participant "ArticleResponseDTO" as ResponseDTO
+participant "Article" as Article
+participant "AuthorIdentifier" as AuthorId
+participant "Cloudinary" as Cloudinary
+participant "Database" as DB
+
+Author -> ReactApplication : Open Application
+ReactApplication -> LandingPage : Display Landing Page
+Author -> LandingPage : Click "Create Account"
+LandingPage -> CreateArticlePage : Navigate to Create Account Page
+Author -> CreateArticlePage : Submit Article Form
+
+CreateArticlePage -> Controller : createArticle(request)
+Controller -> ServiceImpl : POST api/v1/articles
+Controller -> ServiceImpl : POST api/v1/articles/uploadImage
+ServiceImpl -> RequestDTO : createArticle(requestDTO)
+ServiceImpl -> CloudinaryService : uploadImage(FilePart)
+RequestDTO -> AuthorId : references authorId
+ServiceImpl -> Repository : saveArticle(article)
+CloudinaryService -> Cloudinary : save image to cloudinary
+Repository -> DB : store article data
+DB -> Article : create(article)
+Article -> Author : associateWithAuthor
+Article -> ResponseDTO : generateArticleResponse
+ServiceImpl -> ResponseDTO : return article response
+Controller -> ReactApplication : return ResponseEntity<ArticleResponseDTO>
+ReactApplication -> LandingPage : Show Confirmation or Error Message
+LandingPage -> Author : Display Confirmation/Error
+
+@enduml

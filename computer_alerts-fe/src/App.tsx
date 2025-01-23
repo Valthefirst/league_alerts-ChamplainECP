@@ -21,6 +21,7 @@ import AdminHomePage from "pages/AdminPages/Home-Page/AdminHomePage";
 import AdminReviewArticles from "pages/AdminPages/Review-Articles/ReviewArticles";
 import AdminNavBar from "./layouts/AdminDashboard/AdminNavBar";
 import AdminArticleDetails from "./pages/AdminPages/AdminArticleDetails/AdminArticleDetails";
+import SavedArticlesPage from "pages/SavedArticlesPage/SavedArticlesPage";
 import ArtifleDrafts from "pages/AutherPages/ArticleDrafts/ArticleDrafts";
 import AdminAuthorsPage from "pages/AdminPages/AdminAuthors/AdminAuthorsPage";
 
@@ -114,6 +115,7 @@ function App(): JSX.Element {
             path="/unauthorized"
             element={<UnAuthorized />}
           />
+          <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
         </Routes>
       </Router>
