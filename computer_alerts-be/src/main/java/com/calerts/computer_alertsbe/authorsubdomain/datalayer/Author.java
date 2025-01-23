@@ -21,7 +21,7 @@ public class Author {
     @Embedded
     private AuthorIdentifier authorIdentifier;
 
-    private String auth0UserId;  
+    private String auth0UserId;  // Add this field to store Auth0 user ID
     private String emailAddress;
     private String firstName;
     private String lastName;

@@ -19,9 +19,11 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
 
     Package "Reader Management Subdomain" <<Rectangle>> #aliceblue {
         ENTITY(Reader) #bisque {
+            + username: Username
             + emailAddress: string
             + firstName: string
             + lastName: string
+            + address: Address
             + password: Password
         }
 
@@ -55,6 +57,7 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
 
     Package "Author Management Subdomain" <<Rectangle>> #aliceblue {
         ENTITY(Author) #bisque {
+            + username: Username
             + emailAddress: string
             + firstName: string
             + lastName: string
