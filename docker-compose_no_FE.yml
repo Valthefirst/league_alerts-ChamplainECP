@@ -10,16 +10,16 @@ services:
 #    depends_on:
 #      - mongo
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
-#      SPRING_DATA_MONGODB_URI: ${MONGO_CONNECTION_STRING}
+#      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
+      SPRING_DATA_MONGODB_URI: ${MONGO_CONNECTION_STRING}
   mongo:
     restart: always
     image: mongo:6.0
     container_name: mongodb-container
     ports:
       - "27017:27017"
-    # volumes:
-    #   - mongodb_data:/data/db
+#     volumes:
+#       - mongodb_data:/data/db
 
   mongo-express:
     image: mongo-express
