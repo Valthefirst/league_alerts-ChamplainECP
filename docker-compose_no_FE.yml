@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-#    depends_on:
-#      - mongo
+    depends_on:
+      - mongo
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/computeralerts
 #      SPRING_DATA_MONGODB_URI: ${MONGO_CONNECTION_STRING}

@@ -3,7 +3,8 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+  // URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
+  URL = "https://localhost:8080/api/"; // Your backend URL
 
   
 
@@ -112,9 +113,9 @@ export class AuthService {
     }
   }
 
-  async createUser(userRequest: UserRequestDTO): Promise<any> {
+  async createUser(userRequest: AuthorRequestDTO): Promise<any> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
+      // const accessToken = localStorage.getItem("accessToken");
 
 
 
@@ -123,7 +124,7 @@ export class AuthService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          // Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(userRequest),
       });

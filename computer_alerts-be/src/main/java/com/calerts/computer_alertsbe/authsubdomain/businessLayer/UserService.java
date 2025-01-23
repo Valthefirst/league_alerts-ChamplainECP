@@ -213,18 +213,6 @@ public class UserService {
                 .bodyToMono(Void.class);
     }
 
-//    public Mono<Void> assignRoleToUser(String auth0UserId, String manegmenttoken) {
-//
-//        return webClient.post()
-//                .uri("https://" + AUTH0_DOMAIN + "/api/v2/users/" + auth0UserId + "/roles")
-//                .headers(headers -> headers.setBearerAuth(manegmenttoken))
-//                .bodyValue("{ \"roles\": [ \"rol_W1iELc1CHmzBtfE4\" ] }")
-//                .retrieve()
-//                .toBodilessEntity()
-//                .doOnSuccess(response -> System.out.println(("Role '{}' assigned successfully to User ID: {}" + auth0UserId)))
-//                .doOnError(error -> System.out.println(("Failed to assign role '{}' to User ID: {}"  +auth0UserId + error)))
-//                .then();
-//    }
 
 
 
