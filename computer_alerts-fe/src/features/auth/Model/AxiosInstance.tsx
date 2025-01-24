@@ -5,7 +5,7 @@ const authService = new AuthService();
 
 // Create an axios instance with base config
 const AxiosInstance = axios.create({
-  baseURL: "https://dolphin-app-sxvxi.ondigitalocean.app/api",
+  baseURL: "http://localhost:8080/api",
 });
 
 // Request interceptor to add token to every request

@@ -32,7 +32,7 @@ const Login: React.FC = () => {
         return;
       }
 
-      const response = await fetch("https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo", {
+      const response = await fetch("http://localhost:8080/api/userInfo", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

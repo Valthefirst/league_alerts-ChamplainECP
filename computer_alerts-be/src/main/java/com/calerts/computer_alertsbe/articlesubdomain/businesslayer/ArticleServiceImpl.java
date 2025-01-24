@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
@@ -8,7 +9,9 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleSta
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 //import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
-import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+import com.calerts.computer_alertsbe.articlesubdomain.subscription.SubscriptionRepository;
+import com.calerts.computer_alertsbe.emailingsubdomain.EmailSenderService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
@@ -24,6 +27,9 @@ import java.util.List;
 
 import java.time.LocalDateTime;
 
+import static com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Content.calculateWordCount;
+
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
@@ -31,7 +37,13 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private CloudinaryService cloudinaryService;
+    private SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+//    @Autowired
+//    private CloudinaryService cloudinaryService;
 
     @Override
     public Flux<ArticleResponseModel> getAllArticles() {
@@ -118,6 +130,7 @@ public class ArticleServiceImpl implements ArticleService {
                 })
                 .flatMap(articleRepository::save)
                 .map(EntityModelUtil::toArticleResponseModel);
+
     }
 
     @Override
@@ -126,8 +139,26 @@ public class ArticleServiceImpl implements ArticleService {
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("article id was not found: " + articleId))))
                 .flatMap(article -> {
                     article.setArticleStatus(ArticleStatus.PUBLISHED);
-                    return articleRepository.save(article).then(); // Save and complete
+                    return articleRepository.save(article)
+                            .then(notifySubscribers(article));
                 });
+    }
+
+    private Mono<Void> notifySubscribers(Article article) {
+        return subscriptionRepository.findByCategory(article.getCategory())
+                .flatMap(subscription -> {
+                    String emailBody = buildEmailContent(article);
+                    return emailSenderService.sendMail(subscription.getEmail(),
+                            "New Article in " + article.getCategory(),
+                            emailBody);
+                })
+                .then();
+    }
+
+    private String buildEmailContent(Article article) {
+        return "Hello,\n\nA new article titled '" + article.getTitle() +
+                "' has been published in the " + article.getCategory() +
+                " category.\n\nRead now: " + article.getArticleDescription();
     }
 
 
@@ -162,30 +193,30 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
-    @Override
-    public Mono<String> updateArticleImage(String articleId, FilePart filePart) {
-        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
-                .switchIfEmpty(Mono.error(new NotFoundException("No article found with ID: " + articleId)))
-                .flatMap(article -> cloudinaryService.uploadImage(filePart)
-                        .flatMap(imageUrl -> {
-                            article.setPhotoUrl(imageUrl); // Update the article's photo URL
-                            return articleRepository.save(article).thenReturn(imageUrl); // Save and return the URL
-                        })
-                );
-    }
-
-    @Override
-    public Mono<String> uploadImage(FilePart filePart) {
-        return cloudinaryService.uploadImage(filePart)
-                .switchIfEmpty(Mono.error(new NotFoundException("No image found")));
-    }
-
-    public static int calculateWordCount(String body) {
-        if (body == null || body.trim().isEmpty()) {
-            return 0;
-        }
-        return body.trim().split("\\s+").length; // Split by whitespace and count
-    }
+//    @Override
+//    public Mono<String> updateArticleImage(String articleId, FilePart filePart) {
+//        return articleRepository.findArticleByArticleIdentifier_ArticleId(articleId)
+//                .switchIfEmpty(Mono.error(new NotFoundException("No article found with ID: " + articleId)))
+//                .flatMap(article -> cloudinaryService.uploadImage(filePart)
+//                        .flatMap(imageUrl -> {
+//                            article.setPhotoUrl(imageUrl); // Update the article's photo URL
+//                            return articleRepository.save(article).thenReturn(imageUrl); // Save and return the URL
+//                        })
+//                );
+//    }
+//
+//    @Override
+//    public Mono<String> uploadImage(FilePart filePart) {
+//        return cloudinaryService.uploadImage(filePart)
+//                .switchIfEmpty(Mono.error(new NotFoundException("No image found")));
+//    }
+//
+//    public static int calculateWordCount(String body) {
+//        if (body == null || body.trim().isEmpty()) {
+//            return 0;
+//        }
+//        return body.trim().split("\\s+").length; // Split by whitespace and count
+//    }
 
 
 }
