@@ -1,46 +1,43 @@
 package com.calerts.computer_alertsbe.articlesubdomain.subscription;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/subscriptions")
+@RequestMapping("api/v1/subscriptions")
 public class SubscriptionController {
 
-    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionService subscriptionService;
 
-    public SubscriptionController(SubscriptionRepository subscriptionRepository) {
-        this.subscriptionRepository = subscriptionRepository;
+    @Autowired
+    public SubscriptionController(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
     }
 
     @PostMapping("/subscribe")
-    public Mono<ResponseEntity<String>> subscribe(@RequestParam String email, @RequestParam String category) {
-        Subscription subscription = Subscription.builder()
-                .email(email)
-                .category(category)
-                .subscriptionDate(LocalDateTime.now())
-                .build();
-
-        return subscriptionRepository.save(subscription)
-                .thenReturn(ResponseEntity.ok("Successfully subscribed to category: " + category));
+    public ResponseEntity<String> subscribe(@RequestParam String email, @RequestParam String category) {
+        try {
+            subscriptionService.subscribe(email, category);
+            return ResponseEntity.ok("Subscribed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    @GetMapping
-    public Mono<ResponseEntity<String>> getAllSubscriptions() {
-        return subscriptionRepository.findAll()
-                .collectList()
-                .map(subscriptions -> ResponseEntity.ok(subscriptions.toString()));
-    }
 
-    @DeleteMapping("/unsubscribe")
-    public Mono<ResponseEntity<String>> unsubscribe(@RequestParam String email, @RequestParam String category) {
-        return subscriptionRepository.findByCategory(category)
-                .filter(sub -> sub.getEmail().equals(email))
-                .flatMap(subscriptionRepository::delete)
-                .then(Mono.just(ResponseEntity.ok("Unsubscribed successfully from category: " + category)));
+
+//    @DeleteMapping("/unsubscribe")
+//    public ResponseEntity<String> unsubscribe(@RequestParam String email, @RequestParam String category) {
+//        subscriptionService.unsubscribe(email, category);
+//        return ResponseEntity.ok("Unsubscribed successfully.");
+//    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getSubscribedCategories(@RequestParam String email) {
+        return ResponseEntity.ok(subscriptionService.getSubscribedCategories(email));
     }
 }
-

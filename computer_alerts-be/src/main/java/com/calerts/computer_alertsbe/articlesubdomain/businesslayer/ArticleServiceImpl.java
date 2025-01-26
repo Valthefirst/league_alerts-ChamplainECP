@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -41,6 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private EmailSenderService emailSenderService;
+
+    private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
+
 
 //    @Autowired
 //    private CloudinaryService cloudinaryService;
@@ -145,21 +150,28 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private Mono<Void> notifySubscribers(Article article) {
-        return subscriptionRepository.findByCategory(article.getCategory())
+        return subscriptionRepository.findByCategory(article.getCategory())  // Returns Flux<Subscription>
                 .flatMap(subscription -> {
                     String emailBody = buildEmailContent(article);
-                    return emailSenderService.sendMail(subscription.getEmail(),
-                            "New Article in " + article.getCategory(),
-                            emailBody);
+                    return emailSenderService.sendEmail(subscription.getUserEmail(),
+                                    "New Article in " + article.getCategory(),
+                                    emailBody)
+                            .doOnSuccess(result ->
+                                    log.info("Email sent successfully to {}", subscription.getUserEmail()))
+                            .doOnError(error ->
+                                    log.error("Failed to send email to {}: {}", subscription.getUserEmail(), error.getMessage()));
                 })
                 .then();
     }
 
+
     private String buildEmailContent(Article article) {
-        return "Hello,\n\nA new article titled '" + article.getTitle() +
-                "' has been published in the " + article.getCategory() +
-                " category.\n\nRead now: " + article.getArticleDescription();
+        return String.format("Hello,\n\nA new article titled '%s' has been published in the %s category.\n\nRead now: %s",
+                article.getTitle(),
+                article.getCategory(),
+                article.getArticleDescription());
     }
+
 
 
 

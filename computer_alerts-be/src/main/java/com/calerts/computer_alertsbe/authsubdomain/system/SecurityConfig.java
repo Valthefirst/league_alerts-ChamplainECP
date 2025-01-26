@@ -98,8 +98,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/v1/email/**").permitAll()
-                                .pathMatchers(HttpMethod.POST, "/api/v1/send-email/**").permitAll()
+                                .pathMatchers(HttpMethod.GET, "/api/v1/send-email/**").permitAll()
                                 .pathMatchers(HttpMethod.GET, "/api/v1").permitAll()
 
 
