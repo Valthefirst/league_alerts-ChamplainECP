@@ -15,13 +15,13 @@ User -> RA : Navigates to Account Page
 RA -> AccountPage : Loads account details
 activate AccountPage
 
-AccountPage -> Controller : GET /api/v1/accounts/{userId}
+AccountPage -> Controller : GET /api/v1/readers/{auth0UserId}
 activate Controller
-Controller -> Service : getAccountById(userId)
+Controller -> Service : getReaderByAuth0UserId(auth0UserId)
 activate Service
-Service -> Repository : findById(userId)
+Service -> Repository : findByAuth0UserId(auth0UserId)
 activate Repository
-Repository -> DB : SELECT * FROM Reader WHERE id = {userId}
+Repository -> DB : SELECT * FROM Reader WHERE id = {auth0UserId}
 DB --> Repository : Reader Entity
 deactivate Repository
 Repository --> Service : Reader Entity
@@ -31,18 +31,18 @@ deactivate Controller
 
 ReaderPage --> User : Displays Reader details
 User -> ReaderPage : Submits updated Reader details (name, email, password)
-ReaderPage -> Controller : PUT /api/v1/Readers/{userId} with ReaderRequestModel
+ReaderPage -> Controller : PUT /api/v1/Readers/{auth0UserId} with ReaderRequestModel
 activate Controller
-Controller -> Service : updateReader(userId, ReaderRequestModel)
+Controller -> Service : updateReaderDetails(auth0UserId, ReaderRequestModel)
 activate Service
-Service -> Repository : findById(userId)
+Service -> Repository : findById(auth0UserId)
 activate Repository
-Repository -> DB : SELECT * FROM Reader WHERE id = {userId}
+Repository -> DB : SELECT * FROM Reader WHERE id = {auth0UserId}
 DB --> Repository : Reader Entity
 deactivate Repository
 Repository --> Service : Reader Entity
 
-Service -> Repository : save(updatedReader)
+Service -> Repository : save(updatedReaderDetails)
 Repository -> DB : UPDATE Reader SET name, email, password WHERE id = {userId}
 DB --> Repository : Updated Reader Entity
 Repository --> Service : Updated Reader Entity

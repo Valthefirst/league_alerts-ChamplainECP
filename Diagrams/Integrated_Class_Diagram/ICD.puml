@@ -274,6 +274,8 @@ package "Reader Subdomain" {
         + createReader(readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
         + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
         + deleteReader(readerId: String) : ResponseEntity<Void>
+        + updateReaderDetails(auth0UserId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + getReaderByAuthUserId(auth0UserId: String) : ResponseEntity<ReaderResponseModel>
     }
 
     class ReaderService {
@@ -281,19 +283,21 @@ package "Reader Subdomain" {
         + createReader(readerRequest: ReaderRequestModel) : ReaderResponseModel
         + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
         + deleteReader(readerId: String) : void
+        + updateReaderDetails(auth0UserId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + getReaderByAuthUserId(auth0UserId: String) : RaderResponseModel
     }
 
     class ReaderRepository {
         + findByReaderId(readerId: String) : Optional<Reader>
         + save(reader: Reader) : Reader
         + deleteByReaderId(readerId: String) : void
+        + findByReaderAuth0UserId(auth0UserId: String) 
     }
 
     class Reader {
         - readerId: String
         - firstName: String
         - lastName: String
-        - password: String
         - auth0userId: String
         - emailAddress: String
     }
@@ -302,7 +306,6 @@ package "Reader Subdomain" {
         - readerId: String
         - firstName: String
         - lastName: String
-        - password: String
         - auth0userId: String
         - email: String
     }
@@ -311,7 +314,6 @@ package "Reader Subdomain" {
         - readerId: String
         - firstName: String
         - lastName: String
-        - password: String
         - auth0userId: String
         - emailAddress: String
     }

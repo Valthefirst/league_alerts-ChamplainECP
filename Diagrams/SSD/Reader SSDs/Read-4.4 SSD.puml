@@ -2,13 +2,13 @@
 actor Reader
 participant "League Alerts System" as AMS
 
-Reader -> AMS : viewAccountDetails(userId)
+Reader -> AMS : viewAccountDetails(auth0UserId)
 activate AMS
     AMS -> AMS : Retrieve User Information
     AMS --> Reader : returnAccountDetails(HttpStatusCode.OK)
 deactivate AMS
 
-Reader -> AMS : modifyAccountDetails(userId, updatedDetails)
+Reader -> AMS : modifyAccountDetails(auth0UserId, updatedDetails)
 activate AMS
     AMS -> AMS : Validate Updated Details
     AMS -> AMS : Save Updated Information
