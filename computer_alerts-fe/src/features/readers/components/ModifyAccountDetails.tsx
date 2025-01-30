@@ -30,16 +30,16 @@ const ModifyAccountDetails: React.FC = () => {
     }
   }, []);
 
-  // Fetch user data based on auth0UserId
+  
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!auth0UserId) return; // Skip if auth0UserId is not available
+      if (!auth0UserId) return; 
 
       let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
 
 
       try {
-        const response = await fetch(`${URLDepTest}readers/${goodAuth0User}`); // Replace with your API endpoint
+        const response = await fetch(`${URLDepTest}readers/${goodAuth0User}`); 
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -68,7 +68,7 @@ const ModifyAccountDetails: React.FC = () => {
     e.preventDefault();
 
     if (!auth0UserId) {
-      setErrorMessage("Reader Auth0UserID not found");
+      setErrorMessage("You do not currently exist in our system, please contact someone or create new account");
       return;
     }
 
@@ -104,7 +104,6 @@ const ModifyAccountDetails: React.FC = () => {
     <div className="container">
       <div className="row">
         <form onSubmit={handleSubmit}>
-          {/* Email Address (Read-only) */}
           <div className="form-group">
             <label htmlFor="emailAddress">Email Address</label>
             <input
@@ -117,7 +116,7 @@ const ModifyAccountDetails: React.FC = () => {
             />
           </div>
 
-          {/* First Name (Editable) */}
+
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <input
@@ -130,7 +129,7 @@ const ModifyAccountDetails: React.FC = () => {
             />
           </div>
 
-          {/* Last Name (Editable) */}
+  
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -155,13 +154,11 @@ const ModifyAccountDetails: React.FC = () => {
             />
           </div>
 
-          {/* Update Button */}
           <button type="submit" className="btn btn-primary">
             Update
           </button>
         </form>
 
-        {/* Success and Error Messages */}
         {successMessage && (
           <div className="alert alert-success mt-3">{successMessage}</div>
         )}
