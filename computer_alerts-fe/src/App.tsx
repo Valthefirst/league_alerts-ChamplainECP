@@ -29,6 +29,7 @@ import GoogleTranslateLoader from "utils/GoogleTranslateLoader";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
+import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
 
 const Navbar = () => {
   const location = useLocation();
@@ -65,6 +66,11 @@ function App(): JSX.Element {
           <Route
             path={AppRoutePaths.CREATE_ACCOUNT}
             element={<CreateUserForm />}
+          />
+
+          <Route
+            path={AppRoutePaths.ModifyAccountDetails}
+            element={<ModifyAccountDetails/>}
           />
 
           <Route

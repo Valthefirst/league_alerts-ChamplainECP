@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./AppNavBar.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, NavItem } from "react-bootstrap";
+import SVGIcon from "assets/MenuDetails/SVGIcon";
 
 export default function AppNavBar(): JSX.Element {
   const generateTagRoute = (category: string) =>
@@ -74,7 +75,7 @@ export default function AppNavBar(): JSX.Element {
               >
                 MLB
               </Nav.Link>
-              <Nav.Link
+              {/* <Nav.Link
                 as={Link}
                 to={AppRoutePaths.CREATE_ACCOUNT}
                 className="nav-link"
@@ -93,7 +94,7 @@ export default function AppNavBar(): JSX.Element {
               to={AppRoutePaths.SavedArticles}
               className="nav-link">
               Saved Articles
-            </Nav.Link>
+            </Nav.Link> */}
               <NavDropdown title="Language" id="language-dropdown">
                 <NavDropdown.Item onClick={() => handleLanguageChange("en")}>
                   English
@@ -102,6 +103,10 @@ export default function AppNavBar(): JSX.Element {
                   French
                 </NavDropdown.Item>
               </NavDropdown>
+              <NavItem>
+              <SVGIcon/>
+              </NavItem>
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
