@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class ReaderRequestModel {
     private String readerId;
     private String emailAddress;
-    private String auth0UserID;
+//    private String auth0UserID;
+    private String address;
 
     private String firstName;
     private String lastName;

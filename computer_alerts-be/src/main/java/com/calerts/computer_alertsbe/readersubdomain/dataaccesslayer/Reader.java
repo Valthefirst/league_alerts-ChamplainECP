@@ -22,6 +22,7 @@ public class Reader {
     private String emailAddress;
     private String firstName;
     private String lastName;
+    private String address;
     private String auth0userId;
 
 }

@@ -20,14 +20,24 @@ public class ReaderDataLoaderService implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Reader reader1 = Reader.builder()
                 .readerIdentifier(new ReaderIdentifier())
+                .firstName("Ella")
+                .lastName("Jhon")
+                .address("1776 rue Jhonson J4M34W")
+                .auth0userId("auth0|678920aa4d650d4d4b64cee3")
+                .emailAddress("reader1@gmail.com")
+                .build();
+
+        Reader reader2 = Reader.builder()
+                .readerIdentifier(new ReaderIdentifier())
                 .firstName("James")
                 .lastName("Jordan")
+                .address("2750 rue Bernard J4M34W")
                 .auth0userId("auth0|678920c84d650d4d4b64cee4")
                 .emailAddress("reader2@gmail.com")
                 .build();
 
 
-        Flux.just(reader1)
+        Flux.just(reader1, reader2)
                 .flatMap(s -> readerRepository.insert(Mono.just(s))
                         .log(s.toString()))
                 .subscribe();

@@ -35,18 +35,15 @@ public class ReaderServiceImpl implements ReaderService{
     @Override
     public Mono<ReaderResponseModel> updateReaderDetails(String auth0UserID, Mono<ReaderRequestModel> readerDetails) {
         return readerRepository.findReaderByAuth0userId(auth0UserID)
-                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("No Reader was found with this" + auth0UserID))))
-                .flatMap(foundReader -> readerDetails.map(EntityModelUtil::toReaderEntity)
-                        .doOnNext(
-                                reader -> {
-                                    reader.setAuth0userId(foundReader.getAuth0userId());
-                                    reader.setEmailAddress(foundReader.getEmailAddress());
-                                    reader.setFirstName(foundReader.getFirstName());
-                                    reader.setLastName(foundReader.getLastName());
-                                }))
-                                .flatMap(reader -> readerRepository.save(reader))
-                                .map(EntityModelUtil::toReaderResponseModel);
-
+                .switchIfEmpty(Mono.error(new NotFoundException("No Reader found with auth0UserID: " + auth0UserID)))
+                .flatMap(foundReader -> readerDetails.map(readerRequestModel -> {
+                    foundReader.setFirstName(readerRequestModel.getFirstName());
+                    foundReader.setAddress(readerRequestModel.getAddress());
+                    foundReader.setLastName(readerRequestModel.getLastName());
+                    return foundReader;
+                }))
+                .flatMap(readerRepository::save) // Save the updated reader
+                .map(EntityModelUtil::toReaderEntity); // Convert to response model
     }
 
 

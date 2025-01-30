@@ -32,12 +32,13 @@ public class EntityModelUtil {
         BeanUtils.copyProperties(reader, readerResponseModel);
         return readerResponseModel;
     }
-    public static Reader toReaderEntity(ReaderRequestModel readerRequestModel) {
-        return Reader.builder()
-                .emailAddress(readerRequestModel.getEmailAddress())
-                .auth0userId(readerRequestModel.getAuth0UserID())
-                .firstName(readerRequestModel.getFirstName())
-                .lastName(readerRequestModel.getLastName())
+    public static ReaderResponseModel toReaderEntity(Reader reader) {
+        return ReaderResponseModel.builder()
+                .emailAddress(reader.getEmailAddress())
+                .firstName(reader.getFirstName())
+                .lastName(reader.getLastName())
+                .address(reader.getAddress())
+                .auth0UserId(reader.getAuth0userId())
                 .build();
     }
 
