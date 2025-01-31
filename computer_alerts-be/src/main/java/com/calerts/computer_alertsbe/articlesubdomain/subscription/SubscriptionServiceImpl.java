@@ -38,9 +38,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
     private void sendSubscriptionConfirmationEmail(String userEmail, String category) {
-        emailSenderService.sendEmail(userEmail, "Subscription Confirmation" + userEmail,
-                "You've successfully subscribed to category: " + category).subscribe();
+        String body = "<div style='font-family: Arial, sans-serif; line-height: 1.5; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;'>"
+                + "<h1 style='color: #a4050a; text-align: center;'>Subscription Confirmation</h1>"
+                + "<p style='color: #555;'>Hello,</p>"
+                + "<p style='color: #555;'>You've successfully subscribed to updates for <strong>" + category + "</strong> on LeagueAlerts!</p>"
+                + "<p style='margin-top: 20px; color: #555;'>Stay updated with the latest news and updates directly in your inbox.</p>"
+                + "<p style='margin-top: 20px; color: #555;'>Follow us on social media:</p>"
+                + "<div style='text-align: center;'>"
+                + "  <a href='https://instagram.com/LeagueAlerts' style='color: #3067f2; text-decoration: none; margin-right: 10px;'>Instagram</a>"
+                + "  | <a href='https://x.com/LeagueAlerts' style='color: #3067f2; text-decoration: none; margin-left: 10px;'>X</a>"
+                + "</div>"
+                + "<p style='margin-top: 20px; color: #555;'>Best regards,<br>LeagueAlerts Team</p>"
+                + "</div>";
+
+        emailSenderService.sendEmail(userEmail, "Subscription Confirmation", body).subscribe();
     }
+
 
 
 //    @Override

@@ -1,7 +1,9 @@
 package com.calerts.computer_alertsbe.emailingsubdomain;
 
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -17,10 +19,13 @@ public class EmailSenderService {
     public Mono<Void> sendEmail(String to, String subject, String body) {
         return Mono.fromRunnable(() -> {
             try {
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setTo(to);
-                message.setSubject(subject);
-                message.setText(body);
+
+                MimeMessage message = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+                helper.setTo(to);
+                helper.setSubject(subject);
+                helper.setText(body, true);
+                
                 mailSender.send(message);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to send email to " + to, e);
