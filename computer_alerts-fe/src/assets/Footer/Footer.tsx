@@ -85,6 +85,9 @@ export default function Footer() {
               <option value="NBA">NBA</option>
               <option value="NFL">NFL</option>
               <option value="NHL">NHL</option>
+              <option value="NHL">NHL</option>
+              <option value="UFC">UFC</option>
+              <option value="MLB">MLB</option>
             </select>
             <div className={styles.buttonGroup}>
               <button onClick={handleSubscribe} className={styles.subscribeConfirmButton} disabled={loading}>
