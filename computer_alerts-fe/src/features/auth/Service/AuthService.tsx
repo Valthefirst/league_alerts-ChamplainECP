@@ -27,6 +27,8 @@ export class AuthService {
       authorizationParams: {
         redirect_uri: "https://league-alerts.web.app",
         audience: "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
+        // redirect_uri: "http://localhost:3000",
+        // audience: "http://localhost:8080/api/userInfo",
         scope: "openid profile email roles",
       },
     });

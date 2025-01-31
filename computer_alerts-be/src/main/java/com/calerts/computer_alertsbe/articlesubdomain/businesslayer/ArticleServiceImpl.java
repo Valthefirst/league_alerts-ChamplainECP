@@ -1,14 +1,16 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
 
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
-//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+import com.calerts.computer_alertsbe.articlesubdomain.subscription.SubscriptionRepository;
+import com.calerts.computer_alertsbe.emailingsubdomain.EmailSenderService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
@@ -19,16 +21,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import java.time.LocalDateTime;
+
+import static com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Content.calculateWordCount;
+
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
+
 
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -118,6 +134,7 @@ public class ArticleServiceImpl implements ArticleService {
                 })
                 .flatMap(articleRepository::save)
                 .map(EntityModelUtil::toArticleResponseModel);
+
     }
 
     @Override
