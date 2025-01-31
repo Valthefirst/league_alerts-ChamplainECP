@@ -3,7 +3,7 @@ import axios from "axios";
 import UserRequestDTO from "features/readers/models/UserRequestDTO";
 import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
-  URL = "http://localhost:8080/api/"; // Your backend URL
+  URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
 
   
 
@@ -25,8 +25,10 @@ export class AuthService {
       domain: "dev-im24qkb6l7t2yhha.ca.auth0.com",
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
       authorizationParams: {
-        redirect_uri: "http://localhost:3000",
-        audience: "http://localhost:8080/api/userInfo",
+        redirect_uri: "https://league-alerts.web.app",
+        audience: "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
+        // redirect_uri: "http://localhost:3000",
+        // audience: "http://localhost:8080/api/userInfo",
         scope: "openid profile email roles",
       },
     });
