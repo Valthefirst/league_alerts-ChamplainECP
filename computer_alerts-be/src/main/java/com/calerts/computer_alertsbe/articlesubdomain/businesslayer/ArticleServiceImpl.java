@@ -147,30 +147,6 @@ public class ArticleServiceImpl implements ArticleService {
                 });
     }
 
-//    private Mono<Void> notifySubscribers(Article article) {
-//        return subscriptionRepository.findByCategory(article.getCategory())  // Returns Flux<Subscription>
-//                .flatMap(subscription -> {
-//                    String emailBody = buildEmailContent(article);
-//                    return emailSenderService.sendEmail(subscription.getUserEmail(),
-//                                    "New Article in " + article.getCategory(),
-//                                    emailBody)
-//                            .doOnSuccess(result ->
-//                                    log.info("Email sent successfully to {}", subscription.getUserEmail()))
-//                            .doOnError(error ->
-//                                    log.error("Failed to send email to {}: {}", subscription.getUserEmail(), error.getMessage()));
-//                })
-//                .then();
-//    }
-
-
-//    private String buildEmailContent(Article article) {
-//        return String.format("Hello,\n\nA new article titled '%s' has been published in the %s category.\n\nRead now: %s",
-//                article.getTitle(),
-//                article.getCategory(),
-//                article.getArticleDescription());
-//    }
-
-
 
 
     @Override

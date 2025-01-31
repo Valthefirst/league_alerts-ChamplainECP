@@ -13,8 +13,8 @@
 
 export const getAllComments = () => {
   const eventSource = new EventSource(
-    // "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/interactions/comments",
-    "http://localhost:8080/api/v1/interactions/comments",
+    "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/interactions/comments",
+    // "http://localhost:8080/api/v1/interactions/comments",
   );
   return eventSource;
 };

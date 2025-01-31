@@ -26,14 +26,7 @@ public class SubscriptionController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
-
-//    @DeleteMapping("/unsubscribe")
-//    public ResponseEntity<String> unsubscribe(@RequestParam String email, @RequestParam String category) {
-//        subscriptionService.unsubscribe(email, category);
-//        return ResponseEntity.ok("Unsubscribed successfully.");
-//    }
+    
 
     @GetMapping("/categories")
     public ResponseEntity<List<String>> getSubscribedCategories(@RequestParam String email) {
