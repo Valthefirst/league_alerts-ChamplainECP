@@ -26,7 +26,7 @@ public class SubscriptionController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    
+
 
     @GetMapping("/categories")
     public ResponseEntity<List<String>> getSubscribedCategories(@RequestParam String email) {
