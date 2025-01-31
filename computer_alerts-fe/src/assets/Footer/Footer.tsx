@@ -17,7 +17,7 @@ export default function Footer() {
     setError("");
     setSuccess("");
     try {
-      const response = await subscribeToNotifications(email, category);
+      await subscribeToNotifications(email, category);
       setSuccess("Successfully subscribed to " + category);
     } catch (err) {
       setError("Failed to subscribe. Please try again.");
@@ -85,8 +85,6 @@ export default function Footer() {
               <option value="NBA">NBA</option>
               <option value="NFL">NFL</option>
               <option value="NHL">NHL</option>
-              <option value="UFC">UFC</option>
-              <option value="MLB">MLB</option>
             </select>
             <div className={styles.buttonGroup}>
               <button onClick={handleSubscribe} className={styles.subscribeConfirmButton} disabled={loading}>
