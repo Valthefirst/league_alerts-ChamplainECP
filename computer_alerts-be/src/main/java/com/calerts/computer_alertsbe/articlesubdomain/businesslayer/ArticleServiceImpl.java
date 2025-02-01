@@ -183,7 +183,7 @@ public class ArticleServiceImpl implements ArticleService {
                         + "</div>",
                 article.getTitle(),
                 article.getCategory(),
-                "https://league-alerts.web.app/articles/" + article.getId() // Replace with actual article link logic
+                "https://league-alerts.web.app/articles/" + article.getArticleIdentifier().getArticleId() // Replace with actual article link logic
         );
     }
 
