@@ -13,5 +13,7 @@ public interface ReaderService {
 
     Mono<ReaderResponseModel> updateReaderDetails(String auth0UserID, Mono<ReaderRequestModel> readerDetails);
 
+    Mono<Void> suspendReaderAccount(String auth0UserID);
+
 
 }

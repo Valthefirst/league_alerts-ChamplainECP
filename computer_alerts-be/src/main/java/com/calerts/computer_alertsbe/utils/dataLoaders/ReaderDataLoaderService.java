@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.utils.dataLoaders;
 
 
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.AccountStatus;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderRepository;
@@ -25,6 +26,7 @@ public class ReaderDataLoaderService implements CommandLineRunner {
                 .address("1776 rue Jhonson J4M34W")
                 .auth0userId("auth0|678920aa4d650d4d4b64cee3")
                 .emailAddress("reader1@gmail.com")
+                .accountStatus(AccountStatus.ACTIVE)
                 .build();
 
         Reader reader2 = Reader.builder()
@@ -34,6 +36,7 @@ public class ReaderDataLoaderService implements CommandLineRunner {
                 .address("2750 rue Bernard J4M34W")
                 .auth0userId("auth0|678920c84d650d4d4b64cee4")
                 .emailAddress("reader2@gmail.com")
+                .accountStatus(AccountStatus.ACTIVE)
                 .build();
 
 

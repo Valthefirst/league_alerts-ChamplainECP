@@ -24,5 +24,6 @@ public class Reader {
     private String lastName;
     private String address;
     private String auth0userId;
+    private AccountStatus accountStatus;
 
 }

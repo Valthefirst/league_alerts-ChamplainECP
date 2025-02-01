@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.readersubdomain.businesslayer;
 
 
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.AccountStatus;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderRepository;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderRequestModel;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
@@ -44,6 +45,17 @@ public class ReaderServiceImpl implements ReaderService{
                 }))
                 .flatMap(readerRepository::save) // Save the updated reader
                 .map(EntityModelUtil::toReaderEntity); // Convert to response model
+    }
+
+    @Override
+    public Mono<Void> suspendReaderAccount(String auth0UserID) {
+        return readerRepository.findReaderByAuth0userId(auth0UserID)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new NotFoundException("Reader not found with auth0UserId: " + auth0UserID))))
+                .flatMap(reader -> {
+                    reader.setAccountStatus(AccountStatus.SUSPENDED); // Update the status
+                    return readerRepository.save(reader).then(); // Save the updated reader
+                });
+                 
     }
 
 

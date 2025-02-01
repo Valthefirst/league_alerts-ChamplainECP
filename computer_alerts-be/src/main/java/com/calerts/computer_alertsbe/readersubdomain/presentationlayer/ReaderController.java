@@ -43,5 +43,9 @@ public class ReaderController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
 
     }
+    @PatchMapping(value = "/{auth0UserId}/suspendAccount")
+    public Mono<Void> suspendReaderAccount(@PathVariable String auth0UserId) {
+        return readerService.suspendReaderAccount(auth0UserId);
+    }
 
 }

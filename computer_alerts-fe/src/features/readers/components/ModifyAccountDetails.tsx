@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import "./ModifyAccountDetails.module.css";
+import styles from "./ModifyAccountDetails.module.css";
 import ReaderRequestDTO from "../models/ReaderRequestDTO";
 import { DecodeToken } from "assets/DecodeToken";
+
 
 const ModifyAccountDetails: React.FC = () => {
   const [formData, setFormData] = useState<ReaderRequestDTO>({
@@ -91,10 +92,10 @@ const ModifyAccountDetails: React.FC = () => {
         throw new Error("Failed to update user data");
       }
 
-      setSuccessMessage("User data updated successfully!");
+      setSuccessMessage("You account has been successfully updated !");
       setErrorMessage(null);
     } catch (error) {
-      setErrorMessage("Error updating user data");
+      setErrorMessage("It seems like there want error updating your account information. Try a different time.");
       setSuccessMessage(null);
       console.error(error);
     }
@@ -103,61 +104,68 @@ const ModifyAccountDetails: React.FC = () => {
   return (
     <div className="container">
       <div className="row">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="emailAddress">Email Address</label>
-            <input
-              type="email"
-              id="emailAddress"
-              name="emailAddress"
-              value={formData.emailAddress}
-              readOnly
-              className="form-control"
-            />
-          </div>
+        <h1 style={{textAlign:"center", marginBottom: "30px"}}>Modify Your Account</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formGroup}>
+        <label htmlFor="emailAddress" className={styles.label}>
+          Email Address
+        </label>
+        <input
+          type="email"
+          id="emailAddress"
+          name="emailAddress"
+          value={formData.emailAddress}
+          readOnly
+          className={styles.formControl}
+        />
+      </div>
 
+      <div className={styles.formGroup}>
+        <label htmlFor="firstName" className={styles.label}>
+          First Name
+        </label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleInputChange}
+          className={styles.formControl}
+        />
+      </div>
 
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="lastName" className={styles.label}>
+          Last Name
+        </label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleInputChange}
+          className={styles.formControl}
+        />
+      </div>
 
-  
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="address" className={styles.label}>
+          Address
+        </label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          value={formData.address}
+          onChange={handleInputChange}
+          className={styles.formControl}
+        />
+      </div>
 
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <input 
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-            className="form-control"
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Update
-          </button>
-        </form>
+      <button type="submit" className={styles.btnPrimary}>
+        Update
+      </button>
+    </form>
 
         {successMessage && (
           <div className="alert alert-success mt-3">{successMessage}</div>

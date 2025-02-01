@@ -228,6 +228,7 @@ package "Authentication Subdomain" {
         + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
         + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
         + assignRoleAuthor (userId: String) : Void
+	    + handle0Auth2Callback(0Auth2CallbackRequest request) : UserResponseDTO
     }
 
     class UserService {
@@ -235,17 +236,26 @@ package "Authentication Subdomain" {
         + registerUser(userRequest: UserRequestDTO) : UserResponseModel
         + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
         + assignRoleAuthor (userId: String) : Void
+	    + signInWithGoogle(request:0Auth2CallbackRequest) : UserResponseModel
+	    + signInWithFacebook(request:0Auth2CallbackRequest) : UserResponseModel
+	    + processAuth0SignIn(readerRequest: ReaderRequestDTO) : ReaderResponseDTO
+	    + checkReaderExistence(emailAddress: String)
+	    + createReaderFromAuth0(readerRequest: ReaderRequestDTO) : ReaderRequestDTO
     }
 
     class UserRepository {
         + findByUsername(username: String) : Optional<User>
         + save(user: User) : User
+	    + findUserByEmailAddress(emailAddress : String) : Reader
     }
 
     class AuthorResponseModel {
          - firstName: String
         - lastName: String
         - email: String
+    }
+    class 0Auth2CallBackRequest {
+	- token: String
     }
 
     class AuthorRequestDTO {
