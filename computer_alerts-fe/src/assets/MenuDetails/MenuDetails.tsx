@@ -6,7 +6,7 @@ import ReaderRequestDTO from "features/readers/models/ReaderRequestDTO";
 import Logout from "../../features/auth/Login-Logout/Logout"; // Importing Logout component
 
 const MenuDetails: React.FC = () => {
-  const [setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
