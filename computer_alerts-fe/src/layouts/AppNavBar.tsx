@@ -11,7 +11,7 @@ export default function AppNavBar(): JSX.Element {
 
   const handleLanguageChange = (lang: string) => {
     const googleTranslateElement = document.querySelector(
-      ".goog-te-combo"
+      ".goog-te-combo",
     ) as HTMLSelectElement;
 
     if (googleTranslateElement) {
@@ -104,9 +104,8 @@ export default function AppNavBar(): JSX.Element {
                 </NavDropdown.Item>
               </NavDropdown>
               <NavItem>
-              <SVGIcon/>
+                <SVGIcon />
               </NavItem>
-              
             </Nav>
           </Navbar.Collapse>
         </Container>

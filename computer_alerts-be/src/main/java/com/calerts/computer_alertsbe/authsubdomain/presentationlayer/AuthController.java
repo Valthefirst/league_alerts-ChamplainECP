@@ -5,11 +5,8 @@ import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorRes
 import com.calerts.computer_alertsbe.authsubdomain.businessLayer.UserService;
 
 
-import com.calerts.computer_alertsbe.emailingsubdomain.GmailService;
-import com.calerts.computer_alertsbe.utils.HttpErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -29,19 +26,21 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/create/Reader")
+//    @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createUser(@RequestBody AuthorRequestDTO userRequest) {
         return userService.createReader(userRequest)
                 .map(authorResponse -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(authorResponse))
                 .onErrorResume(e -> {
-                    System.out.println("Did Not create user" +e.getMessage());
+                    System.out.println("Did Not create user" + e.getMessage());
                     return Mono.just(ResponseEntity
                             .status(HttpStatus.BAD_REQUEST).body(null)); // just return nothing or something idk
                 });
-
-
     }
+
+
+
     @PostMapping("/create/Author")
     @PreAuthorize("hasAuthority('admin:articles')")
     public Mono<ResponseEntity<AuthorResponseModelAuth>> createAuthor(@RequestBody AuthorRequestDTO authorRequest) {

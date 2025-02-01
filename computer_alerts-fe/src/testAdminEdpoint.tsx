@@ -4,11 +4,14 @@ import authTokenService from "features/auth/Service/AuthService";
 export const testAdminEdpoint = async () => {
   try {
     const token = await authTokenService.getToken();
-    const response = await axios.get("http://localhost:8080/api/v1/readers", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await axios.get(
+      "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/readers",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     return response.data; // Return the data fetched from the API
   } catch (err) {
     console.error("Error fetching readers data", err);

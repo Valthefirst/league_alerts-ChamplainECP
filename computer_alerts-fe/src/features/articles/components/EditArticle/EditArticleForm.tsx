@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { editArticleImage } from "features/articles/api/updateArticleImage";
 import "./EditArticleForm.css"; // Adjust the path based on your file structure
 
-
 interface EditArticlePageProps {
   article: ArticleRequestModel;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,13 +19,10 @@ export default function EditArticle({
   const [error, setError] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(false); // For showing a loading state
-  const [imageFile, setImageFile] = useState<File | null>(null); 
-  const [fileName, setFileName] = useState<string>("") //temporary file
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>(""); //temporary file
   const navigate = useNavigate();
 
-  
- 
-    
   const handleChanges = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void => {
@@ -34,66 +30,62 @@ export default function EditArticle({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageChanges = async (
-    e: ChangeEvent<HTMLInputElement>,
-    ) => {
+  const handleImageChanges = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-      if  (file) {
-        setImageFile(file);
-        setFileName(file.name);
-        alert("Image file selected:" + file.name);
-      } else if (!file){
-        setImageFile(null);
-       
-        alert("File could not be uploaded:");
-      };
-    };
+    if (file) {
+      setImageFile(file);
+      setFileName(file.name);
+      alert("Image file selected:" + file.name);
+    } else if (!file) {
+      setImageFile(null);
+
+      alert("File could not be uploaded:");
+    }
+  };
 
   const handleTagChanges = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = e.target; // Get the selected value
     setFormData({ ...formData, tagsTag: value }); // Update tagsTag in formData
   };
 
+  // Ensure the formData is updated whenever the article prop changes
+  useEffect(() => {
+    setFormData(article);
+  }, [article]);
 
-     // Ensure the formData is updated whenever the article prop changes
-     useEffect(() => {
-      setFormData(article);
-    }, [article]);
-
-    const handleCancel = () => {
-      setIsEditing(false);
-      navigate(`/articles/${article.articleId}`); // Adjust the path if needed
-    };
+  const handleCancel = () => {
+    setIsEditing(false);
+    navigate(`/articles/${article.articleId}`); // Adjust the path if needed
+  };
 
   const handleSubmit = async (e: FormEvent) => {
-
     e.preventDefault();
-    
+
     if (!validate()) {
       return;
     }
 
     setLoading(true);
 
-   try{
-    if(imageFile){
-      const response = await editArticleImage(article.articleId, imageFile);
-      const photoUrl = response.data;
-      formData.photoUrl = photoUrl;
-    }
+    try {
+      if (imageFile) {
+        const response = await editArticleImage(article.articleId, imageFile);
+        const photoUrl = response.data;
+        formData.photoUrl = photoUrl;
+      }
 
-    await editArticle(article.articleId, formData);
-    alert("Article updated successfully");
-    navigate(`/articles/${article.articleId}`);
-    setIsEditing(false); // Close the edit form after successful update
-    window.location.reload();
-   }catch(err){
-     console.error("Error updating article:", err);
-     setError("Failed to update article. Please try again later.");
-  } finally {
-    setLoading(false);
-  }
-};
+      await editArticle(article.articleId, formData);
+      alert("Article updated successfully");
+      navigate(`/articles/${article.articleId}`);
+      setIsEditing(false); // Close the edit form after successful update
+      window.location.reload();
+    } catch (err) {
+      console.error("Error updating article:", err);
+      setError("Failed to update article. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const validate = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -115,107 +107,101 @@ export default function EditArticle({
   };
 
   return (
- 
-   
-      <div className="edit-container">
-
-        <form onSubmit={handleSubmit} className="article-form">
-          <h1 className="form-title">Edit Article</h1>
-          {/* Title and Categories Fields */}
-          <div className="article-fields-box sameLine">
-            <div className="title-field" style={{ flex: 1, marginRight: "60px" }}>
-              <label className="field-title">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChanges}
-              />
-            </div>
-  
-            <div className="article-field-box" style={{ flex: 0.5, marginLeft: "60px"}}>
-              <label className="field-title">Categories</label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChanges}
-              />
-            </div>
-          </div>
-  
-          {/* Tags Select Field */}
-          <div className="article-field-box">
-            <label className="field-title">Tags</label>
-            <select
-              name="tagsTag"
-              value={formData.tagsTag}
-              onChange={handleTagChanges}
-            >
-              <option value="NBA">NBA</option>
-              <option value="NHL">NHL</option>
-              <option value="UFC">UFC</option>
-              <option value="NFL">NFL</option>
-              <option value="MLB">MLB</option>
-            </select>
-          </div>
-  
-          {/* New File Name Field */}
-          <div className="article-field-box">
-            <label className="field-title">New File Name</label>
-            <input type="text" name="author" value={fileName} readOnly />
-          </div>
-  
-          {/* Photo Upload Button */}
-          <div className="button-container">
-            <button
-              type="button"
-              onClick={() => document.getElementById("fileInput")?.click()}
-              className="upload-button"
-            >
-              Upload Image
-            </button>
-  
-            {/* Hidden File Input */}
+    <div className="edit-container">
+      <form onSubmit={handleSubmit} className="article-form">
+        <h1 className="form-title">Edit Article</h1>
+        {/* Title and Categories Fields */}
+        <div className="article-fields-box sameLine">
+          <div className="title-field" style={{ flex: 1, marginRight: "60px" }}>
+            <label className="field-title">Title</label>
             <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChanges}
-              style={{ display: "none" }}
-            />
-          </div>
-  
-          {/* Body Field */}
-          <div className="article-field-box">
-            <label className="field-title">Body</label>
-            <textarea
-              name="body"
-              value={formData.body}
+              type="text"
+              name="title"
+              value={formData.title}
               onChange={handleChanges}
             />
           </div>
-  
-          {/* Submit and Cancel Buttons */}
-          <div className="button-container">
-            <button
-              className="submit-Update-button"
-              type="submit"
-            >
-              Update Article
-            </button>
-            <button
-              className="cancel-update-button"
-              type="button"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
 
-  
-  
+          <div
+            className="article-field-box"
+            style={{ flex: 0.5, marginLeft: "60px" }}
+          >
+            <label className="field-title">Categories</label>
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChanges}
+            />
+          </div>
+        </div>
+
+        {/* Tags Select Field */}
+        <div className="article-field-box">
+          <label className="field-title">Tags</label>
+          <select
+            name="tagsTag"
+            value={formData.tagsTag}
+            onChange={handleTagChanges}
+          >
+            <option value="NBA">NBA</option>
+            <option value="NHL">NHL</option>
+            <option value="UFC">UFC</option>
+            <option value="NFL">NFL</option>
+            <option value="MLB">MLB</option>
+          </select>
+        </div>
+
+        {/* New File Name Field */}
+        <div className="article-field-box">
+          <label className="field-title">New File Name</label>
+          <input type="text" name="author" value={fileName} readOnly />
+        </div>
+
+        {/* Photo Upload Button */}
+        <div className="button-container">
+          <button
+            type="button"
+            onClick={() => document.getElementById("fileInput")?.click()}
+            className="upload-button"
+          >
+            Upload Image
+          </button>
+
+          {/* Hidden File Input */}
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChanges}
+            style={{ display: "none" }}
+          />
+        </div>
+
+        {/* Body Field */}
+        <div className="article-field-box">
+          <label className="field-title">Body</label>
+          <textarea
+            name="body"
+            value={formData.body}
+            onChange={handleChanges}
+          />
+        </div>
+
+        {/* Submit and Cancel Buttons */}
+        <div className="button-container">
+          <button className="submit-Update-button" type="submit">
+            Update Article
+          </button>
+          <button
+            className="cancel-update-button"
+            type="button"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

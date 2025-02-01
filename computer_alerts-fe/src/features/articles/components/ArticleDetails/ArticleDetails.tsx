@@ -76,8 +76,7 @@ const ArticleDetails: React.FC = () => {
     if (token) {
       const decodedToken = DecodeToken(token);
       if (decodedToken) {
-        setAuth0UserId(decodedToken.sub); 
-      
+        setAuth0UserId(decodedToken.sub);
       }
     }
   }, []);
@@ -89,7 +88,7 @@ const ArticleDetails: React.FC = () => {
           const response = await getAllSaves(readerId); // To fetch with real readerId
           const data = await response;
           const savedState = data.find(
-            (save: SaveModel) => save.articleId === id
+            (save: SaveModel) => save.articleId === id,
           );
           setIsSaved(savedState || null);
         }
@@ -147,40 +146,48 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  const postComment = async () => { // Make function async
+  const postComment = async () => {
+    // Make function async
     if (newComment.trim().split(/\s+/).length > 50) {
-        alert("Comment is too long. Please keep it under 50 words.");
-        return;
+      alert("Comment is too long. Please keep it under 50 words.");
+      return;
     }
-    
+
     if (newComment.trim() && article) {
-        const comment: Partial<CommentModel> = {
-            content: newComment,
-            articleId: article.articleId,
-            readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
-        };
+      const comment: Partial<CommentModel> = {
+        content: newComment,
+        articleId: article.articleId,
+        readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
+      };
 
-        let badwords = ["fuck", "shit", "bullshit", "rape", "porn", "rapest"];
+      let badwords = ["fuck", "shit", "bullshit", "rape", "porn", "rapest"];
 
-        
-        
-        
-        if (badwords.some(badword => comment.content?.toLowerCase().includes(badword))) {
-          let goodAuth0User = auth0UserId?.replace(/\|/g, "%7C");
-            await fetch(`http://localhost:8080/api/v1/readers/${goodAuth0User}/suspendAccount`, { method: "PATCH", headers:{
-              "Content-Type": "application/json", 
-            } }); 
+      if (
+        badwords.some((badword) =>
+          comment.content?.toLowerCase().includes(badword),
+        )
+      ) {
+        let goodAuth0User = auth0UserId?.replace(/\|/g, "%7C");
+        await fetch(
+          `https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/readers/${goodAuth0User}/suspendAccount`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
 
-            //Put something for the alert. 
+        //Put something for the alert.
 
-            alert("Your account has been suspended due to inappropriate language.");
-            return; 
-        } 
+        alert("Your account has been suspended due to inappropriate language.");
+        return;
+      }
 
-        addComment(comment);
-        setNewComment("");
+      addComment(comment);
+      setNewComment("");
     }
-};
+  };
 
   const openEditPage = () => {
     if (article) {

@@ -21,7 +21,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [removingArticles, setRemovingArticles] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [likedArticles, setLikedArticles] = useState<{
     [articleId: string]: boolean;
@@ -50,7 +50,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
     const fetchArticles = async () => {
       try {
         const articlePromises = saves.map((save) =>
-          fetchArticleByArticleIdWithNoPatch(save.articleId)
+          fetchArticleByArticleIdWithNoPatch(save.articleId),
         );
         const fetchedArticles = await Promise.all(articlePromises);
         setArticles(fetchedArticles);
@@ -70,14 +70,17 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   // useEffect for likes
   useEffect(() => {
     const initializeLikedState = () => {
-      const initialLikedState = articles.reduce((acc, article) => {
-        if (article.articleId) {
-          acc[article.articleId] =
-            localStorage.getItem(`article-${article.articleId}-liked`) ===
-            "true";
-        }
-        return acc;
-      }, {} as { [articleId: string]: boolean });
+      const initialLikedState = articles.reduce(
+        (acc, article) => {
+          if (article.articleId) {
+            acc[article.articleId] =
+              localStorage.getItem(`article-${article.articleId}-liked`) ===
+              "true";
+          }
+          return acc;
+        },
+        {} as { [articleId: string]: boolean },
+      );
       setLikedArticles(initialLikedState);
     };
 
@@ -95,7 +98,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   const handleUnsave = async (articleId: string, saveId: string) => {
     try {
       setRemovingArticles(
-        (prev) => new Set(Array.from(prev).concat(articleId))
+        (prev) => new Set(Array.from(prev).concat(articleId)),
       );
       await deleteSave(saveId);
 
@@ -103,10 +106,10 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       setSaves((prevSaves) =>
-        prevSaves.filter((save) => save.saveId !== saveId)
+        prevSaves.filter((save) => save.saveId !== saveId),
       );
       setArticles((prevArticles) =>
-        prevArticles.filter((a) => a.articleId !== articleId)
+        prevArticles.filter((a) => a.articleId !== articleId),
       );
     } catch (error) {
       console.error("Error unsaving article:", error);
@@ -200,13 +203,18 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
                 className="unsave-icon"
                 onClick={() => {
                   const saveToDelete = saves.find(
-                    (save) => save.articleId === article.articleId
+                    (save) => save.articleId === article.articleId,
                   );
                   if (saveToDelete) {
                     handleUnsave(article.articleId, saveToDelete.saveId);
                   }
                 }}
-                style={{ cursor: "pointer", width: "40px", height: "40px", margin: "0 0 0 -5px" }}
+                style={{
+                  cursor: "pointer",
+                  width: "40px",
+                  height: "40px",
+                  margin: "0 0 0 -5px",
+                }}
                 title="Unsave"
               />
             </div>

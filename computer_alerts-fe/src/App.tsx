@@ -57,9 +57,8 @@ function App(): JSX.Element {
   return (
     <div>
       <GoogleTranslateLoader />
-        <Router>
-          <Navbar />
-      
+      <Router>
+        <Navbar />
 
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
@@ -70,7 +69,7 @@ function App(): JSX.Element {
 
           <Route
             path={AppRoutePaths.ModifyAccountDetails}
-            element={<ModifyAccountDetails/>}
+            element={<ModifyAccountDetails />}
           />
 
           <Route
@@ -81,9 +80,6 @@ function App(): JSX.Element {
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-
-
-         
 
           <Route
             path={AppRoutePaths.AuthorHomePage}
@@ -117,11 +113,11 @@ function App(): JSX.Element {
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
+          <Route path="/unauthorized" element={<UnAuthorized />} />
           <Route
-            path="/unauthorized"
-            element={<UnAuthorized />}
+            path={AppRoutePaths.SavedArticles}
+            element={<SavedArticlesPage />}
           />
-          <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
         </Routes>
       </Router>

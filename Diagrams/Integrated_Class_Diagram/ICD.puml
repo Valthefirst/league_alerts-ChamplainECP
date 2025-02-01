@@ -301,7 +301,7 @@ package "Reader Subdomain" {
         + findByReaderId(readerId: String) : Optional<Reader>
         + save(reader: Reader) : Reader
         + deleteByReaderId(readerId: String) : void
-        + findByReaderAuth0UserId(auth0UserId: String) 
+        + findByReaderAuth0UserId(auth0UserId: String)
     }
 
     class Reader {

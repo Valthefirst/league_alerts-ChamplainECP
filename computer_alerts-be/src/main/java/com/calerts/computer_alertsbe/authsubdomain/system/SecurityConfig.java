@@ -85,8 +85,8 @@ public class SecurityConfig {
 
                         //--------------AdminEndpoints
                                 .pathMatchers(HttpMethod.POST, "api/create/Author").hasAuthority("admin:articles")
-                                .pathMatchers(HttpMethod.POST, "api/create/**").hasAuthority("admin:articles")
-                                .pathMatchers(HttpMethod.POST, "api/create/Reader").authenticated()
+                                .pathMatchers(HttpMethod.POST, "api/create/Reader").permitAll()
+                                .pathMatchers(HttpMethod.POST, "api/create/**").permitAll()
 
                                 .pathMatchers(HttpMethod.PUT, "/api/update/**").authenticated()
                         .pathMatchers(HttpMethod.DELETE, "/api/delete/**").authenticated()
@@ -100,8 +100,12 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE, "/api/v1/likes/**").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/v1/send-email/**").permitAll()
-                                .pathMatchers(HttpMethod.GET, "/api/v1").permitAll()
+                                .pathMatchers(HttpMethod.GET, "/api/v1/send-email/**").permitAll()
+
+
+                                .pathMatchers(HttpMethod.GET, "/api/v1/subscriptions/**").permitAll()
+                                .pathMatchers(HttpMethod.POST, "/api/v1/subscriptions/**").permitAll()
+                                .pathMatchers(HttpMethod.DELETE, "/api/v1/subscriptions/**").permitAll()
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().authenticated()
