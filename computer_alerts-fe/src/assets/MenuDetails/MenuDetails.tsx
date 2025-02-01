@@ -6,7 +6,7 @@ import ReaderRequestDTO from "features/readers/models/ReaderRequestDTO";
 import Logout from "../../features/auth/Login-Logout/Logout"; // Importing Logout component
 
 const MenuDetails: React.FC = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [, setErrorMessage] = useState<string | null>(null);
   const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,7 +23,6 @@ const MenuDetails: React.FC = () => {
     }
   }, []);
 
-  let URLDepTest = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
   // let URLDepHost = "http://localhost:8080/api/v1/";
 
   useEffect(() => {
@@ -33,6 +32,7 @@ const MenuDetails: React.FC = () => {
       let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
 
       try {
+        let URLDepTest = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
         const response = await fetch(`${URLDepTest}readers/${goodAuth0User}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");

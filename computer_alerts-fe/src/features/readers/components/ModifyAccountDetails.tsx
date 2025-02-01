@@ -14,8 +14,6 @@ const ModifyAccountDetails: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
 
-  let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
-
   // let URLDepTest = "http://localhost:8080/api/v1/";
 
   useEffect(() => {
@@ -30,6 +28,7 @@ const ModifyAccountDetails: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
       if (!auth0UserId) return;
 
       let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
@@ -71,6 +70,7 @@ const ModifyAccountDetails: React.FC = () => {
     let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
 
     try {
+      let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
       const response = await fetch(`${URLDeploy}readers/${goodAuth0User}`, {
         method: "PUT",
         headers: {
