@@ -67,7 +67,7 @@ const ModifyAccountDetails: React.FC = () => {
       return;
     }
 
-    let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
+    // let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
 
     try {
       let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
