@@ -5,10 +5,10 @@ import { DecodeToken } from "assets/DecodeToken";
 
 const ModifyAccountDetails: React.FC = () => {
   const [formData, setFormData] = useState<ReaderRequestDTO>({
-    emailAddress: "",
-    firstName: "",
-    lastName: "",
-    address: "",
+    emailAddress: "reader2@gmail.com",
+    firstName: "James",
+    lastName: "Due",
+    address: "2750 rue Jean-Drapeau",
   });
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -71,7 +71,8 @@ const ModifyAccountDetails: React.FC = () => {
 
     try {
       let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
-      const response = await fetch(`${URLDeploy}readers/${goodAuth0User}`, {
+      // const response = await fetch(`${URLDeploy}readers/${goodAuth0User}`, {
+        const response = await fetch(`${URLDeploy}readers/auth0%7C678920c84d650d4d4b64cee4`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
