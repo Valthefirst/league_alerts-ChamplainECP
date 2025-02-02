@@ -100,6 +100,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.PUT, "/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.GET, "/api/v1/send-email/**").permitAll()
 
+                                .pathMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
+                                .pathMatchers(HttpMethod.POST, "/api/v1/categories/**").permitAll()
 
                                 .pathMatchers(HttpMethod.GET, "/api/v1/subscriptions/**").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/v1/subscriptions/**").permitAll()

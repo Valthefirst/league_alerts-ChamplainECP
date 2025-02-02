@@ -13,8 +13,12 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesRequestModel;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
@@ -127,4 +131,21 @@ public class EntityModelUtil {
         return shareResponseModel;
 
     }
+
+    public static Categories toCategoriesEntity(CategoriesRequestModel categoriesRequestModel) {
+        return Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName(categoriesRequestModel.getCategoryName())
+                .build();
+    }
+
+    public static CategoriesResponseModel toCategoriesResponseModel(Categories categories) {
+        CategoriesResponseModel categoriesResponseModel = new CategoriesResponseModel();
+        BeanUtils.copyProperties(categories, categoriesResponseModel);
+        categoriesResponseModel.setCategoryId(categories.getCategoriesIdentifier().getCategoryId());
+        categoriesResponseModel.setCategoryName(categories.getCategoryName());
+        return categoriesResponseModel;
+    }
+
+
 }

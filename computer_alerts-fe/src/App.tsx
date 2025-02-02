@@ -117,6 +117,9 @@ function App(): JSX.Element {
           />
           <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+
+          <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
+
         </Routes>
       </Router>
 
