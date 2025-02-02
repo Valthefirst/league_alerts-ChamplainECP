@@ -22,6 +22,9 @@ const ModifyAccountDetails: React.FC = () => {
       const decodedToken = DecodeToken(token);
       if (decodedToken) {
         setAuth0UserId(decodedToken.sub);
+
+        
+        
       }
     }
   }, []);
@@ -60,12 +63,12 @@ const ModifyAccountDetails: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!auth0UserId) {
-      setErrorMessage(
-        "You do not currently exist in our system, please contact someone or create new account",
-      );
-      return;
-    }
+    // if (!auth0UserId) {
+    //   setErrorMessage(
+    //     "You do not currently exist in our system, please contact someone or create new account",
+    //   );
+    //   return;
+    // }
 
     // let goodAuth0User = auth0UserId.replace(/\|/g, "%7C");
 
