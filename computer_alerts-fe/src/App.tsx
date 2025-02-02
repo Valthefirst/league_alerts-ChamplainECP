@@ -29,6 +29,7 @@ import GoogleTranslateLoader from "utils/GoogleTranslateLoader";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
+import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 
 const Navbar = () => {
   const location = useLocation();
