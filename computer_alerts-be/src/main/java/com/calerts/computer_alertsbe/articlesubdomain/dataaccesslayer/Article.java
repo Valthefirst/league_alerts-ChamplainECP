@@ -1,5 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class Article {
     private Integer wordCount;
     @Field("article_status")
     private ArticleStatus articleStatus;
-    private String category;
+    private Categories category;
 
     @Embedded
     AuthorIdentifier authorIdentifier;
