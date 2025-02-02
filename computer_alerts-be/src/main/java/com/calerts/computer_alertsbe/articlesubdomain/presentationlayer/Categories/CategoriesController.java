@@ -16,7 +16,6 @@ public class CategoriesController {
         this.categoriesService = categoriesService;
     }
 
-    // TODO: Implement the logic for fetching and managing categories
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<CategoriesResponseModel> getAllCategories() {
         return categoriesService.getAllSportCategories();
