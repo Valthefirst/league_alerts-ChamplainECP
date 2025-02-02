@@ -30,13 +30,17 @@ const TrendingArticles: React.FC = () => {
   const navigate = useNavigate();
 
   const refreshLikedState = (articles: ArticleRequestModel[]) => {
-    const initialLikedState = articles.reduce((acc, article) => {
-      if (article.articleId) {
-        acc[article.articleId] =
-          localStorage.getItem(`article-${article.articleId}-liked`) === "true";
-      }
-      return acc;
-    }, {} as { [articleId: string]: boolean });
+    const initialLikedState = articles.reduce(
+      (acc, article) => {
+        if (article.articleId) {
+          acc[article.articleId] =
+            localStorage.getItem(`article-${article.articleId}-liked`) ===
+            "true";
+        }
+        return acc;
+      },
+      {} as { [articleId: string]: boolean },
+    );
     setLikedArticles(initialLikedState);
   };
 
@@ -62,7 +66,7 @@ const TrendingArticles: React.FC = () => {
       try {
         const data = await fetchAllsArticles();
         const sortedArticles = data.sort(
-          (a, b) => b.requestCount - a.requestCount
+          (a, b) => b.requestCount - a.requestCount,
         );
         const topArticles = sortedArticles.slice(0, 3);
         setTrendingArticles(topArticles);
@@ -87,7 +91,7 @@ const TrendingArticles: React.FC = () => {
         if (isLiked) {
           await unlikeArticle(
             articleId,
-            "06a7d573-bcab-4db3-956f-773324b92a80"
+            "06a7d573-bcab-4db3-956f-773324b92a80",
           );
           localStorage.setItem(`article-${articleId}-liked`, "false");
         } else {
@@ -142,7 +146,7 @@ const TrendingArticles: React.FC = () => {
     if (articleId) {
       try {
         await navigator.clipboard.writeText(
-          window.location.origin + `/articles/${articleId}`
+          window.location.origin + `/articles/${articleId}`,
         );
         await shareArticle(articleId, "06a7d573-bcab-4db3-956f-773324b92a80");
         setShowToast(true);

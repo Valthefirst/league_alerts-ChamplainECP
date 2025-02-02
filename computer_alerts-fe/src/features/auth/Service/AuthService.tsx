@@ -5,15 +5,9 @@ import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
   URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/"; // Your backend URL
 
-  
-
   private auth0Client: Auth0Client | null = null;
 
   private AUTH0_DOMAIN = process.env.REACT_APP_API_DOMAIN;
-
-
-
-  
 
   constructor() {
     this.initializeAuth0();
@@ -56,7 +50,6 @@ export class AuthService {
       const token = await this.getToken();
 
       localStorage.setItem("accessToken", token);
-      
     } else {
       console.log("Login failed.");
     }
@@ -116,9 +109,6 @@ export class AuthService {
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
-
-
-
       // First create the author
       const response = await fetch(this.URL + "create/Reader", {
         method: "POST",
@@ -135,11 +125,10 @@ export class AuthService {
 
       const readerResponse = await response.json();
 
-      
-      const roleId = "[rol_LOREG4N5742ObYCz]"; 
-      
-      const encodeAuthUserId = readerResponse.auth0UserId.replace("|","%7C") 
-         
+      const roleId = "[rol_LOREG4N5742ObYCz]";
+
+      const encodeAuthUserId = readerResponse.auth0UserId.replace("|", "%7C");
+
       await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Reader`, {
         method: "POST",
         headers: {
@@ -149,12 +138,12 @@ export class AuthService {
         body: JSON.stringify(roleId),
       });
 
-
-  
       return readerResponse;
     } catch (error: any) {
       console.error("Full error:", error);
-      throw new Error(error.response?.data || "Failed to create user or assign roles");
+      throw new Error(
+        error.response?.data || "Failed to create user or assign roles",
+      );
     }
   }
 
@@ -176,33 +165,30 @@ export class AuthService {
         throw new Error(error.message || "Failed to create author");
       }
 
-      
       const authorResponse = await response.json();
 
       // const managementApiToken = await this.getManagementApiToken();
-      const roleId = "[rol_W1iELc1CHmzBtfE4]"; 
-      
-      const encodeAuthUserId = authorResponse.auth0UserId.replace("|","%7C") 
-      
-         
+      const roleId = "[rol_W1iELc1CHmzBtfE4]";
+
+      const encodeAuthUserId = authorResponse.auth0UserId.replace("|", "%7C");
+
       await fetch(this.URL + `create/${encodeAuthUserId}/assign-role/Author`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
 
-           Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           //  Authorization: `Bearer ${managementApiToken}`,
         },
         body: JSON.stringify(roleId),
       });
-  
+
       return authorResponse;
     } catch (error) {
       console.error("Error in createAuthor:", error);
       throw error;
     }
   }
-
 }
 
 const authTokenService = new AuthService();

@@ -7,7 +7,7 @@
 
 const ArticleDetails: React.FC = () => {
   return <div></div>;
-}
+};
 //   const { id } = useParams<{ id: string }>(); // The articleId passed via route
 //   const [article, setArticle] = useState<ArticleRequestModel | null>(null);
 //   const [loading, setLoading] = useState<boolean>(true);

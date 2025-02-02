@@ -52,6 +52,8 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         // Completely public endpoints
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
+                                .pathMatchers(HttpMethod.PATCH, "/api/v1/readers/**").permitAll()
+                                .pathMatchers(HttpMethod.PUT, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
 

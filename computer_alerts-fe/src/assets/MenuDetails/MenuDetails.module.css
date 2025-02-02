@@ -1,0 +1,19 @@
+li {
+  border: 0.1px solid grey;
+  color: black;
+  padding: 10px;
+  margin: 0;
+  text-decoration: none;
+}
+li:hover {
+  background-color: lightgrey;
+  color: aliceblue;
+}
+p {
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

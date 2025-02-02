@@ -6,7 +6,7 @@ export default function GoogleTranslateLoader(): null {
     const addScript = document.createElement("script");
     addScript.setAttribute(
       "src",
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit",
     );
     addScript.async = true;
     addScript.defer = true;
@@ -21,7 +21,7 @@ export default function GoogleTranslateLoader(): null {
           autoDisplay: false,
           includedLanguages: "en,fr", // Specify supported languages
         },
-        "google_translate_element"
+        "google_translate_element",
       );
     };
 
@@ -46,7 +46,7 @@ export default function GoogleTranslateLoader(): null {
     // Use MutationObserver to dynamically hide the iframe
     const observer = new MutationObserver(() => {
       const iframe = document.querySelector(
-        "iframe.goog-te-banner-frame"
+        "iframe.goog-te-banner-frame",
       ) as HTMLIFrameElement; // Type assertion to ensure TypeScript recognizes iframe
       if (iframe) {
         iframe.style.display = "none"; // Safely access 'style'

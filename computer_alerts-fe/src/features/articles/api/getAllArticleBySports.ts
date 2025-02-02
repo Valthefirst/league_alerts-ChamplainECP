@@ -6,15 +6,9 @@ export const fetchArticleByCategory = async (
 ): Promise<ArticleRequestModel[]> => {
   console.log("Fetching articles by category");
   try {
-    
-
-    
-
     const response = await axiosInstance.get<ArticleRequestModel[]>(
       `/articles/categories/${category}`,
-      {
-        
-      },
+      {},
     );
     return response.data;
   } catch (err) {
