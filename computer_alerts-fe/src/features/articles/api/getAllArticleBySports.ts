@@ -10,6 +10,8 @@ export const fetchArticleByCategory = async (
       `/articles/categories/${category}`,
       {},
     );
+    console.log("API Response: ", response.data);
+    console.log("API Response: ", category);
     return response.data;
   } catch (err) {
     console.error("error fetching articles by category", err);

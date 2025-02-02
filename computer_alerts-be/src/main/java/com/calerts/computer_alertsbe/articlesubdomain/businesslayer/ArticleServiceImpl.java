@@ -192,7 +192,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         private Mono<Void> notifySubscribers(Article article) {
-        return subscriptionRepository.findByCategory(article.getCategory())  // Returns Flux<Subscription>
+        return subscriptionRepository.findByCategory(article.getCategory().getCategoryName())  // Returns Flux<Subscription>
                 .flatMap(subscription -> {
                     String emailBody = buildEmailContent(article);
                     return emailSenderService.sendEmail(subscription.getUserEmail(),

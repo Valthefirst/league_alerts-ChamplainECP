@@ -55,6 +55,8 @@ const ArticleDetails: React.FC = () => {
           setArticle(articleData);
           setLikeCount(articleData.likeCount);
 
+          console.log(articleData.category);
+
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
         } else {
