@@ -12,7 +12,9 @@ export enum AppRoutePaths {
   MLB = "/mlb",
   CREATE_ACCOUNT = "/create-account",
   SavedArticles = "/saved-articles",
+  AddCategory = "/addCategory",
   ModifyAccountDetails = "/modify-account",
+
 
   //
   //

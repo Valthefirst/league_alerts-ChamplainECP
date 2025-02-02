@@ -29,7 +29,9 @@ import GoogleTranslateLoader from "utils/GoogleTranslateLoader";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
+import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
+
 
 const Navbar = () => {
   const location = useLocation();
@@ -119,6 +121,9 @@ function App(): JSX.Element {
             element={<SavedArticlesPage />}
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
+
+          <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
+
         </Routes>
       </Router>
 

@@ -2,6 +2,7 @@ package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
 
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,9 +13,9 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
         Mono<Article> findArticleByArticleIdentifier_ArticleId(String articleId);
 
 
+
+        @Query("{ 'category.categoryName': ?0 }")
         Flux<Article> findAllArticleByCategory(String category);
-
-
 
         Flux<Article> findByCategoryContainingAndTitleContainingIgnoreCase(
                 String category,
