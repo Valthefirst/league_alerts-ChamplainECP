@@ -11,6 +11,8 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleR
 import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.articlesubdomain.subscription.SubscriptionRepository;
 import com.calerts.computer_alertsbe.emailingsubdomain.EmailSenderService;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+//import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;

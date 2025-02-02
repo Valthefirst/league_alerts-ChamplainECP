@@ -22,6 +22,8 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categori
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
+import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderRequestModel;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
@@ -33,6 +35,15 @@ public class EntityModelUtil {
         ReaderResponseModel readerResponseModel = new ReaderResponseModel();
         BeanUtils.copyProperties(reader, readerResponseModel);
         return readerResponseModel;
+    }
+    public static ReaderResponseModel toReaderEntity(Reader reader) {
+        return ReaderResponseModel.builder()
+                .emailAddress(reader.getEmailAddress())
+                .firstName(reader.getFirstName())
+                .lastName(reader.getLastName())
+                .address(reader.getAddress())
+                .auth0UserId(reader.getAuth0userId())
+                .build();
     }
 
     public static ArticleResponseModel toArticleResponseModel(Article article) {

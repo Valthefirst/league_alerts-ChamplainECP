@@ -67,10 +67,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
         try {
           const response = await getAllSaves(readerId);
           const data = response;
-          const savedStates = data.reduce((acc: { [key: string]: SaveModel }, save: SaveModel) => {
-            acc[save.articleId] = save;
-            return acc;
-          }, {});
+          const savedStates = data.reduce(
+            (acc: { [key: string]: SaveModel }, save: SaveModel) => {
+              acc[save.articleId] = save;
+              return acc;
+            },
+            {},
+          );
           setSavedArticles(savedStates);
         } catch (err) {
           console.error("Error fetching saved states:", err);
@@ -78,7 +81,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
       };
       fetchSavedStates();
     };
-  
+
     initializeSavedState();
   }, [readerId]);
 
@@ -111,7 +114,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   const handleSaveToggle = async (articleId: string) => {
     try {
       const isSaved = savedArticles[articleId];
-  
+
       if (isSaved) {
         // Remove the save
         await deleteSave(isSaved.saveId);
@@ -135,7 +138,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
       console.error("Error toggling save:", err);
     }
   };
-  
+
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
       navigate(`/articles/${articleId}`);
@@ -216,14 +219,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                     {likedArticles[article.articleId || ""] ? 1 : 0}
                   </p>
                   <div>
-                  <Button
-  className="bookmark-btn"
-  onClick={() => article.articleId && handleSaveToggle(article.articleId)}
->
-  <i className={`bi ${savedArticles[article.articleId] ? 'bi-bookmark-fill' : 'bi-bookmark'}`}></i>
-  {savedArticles[article.articleId] ? 'Unsave' : 'Save'}
-</Button>
-              </div>
+                    <Button
+                      className="bookmark-btn"
+                      onClick={() =>
+                        article.articleId && handleSaveToggle(article.articleId)
+                      }
+                    >
+                      <i
+                        className={`bi ${savedArticles[article.articleId] ? "bi-bookmark-fill" : "bi-bookmark"}`}
+                      ></i>
+                      {savedArticles[article.articleId] ? "Unsave" : "Save"}
+                    </Button>
+                  </div>
                   <img
                     src={shareIcon}
                     alt="Share"

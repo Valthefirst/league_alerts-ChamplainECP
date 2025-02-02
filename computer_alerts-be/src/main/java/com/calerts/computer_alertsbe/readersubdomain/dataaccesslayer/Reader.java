@@ -15,19 +15,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 public class Reader {
-
     @Id
     private String id;
-
     @Embedded
     private ReaderIdentifier readerIdentifier;
-
-
     private String emailAddress;
-
     private String firstName;
     private String lastName;
-
+    private String address;
     private String auth0userId;
+    private AccountStatus accountStatus;
 
 }

@@ -22,14 +22,11 @@ export const likeArticle = async (
       },
     });
   } catch (error: any) {
-    
     if (error.response && error.response.status === 401) {
-      
-      
-      window.location.href = "/unauthorized"; 
+      window.location.href = "/unauthorized";
     } else {
       console.error("Error in unlikeArticle API call:", error);
     }
-    throw error; 
+    throw error;
   }
 };

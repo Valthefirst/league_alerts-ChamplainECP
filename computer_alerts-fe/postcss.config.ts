@@ -1,5 +1,5 @@
 module.exports = {
-    plugins: {
-      'postcss-svgo': false, // Disable SVG optimization
-    },
-  };
+  plugins: {
+    "postcss-svgo": false, // Disable SVG optimization
+  },
+};

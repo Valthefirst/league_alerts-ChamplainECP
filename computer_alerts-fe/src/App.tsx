@@ -30,6 +30,8 @@ import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
 import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
+import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
+
 
 const Navbar = () => {
   const location = useLocation();
@@ -57,15 +59,19 @@ function App(): JSX.Element {
   return (
     <div>
       <GoogleTranslateLoader />
-        <Router>
-          <Navbar />
-      
+      <Router>
+        <Navbar />
 
         <Routes>
           <Route path={AppRoutePaths.HomePage} element={<HomePage />} />
           <Route
             path={AppRoutePaths.CREATE_ACCOUNT}
             element={<CreateUserForm />}
+          />
+
+          <Route
+            path={AppRoutePaths.ModifyAccountDetails}
+            element={<ModifyAccountDetails />}
           />
 
           <Route
@@ -76,9 +82,6 @@ function App(): JSX.Element {
           <Route path="/articles/:id" element={<ArticleDetails />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorsPage />} />
           <Route path="/authors/:authorId" element={<AuthorPage />} />
-
-
-         
 
           <Route
             path={AppRoutePaths.AuthorHomePage}
@@ -112,11 +115,11 @@ function App(): JSX.Element {
             path={AppRoutePaths.AutherDrafts}
             element={<ArtifleDrafts />}
           />
+          <Route path="/unauthorized" element={<UnAuthorized />} />
           <Route
-            path="/unauthorized"
-            element={<UnAuthorized />}
+            path={AppRoutePaths.SavedArticles}
+            element={<SavedArticlesPage />}
           />
-          <Route path={AppRoutePaths.SavedArticles} element={<SavedArticlesPage />} />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
 
           <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />

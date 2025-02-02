@@ -226,25 +226,42 @@ package "Authentication Subdomain" {
     class AuthController {
         + authenticate(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
         + registerUser(userRequest: UserRequestDTO) : ResponseEntity<UserResponseModel>
+        + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
+        + assignRoleAuthor (userId: String) : Void
+	    + handle0Auth2Callback(0Auth2CallbackRequest request) : UserResponseDTO
     }
 
     class UserService {
         + authenticate(userRequest: UserRequestDTO) : UserResponseModel
         + registerUser(userRequest: UserRequestDTO) : UserResponseModel
+        + createAuthor(authorRequestDto: AuthorRequestDTO) : ResponseEntity<AuthResponseModel>
+        + assignRoleAuthor (userId: String) : Void
+	    + signInWithGoogle(request:0Auth2CallbackRequest) : UserResponseModel
+	    + signInWithFacebook(request:0Auth2CallbackRequest) : UserResponseModel
+	    + processAuth0SignIn(readerRequest: ReaderRequestDTO) : ReaderResponseDTO
+	    + checkReaderExistence(emailAddress: String)
+	    + createReaderFromAuth0(readerRequest: ReaderRequestDTO) : ReaderRequestDTO
     }
 
     class UserRepository {
         + findByUsername(username: String) : Optional<User>
         + save(user: User) : User
+	    + findUserByEmailAddress(emailAddress : String) : Reader
     }
 
-    class UserResponseModel {
-        - userId: String
-        - token: String
+    class AuthorResponseModel {
+         - firstName: String
+        - lastName: String
+        - email: String
+    }
+    class 0Auth2CallBackRequest {
+	- token: String
     }
 
-    class UserRequestDTO {
-        - username: String
+    class AuthorRequestDTO {
+        - firstName: String
+        - lastName: String
+        - email: String
         - password: String
     }
 
@@ -267,6 +284,8 @@ package "Reader Subdomain" {
         + createReader(readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
         + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
         + deleteReader(readerId: String) : ResponseEntity<Void>
+        + updateReaderDetails(auth0UserId: String, readerRequest: ReaderRequestModel) : ResponseEntity<ReaderResponseModel>
+        + getReaderByAuthUserId(auth0UserId: String) : ResponseEntity<ReaderResponseModel>
     }
 
     class ReaderService {
@@ -274,29 +293,39 @@ package "Reader Subdomain" {
         + createReader(readerRequest: ReaderRequestModel) : ReaderResponseModel
         + updateReader(readerId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
         + deleteReader(readerId: String) : void
+        + updateReaderDetails(auth0UserId: String, readerRequest: ReaderRequestModel) : ReaderResponseModel
+        + getReaderByAuthUserId(auth0UserId: String) : RaderResponseModel
     }
 
     class ReaderRepository {
-        + findById(readerId: String) : Optional<Reader>
+        + findByReaderId(readerId: String) : Optional<Reader>
         + save(reader: Reader) : Reader
-        + deleteById(readerId: String) : void
+        + deleteByReaderId(readerId: String) : void
+        + findByReaderAuth0UserId(auth0UserId: String)
     }
 
     class Reader {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     class ReaderRequestModel {
-        - name: String
+        - readerId: String
+        - firstName: String
+        - lastName: String
+        - auth0userId: String
         - email: String
     }
 
     class ReaderResponseModel {
         - readerId: String
-        - name: String
-        - email: String
+        - firstName: String
+        - lastName: String
+        - auth0userId: String
+        - emailAddress: String
     }
 
     ReaderController --> ReaderService

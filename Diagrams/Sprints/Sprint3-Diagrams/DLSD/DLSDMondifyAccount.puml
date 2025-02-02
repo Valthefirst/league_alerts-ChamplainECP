@@ -1,0 +1,56 @@
+@startuml
+title Design Level Sequence Diagram for Modifying Account Details
+
+actor User
+participant "ReactApplication" as RA
+participant "AccountPage" as ReaderPage
+participant "ReaderController" as Controller
+participant "ReaderService" as Service
+participant "ReaderRepository" as Repository
+participant "ReaderRequestModel" as RequestModel
+participant "ReaderResponseModel" as ResponseModel
+database "Database" as DB
+
+User -> RA : Navigates to Account Page
+RA -> AccountPage : Loads account details
+activate AccountPage
+
+AccountPage -> Controller : GET /api/v1/readers/{auth0UserId}
+activate Controller
+Controller -> Service : getReaderByAuth0UserId(auth0UserId)
+activate Service
+Service -> Repository : findByAuth0UserId(auth0UserId)
+activate Repository
+Repository -> DB : SELECT * FROM Reader WHERE id = {auth0UserId}
+DB --> Repository : Reader Entity
+deactivate Repository
+Repository --> Service : Reader Entity
+Service --> Controller : ReaderResponseModel
+Controller --> AccountPage : ReaderResponseModel
+deactivate Controller
+
+ReaderPage --> User : Displays Reader details
+User -> ReaderPage : Submits updated Reader details (name, email, password)
+ReaderPage -> Controller : PUT /api/v1/Readers/{auth0UserId} with ReaderRequestModel
+activate Controller
+Controller -> Service : updateReaderDetails(auth0UserId, ReaderRequestModel)
+activate Service
+Service -> Repository : findById(auth0UserId)
+activate Repository
+Repository -> DB : SELECT * FROM Reader WHERE id = {auth0UserId}
+DB --> Repository : Reader Entity
+deactivate Repository
+Repository --> Service : Reader Entity
+
+Service -> Repository : save(updatedReaderDetails)
+Repository -> DB : UPDATE Reader SET name, email, password WHERE id = {userId}
+DB --> Repository : Updated Reader Entity
+Repository --> Service : Updated Reader Entity
+Service --> Controller : ReaderResponseModel
+deactivate Service
+Controller --> ReaderPage : ReaderResponseModel
+deactivate Controller
+
+ReaderPage --> User : Displays updated Reader details
+
+@enduml

@@ -13,6 +13,8 @@ export enum AppRoutePaths {
   CREATE_ACCOUNT = "/create-account",
   SavedArticles = "/saved-articles",
   AddCategory = "/addCategory",
+  ModifyAccountDetails = "/modify-account",
+
 
   //
   //
