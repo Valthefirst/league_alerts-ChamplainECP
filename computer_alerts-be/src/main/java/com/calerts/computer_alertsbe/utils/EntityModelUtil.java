@@ -58,15 +58,22 @@ public class EntityModelUtil {
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
         articleResponseModel.setPhotoUrl(article.getPhotoUrl());
+        articleResponseModel.setCategory(article.getCategory().getCategoryName());
+
+
         return articleResponseModel;
     }
+
 
     public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
         return  Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .category(Categories.builder().categoryName(articleRequestModel.getCategory()).build())
+                .category(Categories.builder()
+                        .categoriesIdentifier(new CategoriesIdentifier())
+                        .categoryName(articleRequestModel.getCategory())
+                        .build())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
