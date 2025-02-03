@@ -4,9 +4,9 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.SaveRepository;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.SaveRequestModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.SaveResponseModel;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
+//import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
-import com.calerts.computer_alertsbe.utils.exceptions.DuplicateSaveException;
+//import com.calerts.computer_alertsbe.utils.exceptions.DuplicateSaveException;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,16 @@ import reactor.core.publisher.Mono;
 public class SaveServiceImpl implements SaveService{
 
     private final SaveRepository saveRepository;
-    private final ArticleRepository articleRepository;
 
-    public SaveServiceImpl(SaveRepository saveRepository, ArticleRepository articleRepository) {
+    public SaveServiceImpl(SaveRepository saveRepository) {
         this.saveRepository = saveRepository;
-        this.articleRepository = articleRepository;
     }
+//    private final ArticleRepository articleRepository;
+
+//    public SaveServiceImpl(SaveRepository saveRepository, ArticleRepository articleRepository) {
+//        this.saveRepository = saveRepository;
+//        this.articleRepository = articleRepository;
+//    }
 
     @Override
     public Flux<SaveResponseModel> getAllSaves(String readerId) {

@@ -108,6 +108,7 @@ public class SecurityConfig {
                                 .pathMatchers(HttpMethod.GET, "/api/v1/subscriptions/**").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/v1/subscriptions/**").permitAll()
                                 .pathMatchers(HttpMethod.DELETE, "/api/v1/subscriptions/**").permitAll()
+                                .pathMatchers(HttpMethod.GET, "api/v1/reports/**").hasAuthority("admin:articles")
 
                         // Catch-all to require authentication for other endpoints
                         .anyExchange().authenticated()

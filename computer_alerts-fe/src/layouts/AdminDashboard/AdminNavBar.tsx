@@ -34,6 +34,12 @@ export default function AuthorNavBar(): JSX.Element {
             >
               Review Pending Articles
             </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to={AppRoutePaths.AdminReports}
+              className="nav-link">
+              Reports
+            </Nav.Link>
 
              {/* Dropdown for "Others" */}
              <NavDropdown title="Others" id="others-dropdown">
