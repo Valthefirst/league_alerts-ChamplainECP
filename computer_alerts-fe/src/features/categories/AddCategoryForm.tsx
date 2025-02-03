@@ -5,6 +5,7 @@ import "./AddCategoryForm.css";
 import { fetchAllsArticles } from "./api/getAllCategories";
 import { addNewCategories } from "./api/addNewCategory";
 
+
 // Category Model
 interface Category {
   id: string;
