@@ -2,8 +2,12 @@ package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.Tags;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.TagsIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 //import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesRequestModel;
 import com.calerts.computer_alertsbe.utils.exceptions.BadRequestException;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
@@ -60,13 +64,17 @@ class ArticleServiceUnitTest {
                 .body("This is a valid body of the article.")
                 .build();
 
+        Categories categoryNBA = Categories.builder()
+                .categoryName("NBA")
+                .build();
+
         Article expectedArticle = Article.builder()
                 .articleIdentifier(validArticleId)
                 .title(content.getTitle())
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categoryNBA)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -98,20 +106,24 @@ class ArticleServiceUnitTest {
                 .body("This is a valid body of the article.")
                 .build();
 
+        Categories categoryNFL = Categories.builder()
+                .categoryName("NBA")
+                .build();
+
         Article expectedArticle = Article.builder()
                 .articleIdentifier(validArticleId)
                 .title(content.getTitle())
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categoryNFL)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("\"https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg\"")
                 .build();
 
         // Mock the repository to return a Flux<Article>
-        when(articleRepository.findAllArticleByCategory(expectedArticle.getCategory()))
+        when(articleRepository.findAllArticleByCategory(expectedArticle.getCategory().getCategoryName()))
                 .thenReturn(Flux.just(expectedArticle)); // Return Flux<Article>
 
         // Act and Assert using StepVerifier
@@ -135,6 +147,10 @@ class ArticleServiceUnitTest {
                 .body("This is a valid body of the article.")
                 .build();
 
+        Categories categoryNFL = Categories.builder()
+                .categoryName("NBA")
+                .build();
+
         // Create two articles with non-zero request counts
         Article expectedArticle1 = Article.builder()
                 .articleIdentifier(validArticleId)
@@ -142,7 +158,7 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categoryNFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .requestCount(5) // Non-zero request count
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -154,7 +170,7 @@ class ArticleServiceUnitTest {
                 .body(content.getBody())
                 .wordCount(Content.calculateWordCount(content.getBody()))
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categoryNFL)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .requestCount(3)
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")// Non-zero request count
@@ -271,13 +287,16 @@ class ArticleServiceUnitTest {
                 .category("NBA")
                 .build();
 
+
         Article savedArticle = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title(validArticleRequest.getTitle())
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .category(validArticleRequest.getCategory())
+                .category(Categories.builder()
+                        .categoryName(validArticleRequest.getCategory())
+                        .build())
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
@@ -312,7 +331,9 @@ class ArticleServiceUnitTest {
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.DRAFT)
-                .category(validArticleRequest.getCategory())
+                .category(Categories.builder()
+                        .categoryName(validArticleRequest.getCategory())
+                        .build())
                 .requestCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
@@ -435,8 +456,12 @@ class ArticleServiceUnitTest {
     @Test
     void searchArticles_ShouldReturnMatchingArticles() {
         // Arrange
-        String tag = "NBA";
+
         String query = "Test";
+
+        Categories categories = Categories.builder()
+                .categoryName("NBA")
+                .build();
 
         Article article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -444,7 +469,7 @@ class ArticleServiceUnitTest {
                 .body("This is a test article 1")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category(tag)
+                .category(categories)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -456,23 +481,23 @@ class ArticleServiceUnitTest {
                 .body("This is a test article 2")
                 .wordCount(5)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category(tag)
+                .category(categories)
                 .likeCount(0)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
                 .build();
 
         // Mock the repository to return a Flux<Article>
-        when(articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(tag, query))
+        when(articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(categories.getCategoryName(), query))
                 .thenReturn(Flux.just(article1, article2));
 
         // Act and Assert using StepVerifier
-        StepVerifier.create(articleService.searchArticles(tag, query))
+        StepVerifier.create(articleService.searchArticles(categories.getCategoryName(), query))
                 .expectNextMatches(actualArticles -> actualArticles.size() == 2)
                 .verifyComplete();
 
         // Verify that the repository method was called with the correct arguments
-        verify(articleRepository).findByCategoryContainingAndTitleContainingIgnoreCase(tag, query);
+        verify(articleRepository).findByCategoryContainingAndTitleContainingIgnoreCase(categories.getCategoryName(), query);
 
 
 
@@ -489,12 +514,16 @@ class ArticleServiceUnitTest {
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
 
+        Categories categories = Categories.builder()
+                .categoryName("NFL")
+                .build();
+
         Article existingArticle = Article.builder()
                 .articleIdentifier(new ArticleIdentifier(validArticleId))
                 .title("Old Title")
                 .body("Old body")
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .category("NFL")
+                .category(categories)
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
@@ -505,7 +534,9 @@ class ArticleServiceUnitTest {
                 .body(validArticleRequest.getBody())
                 .wordCount(validArticleRequest.getWordCount())
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .category(validArticleRequest.getCategory())
+                .category(Categories.builder()
+                        .categoryName(validArticleRequest.getCategory())
+                        .build())
                 .timePosted(ZonedDateTime.now().toLocalDateTime())
                 .build();
 

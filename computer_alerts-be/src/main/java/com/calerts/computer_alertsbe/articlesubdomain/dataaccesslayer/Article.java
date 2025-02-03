@@ -1,6 +1,7 @@
 package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.Tags;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
