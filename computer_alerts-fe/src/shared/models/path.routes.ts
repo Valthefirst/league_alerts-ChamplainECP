@@ -14,7 +14,6 @@ export enum AppRoutePaths {
   SavedArticles = "/saved-articles",
   AddCategory = "/addCategory",
   ModifyAccountDetails = "/modify-account",
-  addNewTag = "/addTagForm",
 
 
   //

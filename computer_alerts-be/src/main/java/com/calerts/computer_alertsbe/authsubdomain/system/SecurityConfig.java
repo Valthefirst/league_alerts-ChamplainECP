@@ -105,12 +105,6 @@ public class SecurityConfig {
                                 .pathMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/v1/categories/**").permitAll()
 
-                                .pathMatchers(HttpMethod.GET, "/api/v1/tags/**").permitAll()
-
-                                .pathMatchers(HttpMethod.POST, "/api/v1/tags/**").permitAll()
-
-
-
                                 .pathMatchers(HttpMethod.GET, "/api/v1/subscriptions/**").permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/v1/subscriptions/**").permitAll()
                                 .pathMatchers(HttpMethod.DELETE, "/api/v1/subscriptions/**").permitAll()

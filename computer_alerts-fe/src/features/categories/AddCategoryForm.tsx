@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-import "./AddCategoryForm.css";
-import { fetchAllsArticles } from "./api/getAllCategories";
 import { addNewCategories } from "./api/addNewCategory";
-
+import { fetchAllsArticles } from "./api/getAllCategories";
+import "./AddCategoryForm.css";
 
 // Category Model
 interface Category {
