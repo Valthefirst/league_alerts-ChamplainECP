@@ -1,6 +1,16 @@
 import axiosInstance from "../model/reportAxiosInstance";
 import { ReportModel } from "../model/ReportModel";
 
+// export const createReport = async (): Promise<ReportModel> => {
+//     try {
+//         const response = await axiosInstance.get<ReportModel>('');
+//         return response.data;
+//     } catch (err) {
+//         console.error("Error fetching report", err);
+//         throw err;
+//     }
+// }
+
 export const createReport = async (): Promise<ReportModel> => {
     try {
         const accessToken = localStorage.getItem("accessToken");
