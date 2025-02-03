@@ -28,7 +28,7 @@ public class Article {
     private Integer wordCount;
     @Field("article_status")
     private ArticleStatus articleStatus;
-    private String category;
+    private Categories category;
 
     @Embedded
     AuthorIdentifier authorIdentifier;
