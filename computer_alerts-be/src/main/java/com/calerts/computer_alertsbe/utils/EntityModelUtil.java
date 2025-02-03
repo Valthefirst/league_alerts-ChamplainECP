@@ -15,14 +15,10 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIde
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.Tags;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.TagsIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesResponseModel;
-import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Tags.TagsRequestModel;
-import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Tags.TagsResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
@@ -58,23 +54,15 @@ public class EntityModelUtil {
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
         articleResponseModel.setPhotoUrl(article.getPhotoUrl());
-        articleResponseModel.setCategory(article.getCategory().getCategoryName());
-
-
         return articleResponseModel;
     }
-
 
     public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
         return  Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .category(Categories.builder()
-                        .categoriesIdentifier(new CategoriesIdentifier())
-                        .categoryName(articleRequestModel.getCategory())
-                        .build())
-
+                // .category(articleRequestModel.getCategory())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
@@ -170,22 +158,5 @@ public class EntityModelUtil {
         return categoriesResponseModel;
     }
 
-
-    public static TagsResponseModel toTagsResponseModel(Tags tags) {
-        TagsResponseModel tagsResponseModel = new TagsResponseModel();
-        BeanUtils.copyProperties(tags, tagsResponseModel);
-        tagsResponseModel.setTagId(tags.getTagsIdentifier().getTagId());
-        tagsResponseModel.setTagName(tags.getTagName());
-        return tagsResponseModel;
-
-    }
-
-
-    public static Tags toTagsEntity(TagsRequestModel tagsRequestModel) {
-        return Tags.builder()
-                .tagsIdentifier(new TagsIdentifier())
-                .tagName(tagsRequestModel.getTagName())
-                .build();
-    }
 
 }

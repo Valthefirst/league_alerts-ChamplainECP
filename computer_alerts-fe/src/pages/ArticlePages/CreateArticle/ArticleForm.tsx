@@ -8,7 +8,6 @@ import {
 
 import "./ArticleForm.css";
 import { uploadImage } from "features/articles/api/uploadImage";
-import { useNavigate } from "react-router-dom";
 
 const ArticleForm = () => {
   const [formData, setFormData] = useState<ArticleRequestModelI>({
@@ -31,7 +30,6 @@ const ArticleForm = () => {
   const [successMessageText, setSuccessMessageText] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
-  const navigate = useNavigate();
 
   enum TagsTagEnum {
     Tag1 = "NBA",
@@ -50,10 +48,6 @@ const ArticleForm = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const handleAddTag = () => {
-    navigate("/addTagForm"); 
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,12 +240,6 @@ const ArticleForm = () => {
             <option value={TagsTagEnum.Tag5}>MLB</option>
           </select>
         </div>
-
-        <div className="add-tag-button">
-      <button type="button" className="submit-button" onClick={handleAddTag}>
-        Add Tag
-      </button>
-    </div>
 
         {/* Submit Buttons */}
         <div className="row">

@@ -106,11 +106,6 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + articleId: UUID
         }
 
-        VALUE_OBJECT(Tags) #bisque{
-        + tagId: UUID
-        + tagName: string
-        }
-
         VALUE_OBJECT(Categories) #bisque{
             + id
             + categoryName: string

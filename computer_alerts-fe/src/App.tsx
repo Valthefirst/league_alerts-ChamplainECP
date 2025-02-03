@@ -31,7 +31,6 @@ import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/A
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
 import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
-import AddTagForm from "features/tags/addTagForm";
 
 
 const Navbar = () => {
@@ -125,7 +124,6 @@ function App(): JSX.Element {
 
           <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
 
-          <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
         </Routes>
       </Router>
 
