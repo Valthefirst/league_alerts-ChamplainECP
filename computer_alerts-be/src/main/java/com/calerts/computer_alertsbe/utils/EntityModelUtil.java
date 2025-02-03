@@ -15,6 +15,7 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIde
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesRepository;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesRequestModel;
@@ -26,10 +27,14 @@ import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdent
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderRequestModel;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
 public class EntityModelUtil {
+
+
+
 
     public static ReaderResponseModel toReaderResponseModel(Reader reader) {
         ReaderResponseModel readerResponseModel = new ReaderResponseModel();
@@ -48,21 +53,26 @@ public class EntityModelUtil {
 
     public static ArticleResponseModel toArticleResponseModel(Article article) {
         ArticleResponseModel articleResponseModel = new ArticleResponseModel();
+
+
         BeanUtils.copyProperties(article, articleResponseModel);
         articleResponseModel.setArticleId(article.getArticleIdentifier().getArticleId());
         articleResponseModel.setLikeCount(article.getLikeCount());
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
         articleResponseModel.setPhotoUrl(article.getPhotoUrl());
+        articleResponseModel.setCategory(article.getCategory().getCategoryName());
         return articleResponseModel;
     }
 
     public static Article toArticleEntity(ArticleRequestModel articleRequestModel) {
+
+
         return  Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .category(articleRequestModel.getCategory())
+                .category(Categories.builder().categoryName(articleRequestModel.getCategory()).build())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
