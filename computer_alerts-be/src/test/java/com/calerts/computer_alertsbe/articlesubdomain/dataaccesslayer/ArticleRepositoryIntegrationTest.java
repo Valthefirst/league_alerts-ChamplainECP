@@ -5,6 +5,7 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIde
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
 //import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ class ArticleRepositoryIntegrationTest {
         // Clean up the repository before each test to ensure isolation
         articleRepository.deleteAll().block();
 
+        Categories categories = Categories.builder()
+                .categoryName("NBA")
+                .build();
+
+        Categories categories2 = Categories.builder()
+                .categoryName("NFL")
+                .build();
+
         // Add sample data for testing
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -40,7 +49,7 @@ class ArticleRepositoryIntegrationTest {
                 .body("This is the body of article 1")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
@@ -52,7 +61,7 @@ class ArticleRepositoryIntegrationTest {
                 .body("This is the body of article 2")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -64,7 +73,7 @@ class ArticleRepositoryIntegrationTest {
                 .body("This is the body of article 3")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categories2)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -98,7 +107,7 @@ class ArticleRepositoryIntegrationTest {
         var tag = savedArticles.get(0).getCategory();
 
         // Act
-        var actualArticles = articleRepository.findAllArticleByCategory(tag).collectList().block();
+        var actualArticles = articleRepository.findAllArticleByCategory(tag.getCategoryName()).collectList().block();
 
         // Assert
         assertNotNull(actualArticles, "Retrieved articles should not be null");
@@ -116,7 +125,7 @@ class ArticleRepositoryIntegrationTest {
         var query = savedArticles.get(0).getTitle();
 
         // Act
-        var actualArticles = articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(tag, query).collectList().block();
+        var actualArticles = articleRepository.findByCategoryContainingAndTitleContainingIgnoreCase(tag.getCategoryName(), query).collectList().block();
 
         // Assert
         assertNotNull(actualArticles, "Retrieved articles should not be null");
@@ -142,7 +151,7 @@ class ArticleRepositoryIntegrationTest {
 
         var newTitle = "New Title";
         var newBody = "New Body";
-        var newCategory = "New Tag";
+        var newCategory = Categories.builder().categoryName("New Category").build();
         var newPhotoUrl = "https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg";
 
         actualArticle.setTitle(newTitle);
