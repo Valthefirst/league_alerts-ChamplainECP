@@ -1,6 +1,7 @@
 import { categoryRequestModel } from "features/articles/models/categoriesResponseModel";
 import axiosInstance from "./AxiosInstance/categoriesAxisoInstance";
 
+
 export const addNewCategories = async (newCategory: string): Promise<categoryRequestModel> => {
   try {
     const response = await axiosInstance.post<categoryRequestModel>("/categories", {

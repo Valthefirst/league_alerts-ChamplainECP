@@ -40,6 +40,12 @@ Container_Boundary(api, "API Application") {
         Component(article_related, "Article with Tags", "Spring Java", "Articles sorted by tags")
         Component(article_trending, "Article Trending", "TypeScript", "Articles with most viewed")
 
+
+        Component(tag_repository, "Tag Repository", "Spring Java", "Handles Queries for tags")
+        Component(tag_service, "Tag Service", "Spring Java", "Handle business logic for adding and fetching tags")
+        Component(tag_controller, "Tag Controller", "Spring Java", "Handles request and responses front the frontend")
+
+
     }
 
     Container_Boundary(email_subscription_container, "Email Subscription Container") {
@@ -109,10 +115,15 @@ Rel(auth_controller, auth_service, "uses")
 Rel(security_config,jwt_filter,"Uses")
 Rel(auth_service,reset_passwrd,"Calls")
 
+
+Rel(tag_controller, tag_service, "Calls")
+Rel(tag_service, tag_repository, "Uses")
+
 Rel(subscription_controller, subscription_service, "Calls")
 Rel(subscription_service, subscription_repository, "Uses")
 Rel(subscription_service, email_sender_service, "Triggers Email Notifications")
 Rel(subscription_repository, db, "Stores Subscription Data")
+
 
 
 

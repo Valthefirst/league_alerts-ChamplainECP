@@ -1,0 +1,150 @@
+@startuml editArticles
+skinparam packageStyle rectangle
+
+package "ArticleSubdomain" {
+
+    class ArticleController {
+        -articleService: ArticleService
+       + addNewSportCategory(categoryName: String): Mono<String>
+
+    }
+
+    class ArticleResponseModel {
+        - String title;
+        - String body;
+        - int wordCount;
+        - ArticleStatus articleStatus;
+        - String categoryName;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
+    class ArticleRequestModel {
+        - String articleId;
+        - String title;
+        - String body;
+        - int wordCount;
+        - String categoryName;
+        - ArticleStatus articleStatus;
+        - String tags;
+        - LocalDateTime timePosted;
+        - String photoUrl;
+        - String articleDescription;
+    }
+
+    interface ArticleService {
+         + addNewSportCategory(categoryName: String): Mono<String>
+    }
+
+    class ArticleServiceImpl {
+        + addNewSportCategory(categoryName: String): Mono<String>
+
+    }
+
+    class Article {
+        - String id;
+        - articleIdentifer: ArticleIdentifer;
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+        - Categories: categoryName;
+        - articleStatus: ArticleStatus;
+        - tags: String;
+        - timePosted: LocalDateTime;
+        - photoUrl: String;
+        - articleDescription: String;
+    }
+
+    class Categories {
+        - id;
+        - categoryName: String;
+    }
+
+    class Content {
+        - title: String;
+        - body: String;
+        - wordCount: Integer;
+    }
+
+    enum ArticleStatus {
+        PUBLISHED
+        DRAFT
+        ARCHIVED
+    }
+
+    class ArticleIdentifer {
+        - articleId: String;
+        + ArticleIdentifer(articleId: String);
+    }
+
+    class Tags{
+        - TagsIdentifier: tagsIdentifier;
+        - String: tagName;
+    }
+
+    class TagsIdentifier{
+        - tagId: String;
+        + TagsIdentifier(tagId: String);
+    }
+
+   class TagsRepository{
+        + findTagsByTagName(tagName: String): Mono<Tags>
+    }
+
+    class TagsService{
+
+        + getAllTags(): Flux<Tags>
+        + createNewTags(tagName: String): Mono<Tags>
+    }
+
+    class TagsServiceImpl{
+     - tagsRepository: TagsRepository
+
+        + getAllTags(): Flux<Tags>
+        + addNewTag(tagName: String): Mono<Tags>
+    }
+
+    class TagsController{
+        - tagsService: TagsService
+        + getAllTags(): Flux<Tags>
+        + createNewTags(tagName: String): Mono<Tags>
+    }
+
+    class TagsResponseModel{
+        - String tagName;
+        - String tagId;
+    }
+
+    class TagsRequestModel{
+        - String tagName;
+        - String tagId;
+    }
+
+    TagsResponseModel <-- Tags
+    TagsRequestModel --> Tags
+    TagsController --> TagsService : uses
+    TagsServiceImpl --> TagsService : implements
+    TagsRepository --> TagsService : uses
+
+    TagsRequestModel --> TagsController
+
+    Tags --> TagsIdentifier
+
+
+    ArticleResponseModel <-- Article
+    ArticleRequestModel --> Article
+    ArticleController --> ArticleService : uses
+    ArticleServiceImpl --> ArticleService : implements
+
+    ArticleRequestModel --> ArticleController
+    Article --> ArticleIdentifer
+    Article --> Content
+    Article --> ArticleStatus
+    Article --> Categories
+
+    Article --> Tags
+}
+
+@enduml
