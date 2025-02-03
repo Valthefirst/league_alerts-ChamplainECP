@@ -7,13 +7,10 @@ import { ArticleResponseModel } from "features/articles/models/ArticleResponseMo
 import { fetchArticleByArticleId } from "features/articles/api/getSpecificArticle";
 
 const Dashboard: React.FC = () => {
-  const [report, setReport] = useState<ReportModel | null>(null);
   const [articlesWithTitles, setArticlesWithTitles] = useState<TopArticleModel[]>([]);
 
   useEffect(() => {
     createReport().then(async (data: ReportModel) => {
-      setReport(data);
-
       // Fetch titles for all articles
       const articlesWithTitles = await Promise.all(
         data.topArticles.map(async (article) => {
