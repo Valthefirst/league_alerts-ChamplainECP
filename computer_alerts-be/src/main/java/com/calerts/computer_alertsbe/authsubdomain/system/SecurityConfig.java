@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/api/v1/readers/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/api/v1/articles/**").permitAll()
                                 .pathMatchers(HttpMethod.PATCH, "/api/v1/articles/**").permitAll()
+                                .pathMatchers(HttpMethod.GET, "api/v1/reports/**").permitAll()
 
                                 .pathMatchers(HttpMethod.GET, "/api/v1/interactions/likes/**").hasAuthority("like:articles")
                                 .pathMatchers(HttpMethod.POST, "/api/v1/interactions/like/**").hasAuthority("like:articles")

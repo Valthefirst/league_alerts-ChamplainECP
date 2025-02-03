@@ -6,8 +6,8 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlay
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
-import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
+//import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
+//import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.ShareResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 
