@@ -2,37 +2,41 @@
 actor Reader
 participant Frontend as "<<UI>>\nFrontend"
 participant EmailController as "<<Controller>>\nEmailController"
-participant SubscriberService as "<<Service>>\nSubscriberService"
-participant SubscriberRepository as "<<Repository>>\nSubscriberRepository"
-participant GmailService as "<<Service>>\nGmailService"
-participant Subscriber as "<<Entity>>\nSubscriber"
+participant SubscriptionService as "<<Service>>\nSubscriptionService"
+participant SubscriptionRepository as "<<Repository>>\nSubscriptionRepository"
+participant EmailSenderService as "<<Service>>\nEmailSenderService"
+participant Subscription as "<<Entity>>\nSubscription"
 
 == Subscribing to Notifications ==
 Reader -> Frontend : Enter Email & Click "Subscribe"
 activate Frontend
 
-Frontend -> EmailController : POST /api/v1/email/subscribe?email={email}
+Frontend -> EmailController : POST /api/v1/subscriptions/subscribe?email={email}&category={category}
 activate EmailController
 
-EmailController -> SubscriberService : subscribe(email)
-activate SubscriberService
+EmailController -> SubscriptionService : subscribe(email, category)
+activate SubscriptionService
 
-SubscriberService -> SubscriberRepository : existsByEmail(email)
-activate SubscriberRepository
-SubscriberRepository --> SubscriberService : Email Exists/Not Exists
-deactivate SubscriberRepository
+SubscriptionService -> SubscriptionRepository : existsByUserEmailAndCategory(email, category)
+activate SubscriptionRepository
+SubscriptionRepository --> SubscriptionService : Email Exists/Not Exists
+deactivate SubscriptionRepository
 
 alt Email Exists
-    SubscriberService --> EmailController : "Already Subscribed"
+    SubscriptionService --> EmailController : "Already Subscribed"
 else Email Not Exists
-    SubscriberService -> SubscriberRepository : save(email)
-    activate SubscriberRepository
-    SubscriberRepository --> SubscriberService : Email Saved
-    deactivate SubscriberRepository
-    SubscriberService --> EmailController : "Subscription Successful"
+    SubscriptionService -> SubscriptionRepository : save(email, category)
+    activate SubscriptionRepository
+    SubscriptionRepository --> SubscriptionService : Subscription Saved
+    deactivate SubscriptionRepository
+    SubscriptionService -> EmailSenderService : sendSimpleMail(email, "Subscription Successful", "You are now subscribed to {category} alerts!")
+    activate EmailSenderService
+    EmailSenderService --> SubscriptionService : Email Sent
+    deactivate EmailSenderService
+    SubscriptionService --> EmailController : "Subscription Successful"
 end
 
-deactivate SubscriberService
+deactivate SubscriptionService
 EmailController --> Frontend : Subscription Confirmation Message
 
 deactivate EmailController
@@ -44,28 +48,28 @@ deactivate Frontend
 Reader -> Frontend : Click "Unsubscribe"
 activate Frontend
 
-Frontend -> EmailController : POST /api/v1/email/unsubscribe?email={email}
+Frontend -> EmailController : POST /api/v1/subscriptions/unsubscribe?email={email}&category={category}
 activate EmailController
 
-EmailController -> SubscriberService : unsubscribe(email)
-activate SubscriberService
+EmailController -> SubscriptionService : unsubscribe(email, category)
+activate SubscriptionService
 
-SubscriberService -> SubscriberRepository : existsByEmail(email)
-activate SubscriberRepository
-SubscriberRepository --> SubscriberService : Email Exists/Not Exists
-deactivate SubscriberRepository
+SubscriptionService -> SubscriptionRepository : existsByUserEmailAndCategory(email, category)
+activate SubscriptionRepository
+SubscriptionRepository --> SubscriptionService : Email Exists/Not Exists
+deactivate SubscriptionRepository
 
 alt Email Exists
-    SubscriberService -> SubscriberRepository : delete(email)
-    activate SubscriberRepository
-    SubscriberRepository --> SubscriberService : Deletion Successful
-    deactivate SubscriberRepository
-    SubscriberService --> EmailController : "Unsubscribed Successfully"
+    SubscriptionService -> SubscriptionRepository : delete(email, category)
+    activate SubscriptionRepository
+    SubscriptionRepository --> SubscriptionService : Deletion Successful
+    deactivate SubscriptionRepository
+    SubscriptionService --> EmailController : "Unsubscribed Successfully"
 else Email Not Exists
-    SubscriberService --> EmailController : "Email Not Found"
+    SubscriptionService --> EmailController : "Email Not Found"
 end
 
-deactivate SubscriberService
+deactivate SubscriptionService
 EmailController --> Frontend : Unsubscribe Confirmation Message
 
 deactivate EmailController
@@ -77,25 +81,25 @@ deactivate Frontend
 Reader -> Frontend : Click "Send Notifications"
 activate Frontend
 
-Frontend -> EmailController : GET /api/v1/email/notify?subject={subject}&message={message}
+Frontend -> EmailController : GET /api/v1/subscriptions/notify?category={category}&subject={subject}&message={message}
 activate EmailController
 
-EmailController -> SubscriberService : getAllSubscribers()
-activate SubscriberService
+EmailController -> SubscriptionService : getSubscribersByCategory(category)
+activate SubscriptionService
 
-SubscriberService -> SubscriberRepository : findAll()
-activate SubscriberRepository
-SubscriberRepository --> SubscriberService : List<Subscriber>
-deactivate SubscriberRepository
+SubscriptionService -> SubscriptionRepository : findByCategory(category)
+activate SubscriptionRepository
+SubscriptionRepository --> SubscriptionService : List<Subscription>
+deactivate SubscriptionRepository
 
-SubscriberService --> EmailController : List<Subscriber>
-deactivate SubscriberService
+SubscriptionService --> EmailController : List<Subscribers>
+deactivate SubscriptionService
 
 loop for each subscriber
-    EmailController -> GmailService : sendMail(email, subject, message)
-    activate GmailService
-    GmailService --> EmailController : Email Sent
-    deactivate GmailService
+    EmailController -> EmailSenderService : sendSimpleMail(email, subject, message)
+    activate EmailSenderService
+    EmailSenderService --> EmailController : Email Sent
+    deactivate EmailSenderService
 end
 
 EmailController --> Frontend : Notification Status

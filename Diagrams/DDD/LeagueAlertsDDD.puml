@@ -186,5 +186,21 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
         Save "1" o--> "1" ArticleIdentifier
         Save "1" o--> "1" ReaderIdentifier
     }
+
+    Package "Email Subscription Subdomain" <<Rectangle>> #aliceblue {
+            ENTITY(Subscription) #bisque {
+                + userEmail: string
+                + category: string
+            }
+
+            ENTITY(EmailNotification) #bisque {
+                + recipient: string
+                + subject: string
+                + body: string
+            }
+
+
+            EmailNotification "1" o--> "1" Subscription
+        }
 }
 @enduml
