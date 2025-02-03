@@ -22,7 +22,7 @@ public class ArticleResponseModel {
     private String body;
     private int wordCount;
     private ArticleStatus articleStatus;
-    private String category;
+    private String categoryName;
     private String tagsTag;
     private LocalDateTime timePosted;
     private AuthorIdentifier authorIdentifier;

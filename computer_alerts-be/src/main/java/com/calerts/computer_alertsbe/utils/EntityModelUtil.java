@@ -58,7 +58,7 @@ public class EntityModelUtil {
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
         articleResponseModel.setPhotoUrl(article.getPhotoUrl());
-        articleResponseModel.setCategory(article.getCategory().getCategoryName());
+        articleResponseModel.setCategoryName(article.getCategory().getCategoryName());
 
 
         return articleResponseModel;
