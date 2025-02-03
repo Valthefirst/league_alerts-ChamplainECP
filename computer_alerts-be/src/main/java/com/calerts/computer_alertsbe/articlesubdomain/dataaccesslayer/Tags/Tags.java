@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "tags")
 public class Tags {
 
+    //hello
     @Embedded
     private TagsIdentifier tagsIdentifier;
 
