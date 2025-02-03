@@ -19,7 +19,7 @@ public class TagsController {
         this.tagsService = tagsService;
     }
 
-    // TODO: Implement the logic for fetching and managing categories
+
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<TagsResponseModel> getAllTags() {
         return tagsService.getAllTags();

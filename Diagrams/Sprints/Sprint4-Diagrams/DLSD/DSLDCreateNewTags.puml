@@ -1,0 +1,35 @@
+@startuml
+
+title Design Level Sequence Diagram for Creating Tags
+
+actor Admin
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant DashBoard as "<<View>>\nDashBoard"
+participant CreateArticlePage as "<<View>>\nCreateArticlePage"
+participant "ArticleController" as Controller
+participant "ArticleServiceImpl" as ServiceImpl
+participant "TagRepository" as TagRepository
+participant "TagRequestDTO" as TagRequestDTO
+participant "TagResponseDTO" as TagResponseDTO
+participant "Tag" as Tag
+participant "Database" as DB
+
+Admin -> ReactApplication : Open Application
+ReactApplication -> LandingPage : Display Landing Page
+LandingPage -> DashBoard : Navigate to admin dashboard
+DashBoard -> CreateArticlePage : Navigate to Create new article page
+
+CreateArticlePage -> Controller : add new tag
+Controller -> ServiceImpl : createNewTag(string: tagName)
+ServiceImpl -> TagRequestDTO : Create TagRequestDTO with tag details
+ServiceImpl -> TagRepository : save new tag(string: tagName)
+TagRepository -> DB : store new tag
+DB -> Tag : Create new tag object (string: tagName)
+Tag -> TagResponseDTO : Generate Tag Response
+TagResponseDTO -> ServiceImpl : Return new tag response
+ServiceImpl -> Controller : Return new tag response
+Controller -> ReactApplication : return ResponseEntity<tagName: String>
+ReactApplication -> CreateArticlePage : Display confirmation/error message
+
+@enduml

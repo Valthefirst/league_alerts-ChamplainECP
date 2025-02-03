@@ -94,11 +94,14 @@ package "ArticleSubdomain" {
     }
 
     class TagsService{
+
         + getAllTags(): Flux<Tags>
-        + addNewTag(tagName: String): Mono<Tags>
+        + createNewTags(tagName: String): Mono<Tags>
     }
 
     class TagsServiceImpl{
+     - tagsRepository: TagsRepository
+
         + getAllTags(): Flux<Tags>
         + addNewTag(tagName: String): Mono<Tags>
     }
@@ -106,15 +109,17 @@ package "ArticleSubdomain" {
     class TagsController{
         - tagsService: TagsService
         + getAllTags(): Flux<Tags>
-        + addNewTag(tagName: String): Mono<Tags>
+        + createNewTags(tagName: String): Mono<Tags>
     }
 
     class TagsResponseModel{
         - String tagName;
+        - String tagId;
     }
 
     class TagsRequestModel{
         - String tagName;
+        - String tagId;
     }
 
     TagsResponseModel <-- Tags
