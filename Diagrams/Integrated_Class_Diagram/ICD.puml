@@ -87,22 +87,73 @@ package "Article Subdomain" {
         String categoryName
     }
 
-    
-
-   enum tags {
-        NBA
-        NFL
-        UFC
-        MLB
-        NHL
-    }
-
 
     enum ArticleStatus {
         DRAFT
         PUBLISHED
         ARCHIVED
     }
+
+    class Tags{
+        String id
+        String tagName
+    }
+
+    class TagsController{
+        + createNewTags(tagName: String) : ResponseEntity<String>
+        + getAllTags(tagName: String) : ResponseEntity<String>
+    }
+
+    interface TagsService{
+        + createNewTags(tagName: String) : String
+        + getAllTags(tagName: String) : String
+    }
+
+    interface TagsRepository{
+
+        + findTagsByTagName() : Mono<Tags>
+    }
+
+    class TagResponseModel{
+        String id
+        String tagName
+    }
+
+    class TagRequestModel{
+        String tagName
+    }
+
+    class Categories{
+        String id
+        String categoryName
+    }
+
+    class CategoriesController{
+        + createNewCategory(categoryName: String) : ResponseEntity<String>
+        + getAllCategories() : ResponseEntity<String>
+    }
+
+    interface CategoriesService{
+        + createNewCategory(categoryName: String) : String
+        + getAllCategories() : String
+    }
+
+    interface CategoriesRepository{
+        + findCategoriesByCategoryName() : Mono<Categories>
+    }
+
+    class CategoriesResponseModel{
+        String id
+        String categoryName
+    }
+
+    class CategoriesRequestModel{
+        String categoryName
+    }
+
+
+
+
 
     ArticleController --> ArticleService
     ArticleService --> ArticleRepository
@@ -113,6 +164,20 @@ package "Article Subdomain" {
     Article --> Author
     ArticleRequestModel --> Article
     Article --> Categories
+    Article --> Tags
+
+    Tags --> TagResponseModel
+    Tags --> TagRequestModel
+    TagsController --> TagsService
+    TagsService --> TagsRepository
+    TagsRepository --> Tags
+
+    Categories --> CategoriesResponseModel
+    Categories --> CategoriesRequestModel
+    CategoriesController --> CategoriesService
+    CategoriesService --> CategoriesRepository
+    CategoriesRepository --> Categories
+
 }
 
 package "Interaction Subdomain" {
