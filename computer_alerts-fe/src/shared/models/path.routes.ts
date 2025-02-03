@@ -31,4 +31,5 @@ export enum AppRoutePaths {
   AdminAuthors = "/adminAuthors",
   AdminCreateAuthor = "/admin/createAuthor",
   AdminReviewArticles = "/adminReviewArticles",
+  AdminReports = "/adminReports",
 }

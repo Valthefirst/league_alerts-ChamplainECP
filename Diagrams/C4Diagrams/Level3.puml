@@ -23,8 +23,8 @@ Container_Boundary(api, "API Application") {
         Component(security_config, "Security Config", "Spring Security", "Defines endpoint access rules and role-specific permissions")
         Component(auth_service, "Auth Service", "TypeScript", "Manages user logins and create account authentication processes in frontend")
         Component(auth_service_back, "User Service", "Spring boot", "Manages user logins and create account and authentication processes in backend")
-        Component(reset_passwrd,"Reset Password Controller", "If signed in without facebook-google, we need to handle resetpassword with auth0")   
-        Component(account_suspend, "Suspend Articles","If reader is violent in comments suspend account")   
+        Component(reset_passwrd,"Reset Password Controller", "If signed in without facebook-google, we need to handle resetpassword with auth0")
+        Component(account_suspend, "Suspend Articles","If reader is violent in comments suspend account")
     }
 
     /'
@@ -40,14 +40,22 @@ Container_Boundary(api, "API Application") {
         Component(article_related, "Article with Tags", "Spring Java", "Articles sorted by tags")
         Component(article_trending, "Article Trending", "TypeScript", "Articles with most viewed")
 
+
         Component(tag_repository, "Tag Repository", "Spring Java", "Handles Queries for tags")
         Component(tag_service, "Tag Service", "Spring Java", "Handle business logic for adding and fetching tags")
         Component(tag_controller, "Tag Controller", "Spring Java", "Handles request and responses front the frontend")
 
 
-
-
     }
+
+    Container_Boundary(email_subscription_container, "Email Subscription Container") {
+            Component(subscription_controller, "Subscription Controller", "Spring Java", "Handles email subscriptions and notifications")
+            Component(subscription_service, "Subscription Service", "Spring Java", "Manages subscription logic and interactions")
+            Component(subscription_repository, "Subscription Repository", "Spring Java", "Handles database operations for subscriptions")
+            Component(email_sender_service, "Email Sender Service", "Spring Java", "Handles email notifications for subscriptions")
+        }
+
+
 
     /'
         ##############     Reader/Author Subdmain
@@ -107,8 +115,16 @@ Rel(auth_controller, auth_service, "uses")
 Rel(security_config,jwt_filter,"Uses")
 Rel(auth_service,reset_passwrd,"Calls")
 
+
 Rel(tag_controller, tag_service, "Calls")
 Rel(tag_service, tag_repository, "Uses")
+
+Rel(subscription_controller, subscription_service, "Calls")
+Rel(subscription_service, subscription_repository, "Uses")
+Rel(subscription_service, email_sender_service, "Triggers Email Notifications")
+Rel(subscription_repository, db, "Stores Subscription Data")
+
+
 
 
 Rel(article_controller, article_service, "Calls")

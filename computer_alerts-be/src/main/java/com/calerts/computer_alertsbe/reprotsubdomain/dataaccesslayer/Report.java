@@ -1,6 +1,6 @@
-package com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer;
+package com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer;
 
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
+import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,22 +10,22 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document("comments")
-public class Comment {
+@Document(collection = "reports")
+public class Report {
 
     @Id
     private String id;
 
     @Indexed(unique = true)
-    private CommentIdentifier commentId;
-    private String content;
-    private int wordCount;
+    private ReportIdentifier reportIdentifier;
+
     private LocalDateTime timestamp;
-    private ArticleIdentifier articleId;
-    private String readerId;
+//    private List<AuthorIdentifier> topAuthors;
+    private List<TopArticle> topArticles;
 }

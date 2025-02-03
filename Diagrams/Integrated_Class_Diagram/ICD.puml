@@ -394,33 +394,53 @@ Interaction --> Article : "interacts with"
 Authentication --> Reader : "authenticates"
 Authentication --> Interaction : "validates"
 
-package "Email Subscription Subdomain" {
-    class EmailController {
-        + subscribe(email: String): ResponseEntity<String>
-        + unsubscribe(email: String): ResponseEntity<String>
-        + notifySubscribers(subject: String, message: String): ResponseEntity<String>
+package "Subscription Subdomain" {
+    class Subscription {
+        - userEmail: String
+        - category: String
     }
 
-    class GmailService {
-        + sendMail(to: String, subject: String, body: String): void
+    interface SubscriptionService {
+        + subscribe(userEmail: String, category: String) : void
+        + unsubscribe(userEmail: String, category: String) : void
+        + isAlreadySubscribed(userEmail: String, category: String) : Mono<Boolean>
+        + getSubscribedCategories(userEmail: String) : List<String>
+        + getSubscribersByCategory(category: String) : List<String>
     }
 
-    class Subscriber {
-        - Long id
-        - String email
-        + Subscriber(email: String)
+    class SubscriptionServiceImpl {
+        + subscribe(userEmail: String, category: String) : void
+        + unsubscribe(userEmail: String, category: String) : void
+        + isAlreadySubscribed(userEmail: String, category: String) : Mono<Boolean>
+        + getSubscribedCategories(userEmail: String) : List<String>
+        + getSubscribersByCategory(category: String) : List<String>
     }
 
-    interface SubscriberRepository {
-        + existsByEmail(email: String): boolean
-        + deleteByEmail(email: String): void
-        + findAll(): List<Subscriber>
+    class SubscriptionRepository {
+        + findByUserEmail(userEmail: String) : Flux<Subscription>
+        + findByCategory(category: String) : Flux<Subscription>
+        + existsByUserEmailAndCategory(userEmail: String, category: String) : Mono<Boolean>
     }
 
-    EmailController --> GmailService
-    EmailController --> SubscriberRepository
-    SubscriberRepository ..|> Subscriber
+    SubscriptionServiceImpl --> SubscriptionService
+    SubscriptionServiceImpl --> SubscriptionRepository
+    SubscriptionRepository --> Subscription
 }
+
+package "Email Notification Subdomain" {
+    class EmailSenderService {
+        + sendEmail(to: String, subject: String, body: String) : void
+    }
+
+    class EmailController {
+        + sendEmail(to: String, subject: String, message: String) : ResponseEntity<String>
+    }
+
+    EmailController --> EmailSenderService
+}
+
+Subscription --> EmailController : "notifies via"
+SubscriptionServiceImpl --> EmailSenderService : "triggers email"
 
 ' Subdomain Relationships
 Article --> Author : "written by"

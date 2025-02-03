@@ -29,6 +29,7 @@ import GoogleTranslateLoader from "utils/GoogleTranslateLoader";
 import Footer from "assets/Footer/Footer";
 import AdminCreateAuthor from "pages/AdminPages/AdminAuthors/AdminCreateAuthor/AdminCreateAuthor";
 import UnAuthorized from "assets/UnAuthorizedMessage/UnAuthorized";
+import ReportsPages from "pages/ReportsPages/ReportsPages";
 import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
 import AddTagForm from "features/tags/addTagForm";
@@ -48,7 +49,8 @@ const Navbar = () => {
   } else if (
     location.pathname.startsWith("/adminHomePage") ||
     location.pathname.startsWith("/adminReviewArticles") ||
-    location.pathname.startsWith("/adminAuthors")
+    location.pathname.startsWith("/adminAuthors") ||
+    location.pathname.startsWith("/adminReports")
   ) {
     return <AdminNavBar />;
   }
@@ -109,6 +111,10 @@ function App(): JSX.Element {
           <Route
             path={AppRoutePaths.AdminCreateAuthor}
             element={<AdminCreateAuthor />}
+          />
+          <Route
+            path={AppRoutePaths.AdminReports}
+            element={<ReportsPages />}
           />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 

@@ -3,51 +3,53 @@ skinparam packageStyle rectangle
 
 package "EmailSubscriptionSubdomain" {
 
-    class EmailController {
-        - gmailService: GmailService
-        - subscriberRepository: SubscriberRepository
-        + subscribe(email: String): ResponseEntity<String>
-        + unsubscribe(email: String): ResponseEntity<String>
-        + notifySubscribers(subject: String, message: String): ResponseEntity<String>
+    class SubscriptionController {
+        - subscriptionService: SubscriptionService
+        + subscribe(email: String, category: String): ResponseEntity<String>
+        + unsubscribe(email: String, category: String): ResponseEntity<String>
     }
 
-    class GmailService {
+    class EmailSenderService {
         + sendMail(to: String, subject: String, body: String): void
     }
 
-    class Subscriber {
-        - Long id
-        - String email
-        + Subscriber(email: String)
+    class Subscription {
+        - String userEmail
+        - String category
     }
 
-    interface SubscriberRepository {
-        + existsByEmail(email: String): boolean
-        + deleteByEmail(email: String): void
-        + findAll(): List<Subscriber>
+    interface SubscriptionRepository {
+        + existsByUserEmailAndCategory(email: String, category: String): boolean
+        + deleteByUserEmailAndCategory(email: String, category: String): void
+        + findByCategory(category: String): List<Subscription>
+        + findAllSubscribers(): List<Subscription>
     }
 
-    class Auth0Service {
-        + createAuth0User(userRequest: UserRequestDTO): Auth0UserResponse
+    class SubscriptionService {
+        + subscribe(userEmail: String, category: String): void
+        + unsubscribe(userEmail: String, category: String): void
+        + isAlreadySubscribed(userEmail: String, category: String): Mono<Boolean>
+        + getSubscribedCategories(userEmail: String): List<String>
+        + getSubscribersByCategory(category: String): List<String>
+        + notifySubscribers(category: String, subject: String, message: String): void
     }
 
-    class UserRequestDTO {
-        - String name
-        - String email
-        - String password
+    class SubscriptionServiceImpl {
+        - emailSenderService: EmailSenderService
+        - subscriptionRepository: SubscriptionRepository
+        + subscribe(userEmail: String, category: String): void
+        + unsubscribe(userEmail: String, category: String): void
+        + isAlreadySubscribed(userEmail: String, category: String): Mono<Boolean>
+        + getSubscribedCategories(userEmail: String): List<String>
+        + getSubscribersByCategory(category: String): List<String>
+        + notifySubscribers(category: String, subject: String, message: String): void
+        + sendSubscriptionConfirmationEmail(userEmail: String, category: String): void
     }
 
-    class Auth0UserResponse {
-        - String userId
-        - String email
-        - String message
-    }
-
-    EmailController --> GmailService : uses
-    EmailController --> SubscriberRepository : uses
-    EmailController --> Auth0Service : uses
-    SubscriberRepository ..|> Subscriber
-    Auth0Service --> UserRequestDTO
-    Auth0Service --> Auth0UserResponse : returns
+    SubscriptionController --> SubscriptionService : uses
+    SubscriptionServiceImpl --> SubscriptionRepository : interacts
+    SubscriptionServiceImpl --> EmailSenderService : notifies
+    SubscriptionRepository ..|> Subscription
+    SubscriptionServiceImpl ..|> SubscriptionService
 }
 @enduml

@@ -11,7 +11,7 @@ System_Boundary(computerAlerts, "Computer Alerts") {
     System(sys, "Computer Alerts", "A web application that has articles about the latest sports news.")
 }
 
-System(mailing, "Google API", "The external e-mail system.")
+System(mailing, "Google SMTP", "The external e-mail system.")
 System(auth, "Auth0", "The external authentication service.")
 System(cloudinary, "Cloudinary API", "The external media management system.")
 

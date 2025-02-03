@@ -23,7 +23,7 @@ Person(reader, "Reader", "Reader of the web application, can have personal infor
 Person(author, "Author", "League Alerts employee, can write articles")
 Person(admin, "Admin", "Owners of League Alerts, monitor the web application")
 
-Container(emailing_service, "Google API", "Handles email notifications and communications", $tags="emailingService")
+Container(emailing_service, "Google SMTP", "Handles email notifications and communications", $tags="emailingService")
 Container(auth_service, "Auth0", "Java, Spring Boot", "Handles authentication and authorization", $tags="auth0")
 
 Container(media_service, "Cloudinary API", "Manages image and media storage", $tags="cloudinary")

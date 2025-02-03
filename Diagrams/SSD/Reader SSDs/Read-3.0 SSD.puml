@@ -2,13 +2,18 @@
 actor Reader
 participant "League Alerts System" as LAS
 
-
 Reader -> LAS: subscribeNotifications(readerId)
 activate LAS
-    LAS -> LAS: Add Reader to Notification List
-    LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    LAS -> LAS: Check if Reader is already subscribed
+    alt Reader is already subscribed
+        LAS --> Reader: returnError(HttpStatusCode.CONFLICT)
+    else
+        LAS -> LAS: Add Reader to Notification List
+        LAS --> Reader: returnSuccessMessage(HttpStatusCode.OK)
+    end
 
 deactivate LAS
 @enduml
+
 
 
