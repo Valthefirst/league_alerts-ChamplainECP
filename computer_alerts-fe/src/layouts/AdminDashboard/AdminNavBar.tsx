@@ -34,6 +34,12 @@ export default function AuthorNavBar(): JSX.Element {
             >
               Review Pending Articles
             </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to={AppRoutePaths.AdminReports}
+              className="nav-link">
+              Reports
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
