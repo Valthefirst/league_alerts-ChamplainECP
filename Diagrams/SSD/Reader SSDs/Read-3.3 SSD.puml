@@ -1,0 +1,15 @@
+@startuml
+actor Reader
+participant "League Alerts System" as LAS
+
+Reader -> LAS: Initiate Sign-In (Google or Facebook)
+activate LAS
+
+    LAS -> LAS: Authenticate User
+    LAS -> LAS: Validate User & Create Session
+
+    LAS --> Reader: Authentication Success (User Signed In)
+
+deactivate LAS
+@enduml
+

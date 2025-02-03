@@ -19,19 +19,13 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
 
     Package "Reader Management Subdomain" <<Rectangle>> #aliceblue {
         ENTITY(Reader) #bisque {
-            + username: Username
             + emailAddress: string
             + firstName: string
             + lastName: string
-            + address: Address
-            + password: Password
+            + auth0UserId : string
+            + address: string
         }
 
-        VALUE_OBJECT(Password) #bisque {
-            - value: string
-            + isValid(): bool
-            + hashPassword(): string
-        }
 
         VALUE_OBJECT(ReaderIdentifier) #bisque {
             + readerId: UUID
@@ -42,17 +36,9 @@ rectangle "League Alerts" as BoundedContextLeagueAlerts #line.dashed {
             + isValid(): bool
         }
 
-        VALUE_OBJECT(ReaderAddress) #bisque {
-            + street: string
-            + city: string
-            + province: string
-            + country: string
-        }
 
-        Reader "1" o--> "1" ReaderAddress
         Reader "1" o--> "1" ReaderIdentifier
         Reader "1" o--> "1" Username
-        Reader "1" o--> "1" Password
     }
 
     Package "Author Management Subdomain" <<Rectangle>> #aliceblue {

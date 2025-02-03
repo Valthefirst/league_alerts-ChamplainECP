@@ -1,0 +1,45 @@
+@startuml
+
+title Design-Level Sequence Diagram for Reader Signing In via Google or Facebook
+
+actor Reader
+participant ReactApplication as "<<View>>\nReactApplication"
+participant LandingPage as "<<View>>\nLandingPage"
+participant DashBoard as "<<View>>\nDashBoard"
+participant LoginPage as "<<View>>\nLoginPage"
+participant AuthController as "<<Controller>>\nAuthController"
+participant UserService as "<<Service>>\nUserService"
+participant UserRepository as "<<Repository>>\nUserRepository"
+participant "OAuth2CallbackRequest" as DTO
+participant "UserResponseModel" as Model
+participant "User" as Entity
+participant "Database" as DB
+
+Reader -> ReactApplication : Open Web Application
+ReactApplication -> LandingPage : Display Landing Page
+LandingPage -> DashBoard : Navigate to Dashboard
+DashBoard -> LoginPage : Navigate to Login Page
+Reader -> LoginPage : Click "Sign in with Google/Facebook"
+
+LoginPage -> AuthController : handle0Auth2Callback(OAuth2CallbackRequest)
+AuthController -> UserService : signInWithGoogle(OAuth2CallbackRequest) or signInWithFacebook(OAuth2CallbackRequest)
+UserService -> UserRepository : findUserByEmailAddress(emailAddress)
+UserRepository -> Database : Query for existing user
+
+alt User Exists
+    Database -> UserRepository : Return existing User
+    UserRepository -> UserService : Return existing UserResponseModel
+else New User
+    UserService -> UserRepository : createReaderFromAuth0(ReaderRequestDTO)
+    UserRepository -> Database : Save new Reader entity
+    Database -> UserRepository : Return saved User
+    UserRepository -> UserService : Return created UserResponseModel
+end
+
+UserService -> AuthController : Return UserResponseModel
+AuthController -> LoginPage : Return ResponseEntity<UserResponseModel>
+LoginPage -> DashBoard : Redirect to Dashboard with user session
+DashBoard -> ReactApplication : Update UI with User Details
+ReactApplication -> Reader : Display authenticated user session
+
+@enduml
