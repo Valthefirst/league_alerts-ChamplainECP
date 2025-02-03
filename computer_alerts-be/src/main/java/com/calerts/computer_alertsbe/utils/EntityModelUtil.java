@@ -58,7 +58,7 @@ public class EntityModelUtil {
         articleResponseModel.setArticleStatus(article.getArticleStatus());
         articleResponseModel.setRequestCount(article.getRequestCount());
         articleResponseModel.setPhotoUrl(article.getPhotoUrl());
-        articleResponseModel.setCategory(article.getCategory().getCategoryName());
+        articleResponseModel.setCategoryName(article.getCategory().getCategoryName());
 
 
         return articleResponseModel;
@@ -69,7 +69,10 @@ public class EntityModelUtil {
         return  Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
-                .tagsTag(articleRequestModel.getTagsTag())
+                .tagsTag(Tags.builder()
+                        .tagsIdentifier(new TagsIdentifier())
+                        .tagName(articleRequestModel.getTagsTag())
+                        .build())
                 .category(Categories.builder()
                         .categoriesIdentifier(new CategoriesIdentifier())
                         .categoryName(articleRequestModel.getCategory())

@@ -4,6 +4,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Data
@@ -11,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Document(collection = "categories")
 public class Categories {
 
 

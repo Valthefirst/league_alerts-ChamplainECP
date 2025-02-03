@@ -1,6 +1,10 @@
 package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.*;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.Tags;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.TagsIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,13 +50,23 @@ class ArticleControllerIntegrationTest {
 
         articleRepository.deleteAll().block();
 
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
+
+        Categories categories2 = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NFL")
+                .build();
+
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title("Article 1")
                 .body("This is the body of article 1")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -64,7 +78,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 2")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
@@ -76,7 +90,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 3")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categories2)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -104,6 +118,11 @@ class ArticleControllerIntegrationTest {
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void whenGetArticleById_thenReturnArticle() {
+
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
         // Arrange
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -111,7 +130,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 1")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -174,6 +193,12 @@ class ArticleControllerIntegrationTest {
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     void testIncrementRequestCount_ArticleFound() {
+
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
+
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
                 .title("Article 1")
@@ -181,7 +206,7 @@ class ArticleControllerIntegrationTest {
                 .wordCount(7)
                 .requestCount(0)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
                 .build();
@@ -310,6 +335,11 @@ class ArticleControllerIntegrationTest {
     @Test
     @WithMockUser(username = "testuser", roles = {"ADMIN"})
     void whenAcceptValidArticle_thenReturnNoContent() {
+
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
         // Arrange
         var article = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -317,7 +347,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of an article pending review")
                 .wordCount(100)
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
-                .category("NBA")
+                .category(categories)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -351,6 +381,17 @@ class ArticleControllerIntegrationTest {
     @WithMockUser(username = "testuser", roles = {"USER"})
     void testSearchArticlesByTagAndTitle() {
 
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
+
+        Categories categories2 = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
+
+
         //arrange
         var article1 = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -358,7 +399,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 1")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944091/pexels-introspectivedsgn-7783413_r7s5xx.jpg")
@@ -370,7 +411,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 2")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NBA")
+                .category(categories)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944094/pexels-bylukemiller-13978862_sm4ynn.jpg")
@@ -382,7 +423,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of article 3")
                 .wordCount(7)
                 .articleStatus(ArticleStatus.PUBLISHED)
-                .category("NFL")
+                .category(categories2)
                 .likeCount(0)
                 .timePosted(LocalDateTime.now())
                 .photoUrl("https://res.cloudinary.com/ddihej6gw/image/upload/v1733944101/pexels-corleone-brown-2930373-4500123_zcgbae.jpg")
@@ -410,6 +451,16 @@ class ArticleControllerIntegrationTest {
 
     @Test
     void whenUpdatingArticleWithValidId_ReturnUpdatedArticle(){
+
+        Categories categories = Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName("NBA")
+                .build();
+
+        Tags tags = Tags.builder()
+                .tagsIdentifier(new TagsIdentifier())
+                .tagName("NBA")
+                .build();
         // Arrange
         var article = Article.builder()
                 .articleIdentifier(new ArticleIdentifier())
@@ -417,8 +468,8 @@ class ArticleControllerIntegrationTest {
                 .body("This is the body of an article pending review")
                 .articleStatus(ArticleStatus.ARTICLE_REVIEW)
                 .wordCount(9)
-                .category("NBA")
-                .tagsTag(Tags.NBA)
+                .category(categories)
+                .tagsTag(tags)
                 .timePosted(LocalDateTime.now())
                 .build();
 
@@ -432,7 +483,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the updated body of an article pending review")
                 .wordCount(10)
                 .category("NBA")
-                .tagsTag(Tags.NBA)
+                .tagsTag(tags.getTagName())
                 .build();
 
         // Act & Assert
@@ -455,6 +506,12 @@ class ArticleControllerIntegrationTest {
 
     @Test
     void whenUpdatingArticleWithInvalidId_ReturnNotFound(){
+
+        Tags tags = Tags.builder()
+                .tagsIdentifier(new TagsIdentifier())
+                .tagName("NBA")
+                .build();
+
         // Arrange
         String invalidId = "a0466beb-a91c-4022-a58d-765bb1bbade3";
         String url = BASE_URL + "/" + invalidId;
@@ -464,7 +521,7 @@ class ArticleControllerIntegrationTest {
                 .body("This is the updated body of an article pending review")
                 .wordCount(10)
                 .category("NBA")
-                .tagsTag(Tags.NBA)
+                .tagsTag(tags.getTagName())
                 .build();
 
         // Act & Assert
