@@ -7,7 +7,6 @@ const AutherCreateArticle: React.FC = () => {
   return (
     <div className={styles.articleFormContainer}>
       <div className="row">
-      
         <ArticleForm />
       </div>
     </div>

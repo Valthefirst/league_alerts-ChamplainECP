@@ -19,6 +19,7 @@ import { deleteSave } from "features/savedArticles/api/deleteSave";
 import { addSave } from "features/savedArticles/api/addSave";
 import saveIcon from "../../../../assets/saveIcon.png";
 import savedIcon from "../../../../assets/savedIcon.png";
+import { DecodeToken } from "assets/DecodeToken";
 
 const NotFound: React.FC = () => (
   <div className="not-found-container">
@@ -42,6 +43,7 @@ const ArticleDetails: React.FC = () => {
   const heartRef = useRef<HTMLDivElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaved, setIsSaved] = useState<SaveModel | null>(null);
+  const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
   const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
   //const navigate = useNavigate();
 
@@ -52,6 +54,8 @@ const ArticleDetails: React.FC = () => {
           const articleData = await fetchArticleByArticleId(id);
           setArticle(articleData);
           setLikeCount(articleData.likeCount);
+
+          console.log(articleData.category);
 
           const liked = localStorage.getItem(`article-${id}-liked`) === "true";
           setIsLiked(liked);
@@ -70,13 +74,23 @@ const ArticleDetails: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const decodedToken = DecodeToken(token);
+      if (decodedToken) {
+        setAuth0UserId(decodedToken.sub);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const loadSavedState = async () => {
       try {
         if (id) {
           const response = await getAllSaves(readerId); // To fetch with real readerId
           const data = await response;
           const savedState = data.find(
-            (save: SaveModel) => save.articleId === id
+            (save: SaveModel) => save.articleId === id,
           );
           setIsSaved(savedState || null);
         }
@@ -134,17 +148,44 @@ const ArticleDetails: React.FC = () => {
     }
   };
 
-  const postComment = () => {
+  const postComment = async () => {
+    // Make function async
     if (newComment.trim().split(/\s+/).length > 50) {
       alert("Comment is too long. Please keep it under 50 words.");
       return;
     }
+
     if (newComment.trim() && article) {
       const comment: Partial<CommentModel> = {
         content: newComment,
         articleId: article.articleId,
         readerId: "06a7d573-bcab-4db3-956f-773324b92a80",
       };
+
+      let badwords = ["fuck", "shit", "bullshit", "rape", "porn", "rapest"];
+
+      if (
+        badwords.some((badword) =>
+          comment.content?.toLowerCase().includes(badword),
+        )
+      ) {
+        let goodAuth0User = auth0UserId?.replace(/\|/g, "%7C");
+        await fetch(
+          `https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/readers/${goodAuth0User}/suspendAccount`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        //Put something for the alert.
+
+        alert("Your account has been suspended due to inappropriate language.");
+        return;
+      }
+
       addComment(comment);
       setNewComment("");
     }

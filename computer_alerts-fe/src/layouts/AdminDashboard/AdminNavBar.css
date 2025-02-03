@@ -40,3 +40,47 @@
 .navbar-collapse {
   justify-content: flex-end;
 }
+
+/* Style for the dropdown toggle */
+.navbar-nav .nav-item .nav-dropdown-toggle {
+  color: white !important;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+/* Style for the dropdown menu */
+.navbar-nav .nav-item .dropdown-menu {
+  background-color: #a4050a;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Softer shadow */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease-out, visibility 0s 0.4s, transform 0.3s ease-out; /* Smooth fade-in and slide down */
+  transform: translateY(-10px); /* Starts slightly above */
+}
+
+/* Hover effect for the dropdown menu to appear smoothly */
+.navbar-nav .nav-item:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Smooth transition to normal position */
+}
+
+/* Style for dropdown items */
+.navbar-nav .nav-item .dropdown-item {
+  color: white !important;
+  font-size: 1rem; /* Smaller font size */
+  font-weight: 400; /* Lighter font */
+  text-transform: uppercase;
+  padding: 0.3rem 1rem; /* Smaller padding */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for dropdown items */
+.navbar-nav .nav-item .dropdown-item:hover {
+  background-color: #8b0408;
+  color: #ffcccc !important;
+}

@@ -14,11 +14,8 @@ const Login: React.FC = () => {
     roles: string[];
   } | null>(null);
 
-  
-
   useEffect(() => {
     if (isAuthenticated) {
-      
       // Fetch user info if already authenticated (access token exists)
       fetchUserInfo();
     }
@@ -32,12 +29,15 @@ const Login: React.FC = () => {
         return;
       }
 
-      const response = await fetch("https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        "https://dolphin-app-sxvxi.ondigitalocean.app/api/userInfo",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
         },
-        credentials: "include",
-      });
+      );
 
       if (response.ok) {
         const userData = await response.json();

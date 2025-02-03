@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./AdminNavBar.css";
 import { AppRoutePaths } from "../../shared/models/path.routes";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 export default function AuthorNavBar(): JSX.Element {
   return (
@@ -40,6 +40,15 @@ export default function AuthorNavBar(): JSX.Element {
               className="nav-link">
               Reports
             </Nav.Link>
+
+             {/* Dropdown for "Others" */}
+             <NavDropdown title="Others" id="others-dropdown">
+              <NavDropdown.Item as={Link} to={AppRoutePaths.AddCategory}>
+                Add New Category
+              </NavDropdown.Item>
+              {/* You can add more dropdown items here if needed */}
+            </NavDropdown>
+            
           </Nav>
         </Navbar.Collapse>
       </Container>

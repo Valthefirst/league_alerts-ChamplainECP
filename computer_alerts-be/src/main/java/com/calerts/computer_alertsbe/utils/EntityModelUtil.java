@@ -13,11 +13,17 @@ import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
+import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesRequestModel;
+import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Categories.CategoriesResponseModel;
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
+import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
+import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderRequestModel;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
@@ -29,6 +35,15 @@ public class EntityModelUtil {
         ReaderResponseModel readerResponseModel = new ReaderResponseModel();
         BeanUtils.copyProperties(reader, readerResponseModel);
         return readerResponseModel;
+    }
+    public static ReaderResponseModel toReaderEntity(Reader reader) {
+        return ReaderResponseModel.builder()
+                .emailAddress(reader.getEmailAddress())
+                .firstName(reader.getFirstName())
+                .lastName(reader.getLastName())
+                .address(reader.getAddress())
+                .auth0UserId(reader.getAuth0userId())
+                .build();
     }
 
     public static ArticleResponseModel toArticleResponseModel(Article article) {
@@ -47,7 +62,7 @@ public class EntityModelUtil {
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .category(articleRequestModel.getCategory())
+                // .category(articleRequestModel.getCategory())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
@@ -127,4 +142,21 @@ public class EntityModelUtil {
         return shareResponseModel;
 
     }
+
+    public static Categories toCategoriesEntity(CategoriesRequestModel categoriesRequestModel) {
+        return Categories.builder()
+                .categoriesIdentifier(new CategoriesIdentifier())
+                .categoryName(categoriesRequestModel.getCategoryName())
+                .build();
+    }
+
+    public static CategoriesResponseModel toCategoriesResponseModel(Categories categories) {
+        CategoriesResponseModel categoriesResponseModel = new CategoriesResponseModel();
+        BeanUtils.copyProperties(categories, categoriesResponseModel);
+        categoriesResponseModel.setCategoryId(categories.getCategoriesIdentifier().getCategoryId());
+        categoriesResponseModel.setCategoryName(categories.getCategoryName());
+        return categoriesResponseModel;
+    }
+
+
 }
