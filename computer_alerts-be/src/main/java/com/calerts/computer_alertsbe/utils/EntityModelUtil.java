@@ -62,7 +62,7 @@ public class EntityModelUtil {
                 .articleIdentifier(new ArticleIdentifier())
                 .body(articleRequestModel.getBody())
                 .tagsTag(articleRequestModel.getTagsTag())
-                .category(articleRequestModel.getCategory())
+                // .category(articleRequestModel.getCategory())
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
