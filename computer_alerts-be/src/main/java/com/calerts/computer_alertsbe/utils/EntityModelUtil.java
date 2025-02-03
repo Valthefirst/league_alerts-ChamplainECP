@@ -74,6 +74,7 @@ public class EntityModelUtil {
                         .categoriesIdentifier(new CategoriesIdentifier())
                         .categoryName(articleRequestModel.getCategory())
                         .build())
+
                 .title(articleRequestModel.getTitle())
                 .articleStatus(articleRequestModel.getArticleStatus())
                 .wordCount(articleRequestModel.getBody().split(" ").length)
