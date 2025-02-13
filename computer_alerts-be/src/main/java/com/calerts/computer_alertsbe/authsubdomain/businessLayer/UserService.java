@@ -203,6 +203,17 @@ public class UserService {
                 .retrieve()
                 .bodyToMono(Void.class);
     }
+
+    public Mono<Void> assignRoleToGoogleAccount(@PathVariable String userId) {
+        return webClient.post()
+                .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + getManagementApiToken())
+                .bodyValue(Map.of("roles", List.of("rol_W1iELc1CHmzBtfE4")))
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
     public Mono<Void> assignRoleToReader(@PathVariable String userId, @RequestBody RoleRequest request) {;
         return webClient.post()
                 .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")

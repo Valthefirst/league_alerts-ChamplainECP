@@ -63,6 +63,10 @@ public class AuthController {
     public Mono<Void> assignReaderRole (@PathVariable String userId, @RequestBody RoleRequest roleRequest) {
         return userService.assignRoleToReader(userId, roleRequest);
     }
+    @PostMapping("/create/{userId}/assign-role/Google")
+    public Mono<Void> assignReaderRole (@PathVariable String userId) {
+        return userService.assignRoleToGoogleAccount(userId);
+    }
 
 
 
