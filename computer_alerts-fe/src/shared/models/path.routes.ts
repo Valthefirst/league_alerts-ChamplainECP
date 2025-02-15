@@ -16,7 +16,6 @@ export enum AppRoutePaths {
   ModifyAccountDetails = "/modify-account",
   addNewTag = "/addTagForm",
 
-
   //
   //
   AuthorHomePage = "/authHome",

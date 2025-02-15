@@ -16,32 +16,35 @@ const GoogleFacebook: React.FC = () => {
 
         // Check if the user signed in via Google
         if (userId.startsWith("google-")) {
-          const goodAuthId = userId.replace(/\|/g, '%7C');
+          const goodAuthId = userId.replace(/\|/g, "%7C");
           console.log("Making fetch request for Google user:", goodAuthId);
 
           // Call your backend endpoint for Google Sign-In users
-          fetch(`https://localhost:8080/api/create/${goodAuthId}/assign-role/Google`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}` // Use the access token for authentication
+          fetch(
+            `https://dolphin-app-sxvxi.ondigitalocean.app/api/create/${goodAuthId}/assign-role/Google`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                auth0UserId: userId,
+              }),
             },
-            body: JSON.stringify({
-              auth0UserId: userId
+          )
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to create user in the database");
+              }
+              return response.json();
             })
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Failed to create user in the database');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('User created/fetched:', data);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+            .then((data) => {
+              console.log("User created/fetched:", data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
         }
       }
     } else {
@@ -51,11 +54,7 @@ const GoogleFacebook: React.FC = () => {
 
   return (
     <>
-      {auth0UserId ? (
-        <div>User ID: {auth0UserId}</div>
-      ) : (
-        <div>Loading...</div>
-      )}
+      {auth0UserId ? <div>User ID: {auth0UserId}</div> : <div>Loading...</div>}
     </>
   );
 };
