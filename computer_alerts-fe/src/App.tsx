@@ -34,7 +34,6 @@ import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPa
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
 import AddTagForm from "features/tags/addTagForm";
 
-
 const Navbar = () => {
   const location = useLocation();
 
@@ -112,10 +111,7 @@ function App(): JSX.Element {
             path={AppRoutePaths.AdminCreateAuthor}
             element={<AdminCreateAuthor />}
           />
-          <Route
-            path={AppRoutePaths.AdminReports}
-            element={<ReportsPages />}
-          />
+          <Route path={AppRoutePaths.AdminReports} element={<ReportsPages />} />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
           <Route
@@ -129,7 +125,10 @@ function App(): JSX.Element {
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
 
-          <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
+          <Route
+            path={AppRoutePaths.AddCategory}
+            element={<AddNewCategoryPage />}
+          />
 
           <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
         </Routes>

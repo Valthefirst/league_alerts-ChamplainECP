@@ -1,5 +1,4 @@
-
 export interface categoryRequestModel {
-    categoryId: string;
-    categoryName: string;
+  categoryId: string;
+  categoryName: string;
 }

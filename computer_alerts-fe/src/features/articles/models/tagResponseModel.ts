@@ -1,4 +1,4 @@
 export interface tagResponseModel {
-    tagId: string;
-    tagName: string;
+  tagId: string;
+  tagName: string;
 }

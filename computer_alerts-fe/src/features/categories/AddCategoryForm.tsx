@@ -5,8 +5,6 @@ import "./AddCategoryForm.css";
 import { fetchAllsArticles } from "./api/getAllCategories";
 import { addNewCategories } from "./api/addNewCategory";
 
-
-
 // Category Model
 interface Category {
   id: string;
@@ -49,8 +47,8 @@ const CategoryForm: React.FC = () => {
 
       // Now newCat will have both id and categoryName
       const formattedData: Category = {
-        id: newCat.categoryId,          // Correctly access 'id'
-        categoryName: newCat.categoryName,  // Correctly access 'categoryName'
+        id: newCat.categoryId, // Correctly access 'id'
+        categoryName: newCat.categoryName, // Correctly access 'categoryName'
       };
 
       setCategories([...categories, formattedData]); // Add the new category to the list
@@ -70,7 +68,9 @@ const CategoryForm: React.FC = () => {
   return (
     <div className="category-container">
       <div className="category-form">
-        <h1 className="form-title">{id ? "Edit Category" : "Add New Category"}</h1>
+        <h1 className="form-title">
+          {id ? "Edit Category" : "Add New Category"}
+        </h1>
         <form onSubmit={onSubmit}>
           <div className="category-field-box">
             <label htmlFor="categoryName">New Category Name</label>
@@ -88,7 +88,11 @@ const CategoryForm: React.FC = () => {
             <button type="submit" className="category-submit-button">
               {id ? "Update Category" : "Create Category"}
             </button>
-            <button type="button" className="cancel-button" onClick={handleCancel}>
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={handleCancel}
+            >
               Cancel
             </button>
           </div>

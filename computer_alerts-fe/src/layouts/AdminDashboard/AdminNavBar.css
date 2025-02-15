@@ -58,7 +58,10 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Softer shadow */
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s ease-out, visibility 0s 0.4s, transform 0.3s ease-out; /* Smooth fade-in and slide down */
+  transition:
+    opacity 0.4s ease-out,
+    visibility 0s 0.4s,
+    transform 0.3s ease-out; /* Smooth fade-in and slide down */
   transform: translateY(-10px); /* Starts slightly above */
 }
 
@@ -76,7 +79,9 @@
   font-weight: 400; /* Lighter font */
   text-transform: uppercase;
   padding: 0.3rem 1rem; /* Smaller padding */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Hover effect for dropdown items */

@@ -64,6 +64,18 @@ public class AuthController {
         return userService.assignRoleToReader(userId, roleRequest);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/create/{userId}/assign-role/Google")
+    public Mono<Void> assignReaderRoleGoogleAccount (@PathVariable String userId) {
+        return userService.assignRoleToGoogleAccount(userId);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/create/{userId}/assign-role/Facebook")
+    public Mono<Void> assignReaderRoleFacebookAccount (@PathVariable String userId) {
+        return userService.assignRoleToFacebookAccount(userId);
+    }
+
 
 
 
