@@ -44,6 +44,10 @@ const ArticleDetails: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaved, setIsSaved] = useState<SaveModel | null>(null);
   const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
+  const token = localStorage.getItem("accessToken"); // Adjust based on where your token is stored
+  const decodedToken = token ? DecodeToken(token) : null;
+  const permissions: string[] = decodedToken?.permissions || [];
+
   const readerId = "06a7d573-bcab-4db3-956f-773324b92a80";
   //const navigate = useNavigate();
 
@@ -266,9 +270,11 @@ const ArticleDetails: React.FC = () => {
             }}
             title={isSaved ? "Unsave" : "Save"}
           />
-          <button className="edit-button" onClick={openEditPage}>
-            Edit Article
-          </button>
+          {permissions.includes("create:articles") && (
+            <button className="edit-button" onClick={openEditPage}>
+              Edit Article
+            </button>
+          )}
         </div>
         <h1 className="article-title">{article?.title}</h1>
         <p className="article-body">{article?.body}</p>

@@ -142,7 +142,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
   const handleArticleClick = (articleId: string | undefined) => {
     if (articleId) {
       navigate(`/articles/${articleId}`);
-      
     } else {
       console.error("Invalid articleId. Cannot navigate.");
     }
