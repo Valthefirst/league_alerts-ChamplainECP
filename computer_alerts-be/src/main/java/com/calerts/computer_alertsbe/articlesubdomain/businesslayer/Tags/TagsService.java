@@ -12,5 +12,5 @@ public interface TagsService {
 
     Mono<TagsResponseModel> createNewTag(Mono<TagsRequestModel> tagsRequestModel);
 
-
+    Flux<TagsResponseModel> searchTagsByName(String tagName);
 }

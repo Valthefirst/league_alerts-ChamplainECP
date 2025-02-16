@@ -91,3 +91,42 @@
 .add-tag-button {
   margin-bottom: 20px; /* Adds space below the 'Add Tag' button */
 }
+
+/* Container for the tag search input and dropdown */
+.article-field-box {
+  position: relative; /* Ensure the dropdown is positioned relative to this container */
+}
+
+/* Dropdown list */
+.tag-dropdown {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none; /* Remove top border to blend with the input */
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute; /* Position absolutely within the container */
+  top: 100%; /* Position directly below the input */
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000; /* Ensure it appears above other elements */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Dropdown list items */
+.tag-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.tag-dropdown li:hover {
+  background-color: #f1f1f1; /* Highlight on hover */
+}
+
+/* No results message */
+.no-results {
+  padding: 8px;
+  color: #888;
+}
