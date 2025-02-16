@@ -30,4 +30,9 @@ public class TagsController {
     public Mono<TagsResponseModel> createNewTags(@RequestBody Mono<TagsRequestModel> tagsRequestModelMono) {
         return tagsService.createNewTag(tagsRequestModelMono);
     }
+
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<TagsResponseModel> searchTags(@RequestParam String tagName) {
+        return tagsService.searchTagsByName(tagName);
+    }
 }

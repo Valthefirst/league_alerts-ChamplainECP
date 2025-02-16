@@ -33,14 +33,40 @@ const ArticleForm = () => {
   const [fileName, setFileName] = useState<string>("");
   const navigate = useNavigate();
 
-  enum TagsTagEnum {
-    Tag1 = "NBA",
-    Tag2 = "NHL",
-    Tag3 = "UFC",
-    Tag4 = "NFL",
-    Tag5 = "MLB",
-  }
+  const [tagSearch, setTagSearch] = useState(""); // User's search input
+  const [tagResults, setTagResults] = useState<string[]>([]); // Search results
+  const [showTagResults, setShowTagResults] = useState(false); // Show/hide results
 
+
+  const handleTagSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setTagSearch(query);
+
+    if (query.length > 1) {
+      try {
+        const results = await searchTags(query); // Fetch matching tags
+        setTagResults(results.map((tag) => tag.tagName)); // Extract tag names
+        setShowTagResults(true);
+      } catch (error) {
+        console.error("Error searching tags", error);
+        setTagResults([]);
+      }
+    } else {
+      setTagResults([]);
+      setShowTagResults(false);
+    }
+  };
+
+  const handleTagSelect = (tag: string) => {
+    setFormData({ ...formData, tagsTag: tag }); // Update selected tag
+    setTagSearch(tag); // Update search input
+    setShowTagResults(false); // Hide results
+  };
+  
+    const handleAddTag = () => {
+      navigate("/addTagForm"); 
+    };
+ 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -52,9 +78,6 @@ const ArticleForm = () => {
     });
   };
 
-  const handleAddTag = () => {
-    navigate("/addTagForm"); 
-  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -229,30 +252,45 @@ const ArticleForm = () => {
           />
         </div>
 
-        {/* Tags Section */}
-        <div className="article-field-box">
-          <label htmlFor="tags" className="field-title">
-            Tags
-          </label>
-          <select
-            name="tags"
-            value={formData.tagsTag}
-            onChange={handleChange}
-            className="article-form__select"
-          >
-            <option value={TagsTagEnum.Tag1}>NBA</option>
-            <option value={TagsTagEnum.Tag2}>NHL</option>
-            <option value={TagsTagEnum.Tag3}>UFC</option>
-            <option value={TagsTagEnum.Tag4}>NFL</option>
-            <option value={TagsTagEnum.Tag5}>MLB</option>
-          </select>
-        </div>
+     {/* Tag Search Section */}
+     <div className="article-field-box">
+    <label htmlFor="tags" className="field-title">
+      Search for Tag
+    </label>
+    <input
+      type="text"
+      placeholder="Search tags..."
+      value={tagSearch}
+      onChange={handleTagSearch}
+      className="article-form__input"
+    />
+    {showTagResults && tagResults.length > 0 && (
+      <ul className="tag-dropdown">
+        {tagResults.map((tag, index) => (
+          <li key={index} onClick={() => handleTagSelect(tag)}>
+            {tag}
+          </li>
+        ))}
+      </ul>
+    )}
+    {showTagResults && tagResults.length === 0 && (
+      <div className="no-results">No tags found.</div>
+    )}
+    </div>
 
-        <div className="add-tag-button">
+        {/* Display Selected Tag */}
+        {formData.tagsTag && (
+          <div className="selected-tag">
+            <strong>Selected Tag:</strong> {formData.tagsTag}
+          </div>
+        )}
+
+      <div className="add-tag-button">
       <button type="button" className="submit-button" onClick={handleAddTag}>
         Add Tag
       </button>
     </div>
+
 
         {/* Submit Buttons */}
         <div className="row">
