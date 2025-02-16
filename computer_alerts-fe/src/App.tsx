@@ -32,7 +32,12 @@ import ReportsPages from "pages/ReportsPages/ReportsPages";
 import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
 import AddTagForm from "features/tags/addTagForm";
+
 import { DecodeToken } from "assets/DecodeToken";
+
+
+import UnsubscribePage from "features/emailing/UnsubscribePage";
+
 
 const Navbar = () => {
   const token = localStorage.getItem("accessToken");
@@ -141,6 +146,9 @@ function App(): JSX.Element {
           />
 
           <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
+
+          <Route path="/unsubscribe" element={<UnsubscribePage />} />
+
         </Routes>
       </Router>
 
