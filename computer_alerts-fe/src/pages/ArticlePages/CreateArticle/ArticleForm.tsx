@@ -53,7 +53,7 @@ const ArticleForm = () => {
   };
 
   const handleAddTag = () => {
-    navigate("/addTagForm"); 
+    navigate("/addTagForm");
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -248,10 +248,14 @@ const ArticleForm = () => {
         </div>
 
         <div className="add-tag-button">
-      <button type="button" className="submit-button" onClick={handleAddTag}>
-        Add Tag
-      </button>
-    </div>
+          <button
+            type="button"
+            className="submit-button"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+        </div>
 
         {/* Submit Buttons */}
         <div className="row">

@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
 } from "react-router-dom";
 import AppNavBar from "./layouts/AppNavBar";
 import AuthorNavBar from "./layouts/AutherDashboard/AutherNavBar";
@@ -33,24 +32,34 @@ import ReportsPages from "pages/ReportsPages/ReportsPages";
 import AddNewCategoryPage from "pages/AdminPages/AddNewCategory/AddNewCategoryPage";
 import ModifyAccountDetails from "features/readers/components/ModifyAccountDetails";
 import AddTagForm from "features/tags/addTagForm";
-
+import { DecodeToken } from "assets/DecodeToken";
 
 const Navbar = () => {
-  const location = useLocation();
+  const token = localStorage.getItem("accessToken");
+  const decodedToken = token ? DecodeToken(token) : null;
+  const permissions: string[] = decodedToken?.permissions || [];
+
+  console.log("User Permissions:", permissions); // Debugging check
 
   if (
-    location.pathname.startsWith("/authDashboard") ||
-    location.pathname.startsWith("/authHome") ||
-    location.pathname.startsWith("/authCreateArticle") ||
-    location.pathname.startsWith("/authYourArticles") ||
-    location.pathname.startsWith("/authYourDrafts")
+    permissions.includes("create:articles")
+    // && (
+    //   location.pathname.startsWith("/authDashboard") ||
+    //   location.pathname.startsWith("/authHome") ||
+    //   location.pathname.startsWith("/authCreateArticle") ||
+    //   location.pathname.startsWith("/authYourArticles") ||
+    //   location.pathname.startsWith("/authYourDrafts")
+    // )
   ) {
     return <AuthorNavBar />;
   } else if (
-    location.pathname.startsWith("/adminHomePage") ||
-    location.pathname.startsWith("/adminReviewArticles") ||
-    location.pathname.startsWith("/adminAuthors") ||
-    location.pathname.startsWith("/adminReports")
+    permissions.includes("admin:articles")
+    // && (
+    //   location.pathname.startsWith("/adminHomePage") ||
+    //   location.pathname.startsWith("/adminReviewArticles") ||
+    //   location.pathname.startsWith("/adminAuthors") ||
+    //   location.pathname.startsWith("/adminReports")
+    // )
   ) {
     return <AdminNavBar />;
   }
@@ -112,10 +121,7 @@ function App(): JSX.Element {
             path={AppRoutePaths.AdminCreateAuthor}
             element={<AdminCreateAuthor />}
           />
-          <Route
-            path={AppRoutePaths.AdminReports}
-            element={<ReportsPages />}
-          />
+          <Route path={AppRoutePaths.AdminReports} element={<ReportsPages />} />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
           <Route
@@ -129,7 +135,10 @@ function App(): JSX.Element {
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
 
-          <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
+          <Route
+            path={AppRoutePaths.AddCategory}
+            element={<AddNewCategoryPage />}
+          />
 
           <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
         </Routes>

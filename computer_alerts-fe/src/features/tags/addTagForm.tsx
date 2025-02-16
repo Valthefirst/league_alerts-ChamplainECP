@@ -84,7 +84,11 @@ const TagForm: React.FC = () => {
             <button type="submit" className="tag-submit-button">
               {id ? "Update Tag" : "Create Tag"}
             </button>
-            <button type="button" className="cancel-button" onClick={handleCancel}>
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={handleCancel}
+            >
               Cancel
             </button>
           </div>
