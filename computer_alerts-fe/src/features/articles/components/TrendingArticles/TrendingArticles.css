@@ -22,6 +22,11 @@
   overflow: hidden;
   height: 100%;
   position: relative;
+  transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.trending-articles .card:hover {
+  transform: scale(1.05); /* Scale the card slightly on hover */
 }
 
 .trending-articles .card:hover {
