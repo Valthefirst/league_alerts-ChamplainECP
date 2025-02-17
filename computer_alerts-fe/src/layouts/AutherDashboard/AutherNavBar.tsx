@@ -12,7 +12,7 @@ export default function AuthorNavBar(): JSX.Element {
       <Container>
       <Navbar.Brand
           as={Link}
-          to={AppRoutePaths.AdminHomePage}
+          to={AppRoutePaths.AuthorHomePage}
           className="navbar-brand"
         >
           <img src={LeagueImage} alt="Logo" className="logo" />

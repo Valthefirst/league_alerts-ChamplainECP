@@ -7,15 +7,21 @@
   margin: 40px auto;
 }
 
-.article-image {
-  text-align: center;
-  margin-bottom: 20px;
+.article-image img {
+  width: 100%;
+  max-width: 550px; /* Maximum width for larger screens */
+  height: auto;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
 }
 
-.image-placeholder,
-.article-image img {
-  width: 550px;
-  height: 420px;
+.image-placeholder {
+  width: 100%;
+  max-width: 550px;
+  /* You can set a specific height for the placeholder if needed */
   background-color: #f4f4f4;
   border-radius: 10px;
   object-fit: cover;
@@ -134,16 +140,7 @@
   background: red !important; /* Heart turns red when active */
 }
 
-/* Like count next to the heart */
-/* .like-count {
-  display: inline-block;
-  margin-left: 8px;  
-  padding-bottom: 8px;
-  font-size: 16px; 
-  vertical-align: middle; 
-  color: #555; 
-/* } */
-
+/* Like section styles */
 .like-section {
   display: flex !important; /* Make the section a flex container */
   justify-content: space-between; /* Space out items between the left and right ends */
@@ -161,6 +158,7 @@
   color: #555;
 }
 
+/* Edit button styles */
 .edit-button:hover {
   background-color: #a67c6d; /* Darken the color on hover */
   transform: translateY(-3px); /* Lift the button slightly */
@@ -172,6 +170,7 @@
   box-shadow: 0 0 0 4px #a67c6d; /* Add a glowing effect when focused */
 }
 
+/* Share container */
 .share-container {
   display: inline-block;
   margin-left: 10px;
@@ -406,12 +405,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.2
-  ); /* Light semi-transparent background */
+  background-color: rgba(255, 255, 255, 0.2); /* Light semi-transparent background */
   backdrop-filter: blur(10px); /* Applies a blur effect to the background */
   z-index: 1000;
   display: flex;
