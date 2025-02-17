@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
 import "./AddCategoryForm.css";
 import { fetchAllsArticles } from "./api/getAllCategories";
 import { addNewCategories } from "./api/addNewCategory";
@@ -39,26 +38,24 @@ const CategoryForm: React.FC = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!newCategory.trim()) return;
-
+  
     try {
       const newCat = await addNewCategories(newCategory);
-
-      // Now newCat will have both id and categoryName
+  
       const formattedData: Category = {
-        id: newCat.categoryId, // Correctly access 'id'
-        categoryName: newCat.categoryName, // Correctly access 'categoryName'
+        id: newCat.categoryId,
+        categoryName: newCat.categoryName,
       };
-
-      setCategories([...categories, formattedData]); // Add the new category to the list
-      setNewCategory(""); // Reset input field
+  
+      setCategories((prevCategories) => [...prevCategories, formattedData]); // Update categories list dynamically
+      setNewCategory("");
       alert("Category created successfully!");
-      window.location.reload(); // Optionally reload to refresh data
     } catch (err) {
       console.error("Error creating category:", err);
     }
   };
+  
 
   // Handle cancel action (go back to home)
   const handleCancel = () => {

@@ -1,5 +1,6 @@
 import { categoryRequestModel } from "features/articles/models/categoriesResponseModel";
-import axiosInstance from "./AxiosInstance/categoriesAxisoInstance";
+import axiosInstance from "../api/AxiosInstance/categoriesAxisoInstance";
+
 
 export const fetchAllsArticles = async (): Promise<categoryRequestModel[]> => {
   try {
