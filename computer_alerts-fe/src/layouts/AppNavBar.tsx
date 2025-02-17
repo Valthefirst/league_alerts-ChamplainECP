@@ -33,7 +33,7 @@ export default function AppNavBar(): JSX.Element {
         <Container>
         <Navbar.Brand
           as={Link}
-          to={AppRoutePaths.AdminHomePage}
+          to={AppRoutePaths.HomePage}
           className="navbar-brand"
         >
           <img src={LeagueImage} alt="Logo" className="logo" />
