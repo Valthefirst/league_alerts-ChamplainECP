@@ -1,6 +1,6 @@
 # Common Configuration
 frontend:
-#  url: http://localhost:3000
+  #  url: http://localhost:3000
   url: https://league-alerts.web.app
 
 cloudinary:
@@ -15,8 +15,8 @@ website:
 spring:
   data:
     mongodb:
-#      host: mongo
-#      port: 27017
+      #      host: mongo
+      #      port: 27017
       uri: ${MONGO_CONNECTION_STRING}
       database: computeralerts
       auto-index-creation: true

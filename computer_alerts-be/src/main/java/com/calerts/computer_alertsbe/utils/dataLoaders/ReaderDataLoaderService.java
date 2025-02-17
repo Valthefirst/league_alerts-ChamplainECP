@@ -37,7 +37,7 @@
 //                .build();
 //
 //
-//        Flux.just(reader1, reader2)
+//        Flux.just(reader1)
 //                .flatMap(s -> readerRepository.insert(Mono.just(s))
 //                        .log(s.toString()))
 //                .subscribe();

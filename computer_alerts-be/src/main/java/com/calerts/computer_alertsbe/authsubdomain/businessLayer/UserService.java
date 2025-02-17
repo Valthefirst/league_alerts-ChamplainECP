@@ -203,6 +203,27 @@ public class UserService {
                 .retrieve()
                 .bodyToMono(Void.class);
     }
+
+    public Mono<Void> assignRoleToGoogleAccount(@PathVariable String userId) {
+        return webClient.post()
+                .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + getManagementApiToken())
+                .bodyValue(Map.of("roles", List.of("rol_LOREG4N5742ObYCz")))
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
+    public Mono<Void> assignRoleToFacebookAccount(@PathVariable String userId) {
+        return webClient.post()
+                .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + getManagementApiToken())
+                .bodyValue(Map.of("roles", List.of("rol_LOREG4N5742ObYCz")))
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
     public Mono<Void> assignRoleToReader(@PathVariable String userId, @RequestBody RoleRequest request) {;
         return webClient.post()
                 .uri("https://"+AUTH0_DOMAIN + "/api/v2/users/" + userId + "/roles")
@@ -213,18 +234,6 @@ public class UserService {
                 .bodyToMono(Void.class);
     }
 
-//    public Mono<Void> assignRoleToUser(String auth0UserId, String manegmenttoken) {
-//
-//        return webClient.post()
-//                .uri("https://" + AUTH0_DOMAIN + "/api/v2/users/" + auth0UserId + "/roles")
-//                .headers(headers -> headers.setBearerAuth(manegmenttoken))
-//                .bodyValue("{ \"roles\": [ \"rol_W1iELc1CHmzBtfE4\" ] }")
-//                .retrieve()
-//                .toBodilessEntity()
-//                .doOnSuccess(response -> System.out.println(("Role '{}' assigned successfully to User ID: {}" + auth0UserId)))
-//                .doOnError(error -> System.out.println(("Failed to assign role '{}' to User ID: {}"  +auth0UserId + error)))
-//                .then();
-//    }
 
 
 
