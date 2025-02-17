@@ -113,10 +113,7 @@ function App(): JSX.Element {
             path={AppRoutePaths.AdminCreateAuthor}
             element={<AdminCreateAuthor />}
           />
-          <Route
-            path={AppRoutePaths.AdminReports}
-            element={<ReportsPages />}
-          />
+          <Route path={AppRoutePaths.AdminReports} element={<ReportsPages />} />
           <Route path="/article/:articleId" element={<AdminArticleDetails />} />
 
           <Route
@@ -130,7 +127,10 @@ function App(): JSX.Element {
           />
           <Route path={AppRoutePaths.Authors} element={<AuthorPage />} />
 
-          <Route path={AppRoutePaths.AddCategory} element={<AddNewCategoryPage />} />
+          <Route
+            path={AppRoutePaths.AddCategory}
+            element={<AddNewCategoryPage />}
+          />
 
           <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
 

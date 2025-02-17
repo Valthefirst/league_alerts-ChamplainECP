@@ -63,11 +63,11 @@ const ArticleForm = () => {
     setTagSearch(tag); // Update search input
     setShowTagResults(false); // Hide results
   };
-  
+
     const handleAddTag = () => {
-      navigate("/addTagForm"); 
+      navigate("/addTagForm");
     };
- 
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement

@@ -1,6 +1,6 @@
 export interface categoryRequestModel {
-    id: any;
-    
-    categoryId: string;
-    categoryName: string;
+  id: any;
+
+  categoryId: string;
+  categoryName: string;
 }

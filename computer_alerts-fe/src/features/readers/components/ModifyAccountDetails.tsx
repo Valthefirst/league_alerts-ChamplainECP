@@ -22,9 +22,6 @@ const ModifyAccountDetails: React.FC = () => {
       const decodedToken = DecodeToken(token);
       if (decodedToken) {
         setAuth0UserId(decodedToken.sub);
-
-        
-        
       }
     }
   }, []);
@@ -75,17 +72,20 @@ const ModifyAccountDetails: React.FC = () => {
     try {
       let URLDeploy = "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/";
       // const response = await fetch(`${URLDeploy}readers/${goodAuth0User}`, {
-        const response = await fetch(`${URLDeploy}readers/auth0%7C678920c84d650d4d4b64cee4`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${URLDeploy}readers/auth0%7C678920c84d650d4d4b64cee4`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            address: formData.address,
+          }),
         },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          address: formData.address,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update user data");

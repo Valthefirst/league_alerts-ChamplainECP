@@ -38,18 +38,18 @@ export default function AuthorNavBar(): JSX.Element {
             <Nav.Link
               as={Link}
               to={AppRoutePaths.AdminReports}
-              className="nav-link">
+              className="nav-link"
+            >
               Reports
             </Nav.Link>
 
-             {/* Dropdown for "Others" */}
-             <NavDropdown title="Others" id="others-dropdown">
+            {/* Dropdown for "Others" */}
+            <NavDropdown title="Others" id="others-dropdown">
               <NavDropdown.Item as={Link} to={AppRoutePaths.AddCategory}>
                 Add New Category
               </NavDropdown.Item>
               {/* You can add more dropdown items here if needed */}
             </NavDropdown>
-            
           </Nav>
         </Navbar.Collapse>
       </Container>

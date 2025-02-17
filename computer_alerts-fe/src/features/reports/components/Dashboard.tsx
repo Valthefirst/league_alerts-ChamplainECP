@@ -7,7 +7,9 @@ import { ArticleResponseModel } from "features/articles/models/ArticleResponseMo
 import { fetchArticleByArticleId } from "features/articles/api/getSpecificArticle";
 
 const Dashboard: React.FC = () => {
-  const [articlesWithTitles, setArticlesWithTitles] = useState<TopArticleModel[]>([]);
+  const [articlesWithTitles, setArticlesWithTitles] = useState<
+    TopArticleModel[]
+  >([]);
 
   useEffect(() => {
     createReport().then(async (data: ReportModel) => {
@@ -15,13 +17,17 @@ const Dashboard: React.FC = () => {
       const articlesWithTitles = await Promise.all(
         data.topArticles.map(async (article) => {
           try {
-            const articleData: ArticleResponseModel = await fetchArticleByArticleId(article.articleId);
+            const articleData: ArticleResponseModel =
+              await fetchArticleByArticleId(article.articleId);
             return { ...article, articleId: articleData.title }; // Replace articleId with title
           } catch (error) {
-            console.error(`Error fetching article ${article.articleId}:`, error);
+            console.error(
+              `Error fetching article ${article.articleId}:`,
+              error,
+            );
             return { ...article, articleId: "Unknown Title" }; // If API fails
           }
-        })
+        }),
       );
 
       setArticlesWithTitles(articlesWithTitles);

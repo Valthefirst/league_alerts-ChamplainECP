@@ -1,112 +1,111 @@
 /* Category Form Container */
 .category-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin: 20px auto;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden;
-  }
-  
-  /* Category Form */
-  .category-form {
-    background-color: #fadbd8 !important;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%; /* The form will take 60% of the width */
-    max-height: 650px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Form Title */
-  .form-title {
-    font-weight: bold;
-    font-size: 30px;
-    color: #5d4037;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Form Fields */
-  .category-field-box input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  /* Submit and Cancel Buttons */
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .category-submit-button {
-    background-color: #cda09f;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .category-submit-button:hover {
-    background-color: #a67c6d;
-    transform: translateY(-3px);
-  }
-  
-  .cancel-button {
-    background-color: #d9534f;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .cancel-button:hover {
-    background-color: #c9302c;
-    transform: translateY(-3px);
-  }
-  
-  /* Existing Categories (inside the form) */
-  .existing-categories {
-    margin-top: 30px;
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-height: 300px;
-    overflow-y: auto; /* Add vertical scrolling if content overflows */
-  }
-  
-  .existing-categories h2 {
-    font-size: 24px;
-    color: #5d4037;
-    text-align: center;
-  }
-  
-  .existing-categories ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .existing-categories li {
-    font-size: 18px;
-    color: #5d4037;
-    margin-bottom: 10px;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 20px auto;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+}
+
+/* Category Form */
+.category-form {
+  background-color: #fadbd8 !important;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%; /* The form will take 60% of the width */
+  max-height: 650px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Title */
+.form-title {
+  font-weight: bold;
+  font-size: 30px;
+  color: #5d4037;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form Fields */
+.category-field-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Submit and Cancel Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.category-submit-button {
+  background-color: #cda09f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-submit-button:hover {
+  background-color: #a67c6d;
+  transform: translateY(-3px);
+}
+
+.cancel-button {
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c9302c;
+  transform: translateY(-3px);
+}
+
+/* Existing Categories (inside the form) */
+.existing-categories {
+  margin-top: 30px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto; /* Add vertical scrolling if content overflows */
+}
+
+.existing-categories h2 {
+  font-size: 24px;
+  color: #5d4037;
+  text-align: center;
+}
+
+.existing-categories ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.existing-categories li {
+  font-size: 18px;
+  color: #5d4037;
+  margin-bottom: 10px;
+}
