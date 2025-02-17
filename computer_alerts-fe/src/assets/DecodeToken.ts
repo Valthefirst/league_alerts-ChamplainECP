@@ -1,11 +1,16 @@
-// utils/decodeToken.ts
-export const DecodeToken = (token: string): { sub: string } | null => {
+interface DecodedToken {
+  sub: string;
+  permissions?: string[];
+  [key: string]: any; // Allow other properties
+}
+
+export const DecodeToken = (token: string): DecodedToken | null => {
   try {
-    // Split the token into its three parts
     const [payload] = token.split(".");
 
-    // Decode the payload (base64url encoded)
-    const decodedPayload = JSON.parse(
+    if (!payload) throw new Error("Invalid token structure");
+
+    const decodedPayload: DecodedToken = JSON.parse(
       atob(payload.replace(/-/g, "+").replace(/_/g, "/")),
     );
 
