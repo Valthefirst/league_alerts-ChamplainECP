@@ -22,14 +22,13 @@ const Login: React.FC = () => {
     roles: string[];
   } | null>(null);
 
-  // Fetch user info if authenticated
   useEffect(() => {
     if (isAuthenticated) {
+      // Fetch user info if already authenticated (access token exists)
       fetchUserInfo();
     }
   }, [isAuthenticated]);
 
-  // Function to fetch user info from the backend after login
   const fetchUserInfo = async () => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
@@ -57,7 +56,7 @@ const Login: React.FC = () => {
 
           // Call your backend endpoint for Google Sign-In users
           const response = await fetch(
-            `http://localhost:8080/api/create/${goodAuthId}/assign-role/Google`,
+            `https://dolphin-app-sxvxi.ondigitalocean.app/api/create/${goodAuthId}/assign-role/Google`,
             {
               method: "POST",
               headers: {
@@ -84,7 +83,7 @@ const Login: React.FC = () => {
 
           // Call your backend endpoint for Facebook Sign-In users
           const response = await fetch(
-            `http://localhost:8080/api/create/${goodAuthId}/assign-role/Facebook`,
+            `https://dolphin-app-sxvxi.ondigitalocean.app/api/create/${goodAuthId}/assign-role/Facebook`,
             {
               method: "POST",
               headers: {
@@ -110,7 +109,6 @@ const Login: React.FC = () => {
     }
   };
 
-  // Login handler
   const handleLogin = async () => {
     try {
       console.log("Starting login process...");

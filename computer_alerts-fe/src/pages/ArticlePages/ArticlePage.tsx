@@ -68,7 +68,6 @@ export default function ArticlesPage(): JSX.Element {
     <div className="container">
       <div className="row">
         <div className="col-5">
-          <h1>{category} Articles</h1>
         </div>
         <div className="col-7">
           {/* Search Input */}
