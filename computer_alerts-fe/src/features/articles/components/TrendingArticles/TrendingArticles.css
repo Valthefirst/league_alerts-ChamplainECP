@@ -4,14 +4,20 @@
 
 .trending-articles .row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 20px; /* Space between cards */
 }
 
-.bigBoy,
+.bigBoy {
+  flex: 0 0 65%; /* Take 65% of the width */
+  height: auto; /* Allow height to adjust based on content */
+}
+
 .smallBoys {
-  height: auto;
-  width: 100%;
+  flex: 0 0 35%; /* Take 35% of the width */
+  display: flex;
+  flex-direction: column; /* Stack small boys vertically */
+  gap: 20px; /* Space between small boys */
 }
 
 .trending-articles .card {
@@ -27,10 +33,6 @@
 
 .trending-articles .card:hover {
   transform: scale(1.05); /* Scale the card slightly on hover */
-}
-
-.trending-articles .card:hover {
-  transform: scale(1.05); 
 }
 
 .trending-articles .card img:not(.share-icon-trending) {
@@ -122,12 +124,12 @@
 }
 
 .smallBoys {
-  height: 550px;
+  height: auto; /* Allow height to adjust based on content */
 }
 
 .smallBoys .card {
-  flex: 1;
-  height: calc(50% - 10px);
+  flex: 1; /* Allow small boys to take equal space */
+  height: calc(50% - 10px); /* Adjust height to fit two cards */
 }
 
 .smallBoys .card-body {
@@ -173,6 +175,7 @@
   padding-top: 8px;
 }
 
+/* Share Icon */
 .share-icon-trending {
   width: 40px;
   height: 40px;
