@@ -4,6 +4,9 @@ import "./AppNavBar.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav, NavDropdown, NavItem } from "react-bootstrap";
 import SVGIcon from "assets/MenuDetails/SVGIcon";
+import LeagueImage from '../assets/LeagueAlertsImg.jpg';
+
+
 
 export default function AppNavBar(): JSX.Element {
   const generateTagRoute = (category: string) =>
@@ -28,13 +31,13 @@ export default function AppNavBar(): JSX.Element {
       <div id="google_translate_element" style={{ display: "none" }}></div>
       <Navbar expand="lg" className="navbar">
         <Container>
-          <Navbar.Brand
-            as={Link}
-            to={AppRoutePaths.HomePage}
-            className="navbar-brand"
-          >
-            Home
-          </Navbar.Brand>
+        <Navbar.Brand
+          as={Link}
+          to={AppRoutePaths.AdminHomePage}
+          className="navbar-brand"
+        >
+          <img src={LeagueImage} alt="Logo" className="logo" />
+        </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav">
             <span>☰</span>
           </Navbar.Toggle>

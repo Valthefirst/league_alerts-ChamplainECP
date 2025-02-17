@@ -3,17 +3,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./AdminNavBar.css";
 import { AppRoutePaths } from "../../shared/models/path.routes";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import LeagueImage from '../../assets/LeagueAlertsImg.jpg';
 
 export default function AuthorNavBar(): JSX.Element {
   return (
     <Navbar expand="lg" className="navbar">
       <Container>
-        <Navbar.Brand
+      <Navbar.Brand
           as={Link}
           to={AppRoutePaths.AdminHomePage}
           className="navbar-brand"
         >
-          Home
+          <img src={LeagueImage} alt="Logo" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav">
           <span>☰</span>
