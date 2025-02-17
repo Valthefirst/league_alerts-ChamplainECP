@@ -5,6 +5,7 @@ import "./AppNavBar.css";
 import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { fetchAllsArticles } from "../features/categories/api/getAllCategories";
+import LeagueImage from "../assets/LeagueAlertsImg.jpg"
 
 interface Category {
   id: string;
@@ -37,8 +38,12 @@ export default function AppNavBar(): JSX.Element {
   return (
     <Navbar expand="lg" className="navbar">
       <Container>
-        <Navbar.Brand as={Link} to={AppRoutePaths.HomePage} className="navbar-brand">
-          Home
+      <Navbar.Brand
+          as={Link}
+          to={AppRoutePaths.HomePage}
+          className="navbar-brand"
+        >
+          <img src={LeagueImage} alt="Logo" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav">
           <span>☰</span>

@@ -7,10 +7,17 @@
   margin: 40px auto;
 }
 
-.article-image {
-  text-align: center;
-  margin-bottom: 20px;
+.article-image img {
+  width: 100%;
+  max-width: 550px; /* Maximum width for larger screens */
+  height: auto; /* Automatically adjust the height to maintain aspect ratio */
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
 }
+
 
 .image-placeholder,
 .article-image img {
