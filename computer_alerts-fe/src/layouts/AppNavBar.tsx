@@ -35,6 +35,21 @@ export default function AppNavBar(): JSX.Element {
   const generateTagRoute = (category: string) =>
     AppRoutePaths.ArticlesByCategory.replace(":category", category);
 
+    const handleLanguageChange = (lang: string) => {
+      const googleTranslateElement = document.querySelector(
+        ".goog-te-combo"
+      ) as HTMLSelectElement;
+  
+      if (googleTranslateElement) {
+        googleTranslateElement.value = lang;
+        googleTranslateElement.dispatchEvent(new Event("change"));
+        console.log(`Language changed to: ${lang}`);
+      } else {
+        console.error("Google Translate dropdown not found");
+      }
+    };
+
+
   return (
     <Navbar expand="lg" className="navbar">
       <Container>
@@ -83,6 +98,14 @@ export default function AppNavBar(): JSX.Element {
             <Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">
               Your Authors
             </Nav.Link>
+            <NavDropdown title="Language" id="language-dropdown">
+                <NavDropdown.Item onClick={() => handleLanguageChange("en")}>
+                  English
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => handleLanguageChange("fr")}>
+                  French
+                </NavDropdown.Item>
+              </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
