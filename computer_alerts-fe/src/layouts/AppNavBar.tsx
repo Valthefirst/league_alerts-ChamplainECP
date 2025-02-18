@@ -51,6 +51,8 @@ export default function AppNavBar(): JSX.Element {
 
 
   return (
+    <>
+    <div id="google_translate_element" style={{ display: "none" }}></div>
     <Navbar expand="lg" className="navbar">
       <Container>
       <Navbar.Brand
@@ -110,5 +112,6 @@ export default function AppNavBar(): JSX.Element {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </>
   );
 }
