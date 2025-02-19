@@ -22,9 +22,6 @@ export const editArticleImage = async (
       },
     );
 
-    // Log the content of the response for verification
-    console.log("API Response: ", response.data);
-
     return response;
   } catch (err) {
     console.error("Error editing article image", err);

@@ -99,11 +99,10 @@ const ArticleForm = () => {
       if (imageFile) {
         const response = await uploadImage(imageFile);
         const photoUrl = response.data;
-        console.log("Photo URL:", photoUrl);
         formData.photoUrl = photoUrl;
       }
 
-      const response = await axios.post(
+      await axios.post(
         "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/articles",
         // "http://localhost:8080/api/v1/articles",
         formData,
@@ -114,7 +113,6 @@ const ArticleForm = () => {
         },
       );
 
-      console.log("Article created:", response.data);
       setSuccessMessageText("You have successfully created an article.");
       setShowSuccessMessage(true);
       console.error("Error creating article:", formData.wordCount);
@@ -135,7 +133,7 @@ const ArticleForm = () => {
   const handleDraftSubmit = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.post(
+      await axios.post(
         "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/articles/acceptDraft",
         // "http://localhost:8080/api/v1/articles/acceptDraft",
         formData,
@@ -145,7 +143,6 @@ const ArticleForm = () => {
           },
         },
       );
-      console.log("Article saved:", response.data);
       setSuccessMessageText(
         "You have successfully created a Draft of your article.",
       );

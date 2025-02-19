@@ -14,7 +14,6 @@ export default function GoogleTranslateLoader(): null {
 
     // Define the Google Translate initialization function globally
     window.googleTranslateElementInit = () => {
-      console.log("Initializing Google Translate");
       new window.google.translate.TranslateElement(
         {
           pageLanguage: "en",
@@ -50,7 +49,6 @@ export default function GoogleTranslateLoader(): null {
       ) as HTMLIFrameElement; // Type assertion to ensure TypeScript recognizes iframe
       if (iframe) {
         iframe.style.display = "none"; // Safely access 'style'
-        console.log("Google Translate toolbar iframe hidden.");
       }
     });
 
