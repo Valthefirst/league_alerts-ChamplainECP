@@ -43,7 +43,6 @@ export default function AppNavBar(): JSX.Element {
       if (googleTranslateElement) {
         googleTranslateElement.value = lang;
         googleTranslateElement.dispatchEvent(new Event("change"));
-        console.log(`Language changed to: ${lang}`);
       } else {
         console.error("Google Translate dropdown not found");
       }

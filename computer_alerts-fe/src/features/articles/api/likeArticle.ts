@@ -9,7 +9,6 @@ export const likeArticle = async (
   articleId: string,
   readerId: string,
 ): Promise<void> => {
-  console.log("Sending like request:", { articleId, readerId }); // Debugging log
   try {
     const accessToken = localStorage.getItem("accessToken");
     await axiosInstance.post(`/interactions/like`, null, {

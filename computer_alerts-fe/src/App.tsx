@@ -43,8 +43,6 @@ const Navbar = () => {
   const decodedToken = token ? DecodeToken(token) : null;
   const permissions: string[] = decodedToken?.permissions || [];
 
-  console.log("User Permissions:", permissions); // Debugging check
-
   if (
     permissions.includes("create:articles")
     // && (

@@ -9,7 +9,6 @@ export const unlikeArticle = async (
   articleId: string,
   readerId: string,
 ): Promise<void> => {
-  console.log("Sending unlike request:", { articleId, readerId }); // Debugging log
   try {
     const accessToken = localStorage.getItem("accessToken");
     await axiosInstance.delete(`/interactions/unlike`, {

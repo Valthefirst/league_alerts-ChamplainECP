@@ -47,12 +47,10 @@ const Login: React.FC = () => {
           console.log("YESSSSS");
         }
         setAuth0UserId(userId);
-        console.log("Decoded Token:", decodedToken);
 
         // Check if the user signed in via Google
         if (userId && userId.indexOf("google-") === 0) {
           const goodAuthId = userId.replace(/\|/g, "%7C");
-          console.log("Making fetch request for Google user:", goodAuthId);
 
           // Call your backend endpoint for Google Sign-In users
           const response = await fetch(
@@ -72,14 +70,10 @@ const Login: React.FC = () => {
           if (!response.ok) {
             throw new Error("Failed to create user in the database");
           }
-
-          const data = await response.json();
-          console.log("User created/fetched:", data);
         }
         // Check if the user signed in via Facebook
         else if (userId && userId.indexOf("facebook-") === 0) {
           const goodAuthId = userId.replace(/\|/g, "%7C");
-          console.log("Making fetch request for Facebook user:", goodAuthId);
 
           // Call your backend endpoint for Facebook Sign-In users
           const response = await fetch(
@@ -99,9 +93,6 @@ const Login: React.FC = () => {
           if (!response.ok) {
             throw new Error("Failed to create user in the database");
           }
-
-          const data = await response.json();
-          console.log("User created/fetched:", data);
         }
       }
     } catch (error) {
@@ -111,9 +102,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      console.log("Starting login process...");
       await authService.login();
-      console.log("Login successful!");
       fetchUserInfo();
 
       // After successful login, set authentication state

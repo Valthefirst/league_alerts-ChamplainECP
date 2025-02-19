@@ -16,7 +16,6 @@ export class AuthService {
   }
 
   private async initializeAuth0() {
-    console.log("Initializing Auth0...");
     this.auth0Client = await createAuth0Client({
       domain: "dev-im24qkb6l7t2yhha.ca.auth0.com",
       clientId: "COuKmAH95MAHPN2irCzsuOearf2gdsOH",
@@ -39,7 +38,6 @@ export class AuthService {
   public async isAuthenticated(): Promise<boolean> {
     await this.ensureAuth0Client();
     const authenticated = await this.auth0Client!.isAuthenticated();
-    console.log("Is authenticated:", authenticated);
     return authenticated;
   }
 
@@ -48,18 +46,14 @@ export class AuthService {
     await this.auth0Client!.loginWithPopup();
     const isAuthenticated = await this.isAuthenticated();
     if (isAuthenticated) {
-      console.log("Logged in successfully.");
       const token = await this.getToken();
 
       localStorage.setItem("accessToken", token);
-    } else {
-      console.log("Login failed.");
     }
   }
 
   public async logout(): Promise<void> {
     await this.ensureAuth0Client();
-    console.log("Logging out...");
     await this.auth0Client!.logout({
       logoutParams: {
         returnTo: window.location.origin,
@@ -71,7 +65,6 @@ export class AuthService {
   public async getToken(): Promise<string> {
     await this.ensureAuth0Client();
     const token = await this.auth0Client!.getTokenSilently();
-    console.log("Retrieved token:", token);
     return token;
   }
 
@@ -79,7 +72,6 @@ export class AuthService {
   public async getUserRoles(): Promise<string[]> {
     await this.ensureAuth0Client();
     const claims = await this.auth0Client!.getIdTokenClaims();
-    console.log("User roles:", claims?.["roles"]);
     return claims?.["roles"] || [];
   }
 

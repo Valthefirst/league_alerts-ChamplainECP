@@ -7,17 +7,14 @@ const GoogleFacebook: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      console.log("Access Token Found:", token);
       const decodedToken = DecodeToken(token);
       if (decodedToken) {
         const userId = decodedToken.sub;
-        console.log("Decoded Token:", decodedToken);
         setAuth0UserId(userId);
 
         // Check if the user signed in via Google
         if (userId.startsWith("google-")) {
           const goodAuthId = userId.replace(/\|/g, "%7C");
-          console.log("Making fetch request for Google user:", goodAuthId);
 
           // Call your backend endpoint for Google Sign-In users
           fetch(
@@ -39,16 +36,11 @@ const GoogleFacebook: React.FC = () => {
               }
               return response.json();
             })
-            .then((data) => {
-              console.log("User created/fetched:", data);
-            })
             .catch((error) => {
               console.error("Error:", error);
             });
         }
       }
-    } else {
-      console.log("No access token found in localStorage");
     }
   }, []);
 
