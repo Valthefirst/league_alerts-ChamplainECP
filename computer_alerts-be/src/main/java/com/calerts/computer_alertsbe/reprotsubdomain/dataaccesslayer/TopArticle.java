@@ -1,7 +1,6 @@
 package com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

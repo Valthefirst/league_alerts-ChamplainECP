@@ -2,7 +2,6 @@ package com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslaye
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 

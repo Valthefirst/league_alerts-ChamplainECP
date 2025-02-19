@@ -5,7 +5,6 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Tags.Tag
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Tags.TagsResponseModel;
 import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.NotFoundException;
-import com.mongodb.annotations.Sealed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

@@ -4,18 +4,15 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.CommentRepository;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorRepository;
 import com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer.Report;
 import com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer.ReportIdentifier;
 import com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer.ReportRepository;
 import com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer.TopArticle;
 import com.calerts.computer_alertsbe.reprotsubdomain.presentationlayer.ReportResponseModel;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 

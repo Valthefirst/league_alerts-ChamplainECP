@@ -3,7 +3,6 @@ package com.calerts.computer_alertsbe.articleinteractionsubdomain.businesslayer;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Like;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.LikeIdentifier;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.LikeRepository;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
 import org.springframework.stereotype.Service;

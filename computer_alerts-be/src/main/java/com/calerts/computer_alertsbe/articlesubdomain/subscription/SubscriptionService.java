@@ -1,6 +1,5 @@
 package com.calerts.computer_alertsbe.articlesubdomain.subscription;
 
-
 import reactor.core.publisher.Mono;
 
 import java.util.List;
