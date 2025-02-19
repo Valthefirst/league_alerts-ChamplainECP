@@ -3,7 +3,6 @@ package com.calerts.computer_alertsbe.readersubdomain.presentationlayer;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
@@ -111,7 +110,7 @@ class ReaderControllerIntegrationTest {
 
         ReaderRequestModel updatedReader = ReaderRequestModel.builder()
 
-                .auth0UserID("22222")
+                .readerId("22222")
                 .emailAddress("heel")
                 .firstName("james")
                 .lastName("hello")
@@ -151,7 +150,7 @@ class ReaderControllerIntegrationTest {
 
         ReaderRequestModel updatedReader = ReaderRequestModel.builder()
 
-                .auth0UserID("22222")
+                .readerId("22222")
                 .emailAddress("heel")
                 .firstName("james")
                 .lastName("hello")

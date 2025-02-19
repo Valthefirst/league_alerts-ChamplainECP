@@ -10,6 +10,7 @@ import { likeArticle } from "features/articles/api/likeArticle";
 import { Link } from "react-router-dom";
 import { getAllSaves } from "../api/getAllSaves";
 import savedIcon from "../../../assets/savedIcon.png";
+import { Button } from "react-bootstrap";
 
 interface SavedArticlesListProps {
   readerId: string;
@@ -21,14 +22,15 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [removingArticles, setRemovingArticles] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [likedArticles, setLikedArticles] = useState<{
     [articleId: string]: boolean;
   }>({});
   const heartRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  // useEffect getAllSaves
+  // useEffect to fetch saves
   useEffect(() => {
     const fetchSaves = async () => {
       try {
@@ -50,7 +52,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
     const fetchArticles = async () => {
       try {
         const articlePromises = saves.map((save) =>
-          fetchArticleByArticleIdWithNoPatch(save.articleId),
+          fetchArticleByArticleIdWithNoPatch(save.articleId)
         );
         const fetchedArticles = await Promise.all(articlePromises);
         setArticles(fetchedArticles);
@@ -70,17 +72,13 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
   // useEffect for likes
   useEffect(() => {
     const initializeLikedState = () => {
-      const initialLikedState = articles.reduce(
-        (acc, article) => {
-          if (article.articleId) {
-            acc[article.articleId] =
-              localStorage.getItem(`article-${article.articleId}-liked`) ===
-              "true";
-          }
-          return acc;
-        },
-        {} as { [articleId: string]: boolean },
-      );
+      const initialLikedState = articles.reduce((acc, article) => {
+        if (article.articleId) {
+          acc[article.articleId] =
+            localStorage.getItem(`article-${article.articleId}-liked`) === "true";
+        }
+        return acc;
+      }, {} as { [articleId: string]: boolean });
       setLikedArticles(initialLikedState);
     };
 
@@ -97,19 +95,14 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
 
   const handleUnsave = async (articleId: string, saveId: string) => {
     try {
-      setRemovingArticles(
-        (prev) => new Set(Array.from(prev).concat(articleId)),
-      );
+      setRemovingArticles((prev) => new Set(Array.from(prev).concat(articleId)));
       await deleteSave(saveId);
 
-      // Wait for animation
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
       setSaves((prevSaves) =>
-        prevSaves.filter((save) => save.saveId !== saveId),
+        prevSaves.filter((save) => save.saveId !== saveId)
       );
       setArticles((prevArticles) =>
-        prevArticles.filter((a) => a.articleId !== articleId),
+        prevArticles.filter((a) => a.articleId !== articleId)
       );
     } catch (error) {
       console.error("Error unsaving article:", error);
@@ -147,10 +140,44 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
     }
   };
 
+  const sortedArticles = articles
+    .map((article) => {
+      const correspondingSave = saves.find(
+        (save) => save.articleId === article.articleId
+      );
+      return {
+        article,
+        // Fallback timestamp 0 if no corresponding save is found.
+        timestamp: correspondingSave ? new Date(correspondingSave.timestamp).getTime() : 0,
+      };
+    })
+    .sort((a, b) =>
+      sortOrder === "asc"
+        ? a.timestamp - b.timestamp
+        : b.timestamp - a.timestamp
+    );
+
   return (
     <div className="saved-articles-container">
-      {articles.length > 0 ? (
-        articles.map((article, index) => (
+      {/* Sort Button */}
+      <div className="sort-button-container">
+        <Button
+          onClick={() =>
+            setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
+          }
+          className="btn"
+          style={{
+          backgroundColor: "#96100f",
+          borderColor: "#96100f",
+          color: "white",
+    }}
+        >
+          Sort by Date: {sortOrder === "asc" ? "Ascending" : "Descending"}
+        </Button>
+      </div>
+
+      {sortedArticles.length > 0 ? (
+        sortedArticles.map(({ article }, index) => (
           <div
             key={article.articleId}
             className={`saved-article-item ${
@@ -203,7 +230,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
                 className="unsave-icon"
                 onClick={() => {
                   const saveToDelete = saves.find(
-                    (save) => save.articleId === article.articleId,
+                    (save) => save.articleId === article.articleId
                   );
                   if (saveToDelete) {
                     handleUnsave(article.articleId, saveToDelete.saveId);
@@ -218,7 +245,7 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
                 title="Unsave"
               />
             </div>
-            {index < articles.length - 1 && <hr className="separator" />}
+            {index < sortedArticles.length - 1 && <hr className="separator" />}
           </div>
         ))
       ) : (

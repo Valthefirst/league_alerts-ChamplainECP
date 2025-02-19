@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-//import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,7 +23,7 @@ public class Save {
 
     @Embedded
     private SaveIdentifier saveId;
-//    private LocalDateTime timestamp;
+    private LocalDateTime timestamp;
     private ArticleIdentifier articleId;
     private String readerId;
 }

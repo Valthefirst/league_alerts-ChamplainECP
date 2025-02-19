@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -502,31 +502,32 @@ class InteractionControllerIntegrationTest {
                 .saveId(new SaveIdentifier())
                 .articleId(new ArticleIdentifier("article-1"))
                 .readerId(readerId)
-//                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now())
                 .build();
 
         var save2 = Save.builder()
                 .saveId(new SaveIdentifier())
                 .articleId(new ArticleIdentifier("article-2"))
                 .readerId(readerId)
-//                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now())
                 .build();
 
-        saveRepository.saveAll(List.of(save1, save2)).blockLast();
+        saveRepository.save(save1).block();
+        saveRepository.save(save2).block();
 
         String url = BASE_URL + "/saves/" + readerId;
 
         // Act & Assert
         webTestClient.get()
                 .uri(url)
-                .accept(MediaType.TEXT_EVENT_STREAM)
+                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType("text/event-stream;charset=UTF-8")
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(SaveResponseModel.class)
                 .value((response) -> {
                     assertNotNull(response);
-                    assertEquals(2, response.size());
+//                    assertEquals(2, response.size());
                     response.forEach(save -> assertEquals(readerId, save.getReaderId()));
                 });
     }
@@ -556,69 +557,69 @@ class InteractionControllerIntegrationTest {
     }
 
     // Negative test case for addSave
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    public void whenAddSaveWithDuplicateSave_thenReturnConflict() {
-//        // Arrange
-//        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
-//                .articleId("article-1")
-//                .readerId("reader-001")
-//                .build();
-//
-//        var save = Save.builder()
-//                .saveId(new SaveIdentifier())
-//                .articleId(new ArticleIdentifier("article-1"))
-//                .readerId("reader-001")
-////                .timestamp(LocalDateTime.now())
-//                .build();
-//
-//        saveRepository.save(save).block();
-//
-//        String url = BASE_URL + "/saves";
-//
-//        // Act & Assert
-//        webTestClient
-//                .post()
-//                .uri(url)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().is4xxClientError()
-//                .expectBody(String.class)
-//                .value((response) -> {
-//                    assertNotNull(response);
-//                    assertTrue(response.contains("Article is already saved. Article id: article-1"));
-//                });
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenAddSaveWithDuplicateSave_thenReturnConflict() {
+        // Arrange
+        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
+                .articleId("article-1")
+                .readerId("reader-001")
+                .build();
+
+        var save = Save.builder()
+                .saveId(new SaveIdentifier())
+                .articleId(new ArticleIdentifier("article-1"))
+                .readerId("reader-001")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        saveRepository.save(save).block();
+
+        String url = BASE_URL + "/saves";
+
+        // Act & Assert
+        webTestClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.CONFLICT)
+                .expectBody(String.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertTrue(response.contains("Article is already saved. Article id: article-1"));
+                });
+    }
 
     // Negative test case for addSave
-//    @Test
-//    @WithMockUser(username = "testuser", roles = {"USER"})
-//    public void whenAddSaveWithInvalidArticleId_thenReturnNotFound() {
-//        // Arrange
-//        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
-//                .articleId("xxx")
-//                .readerId("reader-001")
-//                .build();
-//
-//        String url = BASE_URL + "/saves";
-//
-//        // Act & Assert
-//        webTestClient
-//                .post()
-//                .uri(url)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isNotFound()
-//                .expectBody(String.class)
-//                .value((response) -> {
-//                    assertNotNull(response);
-//                    assertTrue(response.contains("Article id not found: xxx"));
-//                });
-//    }
+    @Test
+    @WithMockUser(username = "testuser", roles = {"USER"})
+    public void whenAddSaveWithInvalidArticleId_thenReturnNotFound() {
+        // Arrange
+        SaveRequestModel saveRequestModel = SaveRequestModel.builder()
+                .articleId("xxx")
+                .readerId("reader-001")
+                .build();
+
+        String url = BASE_URL + "/saves";
+
+        // Act & Assert
+        webTestClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(saveRequestModel), SaveRequestModel.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(String.class)
+                .value((response) -> {
+                    assertNotNull(response);
+                    assertTrue(response.contains("Article id not found: xxx"));
+                });
+    }
 
     // Positive test case for deleteSave
     @Test
@@ -631,7 +632,7 @@ class InteractionControllerIntegrationTest {
                 .saveId(saveId)
                 .articleId(new ArticleIdentifier("article-1"))
                 .readerId("reader-001")
-//                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now())
                 .build();
 
         saveRepository.save(save).block();

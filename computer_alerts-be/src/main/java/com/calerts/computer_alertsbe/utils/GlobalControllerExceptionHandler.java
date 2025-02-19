@@ -29,8 +29,8 @@ public class GlobalControllerExceptionHandler {
 
     @ExceptionHandler(DuplicateSaveException.class)
     public ResponseEntity<Object> handleDuplicateSaveException(DuplicateSaveException ex) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(new HttpErrorInfo(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Save", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new HttpErrorInfo(HttpStatus.CONFLICT, "Save already exists", ex.getMessage()));
     }
 
     //same structure for bad request
