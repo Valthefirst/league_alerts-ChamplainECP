@@ -94,6 +94,9 @@ export default function AppNavBar(): JSX.Element {
               </NavDropdown>
             )}
 
+            <Nav.Link as={Link} to={AppRoutePaths.SavedArticles} className="nav-link">
+              Saved Articles
+            </Nav.Link>
             <Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">
               Create Account
             </Nav.Link>

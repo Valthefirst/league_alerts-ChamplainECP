@@ -6,8 +6,6 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlay
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Share;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.LikeResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
-//import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentRequestModel;
-//import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.CommentResponseModel;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.ShareResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 
@@ -26,12 +24,10 @@ import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.Tags.Tag
 import com.calerts.computer_alertsbe.authorsubdomain.datalayer.Author;
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
-import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
-import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderRequestModel;
 import com.calerts.computer_alertsbe.readersubdomain.presentationlayer.ReaderResponseModel;
 import org.springframework.beans.BeanUtils;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 public class EntityModelUtil {
 
@@ -127,8 +123,8 @@ public class EntityModelUtil {
 
     public static SaveResponseModel toSaveResponseModel(Save save) {
         SaveResponseModel saveResponseModel = new SaveResponseModel();
-//        BeanUtils.copyProperties(save, saveResponseModel);
         saveResponseModel.setSaveId(save.getSaveId().getSaveId());
+        saveResponseModel.setTimestamp(save.getTimestamp());
         saveResponseModel.setArticleId(save.getArticleId().getArticleId());
         saveResponseModel.setReaderId(save.getReaderId());
         return saveResponseModel;
@@ -138,13 +134,9 @@ public class EntityModelUtil {
         Save save = new Save();
         BeanUtils.copyProperties(saveRequestModel, save);
         save.setArticleId(new ArticleIdentifier(saveRequestModel.getArticleId()));
+        save.setTimestamp(LocalDateTime.now());
         return save;
     }
-
-    public static String generateUUIDString(){
-        return new ArticleIdentifier(UUID.randomUUID().toString()).toString();
-    }
-
 
     public static ShareResponseModel toShareResponseModel(Share share) {
         ShareResponseModel shareResponseModel = new ShareResponseModel();

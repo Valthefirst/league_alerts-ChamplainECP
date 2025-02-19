@@ -8,4 +8,5 @@ public interface SaveRepository extends ReactiveMongoRepository<Save, String> {
 
     Flux<Save> findSavesByReaderId(String readerId);
     Mono<Save> findSaveBySaveId_SaveId(String saveId);
+    Mono<Save> findSaveByArticleId_ArticleIdAndReaderId(String articleId, String readerId);
 }

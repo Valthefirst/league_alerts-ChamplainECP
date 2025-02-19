@@ -102,7 +102,6 @@ public class InteractionController {
     }
 
     @GetMapping(value = "/saves/{readerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasAuthority('save:articles')")
     public Flux<SaveResponseModel> getAllSaves(@PathVariable String readerId) {
         return saveService.getAllSaves(readerId);
     }
