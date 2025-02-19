@@ -1,10 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.presentationlayer;
 
-
-
 import com.calerts.computer_alertsbe.articlesubdomain.businesslayer.ArticleService;
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
-import com.calerts.computer_alertsbe.utils.EntityModelUtil;
 import com.calerts.computer_alertsbe.utils.exceptions.InvalidInputException;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

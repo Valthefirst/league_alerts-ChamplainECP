@@ -5,14 +5,10 @@ import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorReq
 
 import com.calerts.computer_alertsbe.authorsubdomain.presentationlayer.AuthorResponseModelAuth;
 import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.RoleRequest;
-import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserRequestDTO;
-import com.calerts.computer_alertsbe.authsubdomain.presentationlayer.UserResponseModel;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.Reader;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderIdentifier;
 import com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer.ReaderRepository;
-import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

@@ -8,9 +8,7 @@ import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlay
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.dataaccesslayer.Comment;
 import com.calerts.computer_alertsbe.articleinteractionsubdomain.presentationlayer.ShareResponseModel;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
-
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleIdentifier;
-
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.Categories;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags.Tags;

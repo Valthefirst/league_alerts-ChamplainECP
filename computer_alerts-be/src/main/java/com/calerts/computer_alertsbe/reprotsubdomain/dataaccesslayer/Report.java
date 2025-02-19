@@ -1,6 +1,5 @@
 package com.calerts.computer_alertsbe.reprotsubdomain.dataaccesslayer;
 
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

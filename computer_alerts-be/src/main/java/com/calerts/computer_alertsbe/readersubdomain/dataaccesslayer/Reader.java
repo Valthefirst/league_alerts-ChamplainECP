@@ -1,6 +1,5 @@
 package com.calerts.computer_alertsbe.readersubdomain.dataaccesslayer;
 
-import com.calerts.computer_alertsbe.authorsubdomain.datalayer.AuthorIdentifier;
 import jakarta.persistence.Embedded;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

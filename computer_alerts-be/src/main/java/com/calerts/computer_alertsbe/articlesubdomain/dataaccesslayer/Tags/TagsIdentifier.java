@@ -1,8 +1,6 @@
 package com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Tags;
 
-import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Categories.CategoriesIdentifier;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import lombok.Getter;
 
 import java.util.UUID;

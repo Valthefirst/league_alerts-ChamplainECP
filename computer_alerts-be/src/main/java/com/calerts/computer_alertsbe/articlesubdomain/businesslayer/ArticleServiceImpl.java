@@ -1,11 +1,8 @@
 package com.calerts.computer_alertsbe.articlesubdomain.businesslayer;
 
-
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Article;
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleRepository;
-
 import com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.ArticleStatus;
-
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleRequestModel;
 import com.calerts.computer_alertsbe.articlesubdomain.presentationlayer.ArticleResponseModel;
 import com.calerts.computer_alertsbe.utils.CloudinaryService.CloudinaryService;
@@ -18,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
@@ -29,7 +25,6 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 import static com.calerts.computer_alertsbe.articlesubdomain.dataaccesslayer.Content.calculateWordCount;
-
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
