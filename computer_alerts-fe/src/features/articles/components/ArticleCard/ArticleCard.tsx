@@ -11,8 +11,10 @@ import shareIcon from "../../../../assets/share-icon.png"; // Import the share i
 import { SaveModel } from "../../../savedArticles/model/SaveModel";
 import { addSave } from "../../../savedArticles/api/addSave";
 import { deleteSave } from "../../../savedArticles/api/deleteSave";
-import { Button } from "react-bootstrap";
 import { getAllSaves } from "features/savedArticles/api/getAllSaves";
+import saveIcon from "../../../../assets/saveIcon.png";
+import savedIcon from "../../../../assets/savedIcon.png";
+
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -201,8 +203,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                   <strong>Posted:</strong> {formatDate(article.timePosted)}
                 </p>
 
-                {/* Like and Share Section */}
                 <div className="like-share-section">
+                  {/* Like (Heart) */}
                   <div
                     id="heart"
                     ref={(el) =>
@@ -215,22 +217,27 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                       article.articleId && handleLikeToggle(article.articleId)
                     }
                   ></div>
+
                   <p className="article-card-like-count">
                     {likedArticles[article.articleId || ""] ? 1 : 0}
                   </p>
-                  <div>
-                    <Button
-                      className="bookmark-btn"
-                      onClick={() =>
-                        article.articleId && handleSaveToggle(article.articleId)
-                      }
-                    >
-                      <i
-                        className={`bi ${savedArticles[article.articleId] ? "bi-bookmark-fill" : "bi-bookmark"}`}
-                      ></i>
-                      {savedArticles[article.articleId] ? "Unsave" : "Save"}
-                    </Button>
+
+                  {/* Save Icon */}
+                  <div
+                    className="save-icon-card"
+                    onClick={() =>
+                      article.articleId && handleSaveToggle(article.articleId)
+                    }
+                    title={savedArticles[article.articleId] ? "Unsave" : "Save"}
+                  >
+                    <img
+                      src={savedArticles[article.articleId] ? savedIcon : saveIcon}
+                      alt={savedArticles[article.articleId] ? "Unsave" : "Save"}
+                      className="save-icon"
+                    />
                   </div>
+
+                  {/* Share Icon */}
                   <img
                     src={shareIcon}
                     alt="Share"
@@ -238,6 +245,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                     onClick={() => handleShareClick(article.articleId)}
                   />
                 </div>
+
               </div>
             </div>
           ))}

@@ -6,6 +6,7 @@ export const testAdminEdpoint = async () => {
     const token = await authTokenService.getToken();
     const response = await axios.get(
       "https://dolphin-app-sxvxi.ondigitalocean.app/api/v1/readers",
+      // "http://localhost:8080/api/v1/readers",
       {
         headers: {
           Authorization: `Bearer ${token}`,

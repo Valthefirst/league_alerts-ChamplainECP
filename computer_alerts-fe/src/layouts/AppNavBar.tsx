@@ -97,7 +97,7 @@ export default function AppNavBar(): JSX.Element {
               Saved Articles
             </Nav.Link>
             <Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">
-              Create Account
+              Sign Up/Login
             </Nav.Link>
             <Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">
               Your Authors
