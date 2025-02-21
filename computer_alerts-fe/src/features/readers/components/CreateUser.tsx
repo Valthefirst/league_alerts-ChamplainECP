@@ -91,7 +91,7 @@ const CreateUserForm: React.FC = () => {
             />
           </div>
           <button className={styles.button} type="submit">
-            Create User
+            Sign up
           </button>
         </form>
       </div>

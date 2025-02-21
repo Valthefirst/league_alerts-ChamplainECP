@@ -24,7 +24,7 @@ const FetchAllArticlesBySport: React.FC<FetchAllArticlesBySportProps> = ({
 
         const articlesToReview = allArticles.filter(
           (article: ArticleRequestModel) =>
-            article.articleStatus === "PUBLISHED" && article.tagsTag === prop,
+            article.articleStatus === "PUBLISHED" && article.category === prop,
         );
 
         setArticles(articlesToReview);

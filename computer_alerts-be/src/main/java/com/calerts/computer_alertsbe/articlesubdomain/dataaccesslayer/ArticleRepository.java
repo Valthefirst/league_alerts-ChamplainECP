@@ -13,7 +13,7 @@ public interface ArticleRepository extends ReactiveMongoRepository<Article, Stri
         @Query("{ 'category.categoryName': ?0 }")
         Flux<Article> findAllArticleByCategory(String category);
 
-        Flux<Article> findByCategoryContainingAndTitleContainingIgnoreCase(
+        Flux<Article> findByCategory_CategoryNameAndTitleContainingIgnoreCase(
                 String category,
                 String title
         );
