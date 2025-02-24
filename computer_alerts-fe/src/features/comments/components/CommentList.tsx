@@ -69,8 +69,8 @@ const CommentList: React.FC<CommentListProps> = ({
           filteredComments.map((comment) => (
             <div key={comment.commentId} className="comment-item">
               <p>
-                <strong>Reader ID:</strong>{" "}
-                <span className="reader-id">{comment.readerId}</span>
+                <strong>Reader Name:</strong>{" "}
+                <span className="reader-id">John</span>
               </p>
               <p>{comment.content}</p>
               {/* <p><strong>Timestamp:</strong> {new Date(comment.timestamp).toLocaleString()}</p> */}
