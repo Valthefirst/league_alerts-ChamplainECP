@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AuthService } from "../Service/AuthService";
+import styles from "./Login.module.css";
 import axios from "axios";
 
 // Decode JWT and return the payload
@@ -105,8 +106,9 @@ const Login: React.FC = () => {
       await authService.login();
       fetchUserInfo();
 
-      // After successful login, set authentication state
       setIsAuthenticated(true);
+
+      window.location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios Error:", error.response);
@@ -131,10 +133,14 @@ const Login: React.FC = () => {
   return (
     <div>
       {!isAuthenticated ? (
-        <button onClick={handleLogin}>Log In</button>
+        <button onClick={handleLogin} className={styles.button}>
+          Log In
+        </button>
       ) : (
         <div>
-          <button onClick={handleLogout}>Log Out</button>
+          <button onClick={handleLogout} className={styles.button}>
+            Log Out
+          </button>
         </div>
       )}
     </div>
