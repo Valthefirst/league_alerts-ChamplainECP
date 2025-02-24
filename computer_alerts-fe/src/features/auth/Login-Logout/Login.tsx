@@ -5,8 +5,8 @@ import axios from "axios";
 // Decode JWT and return the payload
 export const DecodeToken2 = (token: string) => {
   const base64Url = token.split(".")[1]; // Get the payload part
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Replace URL-safe chars
-  const decodedPayload = JSON.parse(atob(base64)); // Decode base64 and parse as JSON
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const decodedPayload = JSON.parse(atob(base64));
   return decodedPayload;
 };
 

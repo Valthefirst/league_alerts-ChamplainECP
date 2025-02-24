@@ -1,10 +1,6 @@
 import "./App.css";
 import { AppRoutePaths } from "./shared/models/path.routes";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppNavBar from "./layouts/AppNavBar";
 import AuthorNavBar from "./layouts/AutherDashboard/AutherNavBar";
 import HomePage from "./pages/Home/HomePage";
@@ -34,14 +30,16 @@ import ModifyAccountDetails from "features/readers/components/ModifyAccountDetai
 import AddTagForm from "features/tags/addTagForm";
 import { DecodeToken } from "assets/DecodeToken";
 
-
 import UnsubscribePage from "features/emailing/UnsubscribePage";
-
 
 const Navbar = () => {
   const token = localStorage.getItem("accessToken");
   const decodedToken = token ? DecodeToken(token) : null;
   const permissions: string[] = decodedToken?.permissions || [];
+
+  console.log(
+    "Hello I am the current Permissionssss:" + decodedToken?.permissions,
+  );
 
   if (
     permissions.includes("create:articles")
@@ -145,7 +143,6 @@ function App(): JSX.Element {
           <Route path={AppRoutePaths.addNewTag} element={<AddTagForm />} />
 
           <Route path="/unsubscribe" element={<UnsubscribePage />} />
-
         </Routes>
       </Router>
 

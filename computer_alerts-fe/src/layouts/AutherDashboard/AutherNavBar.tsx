@@ -3,14 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./AutherNavBar.css";
 import { AppRoutePaths } from "../../shared/models/path.routes";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import LeagueImage from '../../assets/LeagueAlertsImg.jpg';
-
+import LeagueImage from "../../assets/LeagueAlertsImg.jpg";
 
 export default function AuthorNavBar(): JSX.Element {
   return (
     <Navbar expand="lg" className="navbar">
       <Container>
-      <Navbar.Brand
+        <Navbar.Brand
           as={Link}
           to={AppRoutePaths.AuthorHomePage}
           className="navbar-brand"

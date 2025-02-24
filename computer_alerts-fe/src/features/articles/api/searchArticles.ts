@@ -7,7 +7,7 @@ import { ArticleRequestModel } from "../models/ArticleRequestModel";
  * @param {string} query - Search query for title or body.
  * @returns {Promise<ArticleRequestModel[]>} List of articles matching the query within the category.
  */
- export const searchArticlesByCategoryAndQuery = async (
+export const searchArticlesByCategoryAndQuery = async (
   category: string,
   query: string,
 ): Promise<ArticleRequestModel[]> => {

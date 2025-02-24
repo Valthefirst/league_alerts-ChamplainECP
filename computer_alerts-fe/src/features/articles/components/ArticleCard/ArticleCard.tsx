@@ -15,7 +15,6 @@ import { getAllSaves } from "features/savedArticles/api/getAllSaves";
 import saveIcon from "../../../../assets/saveIcon.png";
 import savedIcon from "../../../../assets/savedIcon.png";
 
-
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-US", {
@@ -231,7 +230,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                     title={savedArticles[article.articleId] ? "Unsave" : "Save"}
                   >
                     <img
-                      src={savedArticles[article.articleId] ? savedIcon : saveIcon}
+                      src={
+                        savedArticles[article.articleId] ? savedIcon : saveIcon
+                      }
                       alt={savedArticles[article.articleId] ? "Unsave" : "Save"}
                       className="save-icon"
                     />
@@ -245,7 +246,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ articles }) => {
                     onClick={() => handleShareClick(article.articleId)}
                   />
                 </div>
-
               </div>
             </div>
           ))}
