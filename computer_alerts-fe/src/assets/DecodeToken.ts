@@ -6,12 +6,18 @@ interface DecodedToken {
 
 export const DecodeToken = (token: string): DecodedToken | null => {
   try {
-    const [payload] = token.split(".");
+    const parts = token.split(".");
+    
+    if (parts.length !== 3) throw new Error("Invalid token structure");
 
-    if (!payload) throw new Error("Invalid token structure");
-
-    const decodedPayload: DecodedToken = JSON.parse(
-      atob(payload.replace(/-/g, "+").replace(/_/g, "/")),
+    const payload = parts[1]; // Extract payload part
+    const decodedPayload = JSON.parse(
+      decodeURIComponent(
+        atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+          .split("")
+          .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
+          .join("")
+      )
     );
 
     return decodedPayload;

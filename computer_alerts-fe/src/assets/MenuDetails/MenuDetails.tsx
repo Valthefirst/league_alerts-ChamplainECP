@@ -8,7 +8,6 @@ import Logout from "../../features/auth/Login-Logout/Logout"; // Importing Logou
 const MenuDetails: React.FC = () => {
   const [, setErrorMessage] = useState<string | null>(null);
   const [auth0UserId, setAuth0UserId] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -37,8 +36,7 @@ const MenuDetails: React.FC = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
-        const userData: ReaderRequestDTO = await response.json();
-        setEmail(userData.emailAddress);
+        // const userData: ReaderRequestDTO = await response.json();
       } catch (error) {
         setErrorMessage("We are having issues getting your account details.");
         console.error(error);
@@ -63,21 +61,22 @@ const MenuDetails: React.FC = () => {
         zIndex: 1000,
       }}
     >
-      <p style={{ textAlign: "center", fontWeight: "bold" }}>{email}</p>
+      <p style={{ textAlign: "center", fontWeight: "bold" }}>Welcome!</p>
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
         <li>
           <a
+            className={styles.listItems}
             href={AppRoutePaths.SavedArticles}
             style={{ textDecoration: "none", color: "black" }}
           >
             Saved Articles
           </a>
         </li>
-        <li>
+        {/* <li>
           <a href={AppRoutePaths.Authors} className={styles.listItems}>
             See All Authors
           </a>
-        </li>
+        </li> */}
         <li>
           <a
             href={AppRoutePaths.ModifyAccountDetails}

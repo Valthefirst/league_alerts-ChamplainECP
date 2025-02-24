@@ -6,6 +6,7 @@ import { AppRoutePaths } from "../shared/models/path.routes";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { fetchAllsArticles } from "../features/categories/api/getAllCategories";
 import LeagueImage from "../assets/LeagueAlertsImg.jpg"
+import SVGIcon from "assets/MenuDetails/SVGIcon";
 
 interface Category {
   id: string;
@@ -93,7 +94,7 @@ export default function AppNavBar(): JSX.Element {
               </NavDropdown>
             )}
 
-            <Nav.Link as={Link} to={AppRoutePaths.SavedArticles} className="nav-link">
+            {/* <Nav.Link as={Link} to={AppRoutePaths.SavedArticles} className="nav-link">
               Saved Articles
             </Nav.Link>
             <Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">
@@ -101,7 +102,9 @@ export default function AppNavBar(): JSX.Element {
             </Nav.Link>
             <Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">
               Your Authors
-            </Nav.Link>
+            </Nav.Link> */}
+            
+          
             <NavDropdown title="Language" id="language-dropdown">
                 <NavDropdown.Item onClick={() => handleLanguageChange("en")}>
                   English
@@ -110,6 +113,9 @@ export default function AppNavBar(): JSX.Element {
                   French
                 </NavDropdown.Item>
               </NavDropdown>
+              <SVGIcon/>
+
+
           </Nav>
         </Navbar.Collapse>
       </Container>

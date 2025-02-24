@@ -43,6 +43,10 @@ const Navbar = () => {
   const decodedToken = token ? DecodeToken(token) : null;
   const permissions: string[] = decodedToken?.permissions || [];
 
+
+
+  console.log("Hello I am the current Permissionssss:" + decodedToken?.permissions)
+
   if (
     permissions.includes("create:articles")
     // && (

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getAllAuthors } from "../api/getAllAuthors";
-import { Button } from "react-bootstrap";
 // import "bootstrap-icons/font/bootstrap-icons.css";
 import "./AuthorList.css";
 
@@ -55,8 +54,6 @@ const AuthorList: React.FC = () => {
             <p>{author.biography}</p>
           </div>
           <h3>Number of Articles Written:</h3>
-          <Button id="btn-1">Contact</Button>
-          <Button id="btn-2">See More...</Button>
           {index < authors.length - 1 && <hr className="separator" />}
         </div>
       ))}
