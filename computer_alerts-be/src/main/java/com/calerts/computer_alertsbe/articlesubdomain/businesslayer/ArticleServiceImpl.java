@@ -213,14 +213,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 
 
-//    @Override
-//    public Mono<List<ArticleResponseModel>> searchArticles(String category, String query) {
-//        return articleRepository
-//                .findByCategoryContainingAndTitleContainingIgnoreCase(category, query)
-//                .map(EntityModelUtil::toArticleResponseModel)
-//                .collectList();
-//
-//    }
+    @Override
+    public Mono<List<ArticleResponseModel>> searchArticles(String category, String query) {
+        return articleRepository
+                .findByCategory_CategoryNameAndTitleContainingIgnoreCase(category, query)
+                .map(EntityModelUtil::toArticleResponseModel)
+                .collectList();
+
+    }
 
 
     @Override
