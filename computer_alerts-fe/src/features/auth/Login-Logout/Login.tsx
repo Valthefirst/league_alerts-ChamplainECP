@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { AuthService } from "../Service/AuthService";
-import styles from "./Login.module.css";
 import axios from "axios";
 
 // Decode JWT and return the payload
