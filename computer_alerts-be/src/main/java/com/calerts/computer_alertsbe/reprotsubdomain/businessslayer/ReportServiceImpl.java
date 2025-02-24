@@ -96,7 +96,7 @@ public class ReportServiceImpl implements ReportService {
                         articleMap.computeIfAbsent(articleId, id -> new TopArticle(id, 0, 0, 0, 0, 0));
 
                         TopArticle topArticle = articleMap.get(articleId);
-                        topArticle.setCommentCount(topArticle.getCommentCount());
+                        topArticle.setCommentCount(topArticle.getCommentCount() + 1);
                     }
 
                     // Calculate total points (likes + shares + requests + comments)
