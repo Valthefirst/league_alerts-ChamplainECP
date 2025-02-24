@@ -1,18 +1,20 @@
 /* Full height container for the content */
 .article-form {
-  width: 100%; /* Ensures it uses full available width */
-  max-width: 1000px; /* Increase the max-width to make the form larger */
-  min-width: 600px; /* Optional: Prevent it from becoming too small */
+  width: 100%; /* Uses full available width */
+  max-width: 1000px; /* Larger maximum width for desktops */
+  min-width: 600px; /* Prevents it from becoming too small on larger screens */
   background-color: #fff;
-  padding: 30px; /* Increase padding for more spacing inside the form */
+  padding: 30px; /* More spacing inside the form */
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keeps the subtle shadow */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   margin: auto; /* Center the form horizontally */
 }
 
+/* Base styles for fields and buttons */
 .article-field-box {
   margin-bottom: 20px;
+  position: relative; /* For positioning the dropdown list */
 }
 
 .article-field-box input,
@@ -29,7 +31,7 @@
   height: 150px;
 }
 
-/* Style for labels */
+/* Label styling */
 .field-title {
   font-size: 16px;
   font-weight: bold;
@@ -38,10 +40,10 @@
   display: block;
 }
 
-/* Button container for alignment */
+/* Button container */
 .button-container {
-  text-align: left; /* Align buttons to the left */
-  margin-top: 20px; /* Add space above buttons */
+  text-align: left;
+  margin-top: 20px;
 }
 
 /* Consistent button styling */
@@ -59,7 +61,7 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: inline-block;
-  margin-right: 10px; /* Spacing between buttons */
+  margin-right: 10px;
 }
 
 /* Hover and focus states */
@@ -78,55 +80,85 @@
   box-shadow: 0 0 0 4px #a67c6d;
 }
 
-/* Header Title Styling */
+/* Header title styling */
 .form-title {
-  font-weight: 700; /* Bold font for emphasis */
-  font-size: 36px; /* Larger font size for the title */
-  color: #5d4037; /* Deep brown color for contrast */
-  text-align: center; /* Center aligns the title */
-  margin-bottom: 40px; /* Adds space below the title */
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  font-weight: 700;
+  font-size: 36px;
+  color: #5d4037;
+  text-align: center;
+  margin-bottom: 40px;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .add-tag-button {
-  margin-bottom: 20px; /* Adds space below the 'Add Tag' button */
+  margin-bottom: 20px;
 }
 
-/* Container for the tag search input and dropdown */
-.article-field-box {
-  position: relative; /* Ensure the dropdown is positioned relative to this container */
-}
-
-/* Dropdown list */
+/* Dropdown list styling */
 .tag-dropdown {
   list-style-type: none;
   padding: 0;
   margin: 0;
   border: 1px solid #ccc;
-  border-top: none; /* Remove top border to blend with the input */
+  border-top: none;
   max-height: 150px;
   overflow-y: auto;
-  position: absolute; /* Position absolutely within the container */
-  top: 100%; /* Position directly below the input */
+  position: absolute;
+  top: 100%;
   left: 0;
   right: 0;
   background-color: white;
-  z-index: 1000; /* Ensure it appears above other elements */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Dropdown list items */
 .tag-dropdown li {
   padding: 8px;
   cursor: pointer;
 }
 
 .tag-dropdown li:hover {
-  background-color: #f1f1f1; /* Highlight on hover */
+  background-color: #f1f1f1;
 }
 
-/* No results message */
 .no-results {
   padding: 8px;
   color: #888;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .article-form {
+    max-width: 90%;
+    min-width: auto; /* Remove fixed min-width on smaller screens */
+    padding: 20px;
+  }
+  .form-title {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+  .article-field-box textarea {
+    height: 120px;
+  }
+  .button-container {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .form-title {
+    font-size: 24px;
+  }
+  .submit-button,
+  .upload-button,
+  .cancel-button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .article-field-box input,
+  .article-field-box select,
+  .article-field-box textarea {
+    padding: 8px;
+  }
 }
