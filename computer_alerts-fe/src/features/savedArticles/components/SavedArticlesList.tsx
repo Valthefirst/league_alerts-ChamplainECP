@@ -37,7 +37,9 @@ const SavedArticlesList: React.FC<SavedArticlesListProps> = ({ readerId }) => {
         const data = await getAllSaves(readerId);
         setSaves(Array.isArray(data) ? data : [data]);
       } catch (err) {
-        setError("It seems like you are not logged in. If you want to see your saved articles login to your account!");
+        setError(
+          "It seems like you are not logged in. If you want to see your saved articles login to your account!",
+        );
         console.error("Error fetching saves:", err);
       } finally {
         setIsLoading(false);

@@ -83,28 +83,30 @@ export default function AppNavBar(): JSX.Element {
               MLB
             </Nav.Link>
 
-            {/* "Other" dropdown for dynamic categories */}
-            {categories.length > 0 && (
-              <NavDropdown title="Other" id="other-categories-dropdown">
-                {categories.map((category) => (
-                  <NavDropdown.Item key={category.id} as={Link} to={generateTagRoute(category.categoryName)}>
-                    {category.categoryName}
-                  </NavDropdown.Item>
-                ))}
-              </NavDropdown>
-            )}
+              {/* "Other" dropdown for dynamic categories */}
+              {categories.length > 0 && (
+                <NavDropdown title="Other" id="other-categories-dropdown">
+                  {categories.map((category) => (
+                    <NavDropdown.Item
+                      key={category.id}
+                      as={Link}
+                      to={generateTagRoute(category.categoryName)}
+                    >
+                      {category.categoryName}
+                    </NavDropdown.Item>
+                  ))}
+                </NavDropdown>
+              )}
 
-            {/* <Nav.Link as={Link} to={AppRoutePaths.SavedArticles} className="nav-link">
-              Saved Articles
-            </Nav.Link>
-            <Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">
-              Sign Up/Login
-            </Nav.Link>
-            <Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">
-              Your Authors
-            </Nav.Link> */}
-            
-          
+            {/*<Nav.Link as={Link} to={AppRoutePaths.SavedArticles} className="nav-link">*/}
+            {/*  Saved Articles*/}
+            {/*</Nav.Link>*/}
+            {/*<Nav.Link as={Link} to={AppRoutePaths.CREATE_ACCOUNT} className="nav-link">*/}
+            {/*  Sign Up/Login*/}
+            {/*</Nav.Link>*/}
+            {/*<Nav.Link as={Link} to={AppRoutePaths.Authors} className="nav-link">*/}
+            {/*  Your Authors*/}
+            {/*</Nav.Link>*/}
             <NavDropdown title="Language" id="language-dropdown">
                 <NavDropdown.Item onClick={() => handleLanguageChange("en")}>
                   English

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { AppRoutePaths } from "shared/models/path.routes";
 import styles from "./MenuDetails.module.css";
 import { DecodeToken } from "assets/DecodeToken";
-import ReaderRequestDTO from "features/readers/models/ReaderRequestDTO";
 import Logout from "../../features/auth/Login-Logout/Logout"; // Importing Logout component
 
 const MenuDetails: React.FC = () => {
@@ -51,13 +50,14 @@ const MenuDetails: React.FC = () => {
       style={{
         position: "absolute",
         top: "60px",
-        width: "200px",
-        left: "30",
-        right: "40",
+        width: "220px",
+        left: "-160px",
+        right: "auto",
         backgroundColor: "white",
-        border: "5px solid #ccc",
-        borderRadius: "4px",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+        border: "3px solid #ddd",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        padding: "10px",
         zIndex: 1000,
       }}
     >

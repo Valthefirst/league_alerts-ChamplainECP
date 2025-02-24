@@ -93,14 +93,14 @@ const CreateUserForm: React.FC = () => {
           <button className={styles.button} type="submit">
             Sign up
           </button>
+          <Loging />
         </form>
       </div>
+
       {successMessage && (
         <p className={styles.successMessage}>{successMessage}</p>
       )}
       {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-
-      <Loging />
     </div>
   );
 };

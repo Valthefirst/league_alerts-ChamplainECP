@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { AuthService } from "../Service/AuthService";
+import styles from "./Login.module.css";
 import axios from "axios";
 
 // Decode JWT and return the payload
 export const DecodeToken2 = (token: string) => {
   const base64Url = token.split(".")[1]; // Get the payload part
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); 
-  const decodedPayload = JSON.parse(atob(base64)); 
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Replace URL-safe chars
+  const decodedPayload = JSON.parse(atob(base64)); // Decode base64 and parse as JSON
   return decodedPayload;
 };
 
@@ -40,7 +41,7 @@ const Login: React.FC = () => {
       const decodedToken = DecodeToken2(token);
       if (decodedToken) {
         const userId = decodedToken.sub;
-        
+
 
         if (userId == null) {
           console.log("NOOOOOOO  USER IDDD");
@@ -108,6 +109,8 @@ const Login: React.FC = () => {
 
       // After successful login, set authentication state
       setIsAuthenticated(true);
+
+      window.location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios Error:", error.response);

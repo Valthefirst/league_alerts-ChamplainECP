@@ -5,7 +5,7 @@ import AuthorRequestDTO from "../../authors/model/AuthorRequestDTO";
 export class AuthService {
   URL = "https://dolphin-app-sxvxi.ondigitalocean.app/api/";
 
-  // URL= "http://localhost:8080/api/"
+  // URL = "http://localhost:8080/api/";
 
   private auth0Client: Auth0Client | null = null;
 
@@ -103,7 +103,6 @@ export class AuthService {
 
   async createUser(userRequest: UserRequestDTO): Promise<any> {
     try {
-      // First create the author
       const response = await fetch(this.URL + "create/Reader", {
         method: "POST",
         headers: {
@@ -127,7 +126,7 @@ export class AuthService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.getManagementApiToken}`,
+          // Authorization: `Bearer ${this.getManagementApiToken}`,
         },
         body: JSON.stringify(roleId),
       });
