@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./AutherNavBar.css";
 import { AppRoutePaths } from "../../shared/models/path.routes";
+
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+
 import LeagueImage from "../../assets/LeagueAlertsImg.jpg";
 
 export default function AuthorNavBar(): JSX.Element {

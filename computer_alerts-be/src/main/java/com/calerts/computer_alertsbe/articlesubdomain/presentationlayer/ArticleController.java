@@ -72,13 +72,13 @@ public class ArticleController {
 
 
 
-    @GetMapping(value = "/categories/{category}/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<ArticleResponseModel>> searchArticles(
-            @PathVariable String category,
-            @RequestParam String query
-    ) {
-        return articleService.searchArticles(category, query);
-    }
+//    @GetMapping(value = "/categories/{category}/search", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Mono<List<ArticleResponseModel>> searchArticles(
+//            @PathVariable String category,
+//            @RequestParam String query
+//    ) {
+//        return articleService.searchArticles(category, query);
+//    }
 
 
     @PermitAll
