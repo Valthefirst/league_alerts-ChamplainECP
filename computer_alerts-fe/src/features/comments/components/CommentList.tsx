@@ -69,7 +69,7 @@ const CommentList: React.FC<CommentListProps> = ({
           filteredComments.map((comment) => (
             <div key={comment.commentId} className="comment-item">
               <p>
-                <strong>Reader Name:</strong>{" "}
+                {/* <strong>Reader Name:</strong>{" "} */}
                 <span className="reader-id">John</span>
               </p>
               <p>{comment.content}</p>

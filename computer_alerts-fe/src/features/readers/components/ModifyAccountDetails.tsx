@@ -41,8 +41,8 @@ const ModifyAccountDetails: React.FC = () => {
         const userData: ReaderRequestDTO = await response.json();
         setFormData(userData);
       } catch (error) {
-        setErrorMessage("We are having issues changing you account details.");
-        console.error(error);
+        // setErrorMessage("We are having issues changing you account details.");
+        // console.error(error);
       }
     };
 
