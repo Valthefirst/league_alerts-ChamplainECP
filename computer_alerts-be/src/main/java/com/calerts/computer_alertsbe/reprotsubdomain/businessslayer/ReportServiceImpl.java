@@ -87,7 +87,7 @@ public class ReportServiceImpl implements ReportService {
                         TopArticle topArticle = articleMap.get(articleId);
                         topArticle.setLikeCount(topArticle.getLikeCount() + article.getLikeCount());
                         topArticle.setShareCount(topArticle.getShareCount() + article.getShareCount());
-                        topArticle.setRequestCount(topArticle.getRequestCount() + article.getRequestCount());
+                        topArticle.setRequestCount(topArticle.getRequestCount() + article.getRequestCount() - 1);
                     }
 
                     // Process comments
@@ -96,7 +96,7 @@ public class ReportServiceImpl implements ReportService {
                         articleMap.computeIfAbsent(articleId, id -> new TopArticle(id, 0, 0, 0, 0, 0));
 
                         TopArticle topArticle = articleMap.get(articleId);
-                        topArticle.setCommentCount(topArticle.getCommentCount() + 1); // Increment comment count
+                        topArticle.setCommentCount(topArticle.getCommentCount());
                     }
 
                     // Calculate total points (likes + shares + requests + comments)
