@@ -38,7 +38,6 @@ const ArticleForm = () => {
   const [tagResults, setTagResults] = useState<string[]>([]); // Search results
   const [showTagResults, setShowTagResults] = useState(false); // Show/hide results
 
-
   const handleTagSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setTagSearch(query);
@@ -64,9 +63,9 @@ const ArticleForm = () => {
     setShowTagResults(false); // Hide results
   };
 
-    const handleAddTag = () => {
-      navigate("/addTagForm");
-    };
+  const handleAddTag = () => {
+    navigate("/addTagForm");
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -78,7 +77,6 @@ const ArticleForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -250,31 +248,31 @@ const ArticleForm = () => {
           />
         </div>
 
-     {/* Tag Search Section */}
-     <div className="article-field-box">
-    <label htmlFor="tags" className="field-title">
-      Search for Tag
-    </label>
-    <input
-      type="text"
-      placeholder="Search tags..."
-      value={tagSearch}
-      onChange={handleTagSearch}
-      className="article-form__input"
-    />
-    {showTagResults && tagResults.length > 0 && (
-      <ul className="tag-dropdown">
-        {tagResults.map((tag, index) => (
-          <li key={index} onClick={() => handleTagSelect(tag)}>
-            {tag}
-          </li>
-        ))}
-      </ul>
-    )}
-    {showTagResults && tagResults.length === 0 && (
-      <div className="no-results">No tags found.</div>
-    )}
-    </div>
+        {/* Tag Search Section */}
+        <div className="article-field-box">
+          <label htmlFor="tags" className="field-title">
+            Search for Tag
+          </label>
+          <input
+            type="text"
+            placeholder="Search tags..."
+            value={tagSearch}
+            onChange={handleTagSearch}
+            className="article-form__input"
+          />
+          {showTagResults && tagResults.length > 0 && (
+            <ul className="tag-dropdown">
+              {tagResults.map((tag, index) => (
+                <li key={index} onClick={() => handleTagSelect(tag)}>
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          )}
+          {showTagResults && tagResults.length === 0 && (
+            <div className="no-results">No tags found.</div>
+          )}
+        </div>
 
         {/* Display Selected Tag */}
         {formData.tagsTag && (
@@ -283,12 +281,15 @@ const ArticleForm = () => {
           </div>
         )}
 
-      <div className="add-tag-button">
-      <button type="button" className="submit-button" onClick={handleAddTag}>
-        Add Tag
-      </button>
-    </div>
-
+        <div className="add-tag-button">
+          <button
+            type="button"
+            className="submit-button"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+        </div>
 
         {/* Submit Buttons */}
         <div className="row">

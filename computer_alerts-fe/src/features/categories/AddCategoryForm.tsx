@@ -39,15 +39,15 @@ const CategoryForm: React.FC = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newCategory.trim()) return;
-  
+
     try {
       const newCat = await addNewCategories(newCategory);
-  
+
       const formattedData: Category = {
         id: newCat.categoryId,
         categoryName: newCat.categoryName,
       };
-  
+
       setCategories((prevCategories) => [...prevCategories, formattedData]); // Update categories list dynamically
       setNewCategory("");
       alert("Category created successfully!");
@@ -55,7 +55,6 @@ const CategoryForm: React.FC = () => {
       console.error("Error creating category:", err);
     }
   };
-  
 
   // Handle cancel action (go back to home)
   const handleCancel = () => {

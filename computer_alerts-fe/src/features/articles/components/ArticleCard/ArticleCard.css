@@ -90,8 +90,8 @@
 
 /* Heart (like) container */
 .button {
-  width: 35px;   /* Smaller size */
-  height: 35px;  /* Smaller size */
+  width: 35px; /* Smaller size */
+  height: 35px; /* Smaller size */
   cursor: pointer;
   /* Additional heart animation styles as needed */
 }
@@ -117,17 +117,19 @@
 
 /* Save icon wrapper (no red border, smaller size) */
 .save-icon-card {
-  width: 35px; 
-  height: 35px; 
+  width: 35px;
+  height: 35px;
   cursor: pointer;
-  border: none;        
-  border-radius: 0;    /* or 50% if you want it round but without border */
-  padding: 0;          
+  border: none;
+  border-radius: 0; /* or 50% if you want it round but without border */
+  padding: 0;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .save-icon {
@@ -143,9 +145,11 @@
   cursor: pointer;
   border: 2px solid red;
   border-radius: 50%;
-  padding: 3px; 
+  padding: 3px;
   box-sizing: border-box;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   margin-left: 0;
 }
 

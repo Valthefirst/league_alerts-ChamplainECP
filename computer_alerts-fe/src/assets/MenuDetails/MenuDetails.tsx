@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { AppRoutePaths } from "shared/models/path.routes";
 import styles from "./MenuDetails.module.css";
 import { DecodeToken } from "assets/DecodeToken";
-import ReaderRequestDTO from "features/readers/models/ReaderRequestDTO";
 import Logout from "../../features/auth/Login-Logout/Logout"; // Importing Logout component
 
 const MenuDetails: React.FC = () => {

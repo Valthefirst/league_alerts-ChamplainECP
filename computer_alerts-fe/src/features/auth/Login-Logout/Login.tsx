@@ -5,8 +5,8 @@ import axios from "axios";
 // Decode JWT and return the payload
 export const DecodeToken2 = (token: string) => {
   const base64Url = token.split(".")[1]; // Get the payload part
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); 
-  const decodedPayload = JSON.parse(atob(base64)); 
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const decodedPayload = JSON.parse(atob(base64));
   return decodedPayload;
 };
 
@@ -40,7 +40,6 @@ const Login: React.FC = () => {
       const decodedToken = DecodeToken2(token);
       if (decodedToken) {
         const userId = decodedToken.sub;
-        
 
         if (userId == null) {
           console.log("NOOOOOOO  USER IDDD");
