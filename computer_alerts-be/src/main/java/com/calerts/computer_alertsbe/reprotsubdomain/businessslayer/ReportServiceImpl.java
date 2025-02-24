@@ -87,7 +87,7 @@ public class ReportServiceImpl implements ReportService {
                         TopArticle topArticle = articleMap.get(articleId);
                         topArticle.setLikeCount(topArticle.getLikeCount() + article.getLikeCount());
                         topArticle.setShareCount(topArticle.getShareCount() + article.getShareCount());
-                        topArticle.setRequestCount(topArticle.getRequestCount() + article.getRequestCount() - 1);
+                        topArticle.setRequestCount(topArticle.getRequestCount() + article.getRequestCount());
                     }
 
                     // Process comments
