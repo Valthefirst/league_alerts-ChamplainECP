@@ -134,14 +134,45 @@ const Login: React.FC = () => {
   return (
     <div>
       {!isAuthenticated ? (
-        <button onClick={handleLogin}>Log In</button>
+        <button
+          onClick={handleLogin}
+          style={{
+            backgroundColor: "#007bff",
+            border: "none",
+            borderRadius: "4px",
+            color: "#fff",
+            cursor: "pointer",
+            fontSize: "16px",
+            padding: "12px 15px",
+            transition: "background-color .3s, transform .2s",
+            width: "100%",
+          }}
+        >
+          Log In
+        </button>
       ) : (
         <div>
-          <button onClick={handleLogout}>Log Out</button>
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "#007bff",
+              border: "none",
+              borderRadius: "4px",
+              color: "#fff",
+              cursor: "pointer",
+              fontSize: "16px",
+              padding: "12px 15px",
+              transition: "background-color .3s, transform .2s",
+              width: "100%",
+            }}
+          >
+            Log Out
+          </button>
         </div>
       )}
     </div>
   );
+  
 };
 
 export default Login;
